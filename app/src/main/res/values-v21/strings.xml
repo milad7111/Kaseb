@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="header_today">Today</string>
+    <string name="header_this_month">This month</string>
+    <string name="sort_cost_code">Cost code</string>
+    <string name="sample_cost_name">personnel salary</string>
+</resources>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="customer_tab_info" type="id">Info</item>
+    <item name="customer_tab_dash" type="id">Dashboard</item>
+    <item name="customer_tab_bill" type="id">Bills</item>
+</resources>

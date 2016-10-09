@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="mjkarbasian.moshtarimadar">
+
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ME" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        android:supportsRtl="true"
+        <activity
+            android:name=".DrawerActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Customers"
+            android:label="@string/title_customer"
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
+        </activity>
+        <activity
+            android:name=".Debators"
+            android:label="@string/title_debator"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
+            >
+        </activity>
+        <activity
+            android:name=".Sales"
+            android:label="@string/title_activity_sales"
+            android:parentActivityName=".Customers"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="mjkarbasian.moshtarimadar.Customers" />
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
+        </activity>
+        <activity
+            android:name=".Costs"
+            android:label="@string/title_activity_costs"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="mjkarbasian.moshtarimadar.Customers" />
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
+        </activity>
+        <activity
+            android:name=".Products"
+            android:label="@string/title_activity_products"
+            android:parentActivityName=".Customers"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="mjkarbasian.moshtarimadar.Customers" />
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
+        </activity>
+        <activity
+            android:name=".DetailCustomer"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="mjkarbasian.moshtarimadar.Customers" />
+        </activity>
+        <activity android:name=".helper.GalleryUtil" />
+        <activity android:name=".helper.ImageSelector" />
+        <activity
+            android:name=".DetailSale"
+            android:label="@string/title_activity_detail_sale"
+            android:parentActivityName=".Sales"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="mjkarbasian.moshtarimadar.Sales" />
+        </activity>
+        <activity
+            android:name=".DetailProducts"
+            android:label="@string/title_activity_detail_products"
+            android:parentActivityName=".Products"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="mjkarbasian.moshtarimadar.Products" />
+        </activity>
+    </application>
+
+</manifest>

@@ -1,0 +1,37 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:id="@+id/edit"
+    android:title="@string/back_arrow"
+    android:icon="@drawable/edit"
+    app:showAsAction="always"
+    android:showAsAction="collapseActionView|ifRoom"
+    android:orderInCategory="1"
+    />
+    <item
+        android:id="@+id/customer_detail_membership_icon"
+        android:title="@string/set_membership"
+        android:icon="@drawable/star"
+        app:showAsAction="always"
+        android:showAsAction="ifRoom">
+        <menu>
+            <item
+                android:title="@string/set_membership"
+                android:enabled="false"
+                android:checkable="false">
+            </item>
+            <item
+                android:id="@+id/gold_member"
+                android:title="@string/gold_member" />
+            <item
+                android:id="@+id/silver_member"
+                android:title="@string/silver_memer" />
+            <item
+                android:id="@+id/bronze_member"
+                android:title="@string/bronze_member" />
+            <item
+                android:id="@+id/non_member"
+                android:title="@string/non_member"/>
+        </menu>
+    </item>
+
+</menu>
