@@ -82,6 +82,7 @@ public class KasebProvider extends ContentProvider {
                         " = " + KasebContract.Sales.TABLE_NAME +
                         "." + KasebContract.Sales.COLUMN_CUSTOMER_ID);
     }
+
     private static final SQLiteQueryBuilder sDetailSaleBySaleQueryBuilder;
     static{
         sDetailSaleBySaleQueryBuilder = new SQLiteQueryBuilder();
@@ -96,9 +97,11 @@ public class KasebProvider extends ContentProvider {
                         " = " + KasebContract.DetailSale.TABLE_NAME +
                         "." + KasebContract.DetailSale.COLUMN_SALE_ID);
     }
+
     private static String recordSelectionMaker(String tableName){
         return tableName+"."+ tableName+"._ID" + " =?";
     }
+
     private static String dataSetSelectionMaker(String tableName,String ColumnName){
         return tableName+"."+ tableName+"."+ColumnName+ " =?";
     }
@@ -1232,6 +1235,7 @@ public class KasebProvider extends ContentProvider {
     // http://developer.android.com/reference/android/content/ContentProvider.html#shutdown()
     @Override
     @TargetApi(11)
+
     public void shutdown() {
         mOpenHelper.close();
         super.shutdown();
