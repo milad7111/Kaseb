@@ -14,6 +14,7 @@ public class TestKasebContract extends AndroidTestCase {
     private static final String LOG_TAG = TestKasebContract.class.getSimpleName();
 
     public void testBuildKasebUri() {
+
         //region 1 State
         long State_id = sample_number++;
         Uri stateUri = KasebContract.State.buildStateUri(State_id);
@@ -29,7 +30,7 @@ public class TestKasebContract extends AndroidTestCase {
                 KasebContract.PATH_STATE, stateUriPaths.get(0));
 
         assertEquals("Error: State _ID not properly appended to the end of the Uri",
-                State_id,  Long.parseLong(stateUriPaths.get(1)));
+                State_id, Long.parseLong(stateUriPaths.get(1)));
         //endregion
 
         //region 2 CostTypes
