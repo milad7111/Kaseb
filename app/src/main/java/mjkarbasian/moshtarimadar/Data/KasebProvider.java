@@ -12,6 +12,8 @@ import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.support.annotation.Nullable;
 
+import mjkarbasian.moshtarimadar.helper.Utility;
+
 /**
  * Created by family on 9/30/2016.
  */
@@ -96,6 +98,9 @@ public class KasebProvider extends ContentProvider {
     }
     private static String recordSelectionMaker(String tableName){
         return tableName+"."+ tableName+"._ID" + " =?";
+    }
+    private static String dataSetSelectionMaker(String tableName,String ColumnName){
+        return tableName+"."+ tableName+"."+ColumnName+ " =?";
     }
 
     @Override
@@ -460,10 +465,149 @@ public class KasebProvider extends ContentProvider {
                 );
                 break;
             }
+            case CUSTOMER_BY_STATE:
+            {
+                String stateId = Utility.getTheLastPathUri(uri);
+                retCursor = mOpenHelper.getReadableDatabase().query(
+                        KasebContract.Customers.TABLE_NAME,
+                        projection,
+                        dataSetSelectionMaker(KasebContract.Customers.TABLE_NAME,KasebContract.Customers.COLUMN_STATE_ID),
+                        new String[]{stateId},
+                        null,
+                        null,
+                        sortOrder
+                );
+                break;
+            }
+            case SALES_BY_CUSTOMER:
+            {
+                String customerId = Utility.getTheLastPathUri(uri);
+                retCursor = mOpenHelper.getReadableDatabase().query(
+                        KasebContract.Sales.TABLE_NAME,
+                        projection,
+                        dataSetSelectionMaker(KasebContract.Sales.TABLE_NAME,KasebContract.Sales.COLUMN_CUSTOMER_ID),
+                        new String[]{customerId},
+                        null,
+                        null,
+                        sortOrder
+                );
+                break;
+            }
+            case DETAIL_SALE_BY_IS_BALANCED:
+            {
+                String isBalancedId = Utility.getTheLastPathUri(uri);
+                retCursor = sDetailSaleBySaleQueryBuilder.query(
+                        mOpenHelper.getReadableDatabase(),
+                        projection,
+                        dataSetSelectionMaker(KasebContract.DetailSale.TABLE_NAME, KasebContract.DetailSale.COLUMN_IS_BALANCED),
+                        new String[]{isBalancedId},
+                        null,
+                        null,
+                        sortOrder
+                );
+                break;
+            }
+            case PRODUCT_HISTORY_BY_PRODUCT_ID:
+            {
+                String productId = Utility.getTheLastPathUri(uri);
+                retCursor = mOpenHelper.getReadableDatabase().query(
+                        KasebContract.ProductHistory.TABLE_NAME,
+                        projection,
+                        dataSetSelectionMaker(KasebContract.ProductHistory.TABLE_NAME,KasebContract.ProductHistory.COLUMN_PRODUCT_ID),
+                        new String[]{productId},
+                        null,
+                        null,
+                        sortOrder
+                );
+                break;
+            }
+            case DETAIL_SALE_PRODUCT_BY_DETAIL_SALE_ID:
+            {
+                String detailSaleId = Utility.getTheLastPathUri(uri);
+                retCursor = mOpenHelper.getReadableDatabase().query(
+                        KasebContract.DetailSaleProducts.TABLE_NAME,
+                        projection,
+                        dataSetSelectionMaker(KasebContract.DetailSaleProducts.TABLE_NAME,KasebContract.DetailSaleProducts.COLUMN_DETAIL_SALE_ID),
+                        new String[]{detailSaleId},
+                        null,
+                        null,
+                        sortOrder
+                );
+                break;
+            }
+            case DETAIL_SALE_PAYMENT_BY_DETAIL_SALE_ID:
+            {
+                String detailSaleId = Utility.getTheLastPathUri(uri);
+                retCursor = mOpenHelper.getReadableDatabase().query(
+                        KasebContract.DetailSalePayments.TABLE_NAME,
+                        projection,
+                        dataSetSelectionMaker(KasebContract.DetailSalePayments.TABLE_NAME,KasebContract.DetailSalePayments.COLUMN_DETAIL_SALE_ID),
+                        new String[]{detailSaleId},
+                        null,
+                        null,
+                        sortOrder
+                );
+                break;
+            }
+            case DETAIL_SALE_PAYMENT_BY_PAYMENT_METHOD:
+            {
+                String paymentMethodId = Utility.getTheLastPathUri(uri);
+                retCursor = mOpenHelper.getReadableDatabase().query(
+                        KasebContract.DetailSalePayments.TABLE_NAME,
+                        projection,
+                        dataSetSelectionMaker(KasebContract.DetailSalePayments.TABLE_NAME,KasebContract.DetailSalePayments.COLUMN_PAYMENT_METHOD_ID),
+                        new String[]{paymentMethodId},
+                        null,
+                        null,
+                        sortOrder
+                );
+                break;
+            }
+            case DETAIL_SALE_TAXES_BY_DETAIL_SALE_ID:
+            {
+                String detailSaleId = Utility.getTheLastPathUri(uri);
+                retCursor = mOpenHelper.getReadableDatabase().query(
+                        KasebContract.DetailSaleTaxes.TABLE_NAME,
+                        projection,
+                        dataSetSelectionMaker(KasebContract.DetailSaleTaxes.TABLE_NAME,KasebContract.DetailSaleTaxes.COLUMN_DETAIL_SALE_ID),
+                        new String[]{detailSaleId},
+                        null,
+                        null,
+                        sortOrder
+                );
+                break;
+            }
+            case DETAIL_SALE_TAXES_BY_TAX_TYPE:
+            {
+                String taxTypeId = Utility.getTheLastPathUri(uri);
+                retCursor = mOpenHelper.getReadableDatabase().query(
+                        KasebContract.DetailSaleTaxes.TABLE_NAME,
+                        projection,
+                        dataSetSelectionMaker(KasebContract.DetailSaleTaxes.TABLE_NAME,KasebContract.DetailSaleTaxes.COLUMN_TAX_TYPE_ID),
+                        new String[]{taxTypeId},
+                        null,
+                        null,
+                        sortOrder
+                );
+                break;
+            }
+            case COSTS_BY_TYPE:
+            {
+                String costTypeId = Utility.getTheLastPathUri(uri);
+                retCursor = mOpenHelper.getReadableDatabase().query(
+                        KasebContract.Costs.TABLE_NAME,
+                        projection,
+                        dataSetSelectionMaker(KasebContract.Costs.TABLE_NAME,KasebContract.Costs.COLUMN_COST_TYPE_ID),
+                        new String[]{costTypeId},
+                        null,
+                        null,
+                        sortOrder
+                );
+                break;
+            }
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
         }
-
         retCursor.setNotificationUri(getContext().getContentResolver(), uri);
         return retCursor;
     }
@@ -527,6 +671,29 @@ public class KasebProvider extends ContentProvider {
                 return KasebContract.State.CONTENT_TYPE;
             case STATE_RECORD:
                 return KasebContract.State.CONTENT_ITEM_TYPE;
+           //new uris
+            case CUSTOMER_BY_STATE:
+                return KasebContract.Customers.CONTENT_TYPE;
+            case SALES_BY_CUSTOMER:
+                return KasebContract.Sales.CONTENT_TYPE;
+            case DETAIL_SALE_BY_SALE_ID:
+                return KasebContract.DetailSale.CONTENT_ITEM_TYPE;
+            case DETAIL_SALE_BY_IS_BALANCED:
+                return KasebContract.DetailSale.CONTENT_TYPE;
+            case PRODUCT_HISTORY_BY_PRODUCT_ID:
+                return KasebContract.ProductHistory.CONTENT_TYPE;
+            case COSTS_BY_TYPE:
+                return KasebContract.Costs.CONTENT_TYPE;
+            case DETAIL_SALE_PRODUCT_BY_DETAIL_SALE_ID:
+                return KasebContract.DetailSaleProducts.CONTENT_TYPE;
+            case DETAIL_SALE_PAYMENT_BY_DETAIL_SALE_ID:
+                return KasebContract.DetailSalePayments.CONTENT_TYPE;
+            case DETAIL_SALE_PAYMENT_BY_PAYMENT_METHOD:
+                return KasebContract.DetailSalePayments.CONTENT_TYPE;
+            case DETAIL_SALE_TAXES_BY_DETAIL_SALE_ID:
+                return KasebContract.DetailSaleTaxes.CONTENT_TYPE;
+            case DETAIL_SALE_TAXES_BY_TAX_TYPE:
+                return KasebContract.DetailSaleTaxes.CONTENT_TYPE;
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
         }

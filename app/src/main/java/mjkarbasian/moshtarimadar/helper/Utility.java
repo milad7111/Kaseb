@@ -2,8 +2,10 @@ package mjkarbasian.moshtarimadar.helper;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.net.Uri;
 import android.widget.ImageView;
 
+import java.net.URI;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -30,6 +32,11 @@ import static mjkarbasian.moshtarimadar.helper.Samples.setSalesCustomer;
  * Created by family on 6/24/2016.
  */
 public class Utility {
+    public static String getTheLastPathUri(Uri uri){
+        String[] segments = uri.getPath().split("/");
+        String pathStr = segments[segments.length-1];
+        return pathStr;
+    }
     public static String formatPurchase(Context context,String purcahseAmount){
 
         return context.getString(R.string.format_purchase_amount,purcahseAmount);
