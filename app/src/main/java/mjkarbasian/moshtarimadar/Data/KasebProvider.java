@@ -98,11 +98,13 @@ public class KasebProvider extends ContentProvider {
     }
 
     private static String recordSelectionMaker(String tableName){
-        return tableName+"."+ tableName+"._ID" + " =?";
+        String j = tableName+"._ID" + " =?";
+        return tableName+"._ID" + " =?";
     }
 
-    private static String dataSetSelectionMaker(String tableName,String ColumnName){
-        return tableName+"."+ tableName+"."+ColumnName+ " =?";
+    private static String dataSetSelectionMaker(String tableName,String ColumnName) {
+        //return tableName + "." + ColumnName + " =?";
+        return tableName + "." + tableName + "." + ColumnName + " =?";
     }
 
     @Override
