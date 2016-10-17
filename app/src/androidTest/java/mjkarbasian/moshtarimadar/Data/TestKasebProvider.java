@@ -1995,46 +1995,28 @@ public class TestKasebProvider extends AndroidTestCase {
         //endregion
     }
 
-//    public void testInsertReadProvider() {
-//        testUpdate();
-//    }
+    public void testProviderRegistry() {
+        PackageManager pm = mContext.getPackageManager();
 
-//    public void testDelete() {
-//        testInsertReadProvider();
-//
-//        //register observer
-//        TestUtilities.TestContentObserver tco = TestUtilities.getTestContentObserver();
-//        mContext.getContentResolver().registerContentObserver(State.CONTENT_URI, true, tco);
-//
-//        deleteAllRecords();
-//        tco.waitForNotificationOrFail();
-//
-//        mContext.getContentResolver().unregisterContentObserver(tco);
-//    }
+        // We define the component name based on the package name from the context and the
+        // WeatherProvider class.
+        ComponentName componentName = new ComponentName(mContext.getPackageName(),
+                KasebProvider.class.getName());
 
-//    public void testProviderRegistry() {
-//        PackageManager pm = mContext.getPackageManager();
-//
-//        // We define the component name based on the package name from the context and the
-//        // WeatherProvider class.
-//        ComponentName componentName = new ComponentName(mContext.getPackageName(),
-//                KasebProvider.class.getName());
-//
-//        try {
-//            // Fetch the provider info using the component name from the PackageManager
-//            // This throws an exception if the provider isn't registered.
-//            ProviderInfo providerInfo = pm.getProviderInfo(componentName, 0);
-//
-//            // Make sure that the registered authority matches the authority from the Contract.
-//            assertEquals("Error: WeatherProvider registered with authority: " + providerInfo.authority +
-//                            " instead of authority: " + CONTENT_AUTHORITY,
-//                    providerInfo.authority, CONTENT_AUTHORITY);
-//
-//        } catch (PackageManager.NameNotFoundException e) {
-//            // I guess the provider isn't registered correctly.
-//            assertTrue("Error: WeatherProvider not registered at " + mContext.getPackageName(),
-//                    false);
-//        }
-//    }
+        try {
+            // Fetch the provider info using the component name from the PackageManager
+            // This throws an exception if the provider isn't registered.
+            ProviderInfo providerInfo = pm.getProviderInfo(componentName, 0);
 
+            // Make sure that the registered authority matches the authority from the Contract.
+            assertEquals("Error: WeatherProvider registered with authority: " + providerInfo.authority +
+                            " instead of authority: " + CONTENT_AUTHORITY,
+                    providerInfo.authority, CONTENT_AUTHORITY);
+
+        } catch (PackageManager.NameNotFoundException e) {
+            // I guess the provider isn't registered correctly.
+            assertTrue("Error: WeatherProvider not registered at " + mContext.getPackageName(),
+                    false);
+        }
+    }
 }
