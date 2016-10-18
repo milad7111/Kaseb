@@ -1015,7 +1015,9 @@ public class KasebProvider extends ContentProvider {
                 long _id = 0;
                 try{
                     for (ContentValues value:values){
-                        long isUnique = DatabaseUtils.queryNumEntries(db, KasebContract.Customers.TABLE_NAME, KasebContract.Customers.COLUMN_PHONE_MOBILE + " = " + "'" + value.getAsString(KasebContract.Customers.COLUMN_PHONE_MOBILE) + "'");
+                        long isUnique = DatabaseUtils.queryNumEntries(db, KasebContract.Customers.TABLE_NAME,
+                                KasebContract.Customers.COLUMN_PHONE_MOBILE + " = " + "'"
+                                        + value.getAsString(KasebContract.Customers.COLUMN_PHONE_MOBILE) + "'");
                         if(isUnique==0) _id = db.insert(KasebContract.Customers.TABLE_NAME,null,value);
                         if(_id!=-1) returnCount++;
                     }
@@ -1032,7 +1034,9 @@ public class KasebProvider extends ContentProvider {
                 long _id = 0;
                 try{
                     for (ContentValues value:values){
-                        long isUnique = DatabaseUtils.queryNumEntries(db, KasebContract.Sales.TABLE_NAME, KasebContract.Sales.COLUMN_SALE_CODE + " = " + "'" + value.getAsString(KasebContract.Sales.COLUMN_SALE_CODE) + "'");
+                        long isUnique = DatabaseUtils.queryNumEntries(db, KasebContract.Sales.TABLE_NAME,
+                                KasebContract.Sales.COLUMN_SALE_CODE + " = " + "'"
+                                        + value.getAsString(KasebContract.Sales.COLUMN_SALE_CODE) + "'");
                         if(isUnique==0) _id = db.insert(KasebContract.Sales.TABLE_NAME,null,value);
                         if(_id!=-1) returnCount++;
                     }
@@ -1049,7 +1053,9 @@ public class KasebProvider extends ContentProvider {
                 long _id = 0;
                 try{
                     for (ContentValues value:values){
-                        long isUnique = DatabaseUtils.queryNumEntries(db, KasebContract.DetailSale.TABLE_NAME, KasebContract.DetailSale.COLUMN_SALE_ID + " = " + "'" + value.getAsString(KasebContract.DetailSale.COLUMN_SALE_ID) + "'");
+                        long isUnique = DatabaseUtils.queryNumEntries(db, KasebContract.DetailSale.TABLE_NAME,
+                                KasebContract.DetailSale.COLUMN_SALE_ID + " = " + "'"
+                                        + value.getAsString(KasebContract.DetailSale.COLUMN_SALE_ID) + "'");
                         if(isUnique==0) _id = db.insert(KasebContract.DetailSale.TABLE_NAME,null,value);
                         if(_id!=-1) returnCount++;
                     }
@@ -1066,7 +1072,9 @@ public class KasebProvider extends ContentProvider {
                 long _id = 0;
                 try{
                     for (ContentValues value:values){
-                        long isUnique = DatabaseUtils.queryNumEntries(db, KasebContract.Products.TABLE_NAME, KasebContract.Products.COLUMN_PRODUCT_CODE + " = " + "'" + value.getAsString(KasebContract.Products.COLUMN_PRODUCT_CODE) + "'");
+                        long isUnique = DatabaseUtils.queryNumEntries(db, KasebContract.Products.TABLE_NAME,
+                                KasebContract.Products.COLUMN_PRODUCT_CODE + " = " + "'"
+                                        + value.getAsString(KasebContract.Products.COLUMN_PRODUCT_CODE) + "'");
                         if(isUnique==0) _id = db.insert(KasebContract.Products.TABLE_NAME,null,value);
                         if(_id!=-1) returnCount++;
                     }
@@ -1099,7 +1107,9 @@ public class KasebProvider extends ContentProvider {
                 long _id = 0;
                 try{
                     for (ContentValues value:values){
-                        long isUnique = DatabaseUtils.queryNumEntries(db, KasebContract.Costs.TABLE_NAME, KasebContract.Costs.COLUMN_COST_CODE + " = " + "'" + value.getAsString(KasebContract.Costs.COLUMN_COST_CODE) + "'");
+                        long isUnique = DatabaseUtils.queryNumEntries(db, KasebContract.Costs.TABLE_NAME,
+                                KasebContract.Costs.COLUMN_COST_CODE + " = " + "'"
+                                        + value.getAsString(KasebContract.Costs.COLUMN_COST_CODE) + "'");
                         if(isUnique==0) _id = db.insert(KasebContract.Costs.TABLE_NAME,null,value);
                         if(_id!=-1) returnCount++;
                     }

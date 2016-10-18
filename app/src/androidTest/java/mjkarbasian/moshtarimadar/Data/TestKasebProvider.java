@@ -1300,6 +1300,7 @@ public class TestKasebProvider extends AndroidTestCase {
 
     static private final int BULK_INSERT_RECORDS_TO_INSERT = 10;
 
+    //region Create ContentValues
     //region 1 State table
     private ContentValues[] createBulkInsertStateValues() {
 
@@ -1307,7 +1308,6 @@ public class TestKasebProvider extends AndroidTestCase {
 
         for (int i = 0; i < BULK_INSERT_RECORDS_TO_INSERT; i++) {
             ContentValues stateValues = new ContentValues();
-            stateValues.put(State._ID, i);
             stateValues.put(State.COLUMN_STATE_POINTER, i*10);
             returnContentValues[i] = stateValues;
         }
@@ -1322,7 +1322,6 @@ public class TestKasebProvider extends AndroidTestCase {
 
         for (int i = 0; i < BULK_INSERT_RECORDS_TO_INSERT; i++) {
             ContentValues costTypesValues = new ContentValues();
-            costTypesValues.put(CostTypes._ID, i);
             costTypesValues.put(CostTypes.COLUMN_COST_TYPE_POINTER, i*10);
             returnContentValues[i] = costTypesValues;
         }
@@ -1335,17 +1334,17 @@ public class TestKasebProvider extends AndroidTestCase {
 
         KasebDbHelper dbHelper = new KasebDbHelper(mContext);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
-        ContentValues testValues = TestUtilities.createStateValues();
-        long stateRowId = db.insert(KasebContract.State.TABLE_NAME, null, testValues);
+
+        ContentValues testValuesState = TestUtilities.createStateValues();
+        long stateRowId = db.insert(KasebContract.State.TABLE_NAME, null, testValuesState);
 
         ContentValues[] returnContentValues = new ContentValues[BULK_INSERT_RECORDS_TO_INSERT];
 
         for (int i = 0; i < BULK_INSERT_RECORDS_TO_INSERT; i++) {
             ContentValues customersValues = new ContentValues();
-            customersValues.put(Customers._ID, i);
             customersValues.put(Customers.COLUMN_FIRST_NAME, "sample");
             customersValues.put(Customers.COLUMN_LAST_NAME, "sample");
-            customersValues.put(Customers.COLUMN_PHONE_MOBILE, "sample");
+            customersValues.put(Customers.COLUMN_PHONE_MOBILE, "sample"+i);
             customersValues.put(Customers.COLUMN_PHONE_WORK, "sample");
             customersValues.put(Customers.COLUMN_PHONE_FAX, "sample");
             customersValues.put(Customers.COLUMN_PHONE_OTHER, "sample");
@@ -1367,17 +1366,17 @@ public class TestKasebProvider extends AndroidTestCase {
     private ContentValues[] createBulkInsertCostsValues() {
         KasebDbHelper dbHelper = new KasebDbHelper(mContext);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
-        ContentValues testValues = TestUtilities.createCostTypesValues();
-        long costTypesRowId = db.insert(KasebContract.CostTypes.TABLE_NAME, null, testValues);
+
+        ContentValues testValuesCostTypes = TestUtilities.createCostTypesValues();
+        long costTypesRowId = db.insert(KasebContract.CostTypes.TABLE_NAME, null, testValuesCostTypes);
 
         ContentValues[] returnContentValues = new ContentValues[BULK_INSERT_RECORDS_TO_INSERT];
 
         for (int i = 0; i < BULK_INSERT_RECORDS_TO_INSERT; i++) {
             ContentValues costsValues = new ContentValues();
-            costsValues.put(Costs._ID, i);
             costsValues.put(Costs.COLUMN_COST_TYPE_ID, costTypesRowId);
             costsValues.put(Costs.COLUMN_COST_NAME, "sample");
-            costsValues.put(Costs.COLUMN_COST_CODE, "sample");
+            costsValues.put(Costs.COLUMN_COST_CODE, "sample"+i);
             costsValues.put(Costs.COLUMN_AMOUNT, i*10);
             costsValues.put(Costs.COLUMN_DATE, "sample");
             costsValues.put(Costs.COLUMN_DESCRIPTION, "sample");
@@ -1395,7 +1394,6 @@ public class TestKasebProvider extends AndroidTestCase {
 
         for (int i = 0; i < BULK_INSERT_RECORDS_TO_INSERT; i++) {
             ContentValues paymentMethodsValues = new ContentValues();
-            paymentMethodsValues.put(PaymentMethods._ID, i);
             paymentMethodsValues.put(PaymentMethods.COLUMN_PAYMENT_METHOD_POINTER, i*10);
             returnContentValues[i] = paymentMethodsValues;
         }
@@ -1410,7 +1408,6 @@ public class TestKasebProvider extends AndroidTestCase {
 
         for (int i = 0; i < BULK_INSERT_RECORDS_TO_INSERT; i++) {
             ContentValues taxTypesValues = new ContentValues();
-            taxTypesValues.put(TaxTypes._ID, i);
             taxTypesValues.put(TaxTypes.COLUMN_TAX_TYPE_POINTER, i*10);
             returnContentValues[i] = taxTypesValues;
         }
@@ -1425,9 +1422,8 @@ public class TestKasebProvider extends AndroidTestCase {
 
         for (int i = 0; i < BULK_INSERT_RECORDS_TO_INSERT; i++) {
             ContentValues productsValues = new ContentValues();
-            productsValues.put(Products._ID, i);
-            productsValues.put(Products.COLUMN_PRODUCT_NAME, "sample");
-            productsValues.put(Products.COLUMN_PRODUCT_CODE, "sample");
+            productsValues.put(Products.COLUMN_PRODUCT_NAME, "sample"+i);
+            productsValues.put(Products.COLUMN_PRODUCT_CODE, "sample"+i);
             productsValues.put(Products.COLUMN_DESCRIPTION, "sample");
             productsValues.put(Products.COLUMN_UNIT, "sample");
             returnContentValues[i] = productsValues;
@@ -1451,9 +1447,8 @@ public class TestKasebProvider extends AndroidTestCase {
 
         for (int i = 0; i < BULK_INSERT_RECORDS_TO_INSERT; i++) {
             ContentValues salesValues = new ContentValues();
-            salesValues.put(Sales._ID, i);
             salesValues.put(Sales.COLUMN_IS_DELETED, 0);
-            salesValues.put(Sales.COLUMN_SALE_CODE, "sample");
+            salesValues.put(Sales.COLUMN_SALE_CODE, "sample"+i);
             salesValues.put(Sales.COLUMN_CUSTOMER_ID, 100);
             salesValues.put(Sales.COLUMN_CUSTOMER_ID, customersRowId);
             returnContentValues[i] = salesValues;
@@ -1473,14 +1468,19 @@ public class TestKasebProvider extends AndroidTestCase {
         ContentValues testValuesCustomers = TestUtilities.createCustomersValues(stateRowId);
         long customersRowId = db.insert(KasebContract.Customers.TABLE_NAME, null, testValuesCustomers);
 
-        ContentValues testValuesSales = TestUtilities.createSalesValues(customersRowId);
-        long salesRowId = db.insert(KasebContract.Sales.TABLE_NAME, null, testValuesSales);
+        long[] salesRowIdArray = new long[BULK_INSERT_RECORDS_TO_INSERT];
+
+        ContentValues testValuesSales;
+
+        for (int i = 0; i <BULK_INSERT_RECORDS_TO_INSERT; i++) {
+            testValuesSales = TestUtilities.createSalesValues(customersRowId);
+            salesRowIdArray[i] = db.insert(KasebContract.Sales.TABLE_NAME, null, testValuesSales);
+        }
 
         ContentValues[] returnContentValues = new ContentValues[BULK_INSERT_RECORDS_TO_INSERT];
 
         for (int i = 0; i < BULK_INSERT_RECORDS_TO_INSERT; i++) {
             ContentValues detailSaleValues = new ContentValues();
-            detailSaleValues.put(DetailSale._ID, i);
             detailSaleValues.put(DetailSale.COLUMN_DATE, "sample");
             detailSaleValues.put(DetailSale.COLUMN_ITEMS_NUMBER, 100);
             detailSaleValues.put(DetailSale.COLUMN_SUB_TOTAL, 100);
@@ -1489,7 +1489,7 @@ public class TestKasebProvider extends AndroidTestCase {
             detailSaleValues.put(DetailSale.COLUMN_TOTAL_DUE, 100);
             detailSaleValues.put(DetailSale.COLUMN_TOTAL_PAID, 100);
             detailSaleValues.put(DetailSale.COLUMN_IS_BALANCED, 0);
-            detailSaleValues.put(DetailSale.COLUMN_SALE_ID, salesRowId);
+            detailSaleValues.put(DetailSale.COLUMN_SALE_ID, salesRowIdArray[i]);
             returnContentValues[i] = detailSaleValues;
         }
         return returnContentValues;
@@ -1518,7 +1518,6 @@ public class TestKasebProvider extends AndroidTestCase {
 
         for (int i = 0; i < BULK_INSERT_RECORDS_TO_INSERT; i++) {
             ContentValues detailSalePaymentsValues = new ContentValues();
-            detailSalePaymentsValues.put(DetailSalePayments._ID, i);
             detailSalePaymentsValues.put(DetailSalePayments.COLUMN_DUE_DATE, "sample");
             detailSalePaymentsValues.put(DetailSalePayments.COLUMN_AMOUNT, 100);
             detailSalePaymentsValues.put(DetailSalePayments.COLUMN_PAYMENT_METHOD_ID, 100);
@@ -1542,7 +1541,6 @@ public class TestKasebProvider extends AndroidTestCase {
 
         for (int i = 0; i < BULK_INSERT_RECORDS_TO_INSERT; i++) {
             ContentValues productHistoryValues = new ContentValues();
-            productHistoryValues.put(State._ID, i);
             productHistoryValues.put(ProductHistory.COLUMN_COST, 100);
             productHistoryValues.put(ProductHistory.COLUMN_DATE, "sample");
             productHistoryValues.put(ProductHistory.COLUMN_QUANTITY, 100);
@@ -1577,7 +1575,6 @@ public class TestKasebProvider extends AndroidTestCase {
 
         for (int i = 0; i < BULK_INSERT_RECORDS_TO_INSERT; i++) {
             ContentValues detailSaleTaxesValues = new ContentValues();
-            detailSaleTaxesValues.put(DetailSaleTaxes._ID, i);
             detailSaleTaxesValues.put(DetailSaleTaxes.COLUMN_AMOUNT, 100);
             detailSaleTaxesValues.put(DetailSaleTaxes.COLUMN_DETAIL_SALE_ID, detailSaleRowId);
             detailSaleTaxesValues.put(DetailSaleTaxes.COLUMN_TAX_TYPE_ID, taxTypesRowId);
@@ -1609,7 +1606,6 @@ public class TestKasebProvider extends AndroidTestCase {
 
         for (int i = 0; i < BULK_INSERT_RECORDS_TO_INSERT; i++) {
             ContentValues detailSaleProductsValues = new ContentValues();
-            detailSaleProductsValues.put(DetailSaleProducts._ID, i);
             detailSaleProductsValues.put(DetailSaleProducts.COLUMN_QUANTITY, 100);
             detailSaleProductsValues.put(DetailSaleProducts.COLUMN_AMOUNT, 100);
             detailSaleProductsValues.put(DetailSaleProducts.COLUMN_DETAIL_SALE_ID, detailSaleRowId);
@@ -1618,6 +1614,7 @@ public class TestKasebProvider extends AndroidTestCase {
         }
         return returnContentValues;
     }
+    //endregion
     //endregion
 
     public void testBulkInsert() {
@@ -1632,7 +1629,7 @@ public class TestKasebProvider extends AndroidTestCase {
         observer.waitForNotificationOrFail();
         mContext.getContentResolver().unregisterContentObserver(observer);
 
-        assertEquals("Bulk Insertion failed -State table-", stateID, BULK_INSERT_RECORDS_TO_INSERT);
+        assertEquals("Bulk Insertion failed -State table-",BULK_INSERT_RECORDS_TO_INSERT, stateID);
 
         // A cursor is your primary interface to the query results.
         Cursor stateCursor = mContext.getContentResolver().query(
@@ -1645,8 +1642,8 @@ public class TestKasebProvider extends AndroidTestCase {
 
         // we should have as many records in the database as we've inserted
         assertEquals("Number of Inserted Rows is not " + BULK_INSERT_RECORDS_TO_INSERT
-                + " --> \nresult : Bulk Insertion failed - State table - ", stateCursor.getCount(),
-                BULK_INSERT_RECORDS_TO_INSERT);
+                + " --> \nresult : Bulk Insertion failed - State table - ",BULK_INSERT_RECORDS_TO_INSERT,
+                stateCursor.getCount());
 
 //        // and let's make sure they match the ones we created
 //        stateCursor.moveToFirst();
@@ -1666,7 +1663,7 @@ public class TestKasebProvider extends AndroidTestCase {
         observer.waitForNotificationOrFail();
         mContext.getContentResolver().unregisterContentObserver(observer);
 
-        assertEquals("Bulk Insertion failed -CostTypes table-", costTypesID, BULK_INSERT_RECORDS_TO_INSERT);
+        assertEquals("Bulk Insertion failed -CostTypes table-", BULK_INSERT_RECORDS_TO_INSERT, costTypesID);
 
         // A cursor is your primary interface to the query results.
         Cursor costTypesCursor = mContext.getContentResolver().query(
@@ -1679,67 +1676,67 @@ public class TestKasebProvider extends AndroidTestCase {
 
         // we should have as many records in the database as we've inserted
         assertEquals("Number of Inserted Rows is not " + BULK_INSERT_RECORDS_TO_INSERT
-                + " --> \nresult : Bulk Insertion failed - CostTypes table - ", costTypesCursor.getCount(),
-                BULK_INSERT_RECORDS_TO_INSERT);
+                + " --> \nresult : Bulk Insertion failed - CostTypes table - ", BULK_INSERT_RECORDS_TO_INSERT,
+                costTypesCursor.getCount());
 
         costTypesCursor.close();
         deleteAllRecords();
         //endregion
 
         //region 3 Customers table
-//        bulkInsertContentValues = createBulkInsertCustomersValues();
-//        mContext.getContentResolver().registerContentObserver(Customers.CONTENT_URI, true, observer);
-//        int customersID = mContext.getContentResolver().bulkInsert(Customers.CONTENT_URI, bulkInsertContentValues);
-//
-//        observer.waitForNotificationOrFail();
-//        mContext.getContentResolver().unregisterContentObserver(observer);
-//
-//        assertEquals("Bulk Insertion failed -Customers table-", customersID, BULK_INSERT_RECORDS_TO_INSERT);
-//
-//        // A cursor is your primary interface to the query results.
-//        Cursor customersCursor = mContext.getContentResolver().query(
-//                Customers.CONTENT_URI,
-//                null, // leaving "columns" null just returns all the columns.
-//                null, // columns for "where" clause
-//                null, // values for "where" clause
-//                null  // sort order
-//        );
-//
-//        // we should have as many records in the database as we've inserted
-//        assertEquals("Number of Inserted Rows is not " + BULK_INSERT_RECORDS_TO_INSERT
-//        + " --> \nresult : Bulk Insertion failed - Customers table - ", customersCursor.getCount(),
-//                BULK_INSERT_RECORDS_TO_INSERT);
-//
-//        customersCursor.close();
-//        deleteAllRecords();
+        bulkInsertContentValues = createBulkInsertCustomersValues();
+        mContext.getContentResolver().registerContentObserver(Customers.CONTENT_URI, true, observer);
+        int customersID = mContext.getContentResolver().bulkInsert(Customers.CONTENT_URI, bulkInsertContentValues);
+
+        observer.waitForNotificationOrFail();
+        mContext.getContentResolver().unregisterContentObserver(observer);
+
+        assertEquals("Bulk Insertion failed -Customers table-", BULK_INSERT_RECORDS_TO_INSERT, customersID);
+
+        // A cursor is your primary interface to the query results.
+        Cursor customersCursor = mContext.getContentResolver().query(
+                Customers.CONTENT_URI,
+                null, // leaving "columns" null just returns all the columns.
+                null, // columns for "where" clause
+                null, // values for "where" clause
+                null  // sort order
+        );
+
+        // we should have as many records in the database as we've inserted
+        assertEquals("Number of Inserted Rows is not " + BULK_INSERT_RECORDS_TO_INSERT
+        + " --> \nresult : Bulk Insertion failed - Customers table - ", BULK_INSERT_RECORDS_TO_INSERT,
+                customersCursor.getCount());
+
+        customersCursor.close();
+        deleteAllRecords();
         //endregion
 
         //region 4 Costs table
-//        bulkInsertContentValues = createBulkInsertCostsValues();
-//        mContext.getContentResolver().registerContentObserver(Costs.CONTENT_URI, true, observer);
-//        int costsID = mContext.getContentResolver().bulkInsert(Costs.CONTENT_URI, bulkInsertContentValues);
-//
-//        observer.waitForNotificationOrFail();
-//        mContext.getContentResolver().unregisterContentObserver(observer);
-//
-//        assertEquals("Bulk Insertion failed -Costs table-", costsID, BULK_INSERT_RECORDS_TO_INSERT);
-//
-//        // A cursor is your primary interface to the query results.
-//        Cursor costsCursor = mContext.getContentResolver().query(
-//                Costs.CONTENT_URI,
-//                null, // leaving "columns" null just returns all the columns.
-//                null, // columns for "where" clause
-//                null, // values for "where" clause
-//                null  // sort order
-//        );
-//
-//        // we should have as many records in the database as we've inserted
-//        assertEquals("Number of Inserted Rows is not " + BULK_INSERT_RECORDS_TO_INSERT
-//        + " --> \nresult : Bulk Insertion failed - Costs table - ", costsCursor.getCount(),
-//                BULK_INSERT_RECORDS_TO_INSERT);
-//
-//        costsCursor.close();
-//        deleteAllRecords();
+        bulkInsertContentValues = createBulkInsertCostsValues();
+        mContext.getContentResolver().registerContentObserver(Costs.CONTENT_URI, true, observer);
+        int costsID = mContext.getContentResolver().bulkInsert(Costs.CONTENT_URI, bulkInsertContentValues);
+
+        observer.waitForNotificationOrFail();
+        mContext.getContentResolver().unregisterContentObserver(observer);
+
+        assertEquals("Bulk Insertion failed -Costs table-", BULK_INSERT_RECORDS_TO_INSERT, costsID);
+
+        // A cursor is your primary interface to the query results.
+        Cursor costsCursor = mContext.getContentResolver().query(
+                Costs.CONTENT_URI,
+                null, // leaving "columns" null just returns all the columns.
+                null, // columns for "where" clause
+                null, // values for "where" clause
+                null  // sort order
+        );
+
+        // we should have as many records in the database as we've inserted
+        assertEquals("Number of Inserted Rows is not " + BULK_INSERT_RECORDS_TO_INSERT
+        + " --> \nresult : Bulk Insertion failed - Costs table - ", BULK_INSERT_RECORDS_TO_INSERT,
+                costsCursor.getCount());
+
+        costsCursor.close();
+        deleteAllRecords();
         //endregion
 
         //region 5 PaymentMethods table
@@ -1750,7 +1747,7 @@ public class TestKasebProvider extends AndroidTestCase {
         observer.waitForNotificationOrFail();
         mContext.getContentResolver().unregisterContentObserver(observer);
 
-        assertEquals("Bulk Insertion failed -PaymentMethods table-", paymentMethodsID, BULK_INSERT_RECORDS_TO_INSERT);
+        assertEquals("Bulk Insertion failed -PaymentMethods table-", BULK_INSERT_RECORDS_TO_INSERT, paymentMethodsID);
 
         // A cursor is your primary interface to the query results.
         Cursor paymentMethodsCursor = mContext.getContentResolver().query(
@@ -1763,8 +1760,8 @@ public class TestKasebProvider extends AndroidTestCase {
 
         // we should have as many records in the database as we've inserted
         assertEquals("Number of Inserted Rows is not " + BULK_INSERT_RECORDS_TO_INSERT
-                + " --> \nresult : Bulk Insertion failed - PaymentMethods table - ", paymentMethodsCursor.getCount(),
-                BULK_INSERT_RECORDS_TO_INSERT);
+                + " --> \nresult : Bulk Insertion failed - PaymentMethods table - ", BULK_INSERT_RECORDS_TO_INSERT,
+                paymentMethodsCursor.getCount());
 
         paymentMethodsCursor.close();
         deleteAllRecords();
@@ -1778,7 +1775,7 @@ public class TestKasebProvider extends AndroidTestCase {
         observer.waitForNotificationOrFail();
         mContext.getContentResolver().unregisterContentObserver(observer);
 
-        assertEquals("Bulk Insertion failed -TaxTypes table-", taxTypesID, BULK_INSERT_RECORDS_TO_INSERT);
+        assertEquals("Bulk Insertion failed -TaxTypes table-", BULK_INSERT_RECORDS_TO_INSERT, taxTypesID);
 
         // A cursor is your primary interface to the query results.
         Cursor taxTypesCursor = mContext.getContentResolver().query(
@@ -1791,95 +1788,95 @@ public class TestKasebProvider extends AndroidTestCase {
 
         // we should have as many records in the database as we've inserted
         assertEquals("Number of Inserted Rows is not " + BULK_INSERT_RECORDS_TO_INSERT
-                + " --> \nresult : Bulk Insertion failed - TaxTypes table - ", taxTypesCursor.getCount()
-                , BULK_INSERT_RECORDS_TO_INSERT);
+                + " --> \nresult : Bulk Insertion failed - TaxTypes table - ", BULK_INSERT_RECORDS_TO_INSERT,
+                taxTypesCursor.getCount());
 
         taxTypesCursor.close();
         deleteAllRecords();
         //endregion
 
         //region 7 Products table
-//        bulkInsertContentValues = createBulkInsertProductsValues();
-//        mContext.getContentResolver().registerContentObserver(Products.CONTENT_URI, true, observer);
-//        int productsID = mContext.getContentResolver().bulkInsert(Products.CONTENT_URI, bulkInsertContentValues);
-//
-//        observer.waitForNotificationOrFail();
-//        mContext.getContentResolver().unregisterContentObserver(observer);
-//
-//        assertEquals("Bulk Insertion failed -Products table-", productsID, BULK_INSERT_RECORDS_TO_INSERT);
-//
-//        // A cursor is your primary interface to the query results.
-//        Cursor productsCursor = mContext.getContentResolver().query(
-//                Products.CONTENT_URI,
-//                null, // leaving "columns" null just returns all the columns.
-//                null, // columns for "where" clause
-//                null, // values for "where" clause
-//                null  // sort order
-//        );
-//
-//        // we should have as many records in the database as we've inserted
-//        assertEquals("Number of Inserted Rows is not " + BULK_INSERT_RECORDS_TO_INSERT
-//        + " --> \nresult : Bulk Insertion failed - Products table - " , productsCursor.getCount()
-//          , BULK_INSERT_RECORDS_TO_INSERT);
-//
-//        productsCursor.close();
-//        deleteAllRecords();
-        //endregion
+        bulkInsertContentValues = createBulkInsertProductsValues();
+        mContext.getContentResolver().registerContentObserver(Products.CONTENT_URI, true, observer);
+        int productsID = mContext.getContentResolver().bulkInsert(Products.CONTENT_URI, bulkInsertContentValues);
+
+        observer.waitForNotificationOrFail();
+        mContext.getContentResolver().unregisterContentObserver(observer);
+
+        assertEquals("Bulk Insertion failed -Products table-", BULK_INSERT_RECORDS_TO_INSERT, productsID);
+
+        // A cursor is your primary interface to the query results.
+        Cursor productsCursor = mContext.getContentResolver().query(
+                Products.CONTENT_URI,
+                null, // leaving "columns" null just returns all the columns.
+                null, // columns for "where" clause
+                null, // values for "where" clause
+                null  // sort order
+        );
+
+        // we should have as many records in the database as we've inserted
+        assertEquals("Number of Inserted Rows is not " + BULK_INSERT_RECORDS_TO_INSERT
+        + " --> \nresult : Bulk Insertion failed - Products table - " , BULK_INSERT_RECORDS_TO_INSERT,
+                productsCursor.getCount());
+
+        productsCursor.close();
+        deleteAllRecords();
+//        //endregion
 
         //region 8 Sales table
-//        bulkInsertContentValues = createBulkInsertSalesValues();
-//        mContext.getContentResolver().registerContentObserver(Sales.CONTENT_URI, true, observer);
-//        int salesID = mContext.getContentResolver().bulkInsert(Sales.CONTENT_URI, bulkInsertContentValues);
-//
-//        observer.waitForNotificationOrFail();
-//        mContext.getContentResolver().unregisterContentObserver(observer);
-//
-//        assertEquals("Bulk Insertion failed -Sales table-", salesID, BULK_INSERT_RECORDS_TO_INSERT);
-//
-//        // A cursor is your primary interface to the query results.
-//        Cursor salesCursor = mContext.getContentResolver().query(
-//                Sales.CONTENT_URI,
-//                null, // leaving "columns" null just returns all the columns.
-//                null, // columns for "where" clause
-//                null, // values for "where" clause
-//                null  // sort order
-//        );
-//
-//        // we should have as many records in the database as we've inserted
-//        assertEquals("Number of Inserted Rows is not " + BULK_INSERT_RECORDS_TO_INSERT
-//                + " --> \nresult : Bulk Insertion failed - Sales table - ", salesCursor.getCount()
-//                , BULK_INSERT_RECORDS_TO_INSERT);
-//
-//        salesCursor.close();
-//        deleteAllRecords();
+        bulkInsertContentValues = createBulkInsertSalesValues();
+        mContext.getContentResolver().registerContentObserver(Sales.CONTENT_URI, true, observer);
+        int salesID = mContext.getContentResolver().bulkInsert(Sales.CONTENT_URI, bulkInsertContentValues);
+
+        observer.waitForNotificationOrFail();
+        mContext.getContentResolver().unregisterContentObserver(observer);
+
+        assertEquals("Bulk Insertion failed -Sales table-", BULK_INSERT_RECORDS_TO_INSERT, salesID);
+
+        // A cursor is your primary interface to the query results.
+        Cursor salesCursor = mContext.getContentResolver().query(
+                Sales.CONTENT_URI,
+                null, // leaving "columns" null just returns all the columns.
+                null, // columns for "where" clause
+                null, // values for "where" clause
+                null  // sort order
+        );
+
+        // we should have as many records in the database as we've inserted
+        assertEquals("Number of Inserted Rows is not " + BULK_INSERT_RECORDS_TO_INSERT
+                + " --> \nresult : Bulk Insertion failed - Sales table - ", BULK_INSERT_RECORDS_TO_INSERT,
+                salesCursor.getCount());
+
+        salesCursor.close();
+        deleteAllRecords();
         //endregion
 
         //region 9 DetailSale table
-//        bulkInsertContentValues = createBulkInsertDetailSaleValues();
-//        mContext.getContentResolver().registerContentObserver(DetailSale.CONTENT_URI, true, observer);
-//        int detailSaleID = mContext.getContentResolver().bulkInsert(DetailSale.CONTENT_URI, bulkInsertContentValues);
-//
-//        observer.waitForNotificationOrFail();
-//        mContext.getContentResolver().unregisterContentObserver(observer);
-//
-//        assertEquals("Bulk Insertion failed -DetailSale table-", detailSaleID, BULK_INSERT_RECORDS_TO_INSERT);
-//
-//        // A cursor is your primary interface to the query results.
-//        Cursor detailSaleCursor = mContext.getContentResolver().query(
-//                DetailSale.CONTENT_URI,
-//                null, // leaving "columns" null just returns all the columns.
-//                null, // columns for "where" clause
-//                null, // values for "where" clause
-//                null  // sort order
-//        );
-//
-//        // we should have as many records in the database as we've inserted
-//        assertEquals("Number of Inserted Rows is not " + BULK_INSERT_RECORDS_TO_INSERT
-//                + " --> \nresult : Bulk Insertion failed - DetailSale table - ", detailSaleCursor.getCount()
-//                , BULK_INSERT_RECORDS_TO_INSERT);
-//
-//        detailSaleCursor.close();
-//        deleteAllRecords();
+        bulkInsertContentValues = createBulkInsertDetailSaleValues();
+        mContext.getContentResolver().registerContentObserver(DetailSale.CONTENT_URI, true, observer);
+        int detailSaleID = mContext.getContentResolver().bulkInsert(DetailSale.CONTENT_URI, bulkInsertContentValues);
+
+        observer.waitForNotificationOrFail();
+        mContext.getContentResolver().unregisterContentObserver(observer);
+
+        assertEquals("Bulk Insertion failed -DetailSale table-", BULK_INSERT_RECORDS_TO_INSERT, detailSaleID);
+
+        // A cursor is your primary interface to the query results.
+        Cursor detailSaleCursor = mContext.getContentResolver().query(
+                DetailSale.CONTENT_URI,
+                null, // leaving "columns" null just returns all the columns.
+                null, // columns for "where" clause
+                null, // values for "where" clause
+                null  // sort order
+        );
+
+        // we should have as many records in the database as we've inserted
+        assertEquals("Number of Inserted Rows is not " + BULK_INSERT_RECORDS_TO_INSERT
+                + " --> \nresult : Bulk Insertion failed - DetailSale table - ", BULK_INSERT_RECORDS_TO_INSERT,
+                detailSaleCursor.getCount());
+
+        detailSaleCursor.close();
+        deleteAllRecords();
         //endregion
 
         //region 10 DetailSalePayments table
@@ -1890,7 +1887,7 @@ public class TestKasebProvider extends AndroidTestCase {
         observer.waitForNotificationOrFail();
         mContext.getContentResolver().unregisterContentObserver(observer);
 
-        assertEquals("Bulk Insertion failed -DetailSalePayments table-", detailSalePaymentsID, BULK_INSERT_RECORDS_TO_INSERT);
+        assertEquals("Bulk Insertion failed -DetailSalePayments table-", BULK_INSERT_RECORDS_TO_INSERT, detailSalePaymentsID);
 
         // A cursor is your primary interface to the query results.
         Cursor detailSalePaymentsCursor = mContext.getContentResolver().query(
@@ -1903,8 +1900,8 @@ public class TestKasebProvider extends AndroidTestCase {
 
         // we should have as many records in the database as we've inserted
         assertEquals("Number of Inserted Rows is not " + BULK_INSERT_RECORDS_TO_INSERT
-                + " --> \nresult : Bulk Insertion failed - DetailSalePayments table - ", detailSalePaymentsCursor.getCount()
-                , BULK_INSERT_RECORDS_TO_INSERT);
+                + " --> \nresult : Bulk Insertion failed - DetailSalePayments table - ", BULK_INSERT_RECORDS_TO_INSERT,
+                detailSalePaymentsCursor.getCount());
 
         detailSalePaymentsCursor.close();
         deleteAllRecords();
@@ -1918,7 +1915,7 @@ public class TestKasebProvider extends AndroidTestCase {
         observer.waitForNotificationOrFail();
         mContext.getContentResolver().unregisterContentObserver(observer);
 
-        assertEquals("Bulk Insertion failed -ProductHistory table-", productHistoryID, BULK_INSERT_RECORDS_TO_INSERT);
+        assertEquals("Bulk Insertion failed -ProductHistory table-", BULK_INSERT_RECORDS_TO_INSERT, productHistoryID);
 
         // A cursor is your primary interface to the query results.
         Cursor productHistoryCursor = mContext.getContentResolver().query(
@@ -1931,8 +1928,8 @@ public class TestKasebProvider extends AndroidTestCase {
 
         // we should have as many records in the database as we've inserted
         assertEquals("Number of Inserted Rows is not " + BULK_INSERT_RECORDS_TO_INSERT
-                        + " --> \nresult : Bulk Insertion failed - ProductHistory table - ", productHistoryCursor.getCount(),
-                BULK_INSERT_RECORDS_TO_INSERT);
+                        + " --> \nresult : Bulk Insertion failed - ProductHistory table - ", BULK_INSERT_RECORDS_TO_INSERT,
+                productHistoryCursor.getCount());
 
         productHistoryCursor.close();
         deleteAllRecords();
@@ -1946,7 +1943,7 @@ public class TestKasebProvider extends AndroidTestCase {
         observer.waitForNotificationOrFail();
         mContext.getContentResolver().unregisterContentObserver(observer);
 
-        assertEquals("Bulk Insertion failed -DetailSaleTaxes table-", detailSaleTaxesID, BULK_INSERT_RECORDS_TO_INSERT);
+        assertEquals("Bulk Insertion failed -DetailSaleTaxes table-", BULK_INSERT_RECORDS_TO_INSERT, detailSaleTaxesID);
 
         // A cursor is your primary interface to the query results.
         Cursor detailSaleTaxesCursor = mContext.getContentResolver().query(
@@ -1959,8 +1956,8 @@ public class TestKasebProvider extends AndroidTestCase {
 
         // we should have as many records in the database as we've inserted
         assertEquals("Number of Inserted Rows is not " + BULK_INSERT_RECORDS_TO_INSERT
-                        + " --> \nresult : Bulk Insertion failed - DetailSaleTaxes table - ", detailSaleTaxesCursor.getCount(),
-                BULK_INSERT_RECORDS_TO_INSERT);
+                        + " --> \nresult : Bulk Insertion failed - DetailSaleTaxes table - ", BULK_INSERT_RECORDS_TO_INSERT,
+                detailSaleTaxesCursor.getCount());
 
         detailSaleTaxesCursor.close();
         deleteAllRecords();
@@ -1974,7 +1971,7 @@ public class TestKasebProvider extends AndroidTestCase {
         observer.waitForNotificationOrFail();
         mContext.getContentResolver().unregisterContentObserver(observer);
 
-        assertEquals("Bulk Insertion failed -DetailSaleProducts table-", detailSaleProductsID, BULK_INSERT_RECORDS_TO_INSERT);
+        assertEquals("Bulk Insertion failed -DetailSaleProducts table-", BULK_INSERT_RECORDS_TO_INSERT, detailSaleProductsID);
 
         // A cursor is your primary interface to the query results.
         Cursor detailSaleProductsCursor = mContext.getContentResolver().query(
@@ -1987,8 +1984,8 @@ public class TestKasebProvider extends AndroidTestCase {
 
         // we should have as many records in the database as we've inserted
         assertEquals("Number of Inserted Rows is not " + BULK_INSERT_RECORDS_TO_INSERT
-                        + " --> \nresult : Bulk Insertion failed - DetailSaleProducts table - ", detailSaleProductsCursor.getCount(),
-                BULK_INSERT_RECORDS_TO_INSERT);
+                        + " --> \nresult : Bulk Insertion failed - DetailSaleProducts table - ", BULK_INSERT_RECORDS_TO_INSERT,
+                detailSaleProductsCursor.getCount());
 
         detailSaleProductsCursor.close();
         deleteAllRecords();
