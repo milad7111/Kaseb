@@ -38,7 +38,7 @@ public class Customers extends DrawerActivity {
         setSupportActionBar(toolbar);
         Utility.initializer(this);
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab_customers);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getLayoutInflater().inflate(R.layout.activity_customers,(FrameLayout)findViewById(R.id.container));
     }
 
