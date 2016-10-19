@@ -125,4 +125,11 @@
     <string name="hint_date_picker">Date: yy-mm-dd</string>
     <string name="hint_cost_amount">Amount</string>
     <string name="hint_cost_code">Cost code</string>
+    <string-array name="cost_types">
+            <item>Bill</item>
+            <item>Tax</item>
+            <item>Salary</item>
+            <item>Others</item>
+    </string-array>
+
 </resources>
