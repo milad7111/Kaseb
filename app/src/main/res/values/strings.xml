@@ -120,4 +120,16 @@
     <string name="title_card_detail_product">Product Information</string>
     <string name="share_action_description">it share your product detail information</string>
     <string name="edit_detail_product_action_description">it let you edit product information</string>
+    <string name="hint_cost_name">Cost name</string>
+    <string name="hint_description">Description</string>
+    <string name="hint_date_picker">Date: yy-mm-dd</string>
+    <string name="hint_cost_amount">Amount</string>
+    <string name="hint_cost_code">Cost code</string>
+    <string-array name="cost_types">
+            <item>Bill</item>
+            <item>Tax</item>
+            <item>Salary</item>
+            <item>Others</item>
+    </string-array>
+
 </resources>
