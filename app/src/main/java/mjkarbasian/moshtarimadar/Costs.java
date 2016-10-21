@@ -12,6 +12,7 @@ import android.view.View;
 public class Costs extends DrawerActivity {
 
     Fragment costsFragment = new CostsList();
+
     android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
     Fragment costInsert = new CostInsert();
     @Override

@@ -39,7 +39,6 @@ public class CostsList extends Fragment {
         FloatingActionButton fab = (FloatingActionButton) getActivity().findViewById(R.id.fab);
         super.onCreate(savedInstanceState);
 //        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
     }
 
     @Override
