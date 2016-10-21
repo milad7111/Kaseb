@@ -102,6 +102,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="mjkarbasian.moshtarimadar.Products" />
         </activity>
+
+        <provider
+            android:authorities="mjkarbasian.moshtarimadar"
+            android:name=".Data.KasebProvider"
+            android:enabled="true"
+            android:exported="true"
+            android:permission="com.myApp.LICENSE_TO_KILL"
+            ></provider>
     </application>
 
 </manifest>

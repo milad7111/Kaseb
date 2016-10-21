@@ -152,7 +152,7 @@ public class KasebDbHelper extends SQLiteOpenHelper {
                 ");";
         //endregion
 
-        //region 12 create cost table
+        //region 12 create costs table
         final String CREATE_COSTS_TABLE = "CREATE TABLE " + KasebContract.Costs.TABLE_NAME + " ( " +
                 KasebContract.Costs._ID + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, " +
                 KasebContract.Costs.COLUMN_COST_TYPE_ID + " INTEGER NOT NULL, "+

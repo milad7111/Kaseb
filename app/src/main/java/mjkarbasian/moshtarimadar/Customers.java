@@ -38,13 +38,11 @@ public class Customers extends DrawerActivity {
         setSupportActionBar(toolbar);
         Utility.initializer(this);
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab_customers);
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getLayoutInflater().inflate(R.layout.activity_customers,(FrameLayout)findViewById(R.id.container));
     }
 
     public void fab_customers(View v){
-//        Snackbar.make(v, "Replace your own action", Snackbar.LENGTH_LONG)
-//                .setAction("Action", null).show();
+
         PopupMenu popup = new PopupMenu(this,v);
         popup.getMenu().add(R.string.fab_add_customer);
         popup.getMenu().add(R.string.fab_add_sale);

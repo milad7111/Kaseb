@@ -10,7 +10,7 @@ import android.provider.BaseColumns;
  */
 public class KasebContract {
     public static final String CONTENT_AUTHORITY = "mjkarbasian.moshtarimadar";
-    public static final Uri BASE_CONTENT_URI = Uri.parse("content://"+CONTENT_AUTHORITY);
+    public static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
 
     public static final String PATH_CUSTOMERS = "customers";
     public static final String PATH_SALES = "sales";
@@ -53,7 +53,7 @@ public class KasebContract {
     // 22)content://AUTHORITY/state---Dir
     // 23)content://AUTHORITY/state/id---item
     //new uris
-    //24)contents:////AUTHORITY/customers/state_id---Dir
+    //24)contents://AUTHORITY/Customers/state_id---Dir
     //25)content://AUTHORITY/Sales/customer_Id---Dir
     //26)content://AUTHORITY/DetailSale/sale_id =---Dir which is one item
     //27)content://AUTHORITY/DetailSale/is_Balanced/isBalanced---Dir
@@ -81,24 +81,26 @@ public class KasebContract {
         public static final String COLUMN_LAST_NAME = "last_name";
         public static final String COLUMN_BIRTHDAY = "birthday";
         public static final String COLUMN_STATE_ID = "state_id";
-        public static final String COLUMN_PHONE_MOBILE= "phone_mobile";
-        public static final String COLUMN_DESCRIPTION= "description";
-        public static final String COLUMN_IS_DELETED= "is_deleted";
-        public static final String COLUMN_EMAIL= "email";
-        public static final String COLUMN_PHONE_WORK= "phone_work";
-        public static final String COLUMN_PHONE_OTHER= "phone_other";
-        public static final String COLUMN_PHONE_FAX= "phone_fax";
-        public static final String COLUMN_ADDRESS_COUNTRY= "address_country";
-        public static final String COLUMN_ADDRESS_CITY= "address_city";
-        public static final String COLUMN_ADDRESS_STREET= "address_street";
-        public static final String COLUMN_ADDRESS_POSTAL_CODE= "address_postal_code";
+        public static final String COLUMN_PHONE_MOBILE = "phone_mobile";
+        public static final String COLUMN_DESCRIPTION = "description";
+        public static final String COLUMN_IS_DELETED = "is_deleted";
+        public static final String COLUMN_EMAIL = "email";
+        public static final String COLUMN_PHONE_WORK = "phone_work";
+        public static final String COLUMN_PHONE_OTHER = "phone_other";
+        public static final String COLUMN_PHONE_FAX = "phone_fax";
+        public static final String COLUMN_ADDRESS_COUNTRY = "address_country";
+        public static final String COLUMN_ADDRESS_CITY = "address_city";
+        public static final String COLUMN_ADDRESS_STREET = "address_street";
+        public static final String COLUMN_ADDRESS_POSTAL_CODE = "address_postal_code";
 
         //Defining Uri Maker functions : content://AUTHORITY/customers/id
-        public static Uri buildCustomerUri(long id){
-            return ContentUris.withAppendedId(CONTENT_URI, id);}
+        public static Uri buildCustomerUri(long id) {
+            return ContentUris.withAppendedId(CONTENT_URI, id);
+        }
+
         //query customers by their group : contents:////AUTHORITY/customers/state_id
-        public static Uri stateCustomer(long stateId){
-            return CONTENT_URI.buildUpon().appendPath(String.valueOf(stateId)).build();
+        public static Uri stateCustomer(long stateId) {
+            return CONTENT_URI.buildUpon().appendPath("state_id").appendPath(String.valueOf(stateId)).build();
         }
     }
 
@@ -116,8 +118,9 @@ public class KasebContract {
         public static final String COLUMN_STATE_POINTER = "state_pointer";
 
         //Defining Uri Maker functions : content://AUTHORITY/state/id
-        public static Uri buildStateUri(long id){
-            return ContentUris.withAppendedId(CONTENT_URI, id);}
+        public static Uri buildStateUri(long id) {
+            return ContentUris.withAppendedId(CONTENT_URI, id);
+        }
     }
 
     public static final class Sales implements BaseColumns {
@@ -137,11 +140,13 @@ public class KasebContract {
 
 
         //Defining Uri Maker functions : content://AUTHORITY/Sales/id
-        public static Uri buildSalesUri(long id){
-            return ContentUris.withAppendedId(CONTENT_URI, id);}
+        public static Uri buildSalesUri(long id) {
+            return ContentUris.withAppendedId(CONTENT_URI, id);
+        }
+
         //defining uri for sale of a customer : content://AUTHORITY/Sales/customer_Id
-        public static Uri customerSales(long customerId){
-            return CONTENT_URI.buildUpon().appendPath(String.valueOf(customerId)).build();
+        public static Uri customerSales(long customerId) {
+            return CONTENT_URI.buildUpon().appendPath("customer_id").appendPath(String.valueOf(customerId)).build();
         }
     }
 
@@ -167,15 +172,18 @@ public class KasebContract {
         public static final String COLUMN_IS_BALANCED = "is_balanced";
 
         //Defining Uri Maker functions : content://AUTHORITY/DetailSale/id
-        public static Uri buildDetailSaleUri(long id){
-            return ContentUris.withAppendedId(CONTENT_URI, id);}
-        // Defining Uri for DetailSaleOf a Sale cursor dir??? : content://AUTHORITY/DetailSale/sale_id
-        public static Uri saleDetailSale(long saleId){
-            return CONTENT_URI.buildUpon().appendPath(String.valueOf(saleId)).build();
+        public static Uri buildDetailSaleUri(long id) {
+            return ContentUris.withAppendedId(CONTENT_URI, id);
         }
+
+        // Defining Uri for DetailSaleOf a Sale cursor dir??? : content://AUTHORITY/DetailSale/sale_id
+        public static Uri saleDetailSale(long saleId) {
+            return CONTENT_URI.buildUpon().appendPath("sale_id").appendPath(String.valueOf(saleId)).build();
+        }
+
         //Defineing Uri for DetailSales Which are balance or not,cursor dir Content://AUTHORITY/DetailSale/is_Balanced/isBalanced
-        public static Uri isBalanceDetailSale(Boolean isBalance){
-            return CONTENT_URI.buildUpon().appendPath("is_balanced").appendPath(String.valueOf(isBalance)).build();
+        public static Uri isBalanceDetailSale(Boolean isBalance) {
+            return CONTENT_URI.buildUpon().appendPath("is_balanced").appendPath(String.valueOf((isBalance ? 1 : 0))).build();
         }
     }
 
@@ -196,15 +204,18 @@ public class KasebContract {
         public static final String COLUMN_AMOUNT = "amount";
 
         //Defining Uri Maker functions : content://AUTHORITY/DetailSalePayments/id
-        public static Uri buildDetailSalePaymentsUri(long id){
-            return ContentUris.withAppendedId(CONTENT_URI, id);}
-        //Defining Uri for products of a detailsale cursor_dir: content://AUTHORITY/DetailSalePayments/detail_sale_id
-        public static Uri paymentOfDetailSale(long detailSaleId){
-            return CONTENT_URI.buildUpon().appendPath(String.valueOf(detailSaleId)).build();
+        public static Uri buildDetailSalePaymentsUri(long id) {
+            return ContentUris.withAppendedId(CONTENT_URI, id);
         }
+
+        //Defining Uri for products of a detailsale cursor_dir: content://AUTHORITY/DetailSalePayments/detail_sale_id
+        public static Uri paymentOfDetailSale(long detailSaleId) {
+            return CONTENT_URI.buildUpon().appendPath("detail_sale_id").appendPath(String.valueOf(detailSaleId)).build();
+        }
+
         //Define uri for payment by type : content://AUTHORITY/DetailSalePayments/payment_methods/payment_method_id
-        public static Uri paymentsByMethod(long paymentMethodId){
-            return CONTENT_URI.buildUpon().appendPath(PATH_PAYMENT_METHODS).appendPath(String.valueOf(paymentMethodId)).build();
+        public static Uri paymentsByMethod(long paymentMethodId) {
+            return CONTENT_URI.buildUpon().appendPath("payment_method_id").appendPath(String.valueOf(paymentMethodId)).build();
         }
     }
 
@@ -225,11 +236,13 @@ public class KasebContract {
         public static final String COLUMN_AMOUNT = "amount";
 
         //Defining Uri Maker functions cursor_dir : content://AUTHORITY/DetailSaleProducts/id
-        public static Uri buildDetailSaleProducts(long id){
-            return ContentUris.withAppendedId(CONTENT_URI, id);}
+        public static Uri buildDetailSaleProducts(long id) {
+            return ContentUris.withAppendedId(CONTENT_URI, id);
+        }
+
         //Defining Uri for products of a detailsale cursor_dir: content://AUTHORITY/DetailSaleProducts/detail_sale_id
-        public static Uri productsOfDetailSale(long detailSaleId){
-            return CONTENT_URI.buildUpon().appendPath(String.valueOf(detailSaleId)).build();
+        public static Uri productsOfDetailSale(long detailSaleId) {
+            return CONTENT_URI.buildUpon().appendPath("detail_sale_id").appendPath(String.valueOf(detailSaleId)).build();
         }
     }
 
@@ -249,15 +262,18 @@ public class KasebContract {
         public static final String COLUMN_AMOUNT = "amount";
 
         //Defining Uri Maker functions : content://AUTHORITY/DetailSaleTaxes/id
-        public static Uri buildDetailSaleTaxesUri(long id){
-            return ContentUris.withAppendedId(CONTENT_URI, id);}
-        //Uri for taxes in detail factor: content://authority/detail_sale_taxes/detail_sale_id
-        public static Uri taxOfDetailSale(long detailSaleId){
-            return CONTENT_URI.buildUpon().appendPath(String.valueOf(detailSaleId)).build();
+        public static Uri buildDetailSaleTaxesUri(long id) {
+            return ContentUris.withAppendedId(CONTENT_URI, id);
         }
+
+        //Uri for taxes in detail factor: content://authority/detail_sale_taxes/detail_sale_id
+        public static Uri taxOfDetailSale(long detailSaleId) {
+            return CONTENT_URI.buildUpon().appendPath("detail_sale_id").appendPath(String.valueOf(detailSaleId)).build();
+        }
+
         //Uri for taxes by type : content://authority/detail_sale_taxes/tax_types/tax_type=type
-        public static Uri taxOfDetailSaleByType(long taxTypeId){
-            return CONTENT_URI.buildUpon().appendPath(PATH_TAX_TYPES).appendPath(String.valueOf(taxTypeId)).build();
+        public static Uri taxOfDetailSaleByType(long taxTypeId) {
+            return CONTENT_URI.buildUpon().appendPath("tax_type_id").appendPath(String.valueOf(taxTypeId)).build();
         }
     }
 
@@ -275,8 +291,9 @@ public class KasebContract {
         public static final String COLUMN_PAYMENT_METHOD_POINTER = "payment_method_pointer";
 
         //Defining Uri Maker functions : content://AUTHORITY/PaymentMethods/id
-        public static Uri buildPaymentMethodsUri(long id){
-            return ContentUris.withAppendedId(CONTENT_URI, id);}
+        public static Uri buildPaymentMethodsUri(long id) {
+            return ContentUris.withAppendedId(CONTENT_URI, id);
+        }
     }
 
     public static final class TaxTypes implements BaseColumns {
@@ -293,8 +310,9 @@ public class KasebContract {
         public static final String COLUMN_TAX_TYPE_POINTER = "tax_type_pointer";
 
         //Defining Uri Maker functions : content://AUTHORITY/tax_types/id
-        public static Uri buildTaxTypesUri(long id){
-            return ContentUris.withAppendedId(CONTENT_URI, id);}
+        public static Uri buildTaxTypesUri(long id) {
+            return ContentUris.withAppendedId(CONTENT_URI, id);
+        }
     }
 
     public static final class Products implements BaseColumns {
@@ -310,14 +328,13 @@ public class KasebContract {
         public static final String TABLE_NAME = "products";
         public static final String COLUMN_PRODUCT_NAME = "product_name";
         public static final String COLUMN_PRODUCT_CODE = "product_code";
-        public static final String COLUMN_UNIT= "unit";
+        public static final String COLUMN_UNIT = "unit";
         public static final String COLUMN_DESCRIPTION = "description";
 
-
         //Defining Uri Maker functions : content://AUTHORITY/products/id
-        public static Uri buildProductsUri(long id){
-            return ContentUris.withAppendedId(CONTENT_URI, id);}
-
+        public static Uri buildProductsUri(long id) {
+            return ContentUris.withAppendedId(CONTENT_URI, id);
+        }
     }
 
     public static final class ProductHistory implements BaseColumns {
@@ -333,16 +350,18 @@ public class KasebContract {
         public static final String TABLE_NAME = "product_history";
         public static final String COLUMN_PRODUCT_ID = "product_id";
         public static final String COLUMN_COST = "cost";
-        public static final String COLUMN_QUANTITY= "quantity";
+        public static final String COLUMN_QUANTITY = "quantity";
         public static final String COLUMN_SALE_PRICE = "sale_price";
         public static final String COLUMN_DATE = "date";
 
         //Defining Uri Maker functions : content://AUTHORITY/product_history/id
-        public static Uri buildProductHistoryUri(long id){
-            return ContentUris.withAppendedId(CONTENT_URI, id);}
+        public static Uri buildProductHistoryUri(long id) {
+            return ContentUris.withAppendedId(CONTENT_URI, id);
+        }
+
         //Definig uri for  query of specific product histories content://AUTHORITY/product_history/product_id
-        public static Uri aProductHistory(long productId){
-            return CONTENT_URI.buildUpon().appendPath(String.valueOf(productId)).build();
+        public static Uri aProductHistory(long productId) {
+            return CONTENT_URI.buildUpon().appendPath("product_id").appendPath(String.valueOf(productId)).build();
         }
     }
 
@@ -359,18 +378,20 @@ public class KasebContract {
         public static final String TABLE_NAME = "costs";
         public static final String COLUMN_COST_NAME = "name";
         public static final String COLUMN_COST_CODE = "code";
-        public static final String COLUMN_AMOUNT= "amount";
-        public static final String COLUMN_COST_TYPE_ID= "cost_type_id";
-        public static final String COLUMN_DATE= "date";
+        public static final String COLUMN_AMOUNT = "amount";
+        public static final String COLUMN_COST_TYPE_ID = "cost_type_id";
+        public static final String COLUMN_DATE = "date";
         public static final String COLUMN_DESCRIPTION = "description";
 
 
         //Defining Uri Maker functions : content://AUTHORITY/DetailSale/id
-        public static Uri buildCostsUri(long id){
-            return ContentUris.withAppendedId(CONTENT_URI, id);}
+        public static Uri buildCostsUri(long id) {
+            return ContentUris.withAppendedId(CONTENT_URI, id);
+        }
+
         //define Uri to query cost by cost types content://AUTHORITY/DetailSale/cost_type_id
-        public static Uri costsByType(long costTypeID){
-            return CONTENT_URI.buildUpon().appendPath(String.valueOf(costTypeID)).build();
+        public static Uri costsByType(long costTypeID) {
+            return CONTENT_URI.buildUpon().appendPath("cost_type_id").appendPath(String.valueOf(costTypeID)).build();
         }
     }
 
@@ -388,10 +409,8 @@ public class KasebContract {
         public static final String COLUMN_COST_TYPE_POINTER = "cost_type_pointer";
 
         //Defining Uri Maker functions : content://AUTHORITY/cost_types/id
-        public static Uri buildCostTypesUri(long id){
-            return ContentUris.withAppendedId(CONTENT_URI, id);}
+        public static Uri buildCostTypesUri(long id) {
+            return ContentUris.withAppendedId(CONTENT_URI, id);
+        }
     }
-
-
-
 }
