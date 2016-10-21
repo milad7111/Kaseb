@@ -25,12 +25,12 @@ import static mjkarbasian.moshtarimadar.helper.Samples.setCostNames;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class CostsFragment extends Fragment {
+public class CostsList extends Fragment {
     CostAdapter mCostAdapter;
     ListView mListView;
 
 
-    public CostsFragment() {
+    public CostsList() {
     }
 
     @Override

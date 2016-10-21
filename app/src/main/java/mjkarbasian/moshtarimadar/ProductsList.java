@@ -15,11 +15,11 @@ import mjkarbasian.moshtarimadar.helper.Samples;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class ProductsFragment extends Fragment {
+public class ProductsList extends Fragment {
 
     ProductAdapter mProductAdapter;
     ListView mListView;
-    public ProductsFragment() {
+    public ProductsList() {
     }
 
     @Override

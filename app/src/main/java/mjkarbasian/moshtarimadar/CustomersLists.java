@@ -14,11 +14,11 @@ import mjkarbasian.moshtarimadar.adapters.CustomerAdapter;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class CustomersFragment extends Fragment {
+public class CustomersLists extends Fragment {
 
     CustomerAdapter mCustomerAdapter;
     ListView mListView;
-    public CustomersFragment() {
+    public CustomersLists() {
     }
 
     @Override
