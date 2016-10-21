@@ -11,7 +11,12 @@ import android.net.Uri;
 import android.test.AndroidTestCase;
 import android.util.Log;
 
+import java.util.Date;
+
 import mjkarbasian.moshtarimadar.Tool.TestUtilities;
+import mjkarbasian.moshtarimadar.adapters.DetailSalePayment;
+import mjkarbasian.moshtarimadar.adapters.DetailSaleTax;
+import mjkarbasian.moshtarimadar.helper.Utility;
 
 import static mjkarbasian.moshtarimadar.Data.KasebContract.*;
 
@@ -374,13 +379,16 @@ public class TestKasebProvider extends AndroidTestCase {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         ContentValues testValues;
 
+        TestUtilities.TestContentObserver observer = TestUtilities.getTestContentObserver();
+        ContentValues[] bulkInsertContentValues;
+
         //region 1 State table
         testValues = TestUtilities.createStateValues();
         long stateRowId = db.insert(KasebContract.State.TABLE_NAME, null, testValues);
         assertTrue("Unable to insert -State table- row", stateRowId != -1);
 
         Cursor stateCursor = mContext.getContentResolver().query(
-                KasebContract.State.CONTENT_URI,
+                KasebContract.State.buildStateUri(stateRowId),
                 null,
                 null,
                 null,
@@ -394,6 +402,7 @@ public class TestKasebProvider extends AndroidTestCase {
                 stateCursor, testValues, KasebContract.State.TABLE_NAME);
 
         stateCursor.close();
+        deleteAllRecordsFromProvider();
         //endregion
 
         //region 2 CostTypes table
@@ -402,7 +411,7 @@ public class TestKasebProvider extends AndroidTestCase {
         assertTrue("Unable to insert -CostTypes table- row", costTypesRowId != -1);
 
         Cursor costTypesCursor = mContext.getContentResolver().query(
-                KasebContract.CostTypes.CONTENT_URI,
+                KasebContract.CostTypes.buildCostTypesUri(costTypesRowId),
                 null,
                 null,
                 null,
@@ -416,6 +425,7 @@ public class TestKasebProvider extends AndroidTestCase {
                 costTypesCursor, testValues, KasebContract.CostTypes.TABLE_NAME);
 
         costTypesCursor.close();
+        deleteAllRecordsFromProvider();
         //endregion
 
         //region 3 Customers table
@@ -424,7 +434,7 @@ public class TestKasebProvider extends AndroidTestCase {
         assertTrue("Unable to insert -Customers table- row", customersRowId != -1);
 
         Cursor customersCursor = mContext.getContentResolver().query(
-                KasebContract.Customers.CONTENT_URI,
+                KasebContract.Customers.buildCustomerUri(customersRowId),
                 null,
                 null,
                 null,
@@ -438,6 +448,7 @@ public class TestKasebProvider extends AndroidTestCase {
                 customersCursor, testValues, KasebContract.Customers.TABLE_NAME);
 
         customersCursor.close();
+        deleteAllRecordsFromProvider();
         //endregion
 
         //region 4 Costs table
@@ -446,7 +457,7 @@ public class TestKasebProvider extends AndroidTestCase {
         assertTrue("Unable to insert -Costs table- row", costsRowId != -1);
 
         Cursor costsCursor = mContext.getContentResolver().query(
-                KasebContract.Costs.CONTENT_URI,
+                KasebContract.Costs.buildCostsUri(costsRowId),
                 null,
                 null,
                 null,
@@ -460,6 +471,7 @@ public class TestKasebProvider extends AndroidTestCase {
                 costsCursor, testValues, KasebContract.Costs.TABLE_NAME);
 
         costsCursor.close();
+        deleteAllRecordsFromProvider();
         //endregion
 
         //region 5 PaymentMethods table
@@ -468,7 +480,7 @@ public class TestKasebProvider extends AndroidTestCase {
         assertTrue("Unable to insert -PaymentMethods table- row", paymentMethodsRowId != -1);
 
         Cursor paymentMethodsCursor = mContext.getContentResolver().query(
-                KasebContract.PaymentMethods.CONTENT_URI,
+                KasebContract.PaymentMethods.buildPaymentMethodsUri(paymentMethodsRowId),
                 null,
                 null,
                 null,
@@ -482,6 +494,7 @@ public class TestKasebProvider extends AndroidTestCase {
                 paymentMethodsCursor, testValues, KasebContract.PaymentMethods.TABLE_NAME);
 
         paymentMethodsCursor.close();
+        deleteAllRecordsFromProvider();
         //endregion
 
         //region 6 TaxTypes table
@@ -490,7 +503,7 @@ public class TestKasebProvider extends AndroidTestCase {
         assertTrue("Unable to insert -TaxTypes table- row", taxTypesRowId != -1);
 
         Cursor taxTypesCursor = mContext.getContentResolver().query(
-                KasebContract.TaxTypes.CONTENT_URI,
+                KasebContract.TaxTypes.buildTaxTypesUri(taxTypesRowId),
                 null,
                 null,
                 null,
@@ -504,6 +517,7 @@ public class TestKasebProvider extends AndroidTestCase {
                 taxTypesCursor, testValues, KasebContract.TaxTypes.TABLE_NAME);
 
         taxTypesCursor.close();
+        deleteAllRecordsFromProvider();
         //endregion
 
         //region 7 Products table
@@ -512,7 +526,7 @@ public class TestKasebProvider extends AndroidTestCase {
         assertTrue("Unable to insert -Products table- row", productsRowId != -1);
 
         Cursor productsCursor = mContext.getContentResolver().query(
-                KasebContract.Products.CONTENT_URI,
+                KasebContract.Products.buildProductsUri(productsRowId),
                 null,
                 null,
                 null,
@@ -526,6 +540,7 @@ public class TestKasebProvider extends AndroidTestCase {
                 productsCursor, testValues, KasebContract.Products.TABLE_NAME);
 
         productsCursor.close();
+        deleteAllRecordsFromProvider();
         //endregion
 
         //region 8 Sales table
@@ -534,7 +549,7 @@ public class TestKasebProvider extends AndroidTestCase {
         assertTrue("Unable to insert -Sales table- row", salesRowId != -1);
 
         Cursor salesCursor = mContext.getContentResolver().query(
-                KasebContract.Sales.CONTENT_URI,
+                KasebContract.Sales.buildSalesUri(salesRowId),
                 null,
                 null,
                 null,
@@ -548,6 +563,7 @@ public class TestKasebProvider extends AndroidTestCase {
                 salesCursor, testValues, KasebContract.Sales.TABLE_NAME);
 
         salesCursor.close();
+        deleteAllRecordsFromProvider();
         //endregion
 
         //region 9 DetailSale table
@@ -556,7 +572,7 @@ public class TestKasebProvider extends AndroidTestCase {
         assertTrue("Unable to insert -DetailSale table- row", detailSaleRowId != -1);
 
         Cursor detailSaleCursor = mContext.getContentResolver().query(
-                KasebContract.DetailSale.CONTENT_URI,
+                KasebContract.DetailSale.buildDetailSaleUri(detailSaleRowId),
                 null,
                 null,
                 null,
@@ -570,6 +586,7 @@ public class TestKasebProvider extends AndroidTestCase {
                 detailSaleCursor, testValues, KasebContract.DetailSale.TABLE_NAME);
 
         detailSaleCursor.close();
+        deleteAllRecordsFromProvider();
         //endregion
 
         //region 10 DetailSalePayments table
@@ -578,7 +595,7 @@ public class TestKasebProvider extends AndroidTestCase {
         assertTrue("Unable to insert -DetailSalePayments table- row", detailSalePaymentsRowId != -1);
 
         Cursor detailSalePaymentsCursor = mContext.getContentResolver().query(
-                KasebContract.DetailSalePayments.CONTENT_URI,
+                KasebContract.DetailSalePayments.buildDetailSalePaymentsUri(detailSalePaymentsRowId),
                 null,
                 null,
                 null,
@@ -592,6 +609,7 @@ public class TestKasebProvider extends AndroidTestCase {
                 detailSalePaymentsCursor, testValues, KasebContract.DetailSalePayments.TABLE_NAME);
 
         detailSalePaymentsCursor.close();
+        deleteAllRecordsFromProvider();
         //endregion
 
         //region 11 ProductHistory table
@@ -600,7 +618,7 @@ public class TestKasebProvider extends AndroidTestCase {
         assertTrue("Unable to insert -ProductHistory table- row", productHistoryRowId != -1);
 
         Cursor productHistoryCursor = mContext.getContentResolver().query(
-                KasebContract.ProductHistory.CONTENT_URI,
+                KasebContract.ProductHistory.buildProductHistoryUri(productHistoryRowId),
                 null,
                 null,
                 null,
@@ -614,6 +632,7 @@ public class TestKasebProvider extends AndroidTestCase {
                 productHistoryCursor, testValues, KasebContract.ProductHistory.TABLE_NAME);
 
         productHistoryCursor.close();
+        deleteAllRecordsFromProvider();
         //endregion
 
         //region 12 DetailSaleTaxes table
@@ -622,7 +641,7 @@ public class TestKasebProvider extends AndroidTestCase {
         assertTrue("Unable to insert -DetailSaleTaxes table- row", detailSaleTaxesRowId != -1);
 
         Cursor detailSaleTaxesCursor = mContext.getContentResolver().query(
-                KasebContract.DetailSaleTaxes.CONTENT_URI,
+                KasebContract.DetailSaleTaxes.buildDetailSaleTaxesUri(detailSaleTaxesRowId),
                 null,
                 null,
                 null,
@@ -636,6 +655,7 @@ public class TestKasebProvider extends AndroidTestCase {
                 detailSaleTaxesCursor, testValues, KasebContract.DetailSaleTaxes.TABLE_NAME);
 
         detailSaleTaxesCursor.close();
+        deleteAllRecordsFromProvider();
         //endregion
 
         //region 13 DetailSaleProducts table
@@ -644,7 +664,7 @@ public class TestKasebProvider extends AndroidTestCase {
         assertTrue("Unable to insert -DetailSaleProducts table- row", detailSaleProductsRowId != -1);
 
         Cursor detailSaleProductsCursor = mContext.getContentResolver().query(
-                KasebContract.DetailSaleProducts.CONTENT_URI,
+                KasebContract.DetailSaleProducts.buildDetailSaleProducts(detailSaleProductsRowId),
                 null,
                 null,
                 null,
@@ -658,6 +678,398 @@ public class TestKasebProvider extends AndroidTestCase {
                 detailSaleProductsCursor, testValues, KasebContract.DetailSaleProducts.TABLE_NAME);
 
         detailSaleProductsCursor.close();
+        deleteAllRecordsFromProvider();
+        //endregion
+
+        //region 14 Other Query : CUSTOMER_BY_STATE
+        deleteAllRecordsFromProvider();
+        testValues = TestUtilities.createStateValues();
+        long newStateRowId = db.insert(KasebContract.State.TABLE_NAME, null, testValues);
+
+        bulkInsertContentValues = createBulkInsertCustomersByStateIdValues(newStateRowId);
+        mContext.getContentResolver().registerContentObserver(Customers.CONTENT_URI, true, observer);
+        int customersID = mContext.getContentResolver().bulkInsert(Customers.CONTENT_URI, bulkInsertContentValues);
+
+        observer.waitForNotificationOrFail();
+        mContext.getContentResolver().unregisterContentObserver(observer);
+
+        assertEquals("Bulk Insertion with StateId failed -Customers/State table-", BULK_INSERT_RECORDS_TO_INSERT, customersID);
+
+        // A cursor is your primary interface to the query results.
+        Cursor customersWithIdCursor = mContext.getContentResolver().query(
+                Customers.stateCustomer(newStateRowId),
+                null, // leaving "columns" null just returns all the columns.
+                null, // columns for "where" clause
+                null, // values for "where" clause
+                null  // sort order
+        );
+
+        Log.i(LOG_TAG, "this is my log " + customersWithIdCursor.toString());
+        assertNotNull("customersWithIdCursor is Null", customersWithIdCursor);
+
+        // we should have as many records in the database as we've inserted
+        assertEquals("Number of Inserted Rows is not " + BULK_INSERT_RECORDS_TO_INSERT
+                        + " --> \nresult : Query failed - Customers/State table - ", BULK_INSERT_RECORDS_TO_INSERT,
+                customersWithIdCursor.getCount());
+
+        customersWithIdCursor.close();
+        deleteAllRecordsFromProvider();
+        //endregion
+
+        //region 15 Other Query : SALES_BY_CUSTOMER
+        deleteAllRecordsFromProvider();
+        testValues = TestUtilities.createStateValues();
+        long newStateRowId1 = db.insert(KasebContract.State.TABLE_NAME, null, testValues);
+
+        testValues = TestUtilities.createCustomersValues(newStateRowId1);
+        long newCustomerRowId = db.insert(KasebContract.State.TABLE_NAME, null, testValues);
+
+        bulkInsertContentValues = createBulkInsertSalesByCustomerIdValues(newCustomerRowId);
+        mContext.getContentResolver().registerContentObserver(Sales.CONTENT_URI, true, observer);
+        int salesId = mContext.getContentResolver().bulkInsert(Sales.CONTENT_URI, bulkInsertContentValues);
+
+        observer.waitForNotificationOrFail();
+        mContext.getContentResolver().unregisterContentObserver(observer);
+
+        assertEquals("Bulk Insertion with CustomerId failed -Sales/Customer table-", BULK_INSERT_RECORDS_TO_INSERT, salesId);
+
+        // A cursor is your primary interface to the query results.
+        Cursor saleswithIdCursor = mContext.getContentResolver().query(
+                Sales.customerSales(newCustomerRowId),
+                null, // leaving "columns" null just returns all the columns.
+                null, // columns for "where" clause
+                null, // values for "where" clause
+                null  // sort order
+        );
+
+        Log.i(LOG_TAG, "this is my log " + saleswithIdCursor.toString());
+        assertNotNull("saleswithIdCursor is Null", saleswithIdCursor);
+
+        // we should have as many records in the database as we've inserted
+        assertEquals("Number of Inserted Rows is not " + BULK_INSERT_RECORDS_TO_INSERT
+                        + " --> \nresult : Query failed - Sales/Customer table - ", BULK_INSERT_RECORDS_TO_INSERT,
+                saleswithIdCursor.getCount());
+
+        saleswithIdCursor.close();
+        deleteAllRecordsFromProvider();
+        //endregion
+
+        //region 16 Other Query : DETAIL_SALE_BY_IS_BALANCED
+        deleteAllRecordsFromProvider();
+
+        bulkInsertContentValues = createBulkInsertDetailSaleWithIsBalancedValues();
+        mContext.getContentResolver().registerContentObserver(DetailSale.CONTENT_URI, true, observer);
+        int detailSaleId = mContext.getContentResolver().bulkInsert(DetailSale.CONTENT_URI, bulkInsertContentValues);
+
+        observer.waitForNotificationOrFail();
+        mContext.getContentResolver().unregisterContentObserver(observer);
+
+        assertEquals("Bulk Insertion with IsBalanced failed -DetailSale:IsBalanced table-", BULK_INSERT_RECORDS_TO_INSERT, detailSaleId);
+
+        // A cursor is your primary interface to the query results.
+        Cursor detailSalewithIsBalancedCursor = mContext.getContentResolver().query(
+                DetailSale.isBalanceDetailSale(true),
+                null, // leaving "columns" null just returns all the columns.
+                null, // columns for "where" clause
+                null, // values for "where" clause
+                null  // sort order
+        );
+
+        Log.i(LOG_TAG, "this is my log " + detailSalewithIsBalancedCursor.toString());
+        assertNotNull("detailSalewithIsBalancedCursor is Null", detailSalewithIsBalancedCursor);
+
+        // we should have as many records in the database as we've inserted
+        assertEquals("Number of Inserted Rows is not " + BULK_INSERT_RECORDS_TO_INSERT
+                        + " --> \nresult : Query failed - DetailSale:IsBalanced table - ", BULK_INSERT_RECORDS_TO_INSERT,
+                detailSalewithIsBalancedCursor.getCount());
+
+        detailSalewithIsBalancedCursor.close();
+        deleteAllRecordsFromProvider();
+        //endregion
+
+        //region 17 Other Query : PRODUCT_HISTORY_BY_PRODUCT_ID
+        deleteAllRecordsFromProvider();
+
+        testValues = TestUtilities.createProductsValues();
+        long newProductsRowId = db.insert(KasebContract.Products.TABLE_NAME, null, testValues);
+
+        bulkInsertContentValues = createBulkInsertProductHistoryByProductsIdValues(newProductsRowId);
+        mContext.getContentResolver().registerContentObserver(ProductHistory.CONTENT_URI, true, observer);
+        int productHistoryId = mContext.getContentResolver().bulkInsert(ProductHistory.CONTENT_URI, bulkInsertContentValues);
+
+        observer.waitForNotificationOrFail();
+        mContext.getContentResolver().unregisterContentObserver(observer);
+
+        assertEquals("Bulk Insertion with productHistoryId failed -ProductHistory/Products table-", BULK_INSERT_RECORDS_TO_INSERT, productHistoryId);
+
+        // A cursor is your primary interface to the query results.
+        Cursor productHistorywithIdCursor = mContext.getContentResolver().query(
+                ProductHistory.aProductHistory(newProductsRowId),
+                null, // leaving "columns" null just returns all the columns.
+                null, // columns for "where" clause
+                null, // values for "where" clause
+                null  // sort order
+        );
+
+        Log.i(LOG_TAG, "this is my log " + productHistorywithIdCursor.toString());
+        assertNotNull("productHistorywithIdCursor is Null", productHistorywithIdCursor);
+
+        // we should have as many records in the database as we've inserted
+        assertEquals("Number of Inserted Rows is not " + BULK_INSERT_RECORDS_TO_INSERT
+                        + " --> \nresult : Query failed - ProductHistory/Products table - ", BULK_INSERT_RECORDS_TO_INSERT,
+                productHistorywithIdCursor.getCount());
+
+        productHistorywithIdCursor.close();
+        deleteAllRecordsFromProvider();
+        //endregion
+
+        //region 18 Other Query : DETAIL_SALE_PRODUCT_BY_DETAIL_SALE_ID
+        deleteAllRecordsFromProvider();
+
+        testValues = TestUtilities.createStateValues();
+        long newStateRowId2 = db.insert(KasebContract.State.TABLE_NAME, null, testValues);
+
+        testValues = TestUtilities.createCustomersValues(newStateRowId2);
+        long newCustomersRowId = db.insert(KasebContract.Customers.TABLE_NAME, null, testValues);
+
+        testValues = TestUtilities.createSalesValues(newCustomersRowId);
+        long newSalesRowId = db.insert(KasebContract.Sales.TABLE_NAME, null, testValues);
+
+        testValues = TestUtilities.createDetailSaleValues(newSalesRowId);
+        long newDetailSaleRowId = db.insert(KasebContract.DetailSale.TABLE_NAME, null, testValues);
+
+        bulkInsertContentValues = createBulkInsertDetailSaleProductsByDetailSaleIdValues(newDetailSaleRowId);
+        mContext.getContentResolver().registerContentObserver(DetailSaleProducts.CONTENT_URI, true, observer);
+        int detailSaleProductId = mContext.getContentResolver().bulkInsert(DetailSaleProducts.CONTENT_URI, bulkInsertContentValues);
+
+        observer.waitForNotificationOrFail();
+        mContext.getContentResolver().unregisterContentObserver(observer);
+
+        assertEquals("Bulk Insertion with detailSaleProductId failed -DetailSaleProducts/DetailSale table-",
+                BULK_INSERT_RECORDS_TO_INSERT, detailSaleProductId);
+
+        // A cursor is your primary interface to the query results.
+        Cursor detailSaleProductswithDetailSaleIdCursor = mContext.getContentResolver().query(
+                DetailSaleProducts.productsOfDetailSale(newDetailSaleRowId),
+                null, // leaving "columns" null just returns all the columns.
+                null, // columns for "where" clause
+                null, // values for "where" clause
+                null  // sort order
+        );
+
+        Log.i(LOG_TAG, "this is my log " + detailSaleProductswithDetailSaleIdCursor.toString());
+        assertNotNull("detailSaleProductswithDetailSaleIdCursor is Null", detailSaleProductswithDetailSaleIdCursor);
+
+        // we should have as many records in the database as we've inserted
+        assertEquals("Number of Inserted Rows is not " + BULK_INSERT_RECORDS_TO_INSERT
+                        + " --> \nresult : Query failed - DetailSaleProducts/DetailSale - ", BULK_INSERT_RECORDS_TO_INSERT,
+                detailSaleProductswithDetailSaleIdCursor.getCount());
+
+        detailSaleProductswithDetailSaleIdCursor.close();
+        deleteAllRecordsFromProvider();
+        //endregion
+
+        //region 19 Other Query : DETAIL_SALE_PAYMENT_BY_DETAIL_SALE_ID
+        deleteAllRecordsFromProvider();
+
+        testValues = TestUtilities.createStateValues();
+        long newStateRowId3 = db.insert(KasebContract.State.TABLE_NAME, null, testValues);
+
+        testValues = TestUtilities.createCustomersValues(newStateRowId3);
+        long newCustomersRowId1 = db.insert(KasebContract.Customers.TABLE_NAME, null, testValues);
+
+        testValues = TestUtilities.createSalesValues(newCustomersRowId1);
+        long newSalesRowId1 = db.insert(KasebContract.Sales.TABLE_NAME, null, testValues);
+
+        testValues = TestUtilities.createDetailSaleValues(newSalesRowId1);
+        long newDetailSaleRowId1 = db.insert(KasebContract.DetailSale.TABLE_NAME, null, testValues);
+
+        bulkInsertContentValues = createBulkInsertDetailSalePaymentsByDetailSaleIdValues(newDetailSaleRowId1);
+        mContext.getContentResolver().registerContentObserver(DetailSalePayments.CONTENT_URI, true, observer);
+        int detailSalePaymentId = mContext.getContentResolver().bulkInsert(DetailSalePayments.CONTENT_URI, bulkInsertContentValues);
+
+        observer.waitForNotificationOrFail();
+        mContext.getContentResolver().unregisterContentObserver(observer);
+
+        assertEquals("Bulk Insertion with detailSaleProductId failed -DetailSalePayments/DetailSale table-",
+                BULK_INSERT_RECORDS_TO_INSERT, detailSalePaymentId);
+
+        // A cursor is your primary interface to the query results.
+        Cursor detailSalePaymentswithDetailSaleIdCursor = mContext.getContentResolver().query(
+                DetailSalePayments.paymentOfDetailSale(newDetailSaleRowId1),
+                null, // leaving "columns" null just returns all the columns.
+                null, // columns for "where" clause
+                null, // values for "where" clause
+                null  // sort order
+        );
+
+        Log.i(LOG_TAG, "this is my log " + detailSalePaymentswithDetailSaleIdCursor.toString());
+        assertNotNull("detailSalePaymentswithDetailSaleIdCursor is Null", detailSalePaymentswithDetailSaleIdCursor);
+
+        // we should have as many records in the database as we've inserted
+        assertEquals("Number of Inserted Rows is not " + BULK_INSERT_RECORDS_TO_INSERT
+                        + " --> \nresult : Query failed - DetailSalePayments/DetailSale - ", BULK_INSERT_RECORDS_TO_INSERT,
+                detailSalePaymentswithDetailSaleIdCursor.getCount());
+
+        detailSalePaymentswithDetailSaleIdCursor.close();
+        deleteAllRecordsFromProvider();
+        //endregion
+
+        //region 20 Other Query : DETAIL_SALE_PAYMENT_BY_PAYMENT_METHOD
+        deleteAllRecordsFromProvider();
+
+        testValues = TestUtilities.createPaymentMethodsValues();
+        long newPaymentMethodRowId = db.insert(KasebContract.PaymentMethods.TABLE_NAME, null, testValues);
+
+        bulkInsertContentValues = createBulkInsertDetailSalePaymentsByPaymentMethodValues(newPaymentMethodRowId);
+        mContext.getContentResolver().registerContentObserver(DetailSalePayments.CONTENT_URI, true, observer);
+        int detailSalePaymentId1 = mContext.getContentResolver().bulkInsert(DetailSalePayments.CONTENT_URI, bulkInsertContentValues);
+
+        observer.waitForNotificationOrFail();
+        mContext.getContentResolver().unregisterContentObserver(observer);
+
+        assertEquals("Bulk Insertion with detailSaleProductId failed -DetailSalePayments/DetailSale table-",
+                BULK_INSERT_RECORDS_TO_INSERT, detailSalePaymentId1);
+
+        // A cursor is your primary interface to the query results.
+        Cursor detailSalePaymentswithPaymentMethodIdCursor = mContext.getContentResolver().query(
+                DetailSalePayments.paymentsByMethod(newDetailSaleRowId1),
+                null, // leaving "columns" null just returns all the columns.
+                null, // columns for "where" clause
+                null, // values for "where" clause
+                null  // sort order
+        );
+
+        Log.i(LOG_TAG, "this is my log " + detailSalePaymentswithPaymentMethodIdCursor.toString());
+        assertNotNull("detailSalePaymentswithPaymentMethodIdCursor is Null", detailSalePaymentswithPaymentMethodIdCursor);
+
+        // we should have as many records in the database as we've inserted
+        assertEquals("Number of Inserted Rows is not " + BULK_INSERT_RECORDS_TO_INSERT
+                        + " --> \nresult : Query failed - DetailSalePayments/DetailSale - ", BULK_INSERT_RECORDS_TO_INSERT,
+                detailSalePaymentswithPaymentMethodIdCursor.getCount());
+
+        detailSalePaymentswithPaymentMethodIdCursor.close();
+        deleteAllRecordsFromProvider();
+        //endregion
+
+        //region 21 Other Query : DETAIL_SALE_TAXES_BY_DETAIL_SALE_ID
+        deleteAllRecordsFromProvider();
+
+        testValues = TestUtilities.createStateValues();
+        long newStateRowId4 = db.insert(KasebContract.State.TABLE_NAME, null, testValues);
+
+        testValues = TestUtilities.createCustomersValues(newStateRowId4);
+        long newCustomersRowId2 = db.insert(KasebContract.Customers.TABLE_NAME, null, testValues);
+
+        testValues = TestUtilities.createSalesValues(newCustomersRowId2);
+        long newSalesRowId2 = db.insert(KasebContract.Sales.TABLE_NAME, null, testValues);
+
+        testValues = TestUtilities.createDetailSaleValues(newSalesRowId2);
+        long newDetailSaleRowId2 = db.insert(KasebContract.DetailSale.TABLE_NAME, null, testValues);
+
+        bulkInsertContentValues = createBulkInsertDetailSaleTaxesByDetailSaleIdValues(newDetailSaleRowId2);
+        mContext.getContentResolver().registerContentObserver(DetailSaleTaxes.CONTENT_URI, true, observer);
+        int detailSaleTaxesId = mContext.getContentResolver().bulkInsert(DetailSaleTaxes.CONTENT_URI, bulkInsertContentValues);
+
+        observer.waitForNotificationOrFail();
+        mContext.getContentResolver().unregisterContentObserver(observer);
+
+        assertEquals("Bulk Insertion with detailSaleProductId failed -DetailSaleTaxes/DetailSale table-",
+                BULK_INSERT_RECORDS_TO_INSERT, detailSaleTaxesId);
+
+        // A cursor is your primary interface to the query results.
+        Cursor detailSaleTaxeswithDetailSaleIdCursor = mContext.getContentResolver().query(
+                DetailSaleTaxes.taxOfDetailSale(newDetailSaleRowId2),
+                null, // leaving "columns" null just returns all the columns.
+                null, // columns for "where" clause
+                null, // values for "where" clause
+                null  // sort order
+        );
+
+        Log.i(LOG_TAG, "this is my log " + detailSaleTaxeswithDetailSaleIdCursor.toString());
+        assertNotNull("detailSaleTaxeswithDetailSaleIdCursor is Null", detailSaleTaxeswithDetailSaleIdCursor);
+
+        // we should have as many records in the database as we've inserted
+        assertEquals("Number of Inserted Rows is not " + BULK_INSERT_RECORDS_TO_INSERT
+                        + " --> \nresult : Query failed - DetailSaleTaxes/DetailSale - ", BULK_INSERT_RECORDS_TO_INSERT,
+                detailSaleTaxeswithDetailSaleIdCursor.getCount());
+
+        detailSaleTaxeswithDetailSaleIdCursor.close();
+        deleteAllRecordsFromProvider();
+        //endregion
+
+        //region 22 Other Query : DETAIL_SALE_TAXES_BY_TAX_TYPE
+        deleteAllRecordsFromProvider();
+
+        testValues = TestUtilities.createTaxTypesValues();
+        long newTaxTypesRowId = db.insert(KasebContract.TaxTypes.TABLE_NAME, null, testValues);
+
+        bulkInsertContentValues = createBulkInsertDetailSaleTaxesByTaxTypesValues(newTaxTypesRowId);
+        mContext.getContentResolver().registerContentObserver(DetailSaleTaxes.CONTENT_URI, true, observer);
+        int detailSaleTaxesId1 = mContext.getContentResolver().bulkInsert(DetailSaleTaxes.CONTENT_URI, bulkInsertContentValues);
+
+        observer.waitForNotificationOrFail();
+        mContext.getContentResolver().unregisterContentObserver(observer);
+
+        assertEquals("Bulk Insertion with detailSaleProductId failed -DetailSaleTaxes/TaxTypes table-",
+                BULK_INSERT_RECORDS_TO_INSERT, detailSaleTaxesId1);
+
+        // A cursor is your primary interface to the query results.
+        Cursor detailSaleTaxeswithTaxTypesIdCursor = mContext.getContentResolver().query(
+                DetailSaleTaxes.taxOfDetailSaleByType(newTaxTypesRowId),
+                null, // leaving "columns" null just returns all the columns.
+                null, // columns for "where" clause
+                null, // values for "where" clause
+                null  // sort order
+        );
+
+        Log.i(LOG_TAG, "this is my log " + detailSaleTaxeswithTaxTypesIdCursor.toString());
+        assertNotNull("detailSaleTaxeswithTaxTypesIdCursor is Null", detailSaleTaxeswithTaxTypesIdCursor);
+
+        // we should have as many records in the database as we've inserted
+        assertEquals("Number of Inserted Rows is not " + BULK_INSERT_RECORDS_TO_INSERT
+                        + " --> \nresult : Query failed - DetailSaleTaxes/TaxTypes - ", BULK_INSERT_RECORDS_TO_INSERT,
+                detailSaleTaxeswithTaxTypesIdCursor.getCount());
+
+        detailSaleTaxeswithTaxTypesIdCursor.close();
+        deleteAllRecordsFromProvider();
+        //endregion
+
+        //region 23 Other Query : COSTS_BY_TYPE
+        deleteAllRecordsFromProvider();
+
+        testValues = TestUtilities.createCostTypesValues();
+        long newCostTypesRowId = db.insert(KasebContract.CostTypes.TABLE_NAME, null, testValues);
+
+        bulkInsertContentValues = createBulkInsertCostsByTypesValues(newCostTypesRowId);
+        mContext.getContentResolver().registerContentObserver(Costs.CONTENT_URI, true, observer);
+        int costId = mContext.getContentResolver().bulkInsert(Costs.CONTENT_URI, bulkInsertContentValues);
+
+        observer.waitForNotificationOrFail();
+        mContext.getContentResolver().unregisterContentObserver(observer);
+
+        assertEquals("Bulk Insertion with detailSaleProductId failed -Costs/CostTypes table-",
+                BULK_INSERT_RECORDS_TO_INSERT, costId);
+
+        // A cursor is your primary interface to the query results.
+        Cursor costsWithCostTypesIdCursor = mContext.getContentResolver().query(
+                Costs.costsByType(newCostTypesRowId),
+                null, // leaving "columns" null just returns all the columns.
+                null, // columns for "where" clause
+                null, // values for "where" clause
+                null  // sort order
+        );
+
+        Log.i(LOG_TAG, "this is my log " + costsWithCostTypesIdCursor.toString());
+        assertNotNull("costsWithCostTypesIdCursor is Null", costsWithCostTypesIdCursor);
+
+        // we should have as many records in the database as we've inserted
+        assertEquals("Number of Inserted Rows is not " + BULK_INSERT_RECORDS_TO_INSERT
+                        + " --> \nresult : Query failed - Costs/CostTypes - ", BULK_INSERT_RECORDS_TO_INSERT,
+                costsWithCostTypesIdCursor.getCount());
+
+        costsWithCostTypesIdCursor.close();
+        deleteAllRecordsFromProvider();
         //endregion
 
         db.close();
@@ -1507,7 +1919,6 @@ public class TestKasebProvider extends AndroidTestCase {
         ContentValues testValuesCustomers = TestUtilities.createCustomersValues(stateRowId);
         long customersRowId = db.insert(KasebContract.Customers.TABLE_NAME, null, testValuesCustomers);
 
-
         ContentValues testValuesDetailSale = TestUtilities.createDetailSaleValues(customersRowId);
         long detailSaleRowId = db.insert(KasebContract.DetailSale.TABLE_NAME, null, testValuesDetailSale);
 
@@ -1564,7 +1975,6 @@ public class TestKasebProvider extends AndroidTestCase {
         ContentValues testValuesCustomers = TestUtilities.createCustomersValues(stateRowId);
         long customersRowId = db.insert(KasebContract.Customers.TABLE_NAME, null, testValuesCustomers);
 
-
         ContentValues testValuesDetailSale = TestUtilities.createDetailSaleValues(customersRowId);
         long detailSaleRowId = db.insert(KasebContract.DetailSale.TABLE_NAME, null, testValuesDetailSale);
 
@@ -1611,6 +2021,259 @@ public class TestKasebProvider extends AndroidTestCase {
             detailSaleProductsValues.put(DetailSaleProducts.COLUMN_DETAIL_SALE_ID, detailSaleRowId);
             detailSaleProductsValues.put(DetailSaleProducts.COLUMN_PRODUCT_ID, productsRowId);
             returnContentValues[i] = detailSaleProductsValues;
+        }
+        return returnContentValues;
+    }
+    //endregion
+
+    //region 14 Customers table With StateId
+    private ContentValues[] createBulkInsertCustomersByStateIdValues(long stateRowId) {
+
+        KasebDbHelper dbHelper = new KasebDbHelper(mContext);
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+        ContentValues[] returnContentValues = new ContentValues[BULK_INSERT_RECORDS_TO_INSERT];
+
+        for (int i = 0; i < BULK_INSERT_RECORDS_TO_INSERT; i++) {
+            ContentValues customersValues = new ContentValues();
+            customersValues.put(Customers.COLUMN_FIRST_NAME, "sample"+i);
+            customersValues.put(Customers.COLUMN_LAST_NAME, "sample");
+            customersValues.put(Customers.COLUMN_PHONE_MOBILE, "sample"+i);
+            customersValues.put(Customers.COLUMN_PHONE_WORK, "sample");
+            customersValues.put(Customers.COLUMN_PHONE_FAX, "sample");
+            customersValues.put(Customers.COLUMN_PHONE_OTHER, "sample");
+            customersValues.put(Customers.COLUMN_EMAIL, "sample");
+            customersValues.put(Customers.COLUMN_ADDRESS_COUNTRY, "sample");
+            customersValues.put(Customers.COLUMN_ADDRESS_CITY, "sample");
+            customersValues.put(Customers.COLUMN_ADDRESS_STREET, "sample");
+            customersValues.put(Customers.COLUMN_ADDRESS_POSTAL_CODE, "sample");
+            customersValues.put(Customers.COLUMN_DESCRIPTION, "sample");
+            customersValues.put(Customers.COLUMN_IS_DELETED, 0);
+            customersValues.put(Customers.COLUMN_STATE_ID, stateRowId);
+            returnContentValues[i] = customersValues;
+        }
+        return returnContentValues;
+    }
+    //endregion
+
+    //region 15 Other Query : SALES_BY_CUSTOMER
+    private ContentValues[] createBulkInsertSalesByCustomerIdValues(long customerId) {
+        KasebDbHelper dbHelper = new KasebDbHelper(mContext);
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+        ContentValues[] returnContentValues = new ContentValues[BULK_INSERT_RECORDS_TO_INSERT];
+
+        for (int i = 0; i < BULK_INSERT_RECORDS_TO_INSERT; i++) {
+            ContentValues salesValues = new ContentValues();
+            salesValues.put(Sales.COLUMN_IS_DELETED, 0);
+            salesValues.put(Sales.COLUMN_SALE_CODE, "sample"+i);
+            salesValues.put(Sales.COLUMN_CUSTOMER_ID, 100);
+            salesValues.put(Sales.COLUMN_CUSTOMER_ID, customerId);
+            returnContentValues[i] = salesValues;
+        }
+        return returnContentValues;
+    }
+    //endregion
+
+    //region 16 Other Query : DETAIL_SALE_BY_IS_BALANCED
+    private ContentValues[] createBulkInsertDetailSaleWithIsBalancedValues() {
+        KasebDbHelper dbHelper = new KasebDbHelper(mContext);
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+        ContentValues testValuesState = TestUtilities.createStateValues();
+        long stateRowId = db.insert(KasebContract.State.TABLE_NAME, null, testValuesState);
+
+        ContentValues testValuesCustomers = TestUtilities.createCustomersValues(stateRowId);
+        long customersRowId = db.insert(KasebContract.Customers.TABLE_NAME, null, testValuesCustomers);
+
+        long[] salesRowIdArray = new long[BULK_INSERT_RECORDS_TO_INSERT];
+
+        ContentValues testValuesSales;
+
+        for (int i = 0; i <BULK_INSERT_RECORDS_TO_INSERT; i++) {
+            testValuesSales = TestUtilities.createSalesValues(customersRowId);
+            salesRowIdArray[i] = db.insert(KasebContract.Sales.TABLE_NAME, null, testValuesSales);
+        }
+
+        ContentValues[] returnContentValues = new ContentValues[BULK_INSERT_RECORDS_TO_INSERT];
+
+        for (int i = 0; i < BULK_INSERT_RECORDS_TO_INSERT; i++) {
+            ContentValues detailSaleValues = new ContentValues();
+            detailSaleValues.put(DetailSale.COLUMN_DATE, "sample");
+            detailSaleValues.put(DetailSale.COLUMN_ITEMS_NUMBER, 100);
+            detailSaleValues.put(DetailSale.COLUMN_SUB_TOTAL, 100);
+            detailSaleValues.put(DetailSale.COLUMN_TOTAL_DISCOUNT, 100);
+            detailSaleValues.put(DetailSale.COLUMN_TOTAL_TAX, 100);
+            detailSaleValues.put(DetailSale.COLUMN_TOTAL_DUE, 100);
+            detailSaleValues.put(DetailSale.COLUMN_TOTAL_PAID, 100);
+            detailSaleValues.put(DetailSale.COLUMN_IS_BALANCED, 1);
+            detailSaleValues.put(DetailSale.COLUMN_SALE_ID, salesRowIdArray[i]);
+            returnContentValues[i] = detailSaleValues;
+        }
+        return returnContentValues;
+    }
+    //endregion
+
+    //region 17 Other Query : PRODUCT_HISTORY_BY_PRODUCT_ID
+    private ContentValues[] createBulkInsertProductHistoryByProductsIdValues(long prouctsId) {
+        KasebDbHelper dbHelper = new KasebDbHelper(mContext);
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+        ContentValues[] returnContentValues = new ContentValues[BULK_INSERT_RECORDS_TO_INSERT];
+
+        for (int i = 0; i < BULK_INSERT_RECORDS_TO_INSERT; i++) {
+            ContentValues productHistoryValues = new ContentValues();
+            productHistoryValues.put(ProductHistory.COLUMN_COST, 100);
+            productHistoryValues.put(ProductHistory.COLUMN_DATE, "sample");
+            productHistoryValues.put(ProductHistory.COLUMN_QUANTITY, 100);
+            productHistoryValues.put(ProductHistory.COLUMN_SALE_PRICE, 100);
+            productHistoryValues.put(ProductHistory.COLUMN_PRODUCT_ID, prouctsId);
+
+            returnContentValues[i] = productHistoryValues;
+        }
+        return returnContentValues;
+    }
+    //endregion
+
+    //region 18 Other Query : DETAIL_SALE_PRODUCT_BY_DETAIL_SALE_ID
+    private ContentValues[] createBulkInsertDetailSaleProductsByDetailSaleIdValues(long detailSaleId) {
+        KasebDbHelper dbHelper = new KasebDbHelper(mContext);
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+        ContentValues testValuesProducts = TestUtilities.createProductsValues();
+        long productsRowId = db.insert(KasebContract.Products.TABLE_NAME, null, testValuesProducts);
+
+        ContentValues[] returnContentValues = new ContentValues[BULK_INSERT_RECORDS_TO_INSERT];
+
+        for (int i = 0; i < BULK_INSERT_RECORDS_TO_INSERT; i++) {
+            ContentValues detailSaleProductsValues = new ContentValues();
+            detailSaleProductsValues.put(DetailSaleProducts.COLUMN_QUANTITY, 100);
+            detailSaleProductsValues.put(DetailSaleProducts.COLUMN_AMOUNT, 100);
+            detailSaleProductsValues.put(DetailSaleProducts.COLUMN_DETAIL_SALE_ID, detailSaleId);
+            detailSaleProductsValues.put(DetailSaleProducts.COLUMN_PRODUCT_ID, productsRowId);
+            returnContentValues[i] = detailSaleProductsValues;
+        }
+        return returnContentValues;
+    }
+    //endregion
+
+    //region 19 Other Query : DETAIL_SALE_PAYMENT_BY_DETAIL_SALE_ID
+    private ContentValues[] createBulkInsertDetailSalePaymentsByDetailSaleIdValues(long detailSaleId) {
+        KasebDbHelper dbHelper = new KasebDbHelper(mContext);
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+        ContentValues testValuesPaymentMethods = TestUtilities.createPaymentMethodsValues();
+        long paymentMethodsRowId = db.insert(KasebContract.PaymentMethods.TABLE_NAME, null, testValuesPaymentMethods);
+
+        ContentValues[] returnContentValues = new ContentValues[BULK_INSERT_RECORDS_TO_INSERT];
+
+        for (int i = 0; i < BULK_INSERT_RECORDS_TO_INSERT; i++) {
+            ContentValues detailSalePaymentsValues = new ContentValues();
+            detailSalePaymentsValues.put(DetailSalePayments.COLUMN_DUE_DATE, "sample");
+            detailSalePaymentsValues.put(DetailSalePayments.COLUMN_AMOUNT, 100);
+            detailSalePaymentsValues.put(DetailSalePayments.COLUMN_PAYMENT_METHOD_ID, 100);
+            detailSalePaymentsValues.put(DetailSalePayments.COLUMN_DETAIL_SALE_ID, detailSaleId);
+            detailSalePaymentsValues.put(DetailSalePayments.COLUMN_PAYMENT_METHOD_ID, paymentMethodsRowId);
+            returnContentValues[i] = detailSalePaymentsValues;
+        }
+        return returnContentValues;
+    }
+    //endregion
+
+    //region 20 Other Query : DETAIL_SALE_PAYMENT_BY_PAYMENT_METHOD
+    private ContentValues[] createBulkInsertDetailSalePaymentsByPaymentMethodValues(long paymentMethodId) {
+        KasebDbHelper dbHelper = new KasebDbHelper(mContext);
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+        ContentValues testValuesState = TestUtilities.createStateValues();
+        long stateRowId = db.insert(KasebContract.State.TABLE_NAME, null, testValuesState);
+
+        ContentValues testValuesCustomers = TestUtilities.createCustomersValues(stateRowId);
+        long customersRowId = db.insert(KasebContract.Customers.TABLE_NAME, null, testValuesCustomers);
+
+        ContentValues testValuesDetailSale = TestUtilities.createDetailSaleValues(customersRowId);
+        long detailSaleRowId = db.insert(KasebContract.DetailSale.TABLE_NAME, null, testValuesDetailSale);
+
+        ContentValues[] returnContentValues = new ContentValues[BULK_INSERT_RECORDS_TO_INSERT];
+
+        for (int i = 0; i < BULK_INSERT_RECORDS_TO_INSERT; i++) {
+            ContentValues detailSalePaymentsValues = new ContentValues();
+            detailSalePaymentsValues.put(DetailSalePayments.COLUMN_DUE_DATE, "sample");
+            detailSalePaymentsValues.put(DetailSalePayments.COLUMN_AMOUNT, 100);
+            detailSalePaymentsValues.put(DetailSalePayments.COLUMN_PAYMENT_METHOD_ID, 100);
+            detailSalePaymentsValues.put(DetailSalePayments.COLUMN_DETAIL_SALE_ID, detailSaleRowId);
+            detailSalePaymentsValues.put(DetailSalePayments.COLUMN_PAYMENT_METHOD_ID, paymentMethodId);
+            returnContentValues[i] = detailSalePaymentsValues;
+        }
+        return returnContentValues;
+    }
+    //endregion
+
+    //region 21 Other Query : DETAIL_SALE_TAXES_BY_DETAIL_SALE_ID
+    private ContentValues[] createBulkInsertDetailSaleTaxesByDetailSaleIdValues(long detailSaleId) {
+        KasebDbHelper dbHelper = new KasebDbHelper(mContext);
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+        ContentValues testValuesTaxTypes = TestUtilities.createTaxTypesValues();
+        long taxTypesRowId = db.insert(KasebContract.TaxTypes.TABLE_NAME, null, testValuesTaxTypes);
+
+        ContentValues[] returnContentValues = new ContentValues[BULK_INSERT_RECORDS_TO_INSERT];
+
+        for (int i = 0; i < BULK_INSERT_RECORDS_TO_INSERT; i++) {
+            ContentValues detailSaleTaxesValues = new ContentValues();
+            detailSaleTaxesValues.put(DetailSaleTaxes.COLUMN_AMOUNT, 100);
+            detailSaleTaxesValues.put(DetailSaleTaxes.COLUMN_DETAIL_SALE_ID, detailSaleId);
+            detailSaleTaxesValues.put(DetailSaleTaxes.COLUMN_TAX_TYPE_ID, taxTypesRowId);
+            returnContentValues[i] = detailSaleTaxesValues;
+        }
+        return returnContentValues;
+    }
+    //endregion
+
+    //region 22 Other Query : DETAIL_SALE_TAXES_BY_TAX_TYPE
+    private ContentValues[] createBulkInsertDetailSaleTaxesByTaxTypesValues(long taxTypesId) {
+        KasebDbHelper dbHelper = new KasebDbHelper(mContext);
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+        ContentValues testValuesState = TestUtilities.createStateValues();
+        long stateRowId = db.insert(KasebContract.State.TABLE_NAME, null, testValuesState);
+
+        ContentValues testValuesCustomers = TestUtilities.createCustomersValues(stateRowId);
+        long customersRowId = db.insert(KasebContract.Customers.TABLE_NAME, null, testValuesCustomers);
+
+        ContentValues testValuesDetailSale = TestUtilities.createDetailSaleValues(customersRowId);
+        long detailSaleRowId = db.insert(KasebContract.DetailSale.TABLE_NAME, null, testValuesDetailSale);
+
+        ContentValues[] returnContentValues = new ContentValues[BULK_INSERT_RECORDS_TO_INSERT];
+
+        for (int i = 0; i < BULK_INSERT_RECORDS_TO_INSERT; i++) {
+            ContentValues detailSaleTaxesValues = new ContentValues();
+            detailSaleTaxesValues.put(DetailSaleTaxes.COLUMN_AMOUNT, 100);
+            detailSaleTaxesValues.put(DetailSaleTaxes.COLUMN_DETAIL_SALE_ID, detailSaleRowId);
+            detailSaleTaxesValues.put(DetailSaleTaxes.COLUMN_TAX_TYPE_ID, taxTypesId);
+            returnContentValues[i] = detailSaleTaxesValues;
+        }
+        return returnContentValues;
+    }
+    //endregion
+
+    //region 23 Other Query : COSTS_BY_TYPE
+    private ContentValues[] createBulkInsertCostsByTypesValues(long costTypesId) {
+        KasebDbHelper dbHelper = new KasebDbHelper(mContext);
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+        ContentValues[] returnContentValues = new ContentValues[BULK_INSERT_RECORDS_TO_INSERT];
+
+        for (int i = 0; i < BULK_INSERT_RECORDS_TO_INSERT; i++) {
+            ContentValues costsValues = new ContentValues();
+            costsValues.put(Costs.COLUMN_COST_TYPE_ID, costTypesId);
+            costsValues.put(Costs.COLUMN_COST_NAME, "sample");
+            costsValues.put(Costs.COLUMN_COST_CODE, "sample"+i);
+            costsValues.put(Costs.COLUMN_AMOUNT, i*10);
+            costsValues.put(Costs.COLUMN_DATE, "sample");
+            costsValues.put(Costs.COLUMN_DESCRIPTION, "sample");
+
+            returnContentValues[i] = costsValues;
         }
         return returnContentValues;
     }

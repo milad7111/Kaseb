@@ -26,7 +26,7 @@ public class KasebProvider extends ContentProvider {
 
     //region defining uri integers
     public static final int CUSTOMERS = 100;
-    public static final int CUSTOMERS_RECORD= 101;
+    public static final int CUSTOMERS_RECORD = 101;
     public static final int SALES = 102;
     public static final int SALES_RECORD = 103;
     public static final int DETAIL_SALE = 104;
@@ -49,8 +49,8 @@ public class KasebProvider extends ContentProvider {
     public static final int DETAIL_SALE_PRODUCTS_RECORD = 121;
     public static final int DETAIL_SALE_PAYMENTS = 122;
     public static final int DETAIL_SALE_PAYMENTS_RECORD = 123;
-    public static final int DETAIL_SALE_TAXES =124;
-    public static final int DETAIL_SALE_TAXES_RECORD =125;
+    public static final int DETAIL_SALE_TAXES = 124;
+    public static final int DETAIL_SALE_TAXES_RECORD = 125;
     public static final int STATE = 126;
     public static final int STATE_RECORD = 127;
 
@@ -68,7 +68,8 @@ public class KasebProvider extends ContentProvider {
     //endregion
 
     private static final SQLiteQueryBuilder sSalesByCustomerQueryBuilder;
-    static{
+
+    static {
         sSalesByCustomerQueryBuilder = new SQLiteQueryBuilder();
 
         //This is an inner join which looks like
@@ -83,7 +84,8 @@ public class KasebProvider extends ContentProvider {
     }
 
     private static final SQLiteQueryBuilder sDetailSaleBySaleQueryBuilder;
-    static{
+
+    static {
         sDetailSaleBySaleQueryBuilder = new SQLiteQueryBuilder();
 
         //This is an inner join which looks like
@@ -97,14 +99,12 @@ public class KasebProvider extends ContentProvider {
                         "." + KasebContract.DetailSale.COLUMN_SALE_ID);
     }
 
-    private static String recordSelectionMaker(String tableName){
-        String j = tableName+"._ID" + " =?";
-        return tableName+"._ID" + " =?";
+    private static String recordSelectionMaker(String tableName) {
+        return tableName + "._ID" + " =?";
     }
 
-    private static String dataSetSelectionMaker(String tableName,String ColumnName) {
-        //return tableName + "." + ColumnName + " =?";
-        return tableName + "." + tableName + "." + ColumnName + " =?";
+    private static String dataSetSelectionMaker(String tableName, String ColumnName) {
+        return tableName + "." + ColumnName + " =?";
     }
 
     @Override
@@ -117,11 +117,11 @@ public class KasebProvider extends ContentProvider {
     @Override
     public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
         Cursor retCursor;
-        switch (sUriMatcher.match(uri)){
-            case CUSTOMERS:
-            {
+        switch (sUriMatcher.match(uri)) {
+            //region 1 CUSTOMERS
+            case CUSTOMERS: {
                 retCursor = mOpenHelper.getReadableDatabase().query(
-                  KasebContract.Customers.TABLE_NAME,
+                        KasebContract.Customers.TABLE_NAME,
                         projection,
                         selection,
                         selectionArgs,
@@ -131,8 +131,10 @@ public class KasebProvider extends ContentProvider {
                 );
                 break;
             }
-            case CUSTOMERS_RECORD:
-            {
+            //endregion
+
+            //region 2 CUSTOMERS_RECORD
+            case CUSTOMERS_RECORD: {
                 long id = ContentUris.parseId(uri);
                 retCursor = mOpenHelper.getReadableDatabase().query(
                         KasebContract.Customers.TABLE_NAME,
@@ -145,8 +147,10 @@ public class KasebProvider extends ContentProvider {
                 );
                 break;
             }
-            case SALES:
-            {
+            //endregion
+
+            //region 3 SALES
+            case SALES: {
                 retCursor = mOpenHelper.getReadableDatabase().query(
                         KasebContract.Sales.TABLE_NAME,
                         projection,
@@ -158,8 +162,10 @@ public class KasebProvider extends ContentProvider {
                 );
                 break;
             }
-            case SALES_RECORD:
-            {
+            //endregion
+
+            //region 4 SALES_RECORD
+            case SALES_RECORD: {
                 long id = ContentUris.parseId(uri);
                 retCursor = mOpenHelper.getReadableDatabase().query(
                         KasebContract.Sales.TABLE_NAME,
@@ -172,8 +178,10 @@ public class KasebProvider extends ContentProvider {
                 );
                 break;
             }
-            case DETAIL_SALE:
-            {
+            //endregion
+
+            //region 5 DETAIL_SALE
+            case DETAIL_SALE: {
                 retCursor = mOpenHelper.getReadableDatabase().query(
                         KasebContract.DetailSale.TABLE_NAME,
                         projection,
@@ -185,8 +193,10 @@ public class KasebProvider extends ContentProvider {
                 );
                 break;
             }
-            case DETAIL_SALE_RECORD:
-            {
+            //endregion
+
+            //region 6 DETAIL_SALE_RECORD
+            case DETAIL_SALE_RECORD: {
                 long id = ContentUris.parseId(uri);
                 retCursor = mOpenHelper.getReadableDatabase().query(
                         KasebContract.DetailSale.TABLE_NAME,
@@ -199,8 +209,10 @@ public class KasebProvider extends ContentProvider {
                 );
                 break;
             }
-            case PRODUCTS:
-            {
+            //endregion
+
+            //region 7 PRODUCTS
+            case PRODUCTS: {
                 retCursor = mOpenHelper.getReadableDatabase().query(
                         KasebContract.Products.TABLE_NAME,
                         projection,
@@ -212,8 +224,10 @@ public class KasebProvider extends ContentProvider {
                 );
                 break;
             }
-            case PRODUCTS_RECORD:
-            {
+            //endregion
+
+            //region 8 PRODUCTS_RECORD
+            case PRODUCTS_RECORD: {
                 long id = ContentUris.parseId(uri);
                 retCursor = mOpenHelper.getReadableDatabase().query(
                         KasebContract.Products.TABLE_NAME,
@@ -226,8 +240,10 @@ public class KasebProvider extends ContentProvider {
                 );
                 break;
             }
-            case PRODUCT_HISTORY:
-            {
+            //endregion
+
+            //region 9 PRODUCT_HISTORY
+            case PRODUCT_HISTORY: {
                 retCursor = mOpenHelper.getReadableDatabase().query(
                         KasebContract.ProductHistory.TABLE_NAME,
                         projection,
@@ -239,8 +255,10 @@ public class KasebProvider extends ContentProvider {
                 );
                 break;
             }
-            case PRODUCT_HISTORY_RECORD:
-            {
+            //endregion
+
+            //region 10 PRODUCT_HISTORY_RECORD
+            case PRODUCT_HISTORY_RECORD: {
                 long id = ContentUris.parseId(uri);
                 retCursor = mOpenHelper.getReadableDatabase().query(
                         KasebContract.ProductHistory.TABLE_NAME,
@@ -253,8 +271,10 @@ public class KasebProvider extends ContentProvider {
                 );
                 break;
             }
-            case COSTS:
-            {
+            //endregion
+
+            //region 11 COSTS
+            case COSTS: {
                 retCursor = mOpenHelper.getReadableDatabase().query(
                         KasebContract.Costs.TABLE_NAME,
                         projection,
@@ -266,8 +286,10 @@ public class KasebProvider extends ContentProvider {
                 );
                 break;
             }
-            case COSTS_RECORD:
-            {
+            //endregion
+
+            //region 12 COSTS_RECORD
+            case COSTS_RECORD: {
                 long id = ContentUris.parseId(uri);
                 retCursor = mOpenHelper.getReadableDatabase().query(
                         KasebContract.Costs.TABLE_NAME,
@@ -280,8 +302,10 @@ public class KasebProvider extends ContentProvider {
                 );
                 break;
             }
-            case COST_TYPES:
-            {
+            //endregion
+
+            //region 13 COST_TYPES
+            case COST_TYPES: {
                 retCursor = mOpenHelper.getReadableDatabase().query(
                         KasebContract.CostTypes.TABLE_NAME,
                         projection,
@@ -293,8 +317,10 @@ public class KasebProvider extends ContentProvider {
                 );
                 break;
             }
-            case COST_TYPES_RECORD:
-            {
+            //endregion
+
+            //region 14 COST_TYPES_RECORD
+            case COST_TYPES_RECORD: {
                 long id = ContentUris.parseId(uri);
                 retCursor = mOpenHelper.getReadableDatabase().query(
                         KasebContract.CostTypes.TABLE_NAME,
@@ -307,8 +333,10 @@ public class KasebProvider extends ContentProvider {
                 );
                 break;
             }
-            case PAYMENT_METHODS:
-            {
+            //endregion
+
+            //region 15 PAYMENT_METHODS
+            case PAYMENT_METHODS: {
                 retCursor = mOpenHelper.getReadableDatabase().query(
                         KasebContract.PaymentMethods.TABLE_NAME,
                         projection,
@@ -320,8 +348,10 @@ public class KasebProvider extends ContentProvider {
                 );
                 break;
             }
-            case PAYMENT_METHODS_RECORD:
-            {
+            //endregion
+
+            //region 16 PAYMENT_METHODS_RECORD
+            case PAYMENT_METHODS_RECORD: {
                 long id = ContentUris.parseId(uri);
                 retCursor = mOpenHelper.getReadableDatabase().query(
                         KasebContract.PaymentMethods.TABLE_NAME,
@@ -334,8 +364,10 @@ public class KasebProvider extends ContentProvider {
                 );
                 break;
             }
-            case TAX_TYPES:
-            {
+            //endregion
+
+            //region 17 TAX_TYPES
+            case TAX_TYPES: {
                 retCursor = mOpenHelper.getReadableDatabase().query(
                         KasebContract.TaxTypes.TABLE_NAME,
                         projection,
@@ -347,8 +379,10 @@ public class KasebProvider extends ContentProvider {
                 );
                 break;
             }
-            case TAX_TYPES_RECORD:
-            {
+            //endregion
+
+            //region 18 TAX_TYPES_RECORD
+            case TAX_TYPES_RECORD: {
                 long id = ContentUris.parseId(uri);
                 retCursor = mOpenHelper.getReadableDatabase().query(
                         KasebContract.TaxTypes.TABLE_NAME,
@@ -361,8 +395,10 @@ public class KasebProvider extends ContentProvider {
                 );
                 break;
             }
-            case DETAIL_SALE_PRODUCTS:
-            {
+            //endregion
+
+            //region 19 DETAIL_SALE_PRODUCTS
+            case DETAIL_SALE_PRODUCTS: {
                 retCursor = mOpenHelper.getReadableDatabase().query(
                         KasebContract.DetailSaleProducts.TABLE_NAME,
                         projection,
@@ -374,8 +410,10 @@ public class KasebProvider extends ContentProvider {
                 );
                 break;
             }
-            case DETAIL_SALE_PRODUCTS_RECORD:
-            {
+            //endregion
+
+            //region 20 DETAIL_SALE_PRODUCTS_RECORD
+            case DETAIL_SALE_PRODUCTS_RECORD: {
                 long id = ContentUris.parseId(uri);
                 retCursor = mOpenHelper.getReadableDatabase().query(
                         KasebContract.DetailSaleProducts.TABLE_NAME,
@@ -388,8 +426,10 @@ public class KasebProvider extends ContentProvider {
                 );
                 break;
             }
-            case DETAIL_SALE_PAYMENTS:
-            {
+            //endregion
+
+            //region 21 DETAIL_SALE_PAYMENTS
+            case DETAIL_SALE_PAYMENTS: {
                 retCursor = mOpenHelper.getReadableDatabase().query(
                         KasebContract.DetailSalePayments.TABLE_NAME,
                         projection,
@@ -401,8 +441,10 @@ public class KasebProvider extends ContentProvider {
                 );
                 break;
             }
-            case DETAIL_SALE_PAYMENTS_RECORD:
-            {
+            //endregion
+
+            //region 22 DETAIL_SALE_PAYMENTS_RECORD
+            case DETAIL_SALE_PAYMENTS_RECORD: {
                 long id = ContentUris.parseId(uri);
                 retCursor = mOpenHelper.getReadableDatabase().query(
                         KasebContract.DetailSalePayments.TABLE_NAME,
@@ -415,8 +457,10 @@ public class KasebProvider extends ContentProvider {
                 );
                 break;
             }
-            case DETAIL_SALE_TAXES:
-            {
+            //endregion
+
+            //region 23 DETAIL_SALE_TAXES
+            case DETAIL_SALE_TAXES: {
                 retCursor = mOpenHelper.getReadableDatabase().query(
                         KasebContract.DetailSaleTaxes.TABLE_NAME,
                         projection,
@@ -428,8 +472,10 @@ public class KasebProvider extends ContentProvider {
                 );
                 break;
             }
-            case DETAIL_SALE_TAXES_RECORD:
-            {
+            //endregion
+
+            //region 24 DETAIL_SALE_TAXES_RECORD
+            case DETAIL_SALE_TAXES_RECORD: {
                 long id = ContentUris.parseId(uri);
                 retCursor = mOpenHelper.getReadableDatabase().query(
                         KasebContract.DetailSaleTaxes.TABLE_NAME,
@@ -442,8 +488,10 @@ public class KasebProvider extends ContentProvider {
                 );
                 break;
             }
-            case STATE:
-            {
+            //endregion
+
+            //region 25 STATE
+            case STATE: {
                 retCursor = mOpenHelper.getReadableDatabase().query(
                         KasebContract.State.TABLE_NAME,
                         projection,
@@ -455,8 +503,10 @@ public class KasebProvider extends ContentProvider {
                 );
                 break;
             }
-            case STATE_RECORD:
-            {
+            //endregion
+
+            //region 26 STATE_RECORD
+            case STATE_RECORD: {
                 long id = ContentUris.parseId(uri);
                 retCursor = mOpenHelper.getReadableDatabase().query(
                         KasebContract.State.TABLE_NAME,
@@ -469,13 +519,15 @@ public class KasebProvider extends ContentProvider {
                 );
                 break;
             }
-            case CUSTOMER_BY_STATE:
-            {
+            //endregion
+
+            //region 27 CUSTOMER_BY_STATE
+            case CUSTOMER_BY_STATE: {
                 String stateId = Utility.getTheLastPathUri(uri);
                 retCursor = mOpenHelper.getReadableDatabase().query(
                         KasebContract.Customers.TABLE_NAME,
                         projection,
-                        dataSetSelectionMaker(KasebContract.Customers.TABLE_NAME,KasebContract.Customers.COLUMN_STATE_ID),
+                        dataSetSelectionMaker(KasebContract.Customers.TABLE_NAME, KasebContract.Customers.COLUMN_STATE_ID),
                         new String[]{stateId},
                         null,
                         null,
@@ -483,13 +535,15 @@ public class KasebProvider extends ContentProvider {
                 );
                 break;
             }
-            case SALES_BY_CUSTOMER:
-            {
+            //endregion
+
+            //region 28 SALES_BY_CUSTOMER
+            case SALES_BY_CUSTOMER: {
                 String customerId = Utility.getTheLastPathUri(uri);
                 retCursor = mOpenHelper.getReadableDatabase().query(
                         KasebContract.Sales.TABLE_NAME,
                         projection,
-                        dataSetSelectionMaker(KasebContract.Sales.TABLE_NAME,KasebContract.Sales.COLUMN_CUSTOMER_ID),
+                        dataSetSelectionMaker(KasebContract.Sales.TABLE_NAME, KasebContract.Sales.COLUMN_CUSTOMER_ID),
                         new String[]{customerId},
                         null,
                         null,
@@ -497,8 +551,10 @@ public class KasebProvider extends ContentProvider {
                 );
                 break;
             }
-            case DETAIL_SALE_BY_IS_BALANCED:
-            {
+            //endregion
+
+            //region 29 DETAIL_SALE_BY_IS_BALANCED
+            case DETAIL_SALE_BY_IS_BALANCED: {
                 String isBalancedId = Utility.getTheLastPathUri(uri);
                 retCursor = sDetailSaleBySaleQueryBuilder.query(
                         mOpenHelper.getReadableDatabase(),
@@ -511,13 +567,15 @@ public class KasebProvider extends ContentProvider {
                 );
                 break;
             }
-            case PRODUCT_HISTORY_BY_PRODUCT_ID:
-            {
+            //endregion
+
+            //region 30 PRODUCT_HISTORY_BY_PRODUCT_ID
+            case PRODUCT_HISTORY_BY_PRODUCT_ID: {
                 String productId = Utility.getTheLastPathUri(uri);
                 retCursor = mOpenHelper.getReadableDatabase().query(
                         KasebContract.ProductHistory.TABLE_NAME,
                         projection,
-                        dataSetSelectionMaker(KasebContract.ProductHistory.TABLE_NAME,KasebContract.ProductHistory.COLUMN_PRODUCT_ID),
+                        dataSetSelectionMaker(KasebContract.ProductHistory.TABLE_NAME, KasebContract.ProductHistory.COLUMN_PRODUCT_ID),
                         new String[]{productId},
                         null,
                         null,
@@ -525,13 +583,15 @@ public class KasebProvider extends ContentProvider {
                 );
                 break;
             }
-            case DETAIL_SALE_PRODUCT_BY_DETAIL_SALE_ID:
-            {
+            //endregion
+
+            //region 31 DETAIL_SALE_PRODUCT_BY_DETAIL_SALE_ID
+            case DETAIL_SALE_PRODUCT_BY_DETAIL_SALE_ID: {
                 String detailSaleId = Utility.getTheLastPathUri(uri);
                 retCursor = mOpenHelper.getReadableDatabase().query(
                         KasebContract.DetailSaleProducts.TABLE_NAME,
                         projection,
-                        dataSetSelectionMaker(KasebContract.DetailSaleProducts.TABLE_NAME,KasebContract.DetailSaleProducts.COLUMN_DETAIL_SALE_ID),
+                        dataSetSelectionMaker(KasebContract.DetailSaleProducts.TABLE_NAME, KasebContract.DetailSaleProducts.COLUMN_DETAIL_SALE_ID),
                         new String[]{detailSaleId},
                         null,
                         null,
@@ -539,13 +599,15 @@ public class KasebProvider extends ContentProvider {
                 );
                 break;
             }
-            case DETAIL_SALE_PAYMENT_BY_DETAIL_SALE_ID:
-            {
+            //endregion
+
+            //region 32 DETAIL_SALE_PAYMENT_BY_DETAIL_SALE_ID
+            case DETAIL_SALE_PAYMENT_BY_DETAIL_SALE_ID: {
                 String detailSaleId = Utility.getTheLastPathUri(uri);
                 retCursor = mOpenHelper.getReadableDatabase().query(
                         KasebContract.DetailSalePayments.TABLE_NAME,
                         projection,
-                        dataSetSelectionMaker(KasebContract.DetailSalePayments.TABLE_NAME,KasebContract.DetailSalePayments.COLUMN_DETAIL_SALE_ID),
+                        dataSetSelectionMaker(KasebContract.DetailSalePayments.TABLE_NAME, KasebContract.DetailSalePayments.COLUMN_DETAIL_SALE_ID),
                         new String[]{detailSaleId},
                         null,
                         null,
@@ -553,13 +615,15 @@ public class KasebProvider extends ContentProvider {
                 );
                 break;
             }
-            case DETAIL_SALE_PAYMENT_BY_PAYMENT_METHOD:
-            {
+            //endregion
+
+            //region 33 DETAIL_SALE_PAYMENT_BY_PAYMENT_METHOD
+            case DETAIL_SALE_PAYMENT_BY_PAYMENT_METHOD: {
                 String paymentMethodId = Utility.getTheLastPathUri(uri);
                 retCursor = mOpenHelper.getReadableDatabase().query(
                         KasebContract.DetailSalePayments.TABLE_NAME,
                         projection,
-                        dataSetSelectionMaker(KasebContract.DetailSalePayments.TABLE_NAME,KasebContract.DetailSalePayments.COLUMN_PAYMENT_METHOD_ID),
+                        dataSetSelectionMaker(KasebContract.DetailSalePayments.TABLE_NAME, KasebContract.DetailSalePayments.COLUMN_PAYMENT_METHOD_ID),
                         new String[]{paymentMethodId},
                         null,
                         null,
@@ -567,13 +631,15 @@ public class KasebProvider extends ContentProvider {
                 );
                 break;
             }
-            case DETAIL_SALE_TAXES_BY_DETAIL_SALE_ID:
-            {
+            //endregion
+
+            //region 34 DETAIL_SALE_TAXES_BY_DETAIL_SALE_ID
+            case DETAIL_SALE_TAXES_BY_DETAIL_SALE_ID: {
                 String detailSaleId = Utility.getTheLastPathUri(uri);
                 retCursor = mOpenHelper.getReadableDatabase().query(
                         KasebContract.DetailSaleTaxes.TABLE_NAME,
                         projection,
-                        dataSetSelectionMaker(KasebContract.DetailSaleTaxes.TABLE_NAME,KasebContract.DetailSaleTaxes.COLUMN_DETAIL_SALE_ID),
+                        dataSetSelectionMaker(KasebContract.DetailSaleTaxes.TABLE_NAME, KasebContract.DetailSaleTaxes.COLUMN_DETAIL_SALE_ID),
                         new String[]{detailSaleId},
                         null,
                         null,
@@ -581,13 +647,15 @@ public class KasebProvider extends ContentProvider {
                 );
                 break;
             }
-            case DETAIL_SALE_TAXES_BY_TAX_TYPE:
-            {
+            //endregion
+
+            //region 35 DETAIL_SALE_TAXES_BY_TAX_TYPE
+            case DETAIL_SALE_TAXES_BY_TAX_TYPE: {
                 String taxTypeId = Utility.getTheLastPathUri(uri);
                 retCursor = mOpenHelper.getReadableDatabase().query(
                         KasebContract.DetailSaleTaxes.TABLE_NAME,
                         projection,
-                        dataSetSelectionMaker(KasebContract.DetailSaleTaxes.TABLE_NAME,KasebContract.DetailSaleTaxes.COLUMN_TAX_TYPE_ID),
+                        dataSetSelectionMaker(KasebContract.DetailSaleTaxes.TABLE_NAME, KasebContract.DetailSaleTaxes.COLUMN_TAX_TYPE_ID),
                         new String[]{taxTypeId},
                         null,
                         null,
@@ -595,13 +663,15 @@ public class KasebProvider extends ContentProvider {
                 );
                 break;
             }
-            case COSTS_BY_TYPE:
-            {
+            //endregion
+
+            //region 36 COSTS_BY_TYPE
+            case COSTS_BY_TYPE: {
                 String costTypeId = Utility.getTheLastPathUri(uri);
                 retCursor = mOpenHelper.getReadableDatabase().query(
                         KasebContract.Costs.TABLE_NAME,
                         projection,
-                        dataSetSelectionMaker(KasebContract.Costs.TABLE_NAME,KasebContract.Costs.COLUMN_COST_TYPE_ID),
+                        dataSetSelectionMaker(KasebContract.Costs.TABLE_NAME, KasebContract.Costs.COLUMN_COST_TYPE_ID),
                         new String[]{costTypeId},
                         null,
                         null,
@@ -609,6 +679,8 @@ public class KasebProvider extends ContentProvider {
                 );
                 break;
             }
+            //endregion
+
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
         }
@@ -675,7 +747,7 @@ public class KasebProvider extends ContentProvider {
                 return KasebContract.State.CONTENT_TYPE;
             case STATE_RECORD:
                 return KasebContract.State.CONTENT_ITEM_TYPE;
-           //new uris
+            //new uris
             case CUSTOMER_BY_STATE:
                 return KasebContract.Customers.CONTENT_TYPE;
             case SALES_BY_CUSTOMER:
@@ -712,115 +784,104 @@ public class KasebProvider extends ContentProvider {
         switch (match) {
             case CUSTOMERS: {
                 long _id = db.insert(KasebContract.Customers.TABLE_NAME, null, values);
-                if ( _id > 0 )
+                if (_id > 0)
                     returnUri = KasebContract.Customers.buildCustomerUri(_id);
                 else
                     throw new android.database.SQLException("Failed to insert row into " + uri);
                 break;
             }
-            case SALES:{
+            case SALES: {
                 long _id = db.insert(KasebContract.Sales.TABLE_NAME, null, values);
-                if ( _id > 0 )
+                if (_id > 0)
                     returnUri = KasebContract.Sales.buildSalesUri(_id);
                 else
                     throw new android.database.SQLException("Failed to insert row into " + uri);
                 break;
             }
-            case DETAIL_SALE:
-            {
+            case DETAIL_SALE: {
                 long _id = db.insert(KasebContract.DetailSale.TABLE_NAME, null, values);
-                if ( _id > 0 )
+                if (_id > 0)
                     returnUri = KasebContract.DetailSale.buildDetailSaleUri(_id);
                 else
                     throw new android.database.SQLException("Failed to insert row into " + uri);
                 break;
             }
-            case PRODUCTS:
-            {
+            case PRODUCTS: {
                 long _id = db.insert(KasebContract.Products.TABLE_NAME, null, values);
-                if ( _id > 0 )
+                if (_id > 0)
                     returnUri = KasebContract.Products.buildProductsUri(_id);
                 else
                     throw new android.database.SQLException("Failed to insert row into " + uri);
                 break;
             }
 
-            case PRODUCT_HISTORY:
-            {
+            case PRODUCT_HISTORY: {
                 long _id = db.insert(KasebContract.ProductHistory.TABLE_NAME, null, values);
-                if ( _id > 0 )
+                if (_id > 0)
                     returnUri = KasebContract.ProductHistory.buildProductHistoryUri(_id);
                 else
                     throw new android.database.SQLException("Failed to insert row into " + uri);
                 break;
             }
-            case COSTS:
-            {
+            case COSTS: {
                 long _id = db.insert(KasebContract.Costs.TABLE_NAME, null, values);
-                if ( _id > 0 )
+                if (_id > 0)
                     returnUri = KasebContract.Costs.buildCostsUri(_id);
                 else
                     throw new android.database.SQLException("Failed to insert row into " + uri);
                 break;
             }
-            case COST_TYPES:
-            {
+            case COST_TYPES: {
                 long _id = db.insert(KasebContract.CostTypes.TABLE_NAME, null, values);
-                if ( _id > 0 )
+                if (_id > 0)
                     returnUri = KasebContract.CostTypes.buildCostTypesUri(_id);
                 else
                     throw new android.database.SQLException("Failed to insert row into " + uri);
                 break;
             }
-            case PAYMENT_METHODS:
-            {
+            case PAYMENT_METHODS: {
                 long _id = db.insert(KasebContract.PaymentMethods.TABLE_NAME, null, values);
-                if ( _id > 0 )
+                if (_id > 0)
                     returnUri = KasebContract.PaymentMethods.buildPaymentMethodsUri(_id);
                 else
                     throw new android.database.SQLException("Failed to insert row into " + uri);
                 break;
             }
-            case TAX_TYPES:
-            {
+            case TAX_TYPES: {
                 long _id = db.insert(KasebContract.TaxTypes.TABLE_NAME, null, values);
-                if ( _id > 0 )
+                if (_id > 0)
                     returnUri = KasebContract.TaxTypes.buildTaxTypesUri(_id);
                 else
                     throw new android.database.SQLException("Failed to insert row into " + uri);
                 break;
             }
-            case DETAIL_SALE_PRODUCTS:
-            {
+            case DETAIL_SALE_PRODUCTS: {
                 long _id = db.insert(KasebContract.DetailSaleProducts.TABLE_NAME, null, values);
-                if ( _id > 0 )
+                if (_id > 0)
                     returnUri = KasebContract.DetailSaleProducts.buildDetailSaleProducts(_id);
                 else
                     throw new android.database.SQLException("Failed to insert row into " + uri);
                 break;
             }
-            case DETAIL_SALE_PAYMENTS:
-            {
+            case DETAIL_SALE_PAYMENTS: {
                 long _id = db.insert(KasebContract.DetailSalePayments.TABLE_NAME, null, values);
-                if ( _id > 0 )
+                if (_id > 0)
                     returnUri = KasebContract.DetailSalePayments.buildDetailSalePaymentsUri(_id);
                 else
                     throw new android.database.SQLException("Failed to insert row into " + uri);
                 break;
             }
-            case DETAIL_SALE_TAXES:
-            {
+            case DETAIL_SALE_TAXES: {
                 long _id = db.insert(KasebContract.DetailSaleTaxes.TABLE_NAME, null, values);
-                if ( _id > 0 )
+                if (_id > 0)
                     returnUri = KasebContract.DetailSaleTaxes.buildDetailSaleTaxesUri(_id);
                 else
                     throw new android.database.SQLException("Failed to insert row into " + uri);
                 break;
             }
-            case STATE:
-            {
+            case STATE: {
                 long _id = db.insert(KasebContract.State.TABLE_NAME, null, values);
-                if ( _id > 0 )
+                if (_id > 0)
                     returnUri = KasebContract.State.buildStateUri(_id);
                 else
                     throw new android.database.SQLException("Failed to insert row into " + uri);
@@ -840,7 +901,7 @@ public class KasebProvider extends ContentProvider {
         final int match = sUriMatcher.match(uri);
         int rowsDeleted;
         // this makes delete all rows return the number of rows deleted
-        if ( null == selection ) selection = "1";
+        if (null == selection) selection = "1";
         switch (match) {
             case CUSTOMERS:
                 rowsDeleted = db.delete(
@@ -962,44 +1023,44 @@ public class KasebProvider extends ContentProvider {
 
         final UriMatcher uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
         final String authority = KasebContract.CONTENT_AUTHORITY;
-        uriMatcher.addURI(authority,KasebContract.PATH_CUSTOMERS,CUSTOMERS);
-        uriMatcher.addURI(authority,KasebContract.PATH_CUSTOMERS + "/#" ,CUSTOMERS_RECORD);
-        uriMatcher.addURI(authority,KasebContract.PATH_SALES,SALES);
-        uriMatcher.addURI(authority,KasebContract.PATH_SALES + "/#" ,SALES_RECORD);
-        uriMatcher.addURI(authority,KasebContract.PATH_DETAIL_SALE,DETAIL_SALE);
-        uriMatcher.addURI(authority,KasebContract.PATH_DETAIL_SALE + "/#",DETAIL_SALE_RECORD);
-        uriMatcher.addURI(authority,KasebContract.PATH_PRODUCTS,PRODUCTS);
-        uriMatcher.addURI(authority,KasebContract.PATH_PRODUCTS+"/#" ,PRODUCTS_RECORD);
-        uriMatcher.addURI(authority,KasebContract.PATH_PRODUCT_HISTORY,PRODUCT_HISTORY);
-        uriMatcher.addURI(authority,KasebContract.PATH_PRODUCT_HISTORY+"/#",PRODUCT_HISTORY_RECORD);
-        uriMatcher.addURI(authority,KasebContract.PATH_COSTS,COSTS);
-        uriMatcher.addURI(authority,KasebContract.PATH_COSTS+"/#",COSTS_RECORD);
-        uriMatcher.addURI(authority,KasebContract.PATH_COST_TYPES,COST_TYPES);
-        uriMatcher.addURI(authority,KasebContract.PATH_COST_TYPES+"/#",COST_TYPES_RECORD);
-        uriMatcher.addURI(authority,KasebContract.PATH_PAYMENT_METHODS,PAYMENT_METHODS);
-        uriMatcher.addURI(authority,KasebContract.PATH_PAYMENT_METHODS+"/#",PAYMENT_METHODS_RECORD);
-        uriMatcher.addURI(authority,KasebContract.PATH_TAX_TYPES,TAX_TYPES);
-        uriMatcher.addURI(authority,KasebContract.PATH_TAX_TYPES+"/#",TAX_TYPES_RECORD);
-        uriMatcher.addURI(authority,KasebContract.PATH_DETAIL_SALE_PRODUCTS,DETAIL_SALE_PRODUCTS);
-        uriMatcher.addURI(authority,KasebContract.PATH_DETAIL_SALE_PRODUCTS+"/#",DETAIL_SALE_PRODUCTS_RECORD);
-        uriMatcher.addURI(authority,KasebContract.PATH_DETAIL_SALE_PAYMENTS,DETAIL_SALE_PAYMENTS);
-        uriMatcher.addURI(authority,KasebContract.PATH_DETAIL_SALE_PAYMENTS+"/#",DETAIL_SALE_PAYMENTS_RECORD);
-        uriMatcher.addURI(authority,KasebContract.PATH_DETAIL_SALE_TAXES,DETAIL_SALE_TAXES);
-        uriMatcher.addURI(authority,KasebContract.PATH_DETAIL_SALE_TAXES+"/#",DETAIL_SALE_TAXES_RECORD);
-        uriMatcher.addURI(authority,KasebContract.PATH_STATE,STATE);
-        uriMatcher.addURI(authority,KasebContract.PATH_STATE + "/#" ,STATE_RECORD);
+        uriMatcher.addURI(authority, KasebContract.PATH_CUSTOMERS, CUSTOMERS);
+        uriMatcher.addURI(authority, KasebContract.PATH_CUSTOMERS + "/#", CUSTOMERS_RECORD);
+        uriMatcher.addURI(authority, KasebContract.PATH_SALES, SALES);
+        uriMatcher.addURI(authority, KasebContract.PATH_SALES + "/#", SALES_RECORD);
+        uriMatcher.addURI(authority, KasebContract.PATH_DETAIL_SALE, DETAIL_SALE);
+        uriMatcher.addURI(authority, KasebContract.PATH_DETAIL_SALE + "/#", DETAIL_SALE_RECORD);
+        uriMatcher.addURI(authority, KasebContract.PATH_PRODUCTS, PRODUCTS);
+        uriMatcher.addURI(authority, KasebContract.PATH_PRODUCTS + "/#", PRODUCTS_RECORD);
+        uriMatcher.addURI(authority, KasebContract.PATH_PRODUCT_HISTORY, PRODUCT_HISTORY);
+        uriMatcher.addURI(authority, KasebContract.PATH_PRODUCT_HISTORY + "/#", PRODUCT_HISTORY_RECORD);
+        uriMatcher.addURI(authority, KasebContract.PATH_COSTS, COSTS);
+        uriMatcher.addURI(authority, KasebContract.PATH_COSTS + "/#", COSTS_RECORD);
+        uriMatcher.addURI(authority, KasebContract.PATH_COST_TYPES, COST_TYPES);
+        uriMatcher.addURI(authority, KasebContract.PATH_COST_TYPES + "/#", COST_TYPES_RECORD);
+        uriMatcher.addURI(authority, KasebContract.PATH_PAYMENT_METHODS, PAYMENT_METHODS);
+        uriMatcher.addURI(authority, KasebContract.PATH_PAYMENT_METHODS + "/#", PAYMENT_METHODS_RECORD);
+        uriMatcher.addURI(authority, KasebContract.PATH_TAX_TYPES, TAX_TYPES);
+        uriMatcher.addURI(authority, KasebContract.PATH_TAX_TYPES + "/#", TAX_TYPES_RECORD);
+        uriMatcher.addURI(authority, KasebContract.PATH_DETAIL_SALE_PRODUCTS, DETAIL_SALE_PRODUCTS);
+        uriMatcher.addURI(authority, KasebContract.PATH_DETAIL_SALE_PRODUCTS + "/#", DETAIL_SALE_PRODUCTS_RECORD);
+        uriMatcher.addURI(authority, KasebContract.PATH_DETAIL_SALE_PAYMENTS, DETAIL_SALE_PAYMENTS);
+        uriMatcher.addURI(authority, KasebContract.PATH_DETAIL_SALE_PAYMENTS + "/#", DETAIL_SALE_PAYMENTS_RECORD);
+        uriMatcher.addURI(authority, KasebContract.PATH_DETAIL_SALE_TAXES, DETAIL_SALE_TAXES);
+        uriMatcher.addURI(authority, KasebContract.PATH_DETAIL_SALE_TAXES + "/#", DETAIL_SALE_TAXES_RECORD);
+        uriMatcher.addURI(authority, KasebContract.PATH_STATE, STATE);
+        uriMatcher.addURI(authority, KasebContract.PATH_STATE + "/#", STATE_RECORD);
         //new uris
-        uriMatcher.addURI(authority,KasebContract.PATH_CUSTOMERS+"/*",CUSTOMER_BY_STATE );
-        uriMatcher.addURI(authority,KasebContract.PATH_SALES + "/*",SALES_BY_CUSTOMER);
-        uriMatcher.addURI(authority,KasebContract.PATH_DETAIL_SALE +"/*",DETAIL_SALE_BY_SALE_ID);
-        uriMatcher.addURI(authority,KasebContract.PATH_DETAIL_SALE +"/is_balanced/*",DETAIL_SALE_BY_IS_BALANCED);
-        uriMatcher.addURI(authority,KasebContract.PATH_DETAIL_SALE_PAYMENTS +"/*",DETAIL_SALE_PAYMENT_BY_DETAIL_SALE_ID);
-        uriMatcher.addURI(authority,KasebContract.PATH_DETAIL_SALE_PAYMENTS +"/payment_methods/*",DETAIL_SALE_PAYMENT_BY_PAYMENT_METHOD);
-        uriMatcher.addURI(authority,KasebContract.PATH_DETAIL_SALE_PRODUCTS +"/*", DETAIL_SALE_PRODUCT_BY_DETAIL_SALE_ID);
-        uriMatcher.addURI(authority,KasebContract.PATH_DETAIL_SALE_TAXES +"/*",DETAIL_SALE_TAXES_BY_DETAIL_SALE_ID);
-        uriMatcher.addURI(authority,KasebContract.PATH_DETAIL_SALE_TAXES +"/tax_types/*",DETAIL_SALE_TAXES_BY_TAX_TYPE);
-        uriMatcher.addURI(authority,KasebContract.PATH_PRODUCT_HISTORY + "/*",PRODUCT_HISTORY_BY_PRODUCT_ID);
-        uriMatcher.addURI(authority,KasebContract.PATH_COSTS + "/*",COSTS_BY_TYPE);
+        uriMatcher.addURI(authority, KasebContract.PATH_CUSTOMERS + "/State._id/*", CUSTOMER_BY_STATE);
+        uriMatcher.addURI(authority, KasebContract.PATH_SALES + "/*", SALES_BY_CUSTOMER);
+        uriMatcher.addURI(authority, KasebContract.PATH_DETAIL_SALE + "/*", DETAIL_SALE_BY_SALE_ID);
+        uriMatcher.addURI(authority, KasebContract.PATH_DETAIL_SALE + "/is_balanced/*", DETAIL_SALE_BY_IS_BALANCED);
+        uriMatcher.addURI(authority, KasebContract.PATH_DETAIL_SALE_PAYMENTS + "/*", DETAIL_SALE_PAYMENT_BY_DETAIL_SALE_ID);
+        uriMatcher.addURI(authority, KasebContract.PATH_DETAIL_SALE_PAYMENTS + "/payment_methods/*", DETAIL_SALE_PAYMENT_BY_PAYMENT_METHOD);
+        uriMatcher.addURI(authority, KasebContract.PATH_DETAIL_SALE_PRODUCTS + "/*", DETAIL_SALE_PRODUCT_BY_DETAIL_SALE_ID);
+        uriMatcher.addURI(authority, KasebContract.PATH_DETAIL_SALE_TAXES + "/*", DETAIL_SALE_TAXES_BY_DETAIL_SALE_ID);
+        uriMatcher.addURI(authority, KasebContract.PATH_DETAIL_SALE_TAXES + "/tax_types/*", DETAIL_SALE_TAXES_BY_TAX_TYPE);
+        uriMatcher.addURI(authority, KasebContract.PATH_PRODUCT_HISTORY + "/*", PRODUCT_HISTORY_BY_PRODUCT_ID);
+        uriMatcher.addURI(authority, KasebContract.PATH_COSTS + "/*", COSTS_BY_TYPE);
         return uriMatcher;
     }
 
@@ -1007,233 +1068,237 @@ public class KasebProvider extends ContentProvider {
     public int bulkInsert(Uri uri, ContentValues[] values) {
         final SQLiteDatabase db = mOpenHelper.getWritableDatabase();
         final int match = sUriMatcher.match(uri);
-        int returnCount = 0 ;
+        int returnCount = 0;
         switch (match) {
-            case CUSTOMERS:
-            {
+            case CUSTOMERS: {
                 db.beginTransaction();
                 long _id = 0;
-                try{
-                    for (ContentValues value:values){
-                        long isUnique = DatabaseUtils.queryNumEntries(db, KasebContract.Customers.TABLE_NAME,
-                                KasebContract.Customers.COLUMN_PHONE_MOBILE + " = " + "'"
-                                        + value.getAsString(KasebContract.Customers.COLUMN_PHONE_MOBILE) + "'");
-                        if(isUnique==0) _id = db.insert(KasebContract.Customers.TABLE_NAME,null,value);
-                        if(_id!=-1) returnCount++;
+                try {
+                    for (ContentValues value : values) {
+//                        long isUnique = DatabaseUtils.queryNumEntries(db, KasebContract.Customers.TABLE_NAME,
+//                                KasebContract.Customers.COLUMN_PHONE_MOBILE + " = " + "'"
+//                                        + value.getAsString(KasebContract.Customers.COLUMN_PHONE_MOBILE) + "'");
+//                        if(isUnique==0)
+                        _id = db.insert(KasebContract.Customers.TABLE_NAME, null, value);
+                        if (_id != -1) returnCount++;
                     }
                     db.setTransactionSuccessful();
-                }finally {
+                } finally {
                     db.endTransaction();
                 }
-                getContext().getContentResolver().notifyChange(uri,null);
+                getContext().getContentResolver().notifyChange(uri, null);
                 break;
             }
-            case SALES:
-            {
+            case SALES: {
                 db.beginTransaction();
                 long _id = 0;
-                try{
-                    for (ContentValues value:values){
-                        long isUnique = DatabaseUtils.queryNumEntries(db, KasebContract.Sales.TABLE_NAME,
-                                KasebContract.Sales.COLUMN_SALE_CODE + " = " + "'"
-                                        + value.getAsString(KasebContract.Sales.COLUMN_SALE_CODE) + "'");
-                        if(isUnique==0) _id = db.insert(KasebContract.Sales.TABLE_NAME,null,value);
-                        if(_id!=-1) returnCount++;
+                try {
+                    for (ContentValues value : values) {
+//                        long isUnique = DatabaseUtils.queryNumEntries(db, KasebContract.Sales.TABLE_NAME,
+//                                KasebContract.Sales.COLUMN_SALE_CODE + " = " + "'"
+//                                        + value.getAsString(KasebContract.Sales.COLUMN_SALE_CODE) + "'");
+//                        if(isUnique==0)
+                        _id = db.insert(KasebContract.Sales.TABLE_NAME, null, value);
+                        if (_id != -1) returnCount++;
                     }
                     db.setTransactionSuccessful();
-                }finally {
+                } finally {
                     db.endTransaction();
                 }
-                getContext().getContentResolver().notifyChange(uri,null);
+                getContext().getContentResolver().notifyChange(uri, null);
                 break;
             }
-            case DETAIL_SALE:
-            {
+            case DETAIL_SALE: {
                 db.beginTransaction();
                 long _id = 0;
-                try{
-                    for (ContentValues value:values){
-                        long isUnique = DatabaseUtils.queryNumEntries(db, KasebContract.DetailSale.TABLE_NAME,
-                                KasebContract.DetailSale.COLUMN_SALE_ID + " = " + "'"
-                                        + value.getAsString(KasebContract.DetailSale.COLUMN_SALE_ID) + "'");
-                        if(isUnique==0) _id = db.insert(KasebContract.DetailSale.TABLE_NAME,null,value);
-                        if(_id!=-1) returnCount++;
+                try {
+                    for (ContentValues value : values) {
+//                        long isUnique = DatabaseUtils.queryNumEntries(db, KasebContract.DetailSale.TABLE_NAME,
+//                                KasebContract.DetailSale.COLUMN_SALE_ID + " = " + "'"
+//                                        + value.getAsString(KasebContract.DetailSale.COLUMN_SALE_ID) + "'");
+//                        if(isUnique==0)
+                        _id = db.insert(KasebContract.DetailSale.TABLE_NAME, null, value);
+                        if (_id != -1) returnCount++;
                     }
                     db.setTransactionSuccessful();
-                }finally {
+                } finally {
                     db.endTransaction();
                 }
-                getContext().getContentResolver().notifyChange(uri,null);
+                getContext().getContentResolver().notifyChange(uri, null);
                 break;
             }
-            case PRODUCTS:
-            {
+            case PRODUCTS: {
                 db.beginTransaction();
                 long _id = 0;
-                try{
-                    for (ContentValues value:values){
-                        long isUnique = DatabaseUtils.queryNumEntries(db, KasebContract.Products.TABLE_NAME,
-                                KasebContract.Products.COLUMN_PRODUCT_CODE + " = " + "'"
-                                        + value.getAsString(KasebContract.Products.COLUMN_PRODUCT_CODE) + "'");
-                        if(isUnique==0) _id = db.insert(KasebContract.Products.TABLE_NAME,null,value);
-                        if(_id!=-1) returnCount++;
+                try {
+                    for (ContentValues value : values) {
+//                        long isUnique = DatabaseUtils.queryNumEntries(db, KasebContract.Products.TABLE_NAME,
+//                                KasebContract.Products.COLUMN_PRODUCT_CODE + " = " + "'"
+//                                        + value.getAsString(KasebContract.Products.COLUMN_PRODUCT_CODE) + "'");
+//                        if(isUnique==0)
+                        _id = db.insert(KasebContract.Products.TABLE_NAME, null, value);
+                        if (_id != -1) returnCount++;
                     }
                     db.setTransactionSuccessful();
-                }finally {
+                } finally {
                     db.endTransaction();
                 }
-                getContext().getContentResolver().notifyChange(uri,null);
+                getContext().getContentResolver().notifyChange(uri, null);
                 break;
             }
-            case PRODUCT_HISTORY:
-            {
+            case PRODUCT_HISTORY: {
                 db.beginTransaction();
                 long _id = 0;
-                try{
-                    for (ContentValues value:values){
-                        _id = db.insert(KasebContract.ProductHistory.TABLE_NAME,null,value);
-                        if(_id!=-1) returnCount++;
+                try {
+                    for (ContentValues value : values) {
+                        _id = db.insert(KasebContract.ProductHistory.TABLE_NAME, null, value);
+                        if (_id != -1) returnCount++;
                     }
                     db.setTransactionSuccessful();
-                }finally {
+                } finally {
                     db.endTransaction();
                 }
-                getContext().getContentResolver().notifyChange(uri,null);
+                getContext().getContentResolver().notifyChange(uri, null);
                 break;
             }
-            case COSTS:
-            {
+            case COSTS: {
                 db.beginTransaction();
                 long _id = 0;
-                try{
-                    for (ContentValues value:values){
-                        long isUnique = DatabaseUtils.queryNumEntries(db, KasebContract.Costs.TABLE_NAME,
-                                KasebContract.Costs.COLUMN_COST_CODE + " = " + "'"
-                                        + value.getAsString(KasebContract.Costs.COLUMN_COST_CODE) + "'");
-                        if(isUnique==0) _id = db.insert(KasebContract.Costs.TABLE_NAME,null,value);
-                        if(_id!=-1) returnCount++;
+                try {
+                    for (ContentValues value : values) {
+//                        long isUnique = DatabaseUtils.queryNumEntries(db, KasebContract.Costs.TABLE_NAME,
+//                                KasebContract.Costs.COLUMN_COST_CODE + " = " + "'"
+//                                        + value.getAsString(KasebContract.Costs.COLUMN_COST_CODE) + "'");
+//                        if(isUnique==0)
+                        _id = db.insert(KasebContract.Costs.TABLE_NAME, null, value);
+                        if (_id != -1) returnCount++;
                     }
                     db.setTransactionSuccessful();
-                }finally {
+                } finally {
                     db.endTransaction();
                 }
-                getContext().getContentResolver().notifyChange(uri,null);
+                getContext().getContentResolver().notifyChange(uri, null);
                 break;
             }
-            case COST_TYPES:
-            {
+            case COST_TYPES: {
                 db.beginTransaction();
                 long _id = 0;
-                try{
-                    for (ContentValues value:values){
-                        long isUnique = DatabaseUtils.queryNumEntries(db, KasebContract.CostTypes.TABLE_NAME, KasebContract.CostTypes.COLUMN_COST_TYPE_POINTER + " = " + "'" + value.getAsString(KasebContract.CostTypes.COLUMN_COST_TYPE_POINTER) + "'");
-                        if(isUnique==0) _id = db.insert(KasebContract.CostTypes.TABLE_NAME,null,value);
-                        if(_id!=-1) returnCount++;
+                try {
+                    for (ContentValues value : values) {
+//                        long isUnique = DatabaseUtils.queryNumEntries(db, KasebContract.CostTypes.TABLE_NAME,
+//                                KasebContract.CostTypes.COLUMN_COST_TYPE_POINTER + " = " + "'"
+//                                        + value.getAsString(KasebContract.CostTypes.COLUMN_COST_TYPE_POINTER) + "'");
+//                        if(isUnique==0)
+                        _id = db.insert(KasebContract.CostTypes.TABLE_NAME, null, value);
+                        if (_id != -1) returnCount++;
                     }
                     db.setTransactionSuccessful();
-                }finally {
+                } finally {
                     db.endTransaction();
                 }
-                getContext().getContentResolver().notifyChange(uri,null);
+                getContext().getContentResolver().notifyChange(uri, null);
                 break;
             }
-            case PAYMENT_METHODS:
-            {
+            case PAYMENT_METHODS: {
                 db.beginTransaction();
                 long _id = 0;
-                try{
-                    for (ContentValues value:values){
-                        long isUnique = DatabaseUtils.queryNumEntries(db, KasebContract.PaymentMethods.TABLE_NAME, KasebContract.PaymentMethods.COLUMN_PAYMENT_METHOD_POINTER + " = " + "'" + value.getAsString(KasebContract.PaymentMethods.COLUMN_PAYMENT_METHOD_POINTER) + "'");
-                        if(isUnique==0) _id = db.insert(KasebContract.PaymentMethods.TABLE_NAME,null,value);
-                        if(_id!=-1) returnCount++;
+                try {
+                    for (ContentValues value : values) {
+//                        long isUnique = DatabaseUtils.queryNumEntries(db, KasebContract.PaymentMethods.TABLE_NAME,
+//                                KasebContract.PaymentMethods.COLUMN_PAYMENT_METHOD_POINTER + " = " + "'"
+//                                        + value.getAsString(KasebContract.PaymentMethods.COLUMN_PAYMENT_METHOD_POINTER) + "'");
+//                        if(isUnique==0)
+                        _id = db.insert(KasebContract.PaymentMethods.TABLE_NAME, null, value);
+                        if (_id != -1) returnCount++;
                     }
                     db.setTransactionSuccessful();
-                }finally {
+                } finally {
                     db.endTransaction();
                 }
-                getContext().getContentResolver().notifyChange(uri,null);
+                getContext().getContentResolver().notifyChange(uri, null);
                 break;
             }
-            case TAX_TYPES:
-            {
+            case TAX_TYPES: {
                 db.beginTransaction();
                 long _id = 0;
-                try{
-                    for (ContentValues value:values){
-                        long isUnique = DatabaseUtils.queryNumEntries(db, KasebContract.TaxTypes.TABLE_NAME, KasebContract.TaxTypes.COLUMN_TAX_TYPE_POINTER + " = " + "'" + value.getAsString(KasebContract.TaxTypes.COLUMN_TAX_TYPE_POINTER) + "'");
-                        if(isUnique==0) _id = db.insert(KasebContract.TaxTypes.TABLE_NAME,null,value);
-                        if(_id!=-1) returnCount++;
+                try {
+                    for (ContentValues value : values) {
+//                        long isUnique = DatabaseUtils.queryNumEntries(db, KasebContract.TaxTypes.TABLE_NAME,
+//                                KasebContract.TaxTypes.COLUMN_TAX_TYPE_POINTER + " = " + "'"
+//                                        + value.getAsString(KasebContract.TaxTypes.COLUMN_TAX_TYPE_POINTER) + "'");
+//                        if(isUnique==0)
+                        _id = db.insert(KasebContract.TaxTypes.TABLE_NAME, null, value);
+                        if (_id != -1) returnCount++;
                     }
                     db.setTransactionSuccessful();
-                }finally {
+                } finally {
                     db.endTransaction();
                 }
-                getContext().getContentResolver().notifyChange(uri,null);
+                getContext().getContentResolver().notifyChange(uri, null);
                 break;
             }
-            case DETAIL_SALE_PRODUCTS:
-            {
+            case DETAIL_SALE_PRODUCTS: {
                 db.beginTransaction();
                 long _id = 0;
-                try{
-                    for (ContentValues value:values){
-                        _id = db.insert(KasebContract.DetailSaleProducts.TABLE_NAME,null,value);
-                        if(_id!=-1) returnCount++;
+                try {
+                    for (ContentValues value : values) {
+                        _id = db.insert(KasebContract.DetailSaleProducts.TABLE_NAME, null, value);
+                        if (_id != -1) returnCount++;
                     }
                     db.setTransactionSuccessful();
-                }finally {
+                } finally {
                     db.endTransaction();
                 }
-                getContext().getContentResolver().notifyChange(uri,null);
+                getContext().getContentResolver().notifyChange(uri, null);
                 break;
             }
-            case DETAIL_SALE_PAYMENTS:
-            {
+            case DETAIL_SALE_PAYMENTS: {
                 db.beginTransaction();
                 long _id = 0;
-                try{
-                    for (ContentValues value:values){
-                        _id = db.insert(KasebContract.DetailSalePayments.TABLE_NAME,null,value);
-                        if(_id!=-1) returnCount++;
+                try {
+                    for (ContentValues value : values) {
+                        _id = db.insert(KasebContract.DetailSalePayments.TABLE_NAME, null, value);
+                        if (_id != -1) returnCount++;
                     }
                     db.setTransactionSuccessful();
-                }finally {
+                } finally {
                     db.endTransaction();
                 }
-                getContext().getContentResolver().notifyChange(uri,null);
+                getContext().getContentResolver().notifyChange(uri, null);
                 break;
             }
-            case DETAIL_SALE_TAXES:
-            {
+            case DETAIL_SALE_TAXES: {
                 db.beginTransaction();
                 long _id = 0;
-                try{
-                    for (ContentValues value:values){
-                        _id = db.insert(KasebContract.DetailSaleTaxes.TABLE_NAME,null,value);
-                        if(_id!=-1) returnCount++;
+                try {
+                    for (ContentValues value : values) {
+                        _id = db.insert(KasebContract.DetailSaleTaxes.TABLE_NAME, null, value);
+                        if (_id != -1) returnCount++;
                     }
                     db.setTransactionSuccessful();
-                }finally {
+                } finally {
                     db.endTransaction();
                 }
-                getContext().getContentResolver().notifyChange(uri,null);
+                getContext().getContentResolver().notifyChange(uri, null);
                 break;
             }
-            case STATE:
-            {
+            case STATE: {
                 db.beginTransaction();
                 long _id = 0;
-                try{
-                    for (ContentValues value:values){
-                        long isUnique = DatabaseUtils.queryNumEntries(db, KasebContract.State.TABLE_NAME, KasebContract.State.COLUMN_STATE_POINTER + " = " + "'" + value.getAsString(KasebContract.State.COLUMN_STATE_POINTER) + "'");
-                        if(isUnique==0) _id = db.insert(KasebContract.State.TABLE_NAME,null,value);
-                        if(_id!=-1) returnCount++;
+                try {
+                    for (ContentValues value : values) {
+//                        long isUnique = DatabaseUtils.queryNumEntries(db, KasebContract.State.TABLE_NAME,
+//                                KasebContract.State.COLUMN_STATE_POINTER + " = " + "'"
+//                                        + value.getAsString(KasebContract.State.COLUMN_STATE_POINTER) + "'");
+//                        if(isUnique==0)
+                        _id = db.insert(KasebContract.State.TABLE_NAME, null, value);
+                        if (_id != -1) returnCount++;
                     }
                     db.setTransactionSuccessful();
-                }finally {
+                } finally {
                     db.endTransaction();
                 }
-                getContext().getContentResolver().notifyChange(uri,null);
+                getContext().getContentResolver().notifyChange(uri, null);
                 break;
             }
             default:
@@ -1241,6 +1306,7 @@ public class KasebProvider extends ContentProvider {
         }
         return returnCount;
     }
+
     // You do not need to call this method. This is a method specifically to assist the testing
     // framework in running smoothly. You can read more at:
     // http://developer.android.com/reference/android/content/ContentProvider.html#shutdown()
