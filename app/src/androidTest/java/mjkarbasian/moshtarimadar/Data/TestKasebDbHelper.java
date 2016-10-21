@@ -6,14 +6,14 @@ import android.database.sqlite.SQLiteDatabase;
 import android.test.AndroidTestCase;
 import android.util.Log;
 import java.util.HashSet;
-
 import mjkarbasian.moshtarimadar.Tool.TestUtilities;
 
 /**
  * Created by Unique on 10/3/2016.
  */
-public class TestDb extends AndroidTestCase {
-    public static final String LOG_TAG = TestDb.class.getSimpleName();
+public class TestKasebDbHelper extends AndroidTestCase {
+
+    public static final String LOG_TAG = TestKasebDbHelper.class.getSimpleName();
 
     // Since we want each test to start with a clean slate
     void deleteTheDatabase() {
@@ -429,27 +429,32 @@ public class TestDb extends AndroidTestCase {
         KasebDbHelper dbHelper = new KasebDbHelper(mContext);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         ContentValues testValues = TestUtilities.createStateValues();
-        long StateRowId = db.insert(KasebContract.State.TABLE_NAME, null, testValues);
-        assertTrue(StateRowId != -1);
+        long stateRowId = db.insert(KasebContract.State.TABLE_NAME, null, testValues);
+        assertTrue("Unable to insert -State table- row", stateRowId != -1);
 
-        Cursor cursor = db.query(KasebContract.State.TABLE_NAME,
+        Cursor stateCursor = db.query(KasebContract.State.TABLE_NAME,
                 null,
                 null,
                 null,
                 null,
                 null,
                 null);
-        assertTrue("Error: No Records returned from -State table- query", cursor.moveToFirst());
 
+        assertNotNull("stateCursor is Null", stateCursor);
+        assertTrue("Error: No Records returned from -State table- query", stateCursor.moveToFirst());
+
+        Log.i(LOG_TAG, "this is my log " + stateCursor.toString());
         TestUtilities.validateCurrentRecord("Error: -State table- Query Validation Failed"
-                , cursor
+                , stateCursor
                 , testValues
                 , KasebContract.State.TABLE_NAME);
+        TestUtilities.validateCursor("stateCursor does not match expected value",
+                stateCursor, testValues, KasebContract.State.TABLE_NAME);
 
         assertFalse("Error: More than one record returned from -State table- query",
-                cursor.moveToNext());
+                stateCursor.moveToNext());
 
-        cursor.close();
+        stateCursor.close();
         db.close();
     }
 
@@ -458,87 +463,102 @@ public class TestDb extends AndroidTestCase {
         KasebDbHelper dbHelper = new KasebDbHelper(mContext);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         ContentValues testValues = TestUtilities.createCostTypesValues();
-        long CostTypesRowId = db.insert(KasebContract.CostTypes.TABLE_NAME, null, testValues);
-        assertTrue(CostTypesRowId != -1);
+        long costTypesRowId = db.insert(KasebContract.CostTypes.TABLE_NAME, null, testValues);
+        assertTrue("Unable to insert -CostTypes table- row", costTypesRowId != -1);
 
-        Cursor cursor = db.query(KasebContract.CostTypes.TABLE_NAME,
+        Cursor costTypesCursor = db.query(KasebContract.CostTypes.TABLE_NAME,
                 null,
                 null,
                 null,
                 null,
                 null,
                 null);
-        assertTrue("Error: No Records returned from -CostTypes table- query", cursor.moveToFirst());
 
+        assertNotNull("costTypesCursor is Null", costTypesCursor);
+        assertTrue("Error: No Records returned from -CostTypes table- query", costTypesCursor.moveToFirst());
+
+        Log.i(LOG_TAG, "this is my log " + costTypesCursor.toString());
         TestUtilities.validateCurrentRecord("Error: -CostTypes table- Query Validation Failed"
-                , cursor
+                , costTypesCursor
                 , testValues
                 , KasebContract.CostTypes.TABLE_NAME);
+        TestUtilities.validateCursor("costTypesCursor does not match expected value",
+                costTypesCursor, testValues, KasebContract.CostTypes.TABLE_NAME);
 
         assertFalse("Error: More than one record returned from -CostTypes table- query",
-                cursor.moveToNext());
+                costTypesCursor.moveToNext());
 
-        cursor.close();
+        costTypesCursor.close();
         db.close();
     }
 
     //3
     public void testCustomersTable() {
-        long StateRowId = insertStateTable();
+        long stateRowId = insertStateTable();
         KasebDbHelper dbHelper = new KasebDbHelper(mContext);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
-        ContentValues testValues = TestUtilities.createCustomersValues(StateRowId);
-        long CustomersRowId = db.insert(KasebContract.Customers.TABLE_NAME, null, testValues);
-        assertTrue(CustomersRowId != -1);
+        ContentValues testValues = TestUtilities.createCustomersValues(stateRowId);
+        long customersRowId = db.insert(KasebContract.Customers.TABLE_NAME, null, testValues);
+        assertTrue("Unable to insert -Customers table- row", customersRowId != -1);
 
-        Cursor cursor = db.query(KasebContract.Customers.TABLE_NAME,
+        Cursor customersCursor = db.query(KasebContract.Customers.TABLE_NAME,
                 null,
                 null,
                 null,
                 null,
                 null,
                 null);
-        assertTrue("Error: No Records returned from -Customers table- query", cursor.moveToFirst());
-        Log.d(LOG_TAG,"this is my log " + cursor.toString());
+
+        assertNotNull("customersCursor is Null", customersCursor);
+        assertTrue("Error: No Records returned from -Customers table- query", customersCursor.moveToFirst());
+
+        Log.i(LOG_TAG, "this is my log " + customersCursor.toString());
         TestUtilities.validateCurrentRecord("Error: -Customers table- Query Validation Failed"
-                , cursor
+                , customersCursor
                 , testValues
                 , KasebContract.Customers.TABLE_NAME);
+        TestUtilities.validateCursor("customersCursor does not match expected value",
+                customersCursor, testValues, KasebContract.Customers.TABLE_NAME);
 
         assertFalse("Error: More than one record returned from -Customers table- query",
-                cursor.moveToNext());
+                customersCursor.moveToNext());
 
-        cursor.close();
+        customersCursor.close();
         db.close();
     }
 
     //4
     public void testCostTable() {
-        long CostTypesRowId = insertCostTypesTable();
+        long costTypesRowId = insertCostTypesTable();
         KasebDbHelper dbHelper = new KasebDbHelper(mContext);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
-        ContentValues testValues = TestUtilities.createCostsValues(CostTypesRowId);
-        long CostsRowId = db.insert(KasebContract.Costs.TABLE_NAME, null, testValues);
-        assertTrue(CostsRowId != -1);
+        ContentValues testValues = TestUtilities.createCostsValues(costTypesRowId);
+        long costsRowId = db.insert(KasebContract.Costs.TABLE_NAME, null, testValues);
+        assertTrue("Unable to insert -Costs table- row", costsRowId != -1);
 
-        Cursor cursor = db.query(KasebContract.Costs.TABLE_NAME,
+        Cursor costsCursor = db.query(KasebContract.Costs.TABLE_NAME,
                 null,
                 null,
                 null,
                 null,
                 null,
                 null);
-        assertTrue("Error: No Records returned from -Costs table- query", cursor.moveToFirst());
 
+        assertNotNull("costsCursor is Null", costsCursor);
+        assertTrue("Error: No Records returned from -Costs table- query", costsCursor.moveToFirst());
+
+        Log.i(LOG_TAG, "this is my log " + costsCursor.toString());
         TestUtilities.validateCurrentRecord("Error: -Costs table- Query Validation Failed"
-                , cursor
+                , costsCursor
                 , testValues
                 , KasebContract.Costs.TABLE_NAME);
+        TestUtilities.validateCursor("costsCursor does not match expected value",
+                costsCursor, testValues, KasebContract.Costs.TABLE_NAME);
 
         assertFalse("Error: More than one record returned from -Costs table- query",
-                cursor.moveToNext());
+                costsCursor.moveToNext());
 
-        cursor.close();
+        costsCursor.close();
         db.close();
     }
 
@@ -547,27 +567,32 @@ public class TestDb extends AndroidTestCase {
         KasebDbHelper dbHelper = new KasebDbHelper(mContext);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         ContentValues testValues = TestUtilities.createPaymentMethodsValues();
-        long PaymentMethodsRowId = db.insert(KasebContract.PaymentMethods.TABLE_NAME, null, testValues);
-        assertTrue(PaymentMethodsRowId != -1);
+        long paymentMethodsRowId = db.insert(KasebContract.PaymentMethods.TABLE_NAME, null, testValues);
+        assertTrue("Unable to insert -PaymentMethods table- row", paymentMethodsRowId != -1);
 
-        Cursor cursor = db.query(KasebContract.PaymentMethods.TABLE_NAME,
+        Cursor paymentMethodsCursor = db.query(KasebContract.PaymentMethods.TABLE_NAME,
                 null,
                 null,
                 null,
                 null,
                 null,
                 null);
-        assertTrue("Error: No Records returned from -PaymentMethods table- query", cursor.moveToFirst());
 
+        assertNotNull("paymentMethodsCursor is Null", paymentMethodsCursor);
+        assertTrue("Error: No Records returned from -PaymentMethods table- query", paymentMethodsCursor.moveToFirst());
+
+        Log.i(LOG_TAG, "this is my log " + paymentMethodsCursor.toString());
         TestUtilities.validateCurrentRecord("Error: -PaymentMethods table- Query Validation Failed"
-                , cursor
+                , paymentMethodsCursor
                 , testValues
                 , KasebContract.PaymentMethods.TABLE_NAME);
+        TestUtilities.validateCursor("paymentMethodsCursor does not match expected value",
+                paymentMethodsCursor, testValues, KasebContract.PaymentMethods.TABLE_NAME);
 
         assertFalse("Error: More than one record returned from -PaymentMethods table- query",
-                cursor.moveToNext());
+                paymentMethodsCursor.moveToNext());
 
-        cursor.close();
+        paymentMethodsCursor.close();
         db.close();
     }
 
@@ -576,27 +601,32 @@ public class TestDb extends AndroidTestCase {
         KasebDbHelper dbHelper = new KasebDbHelper(mContext);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         ContentValues testValues = TestUtilities.createTaxTypesValues();
-        long TaxTypesRowId = db.insert(KasebContract.TaxTypes.TABLE_NAME, null, testValues);
-        assertTrue(TaxTypesRowId != -1);
+        long taxTypesRowId = db.insert(KasebContract.TaxTypes.TABLE_NAME, null, testValues);
+        assertTrue("Unable to insert -TaxTypes table- row", taxTypesRowId != -1);
 
-        Cursor cursor = db.query(KasebContract.TaxTypes.TABLE_NAME,
+        Cursor taxTypesCursor = db.query(KasebContract.TaxTypes.TABLE_NAME,
                 null,
                 null,
                 null,
                 null,
                 null,
                 null);
-        assertTrue("Error: No Records returned from -TaxTypes table- query", cursor.moveToFirst());
 
+        assertNotNull("taxTypesCursor is Null", taxTypesCursor);
+        assertTrue("Error: No Records returned from -TaxTypes table- query", taxTypesCursor.moveToFirst());
+
+        Log.i(LOG_TAG, "this is my log " + taxTypesCursor.toString());
         TestUtilities.validateCurrentRecord("Error: -TaxTypes table- Query Validation Failed"
-                , cursor
+                , taxTypesCursor
                 , testValues
                 , KasebContract.TaxTypes.TABLE_NAME);
+        TestUtilities.validateCursor("taxTypesCursor does not match expected value",
+                taxTypesCursor, testValues, KasebContract.TaxTypes.TABLE_NAME);
 
         assertFalse("Error: More than one record returned from -TaxTypes table- query",
-                cursor.moveToNext());
+                taxTypesCursor.moveToNext());
 
-        cursor.close();
+        taxTypesCursor.close();
         db.close();
     }
 
@@ -605,58 +635,68 @@ public class TestDb extends AndroidTestCase {
         KasebDbHelper dbHelper = new KasebDbHelper(mContext);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         ContentValues testValues = TestUtilities.createProductsValues();
-        long ProductsRowId = db.insert(KasebContract.Products.TABLE_NAME, null, testValues);
-        assertTrue(ProductsRowId != -1);
+        long productsRowId = db.insert(KasebContract.Products.TABLE_NAME, null, testValues);
+        assertTrue("Unable to insert -Products table- row", productsRowId != -1);
 
-        Cursor cursor = db.query(KasebContract.Products.TABLE_NAME,
+        Cursor productsCursor = db.query(KasebContract.Products.TABLE_NAME,
                 null,
                 null,
                 null,
                 null,
                 null,
                 null);
-        assertTrue("Error: No Records returned from -Products table- query", cursor.moveToFirst());
 
+        assertNotNull("productsCursor is Null", productsCursor);
+        assertTrue("Error: No Records returned from -Products table- query", productsCursor.moveToFirst());
+
+        Log.i(LOG_TAG, "this is my log " + productsCursor.toString());
         TestUtilities.validateCurrentRecord("Error: -Products table- Query Validation Failed"
-                , cursor
+                , productsCursor
                 , testValues
                 , KasebContract.Products.TABLE_NAME);
+        TestUtilities.validateCursor("productsCursor does not match expected value",
+                productsCursor, testValues, KasebContract.Products.TABLE_NAME);
 
         assertFalse("Error: More than one record returned from -Products table- query",
-                cursor.moveToNext());
+                productsCursor.moveToNext());
 
-        cursor.close();
+        productsCursor.close();
         db.close();
     }
 
     //8
     public void testSalesTable() {
-        long StateRowId = insertStateTable();
-        long CustomersRowId = insertCustomersTable(StateRowId);
+        long stateRowId = insertStateTable();
+        long customersRowId = insertCustomersTable(stateRowId);
         KasebDbHelper dbHelper = new KasebDbHelper(mContext);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
-        ContentValues testValues = TestUtilities.createSalesValues(CustomersRowId);
-        long SalesRowId = db.insert(KasebContract.Sales.TABLE_NAME, null, testValues);
-        assertTrue(SalesRowId != -1);
+        ContentValues testValues = TestUtilities.createSalesValues(customersRowId);
+        long salesRowId = db.insert(KasebContract.Sales.TABLE_NAME, null, testValues);
+        assertTrue("Unable to insert -Sales table- row", salesRowId != -1);
 
-        Cursor cursor = db.query(KasebContract.Sales.TABLE_NAME,
+        Cursor salesCursor = db.query(KasebContract.Sales.TABLE_NAME,
                 null,
                 null,
                 null,
                 null,
                 null,
                 null);
-        assertTrue("Error: No Records returned from -Sales table- query", cursor.moveToFirst());
 
+        assertNotNull("salesCursor is Null", salesCursor);
+        assertTrue("Error: No Records returned from -Sales table- query", salesCursor.moveToFirst());
+
+        Log.i(LOG_TAG, "this is my log " + salesCursor.toString());
         TestUtilities.validateCurrentRecord("Error: -Sales table- Query Validation Failed"
-                , cursor
+                , salesCursor
                 , testValues
                 , KasebContract.Sales.TABLE_NAME);
+        TestUtilities.validateCursor("salesCursor does not match expected value",
+                salesCursor, testValues, KasebContract.Sales.TABLE_NAME);
 
         assertFalse("Error: More than one record returned from -Sales table- query",
-                cursor.moveToNext());
+                salesCursor.moveToNext());
 
-        cursor.close();
+        salesCursor.close();
         db.close();
     }
 
@@ -669,162 +709,183 @@ public class TestDb extends AndroidTestCase {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         ContentValues testValues = TestUtilities.createDetailSaleValues(salesRowId);
         long detailSaleRowId = db.insert(KasebContract.DetailSale.TABLE_NAME, null, testValues);
-        assertTrue(detailSaleRowId != -1);
+        assertTrue("Unable to insert -DetailSale table- row", detailSaleRowId != -1);
 
-        Cursor cursor = db.query(KasebContract.DetailSale.TABLE_NAME,
+        Cursor detailSaleCursor = db.query(KasebContract.DetailSale.TABLE_NAME,
                 null,
                 null,
                 null,
                 null,
                 null,
                 null);
-        assertTrue("Error: No Records returned from -DetailSale table- query", cursor.moveToFirst());
 
+        assertNotNull("detailSaleCursor is Null", detailSaleCursor);
+        assertTrue("Error: No Records returned from -DetailSale table- query", detailSaleCursor.moveToFirst());
+
+        Log.i(LOG_TAG, "this is my log " + detailSaleCursor.toString());
         TestUtilities.validateCurrentRecord("Error: -DetailSale table- Query Validation Failed"
-                , cursor
+                , detailSaleCursor
                 , testValues
                 , KasebContract.DetailSale.TABLE_NAME);
+        TestUtilities.validateCursor("detailSaleCursor does not match expected value",
+                detailSaleCursor, testValues, KasebContract.DetailSale.TABLE_NAME);
 
         assertFalse("Error: More than one record returned from -DetailSale table- query",
-                cursor.moveToNext());
+                detailSaleCursor.moveToNext());
 
-        cursor.close();
+        detailSaleCursor.close();
         db.close();
     }
 
     //10
     public void testDetailSalePaymentsTable() {
-        long StateRowId = insertStateTable();
-        long CustomersRowId = insertCustomersTable(StateRowId);
-        long SalesRowId = insertSalesTable(CustomersRowId);
-        long DetailSaleRowId = insertDetailSaleTable(SalesRowId);
-        long PaymentMethodsRowId = insertPaymentMethodsTable();
+        long stateRowId = insertStateTable();
+        long customersRowId = insertCustomersTable(stateRowId);
+        long salesRowId = insertSalesTable(customersRowId);
+        long detailSaleRowId = insertDetailSaleTable(salesRowId);
+        long paymentMethodsRowId = insertPaymentMethodsTable();
         KasebDbHelper dbHelper = new KasebDbHelper(mContext);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
-        ContentValues testValues = TestUtilities.createDetailSalePaymentsValues(DetailSaleRowId, PaymentMethodsRowId);
+        ContentValues testValues = TestUtilities.createDetailSalePaymentsValues(detailSaleRowId, paymentMethodsRowId);
         long DetailSalePaymentsRowId = db.insert(KasebContract.DetailSalePayments.TABLE_NAME, null, testValues);
-        assertTrue(DetailSalePaymentsRowId != -1);
+        assertTrue("Unable to insert -DetailSalePayments table- row", DetailSalePaymentsRowId != -1);
 
-        Cursor cursor = db.query(KasebContract.DetailSalePayments.TABLE_NAME,
+        Cursor detailSalePaymentsCursor = db.query(KasebContract.DetailSalePayments.TABLE_NAME,
                 null,
                 null,
                 null,
                 null,
                 null,
                 null);
-        assertTrue("Error: No Records returned from -DetailSalePayments table- query", cursor.moveToFirst());
 
+        assertNotNull("detailSalePaymentsCursor is Null", detailSalePaymentsCursor);
+        assertTrue("Error: No Records returned from -DetailSalePayments table- query", detailSalePaymentsCursor.moveToFirst());
+
+        Log.i(LOG_TAG, "this is my log " + detailSalePaymentsCursor.toString());
         TestUtilities.validateCurrentRecord("Error: -DetailSalePayments table- Query Validation Failed"
-                , cursor
+                , detailSalePaymentsCursor
                 , testValues
                 , KasebContract.DetailSalePayments.TABLE_NAME);
+        TestUtilities.validateCursor("detailSalePaymentsCursor does not match expected value",
+                detailSalePaymentsCursor, testValues, KasebContract.DetailSalePayments.TABLE_NAME);
 
         assertFalse("Error: More than one record returned from -DetailSalePayments table- query",
-                cursor.moveToNext());
+                detailSalePaymentsCursor.moveToNext());
 
-        cursor.close();
+        detailSalePaymentsCursor.close();
         db.close();
     }
 
     //11
     public void testProductHistoryTable() {
-        long ProductsRowId = insertProductsTable();
+        long productsRowId = insertProductsTable();
         KasebDbHelper dbHelper = new KasebDbHelper(mContext);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
-        ContentValues testValues = TestUtilities.createProductHistoryValues(ProductsRowId);
-        long ProductHistoryRowId = db.insert(KasebContract.ProductHistory.TABLE_NAME, null, testValues);
-        assertTrue(ProductHistoryRowId != -1);
+        ContentValues testValues = TestUtilities.createProductHistoryValues(productsRowId);
+        long productHistoryRowId = db.insert(KasebContract.ProductHistory.TABLE_NAME, null, testValues);
+        assertTrue("Unable to insert -ProductHistory table- row", productHistoryRowId != -1);
 
-        Cursor cursor = db.query(KasebContract.ProductHistory.TABLE_NAME,
+        Cursor productHistoryCursor = db.query(KasebContract.ProductHistory.TABLE_NAME,
                 null,
                 null,
                 null,
                 null,
                 null,
                 null);
-        assertTrue("Error: No Records returned from -ProductHistory table- query", cursor.moveToFirst());
 
+        assertNotNull("productHistoryCursor is Null", productHistoryCursor);
+        assertTrue("Error: No Records returned from -ProductHistory table- query", productHistoryCursor.moveToFirst());
+
+        Log.i(LOG_TAG, "this is my log " + productHistoryCursor.toString());
         TestUtilities.validateCurrentRecord("Error: -ProductHistory table- Query Validation Failed"
-                , cursor
+                , productHistoryCursor
                 , testValues
                 , KasebContract.ProductHistory.TABLE_NAME);
+        TestUtilities.validateCursor("productHistoryCursor does not match expected value",
+                productHistoryCursor, testValues, KasebContract.ProductHistory.TABLE_NAME);
 
         assertFalse("Error: More than one record returned from -ProductHistory table- query",
-                cursor.moveToNext());
+                productHistoryCursor.moveToNext());
 
-        cursor.close();
+        productHistoryCursor.close();
         db.close();
     }
 
     //12
     public void testDetailSaleTaxesTable() {
-
-        long StateRowId = insertStateTable();
-        long CustomersRowId = insertCustomersTable(StateRowId);
-        long SalesRowId = insertSalesTable(CustomersRowId);
-        long DetailSaleRowId = insertDetailSaleTable(SalesRowId);
-        long TaxTypesRowId = insertTaxTypesTable();
-
+        long stateRowId = insertStateTable();
+        long customersRowId = insertCustomersTable(stateRowId);
+        long salesRowId = insertSalesTable(customersRowId);
+        long detailSaleRowId = insertDetailSaleTable(salesRowId);
+        long taxTypesRowId = insertTaxTypesTable();
         KasebDbHelper dbHelper = new KasebDbHelper(mContext);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
-        ContentValues testValues = TestUtilities.createDetailSaleTaxesValues(DetailSaleRowId, TaxTypesRowId);
+        ContentValues testValues = TestUtilities.createDetailSaleTaxesValues(detailSaleRowId, taxTypesRowId);
         long DetailSaleTaxesRowId = db.insert(KasebContract.DetailSaleTaxes.TABLE_NAME, null, testValues);
-        assertTrue(DetailSaleTaxesRowId != -1);
+        assertTrue("Unable to insert -DetailSaleTaxes table- row", DetailSaleTaxesRowId != -1);
 
-        Cursor cursor = db.query(KasebContract.DetailSaleTaxes.TABLE_NAME,
+        Cursor detailSaleTaxesCursor = db.query(KasebContract.DetailSaleTaxes.TABLE_NAME,
                 null,
                 null,
                 null,
                 null,
                 null,
                 null);
-        assertTrue("Error: No Records returned from -DetailSaleTaxes table- query", cursor.moveToFirst());
 
+        assertNotNull("detailSaleTaxesCursor is Null", detailSaleTaxesCursor);
+        assertTrue("Error: No Records returned from -DetailSaleTaxes table- query", detailSaleTaxesCursor.moveToFirst());
+
+        Log.i(LOG_TAG, "this is my log " + detailSaleTaxesCursor.toString());
         TestUtilities.validateCurrentRecord("Error: -DetailSaleTaxes table- Query Validation Failed"
-                , cursor
+                , detailSaleTaxesCursor
                 , testValues
                 , KasebContract.DetailSaleTaxes.TABLE_NAME);
+        TestUtilities.validateCursor("detailSaleTaxesCursor does not match expected value",
+                detailSaleTaxesCursor, testValues, KasebContract.DetailSaleTaxes.TABLE_NAME);
 
         assertFalse("Error: More than one record returned from -DetailSaleTaxes table- query",
-                cursor.moveToNext());
+                detailSaleTaxesCursor.moveToNext());
 
-        cursor.close();
+        detailSaleTaxesCursor.close();
         db.close();
     }
 
     //13
     public void testDetailSaleProductsTable() {
-
-        long StateRowId = insertStateTable();
-        long CustomersRowId = insertCustomersTable(StateRowId);
-        long SalesRowId = insertSalesTable(CustomersRowId);
-        long DetailSaleRowId = insertDetailSaleTable(SalesRowId);
-        long ProductsRowId = insertProductsTable();
-
+        long stateRowId = insertStateTable();
+        long customersRowId = insertCustomersTable(stateRowId);
+        long salesRowId = insertSalesTable(customersRowId);
+        long detailSaleRowId = insertDetailSaleTable(salesRowId);
+        long productsRowId = insertProductsTable();
         KasebDbHelper dbHelper = new KasebDbHelper(mContext);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
-        ContentValues testValues = TestUtilities.createDetailSaleProductsValues(ProductsRowId, DetailSaleRowId);
-        long DetailSaleProductsRowId = db.insert(KasebContract.DetailSaleProducts.TABLE_NAME, null, testValues);
-        assertTrue(DetailSaleProductsRowId != -1);
+        ContentValues testValues = TestUtilities.createDetailSaleProductsValues(productsRowId, detailSaleRowId);
+        long detailSaleProductsRowId = db.insert(KasebContract.DetailSaleProducts.TABLE_NAME, null, testValues);
+        assertTrue("Unable to insert -DetailSaleProducts table- row", detailSaleProductsRowId != -1);
 
-        Cursor cursor = db.query(KasebContract.DetailSaleProducts.TABLE_NAME,
+        Cursor detailSaleProductsCursor = db.query(KasebContract.DetailSaleProducts.TABLE_NAME,
                 null,
                 null,
                 null,
                 null,
                 null,
                 null);
-        assertTrue("Error: No Records returned from -DetailSaleProducts table- query", cursor.moveToFirst());
 
+        assertNotNull("detailSaleProductsCursor is Null", detailSaleProductsCursor);
+        assertTrue("Error: No Records returned from -DetailSaleProducts table- query", detailSaleProductsCursor.moveToFirst());
+
+        Log.i(LOG_TAG, "this is my log " + detailSaleProductsCursor.toString());
         TestUtilities.validateCurrentRecord("Error: -DetailSaleProducts table- Query Validation Failed"
-                , cursor
+                , detailSaleProductsCursor
                 , testValues
                 , KasebContract.DetailSaleProducts.TABLE_NAME);
+        TestUtilities.validateCursor("detailSaleProductsCursor does not match expected value",
+                detailSaleProductsCursor, testValues, KasebContract.DetailSaleProducts.TABLE_NAME);
 
         assertFalse("Error: More than one record returned from -DetailSaleProducts table- query",
-                cursor.moveToNext());
+                detailSaleProductsCursor.moveToNext());
 
-        cursor.close();
+        detailSaleProductsCursor.close();
         db.close();
     }
     //endregion
@@ -903,33 +964,3 @@ public class TestDb extends AndroidTestCase {
     }
     //endregion
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

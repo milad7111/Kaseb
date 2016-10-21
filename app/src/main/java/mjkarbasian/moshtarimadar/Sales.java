@@ -24,6 +24,7 @@ public class Sales extends DrawerActivity {
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
+
     public void fab_sales(View v){
 //        Snackbar.make(v, "Fab sales", Snackbar.LENGTH_LONG)
 //              .setAction("Action", null).show();
