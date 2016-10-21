@@ -722,7 +722,7 @@ public class TestKasebProvider extends AndroidTestCase {
         long newStateRowId1 = db.insert(KasebContract.State.TABLE_NAME, null, testValues);
 
         testValues = TestUtilities.createCustomersValues(newStateRowId1);
-        long newCustomerRowId = db.insert(KasebContract.State.TABLE_NAME, null, testValues);
+        long newCustomerRowId = db.insert(KasebContract.Customers.TABLE_NAME, null, testValues);
 
         bulkInsertContentValues = createBulkInsertSalesByCustomerIdValues(newCustomerRowId);
         mContext.getContentResolver().registerContentObserver(Sales.CONTENT_URI, true, observer);
@@ -764,7 +764,8 @@ public class TestKasebProvider extends AndroidTestCase {
         observer.waitForNotificationOrFail();
         mContext.getContentResolver().unregisterContentObserver(observer);
 
-        assertEquals("Bulk Insertion with IsBalanced failed -DetailSale:IsBalanced table-", BULK_INSERT_RECORDS_TO_INSERT, detailSaleId);
+        assertEquals("Bulk Insertion with IsBalanced failed -DetailSale:IsBalanced table-", BULK_INSERT_RECORDS_TO_INSERT,
+                detailSaleId);
 
         // A cursor is your primary interface to the query results.
         Cursor detailSalewithIsBalancedCursor = mContext.getContentResolver().query(
@@ -933,7 +934,7 @@ public class TestKasebProvider extends AndroidTestCase {
 
         // A cursor is your primary interface to the query results.
         Cursor detailSalePaymentswithPaymentMethodIdCursor = mContext.getContentResolver().query(
-                DetailSalePayments.paymentsByMethod(newDetailSaleRowId1),
+                DetailSalePayments.paymentsByMethod(newPaymentMethodRowId),
                 null, // leaving "columns" null just returns all the columns.
                 null, // columns for "where" clause
                 null, // values for "where" clause

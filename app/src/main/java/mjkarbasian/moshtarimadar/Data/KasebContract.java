@@ -100,7 +100,7 @@ public class KasebContract {
 
         //query customers by their group : contents:////AUTHORITY/customers/state_id
         public static Uri stateCustomer(long stateId) {
-            return CONTENT_URI.buildUpon().appendQueryParameter("state_id", Long.toString(stateId)).build();
+            return CONTENT_URI.buildUpon().appendPath("state_id").appendPath(String.valueOf(stateId)).build();
         }
     }
 
@@ -146,7 +146,7 @@ public class KasebContract {
 
         //defining uri for sale of a customer : content://AUTHORITY/Sales/customer_Id
         public static Uri customerSales(long customerId) {
-            return CONTENT_URI.buildUpon().appendQueryParameter("customer._id", Long.toString(customerId)).build();
+            return CONTENT_URI.buildUpon().appendPath("customer_id").appendPath(String.valueOf(customerId)).build();
         }
     }
 
@@ -178,12 +178,12 @@ public class KasebContract {
 
         // Defining Uri for DetailSaleOf a Sale cursor dir??? : content://AUTHORITY/DetailSale/sale_id
         public static Uri saleDetailSale(long saleId) {
-            return CONTENT_URI.buildUpon().appendQueryParameter("sale_id",Long.toString(saleId)).build();
+            return CONTENT_URI.buildUpon().appendPath("sale_id").appendPath(String.valueOf(saleId)).build();
         }
 
         //Defineing Uri for DetailSales Which are balance or not,cursor dir Content://AUTHORITY/DetailSale/is_Balanced/isBalanced
         public static Uri isBalanceDetailSale(Boolean isBalance) {
-            return CONTENT_URI.buildUpon().appendQueryParameter("is_balanced", Boolean.toString(isBalance)).build();
+            return CONTENT_URI.buildUpon().appendPath("is_balanced").appendPath(String.valueOf((isBalance ? 1 : 0))).build();
         }
     }
 
@@ -210,12 +210,12 @@ public class KasebContract {
 
         //Defining Uri for products of a detailsale cursor_dir: content://AUTHORITY/DetailSalePayments/detail_sale_id
         public static Uri paymentOfDetailSale(long detailSaleId) {
-            return CONTENT_URI.buildUpon().appendQueryParameter("detail_sale_id",Long.toString(detailSaleId)).build();
+            return CONTENT_URI.buildUpon().appendPath("detail_sale_id").appendPath(String.valueOf(detailSaleId)).build();
         }
 
         //Define uri for payment by type : content://AUTHORITY/DetailSalePayments/payment_methods/payment_method_id
         public static Uri paymentsByMethod(long paymentMethodId) {
-            return CONTENT_URI.buildUpon().appendQueryParameter("payment_method_id", Long.toString(paymentMethodId)).build();
+            return CONTENT_URI.buildUpon().appendPath("payment_method_id").appendPath(String.valueOf(paymentMethodId)).build();
         }
     }
 
@@ -242,7 +242,7 @@ public class KasebContract {
 
         //Defining Uri for products of a detailsale cursor_dir: content://AUTHORITY/DetailSaleProducts/detail_sale_id
         public static Uri productsOfDetailSale(long detailSaleId) {
-            return CONTENT_URI.buildUpon().appendQueryParameter("detail_sale_id", Long.toString(detailSaleId)).build();
+            return CONTENT_URI.buildUpon().appendPath("detail_sale_id").appendPath(String.valueOf(detailSaleId)).build();
         }
     }
 
@@ -268,12 +268,12 @@ public class KasebContract {
 
         //Uri for taxes in detail factor: content://authority/detail_sale_taxes/detail_sale_id
         public static Uri taxOfDetailSale(long detailSaleId) {
-            return CONTENT_URI.buildUpon().appendQueryParameter("detail_sale_id", Long.toString(detailSaleId)).build();
+            return CONTENT_URI.buildUpon().appendPath("detail_sale_id").appendPath(String.valueOf(detailSaleId)).build();
         }
 
         //Uri for taxes by type : content://authority/detail_sale_taxes/tax_types/tax_type=type
         public static Uri taxOfDetailSaleByType(long taxTypeId) {
-            return CONTENT_URI.buildUpon().appendQueryParameter("tax_type_id", Long.toString(taxTypeId)).build();
+            return CONTENT_URI.buildUpon().appendPath("tax_type_id").appendPath(String.valueOf(taxTypeId)).build();
         }
     }
 
@@ -361,7 +361,7 @@ public class KasebContract {
 
         //Definig uri for  query of specific product histories content://AUTHORITY/product_history/product_id
         public static Uri aProductHistory(long productId) {
-            return CONTENT_URI.buildUpon().appendQueryParameter("product_id", Long.toString(productId)).build();
+            return CONTENT_URI.buildUpon().appendPath("product_id").appendPath(String.valueOf(productId)).build();
         }
     }
 
@@ -391,7 +391,7 @@ public class KasebContract {
 
         //define Uri to query cost by cost types content://AUTHORITY/DetailSale/cost_type_id
         public static Uri costsByType(long costTypeID) {
-            return CONTENT_URI.buildUpon().appendQueryParameter("cost_type_id", Long.toString(costTypeID)).build();
+            return CONTENT_URI.buildUpon().appendPath("cost_type_id").appendPath(String.valueOf(costTypeID)).build();
         }
     }
 

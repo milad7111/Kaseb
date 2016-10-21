@@ -11,6 +11,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 import mjkarbasian.moshtarimadar.helper.Utility;
 
@@ -22,6 +23,7 @@ import mjkarbasian.moshtarimadar.helper.Utility;
 public class KasebProvider extends ContentProvider {
 
     private static final UriMatcher sUriMatcher = buildUriMatcher();
+    final static String LOG_TAG = KasebProvider.class.getSimpleName();
     private KasebDbHelper mOpenHelper;
 
     //region defining uri integers
@@ -33,8 +35,6 @@ public class KasebProvider extends ContentProvider {
     public static final int DETAIL_SALE_RECORD = 105;
     public static final int PRODUCTS = 106;
     public static final int PRODUCTS_RECORD = 107;
-    public static final int PRODUCT_DETAIL = 108;
-    public static final int PRODUCT_DETAIL_RECORD = 109;
     public static final int PRODUCT_HISTORY = 110;
     public static final int PRODUCT_HISTORY_RECORD = 111;
     public static final int COSTS = 112;
@@ -104,7 +104,8 @@ public class KasebProvider extends ContentProvider {
     }
 
     private static String dataSetSelectionMaker(String tableName, String ColumnName) {
-        return tableName + "." + ColumnName + " =?";
+        return ColumnName + " =?";
+        //return tableName + "." + ColumnName + " =?";
     }
 
     @Override
@@ -554,13 +555,13 @@ public class KasebProvider extends ContentProvider {
             //endregion
 
             //region 29 DETAIL_SALE_BY_IS_BALANCED
-            case DETAIL_SALE_BY_IS_BALANCED: {
+            case DETAIL_SALE_BY_IS_BALANCED: {//issue#42
                 String isBalancedId = Utility.getTheLastPathUri(uri);
-                retCursor = sDetailSaleBySaleQueryBuilder.query(
-                        mOpenHelper.getReadableDatabase(),
+                retCursor = mOpenHelper.getReadableDatabase().query(
+                        KasebContract.DetailSale.TABLE_NAME,
                         projection,
-                        dataSetSelectionMaker(KasebContract.DetailSale.TABLE_NAME, KasebContract.DetailSale.COLUMN_IS_BALANCED),
-                        new String[]{isBalancedId},
+                        selection,
+                        null,
                         null,
                         null,
                         sortOrder
@@ -1050,17 +1051,17 @@ public class KasebProvider extends ContentProvider {
         uriMatcher.addURI(authority, KasebContract.PATH_STATE, STATE);
         uriMatcher.addURI(authority, KasebContract.PATH_STATE + "/#", STATE_RECORD);
         //new uris
-        uriMatcher.addURI(authority, KasebContract.PATH_CUSTOMERS + "/State._id/*", CUSTOMER_BY_STATE);
-        uriMatcher.addURI(authority, KasebContract.PATH_SALES + "/*", SALES_BY_CUSTOMER);
-        uriMatcher.addURI(authority, KasebContract.PATH_DETAIL_SALE + "/*", DETAIL_SALE_BY_SALE_ID);
+        uriMatcher.addURI(authority, KasebContract.PATH_CUSTOMERS + "/state_id/*", CUSTOMER_BY_STATE);
+        uriMatcher.addURI(authority, KasebContract.PATH_SALES + "/customer_id/*", SALES_BY_CUSTOMER);
+        uriMatcher.addURI(authority, KasebContract.PATH_DETAIL_SALE + "/sale_id/*", DETAIL_SALE_BY_SALE_ID);
         uriMatcher.addURI(authority, KasebContract.PATH_DETAIL_SALE + "/is_balanced/*", DETAIL_SALE_BY_IS_BALANCED);
-        uriMatcher.addURI(authority, KasebContract.PATH_DETAIL_SALE_PAYMENTS + "/*", DETAIL_SALE_PAYMENT_BY_DETAIL_SALE_ID);
-        uriMatcher.addURI(authority, KasebContract.PATH_DETAIL_SALE_PAYMENTS + "/payment_methods/*", DETAIL_SALE_PAYMENT_BY_PAYMENT_METHOD);
-        uriMatcher.addURI(authority, KasebContract.PATH_DETAIL_SALE_PRODUCTS + "/*", DETAIL_SALE_PRODUCT_BY_DETAIL_SALE_ID);
-        uriMatcher.addURI(authority, KasebContract.PATH_DETAIL_SALE_TAXES + "/*", DETAIL_SALE_TAXES_BY_DETAIL_SALE_ID);
-        uriMatcher.addURI(authority, KasebContract.PATH_DETAIL_SALE_TAXES + "/tax_types/*", DETAIL_SALE_TAXES_BY_TAX_TYPE);
-        uriMatcher.addURI(authority, KasebContract.PATH_PRODUCT_HISTORY + "/*", PRODUCT_HISTORY_BY_PRODUCT_ID);
-        uriMatcher.addURI(authority, KasebContract.PATH_COSTS + "/*", COSTS_BY_TYPE);
+        uriMatcher.addURI(authority, KasebContract.PATH_DETAIL_SALE_PAYMENTS + "/detail_sale_id/*", DETAIL_SALE_PAYMENT_BY_DETAIL_SALE_ID);
+        uriMatcher.addURI(authority, KasebContract.PATH_DETAIL_SALE_PAYMENTS + "/payment_method_id/*", DETAIL_SALE_PAYMENT_BY_PAYMENT_METHOD);
+        uriMatcher.addURI(authority, KasebContract.PATH_DETAIL_SALE_PRODUCTS + "/detail_sale_id/*", DETAIL_SALE_PRODUCT_BY_DETAIL_SALE_ID);
+        uriMatcher.addURI(authority, KasebContract.PATH_DETAIL_SALE_TAXES + "/detail_sale_id/*", DETAIL_SALE_TAXES_BY_DETAIL_SALE_ID);
+        uriMatcher.addURI(authority, KasebContract.PATH_DETAIL_SALE_TAXES + "/tax_type_id/*", DETAIL_SALE_TAXES_BY_TAX_TYPE);
+        uriMatcher.addURI(authority, KasebContract.PATH_PRODUCT_HISTORY + "/product_id/*", PRODUCT_HISTORY_BY_PRODUCT_ID);
+        uriMatcher.addURI(authority, KasebContract.PATH_COSTS + "/cost_type_id/*", COSTS_BY_TYPE);
         return uriMatcher;
     }
 
