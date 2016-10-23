@@ -125,6 +125,7 @@
     <string name="hint_date_picker">Date: yy-mm-dd</string>
     <string name="hint_cost_amount">Amount</string>
     <string name="hint_cost_code">Cost code</string>
+    <string name="msg_insert_succeed">data successfully added.</string>
     <string-array name="cost_types">
             <item>Bill</item>
             <item>Tax</item>

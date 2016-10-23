@@ -2,7 +2,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     >
     <item
-        android:id="@+id/save_button"
+        android:id="@+id/save_inputs"
         android:icon="@drawable/save"
         android:title="@string/save"
         app:showAsAction="always"
