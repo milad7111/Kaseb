@@ -3,4 +3,5 @@
     <item name="customer_tab_info" type="id">Info</item>
     <item name="customer_tab_dash" type="id">Dashboard</item>
     <item name="customer_tab_bill" type="id">Bills</item>
+    <item name="msg_insert_succeed" type="id">Data inserted successfully.!</item>
 </resources>
