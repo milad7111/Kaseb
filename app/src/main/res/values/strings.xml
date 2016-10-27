@@ -120,6 +120,7 @@
     <string name="title_card_detail_product">Product Information</string>
     <string name="share_action_description">it share your product detail information</string>
     <string name="edit_detail_product_action_description">it let you edit product information</string>
+    <!-- CostInsert Hints-->
     <string name="hint_cost_name">Cost name</string>
     <string name="hint_description">Description</string>
     <string name="hint_date_picker">Date: yy-mm-dd</string>
@@ -127,10 +128,28 @@
     <string name="hint_cost_code">Cost code</string>
     <string name="msg_insert_succeed">data successfully added.</string>
     <string-array name="cost_types">
-            <item>Bill</item>
-            <item>Tax</item>
-            <item>Salary</item>
-            <item>Others</item>
+        <item>Bill</item>
+        <item>Tax</item>
+        <item>Salary</item>
+        <item>Others</item>
     </string-array>
-
+    <!-- CustomerInsert Hints-->
+    <string name="hint_first_name">First name</string>
+    <string name="hint_last_name">Last name</string>
+    <string name="hint_birth_day">Date: yy-mm-dd</string>
+    <string-array name="state_types">
+        <item>Gold</item>
+        <item>Silver</item>
+        <item>Yellow</item>
+    </string-array>
+    <string name="hint_phone_mobile">Phone mobile</string>
+    <string name="hint_email">Email</string>
+    <string name="hint_phone_work">Phone work</string>
+    <string name="hint_phone_home">Phone home</string>
+    <string name="hint_phone_other">Phone other</string>
+    <string name="hint_phone_fax">Phone fax</string>
+    <string name="hint_address_country">Address country</string>
+    <string name="hint_address_city">Address city</string>
+    <string name="hint_address_street">Address street</string>
+    <string name="hint_address_postal_code">Address postal code</string>
 </resources>

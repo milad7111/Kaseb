@@ -2,6 +2,7 @@ package mjkarbasian.moshtarimadar;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +20,12 @@ public class CustomersLists extends Fragment {
     CustomerAdapter mCustomerAdapter;
     ListView mListView;
     public CustomersLists() {
+    }
+
+    public void onCreate(Bundle savedInstanceState) {
+
+        FloatingActionButton fab = (FloatingActionButton) getActivity().findViewById(R.id.fab_customers);
+        super.onCreate(savedInstanceState);
     }
 
     @Override
