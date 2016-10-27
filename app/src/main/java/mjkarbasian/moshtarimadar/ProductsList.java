@@ -2,6 +2,7 @@ package mjkarbasian.moshtarimadar;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,8 +10,13 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import java.text.ParseException;
+
 import mjkarbasian.moshtarimadar.adapters.ProductAdapter;
 import mjkarbasian.moshtarimadar.helper.Samples;
+import mjkarbasian.moshtarimadar.helper.Utility;
+
+import static mjkarbasian.moshtarimadar.helper.Samples.costs;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -19,7 +25,14 @@ public class ProductsList extends Fragment {
 
     ProductAdapter mProductAdapter;
     ListView mListView;
+
     public ProductsList() {
+    }
+
+    public void onCreate(Bundle savedInstanceState) {
+
+        FloatingActionButton fab = (FloatingActionButton) getActivity().findViewById(R.id.fab_products);
+        super.onCreate(savedInstanceState);
     }
 
     @Override

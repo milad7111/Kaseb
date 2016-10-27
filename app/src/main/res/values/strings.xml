@@ -152,4 +152,9 @@
     <string name="hint_address_city">Address city</string>
     <string name="hint_address_street">Address street</string>
     <string name="hint_address_postal_code">Address postal code</string>
+    <!-- ProductInsert Hints-->
+    <string name="hint_product_name">Product name</string>
+    <string name="hint_product_code">Product code</string>
+    <string name="hint_product_unit">Product unit</string>
+    <string name="hint_product_description">Product description</string>
 </resources>

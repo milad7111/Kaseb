@@ -8,24 +8,3 @@
     android:fitsSystemWindows="true"
     tools:context="mjkarbasian.moshtarimadar.Customers">
 </android.support.design.widget.CoordinatorLayout>
-<!--<android.support.design.widget.CoordinatorLayout-->
-    <!--xmlns:android="http://schemas.android.com/apk/res/android"-->
-    <!--xmlns:app="http://schemas.android.com/apk/res-auto"-->
-    <!--xmlns:tools="http://schemas.android.com/tools"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="match_parent"-->
-    <!--android:fitsSystemWindows="true"-->
-    <!--tools:context="mjkarbasian.moshtarimadar.Customers">-->
-
-    <!--<include layout="@layout/content_customers" />-->
-
-    <!--<android.support.design.widget.FloatingActionButton-->
-        <!--android:id="@+id/fab_customers"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_gravity="bottom|end"-->
-        <!--android:layout_margin="@dimen/fab_margin"-->
-        <!--android:onClick="fab_customers"-->
-        <!--android:src="@android:drawable/ic_input_add" />-->
-
-<!--</android.support.design.widget.CoordinatorLayout>-->
