@@ -7,18 +7,19 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
+
 import java.io.File;
+
 import mjkarbasian.moshtarimadar.helper.GalleryUtil;
 import mjkarbasian.moshtarimadar.helper.Samples;
+import mjkarbasian.moshtarimadar.helper.Utility;
 
 public class Customers extends DrawerActivity {
 
@@ -38,6 +39,8 @@ public class Customers extends DrawerActivity {
         super.onCreate(savedInstanceState);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        //this line initialize all references
+        Utility.initializer(this);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         fragmentManager.beginTransaction().replace(R.id.container, customersFragment).commit();
     }
