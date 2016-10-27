@@ -6,7 +6,7 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:layout_marginEnd="@dimen/activity_horizontal_margin"
     android:layout_marginRight="@dimen/activity_horizontal_margin"
-    tools:context="mjkarbasian.moshtarimadar.ProductsFragment"
+    tools:context=".ProductsList"
     tools:showIn="@layout/activity_products">
     <ListView
         android:id="@+id/list_view_products"

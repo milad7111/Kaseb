@@ -18,11 +18,11 @@ import mjkarbasian.moshtarimadar.helper.Utility;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class DetailProductsFragment extends Fragment {
+public class DetailProductsView extends Fragment {
 
     ListView mListView;
 
-    public DetailProductsFragment() {
+    public DetailProductsView() {
     }
 
     @Override

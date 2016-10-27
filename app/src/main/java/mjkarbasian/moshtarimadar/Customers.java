@@ -6,7 +6,7 @@ import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
@@ -14,47 +14,39 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.Toast;
-
 import java.io.File;
-
 import mjkarbasian.moshtarimadar.helper.GalleryUtil;
 import mjkarbasian.moshtarimadar.helper.Samples;
-import mjkarbasian.moshtarimadar.helper.Utility;
 
 public class Customers extends DrawerActivity {
 
-    private static final int REQUEST_CROP_URI =800 ;
+    private static final int REQUEST_CROP_URI = 800;
     private static final int GALLERY_ACTIVITY_CODE = 200;
-    private static final int RESULT_CROP = 400 ;
+    private static final int RESULT_CROP = 400;
     ImageView mCustomerAvatar;
+
+    Fragment customersFragment = new CustomersLists();
+    Fragment customerInsert = new CustomerInsert();
+
+    android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        Utility.initializer(this);
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab_customers);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getLayoutInflater().inflate(R.layout.activity_customers,(FrameLayout)findViewById(R.id.container));
+        fragmentManager.beginTransaction().replace(R.id.container, customersFragment).commit();
     }
 
-    public void fab_customers(View v){
-//        Snackbar.make(v, "Replace your own action", Snackbar.LENGTH_LONG)
-//                .setAction("Action", null).show();
-        PopupMenu popup = new PopupMenu(this,v);
-        popup.getMenu().add(R.string.fab_add_customer);
-        popup.getMenu().add(R.string.fab_add_sale);
-        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-            public boolean onMenuItemClick(MenuItem item) {
-                return true;
-            }
-        });
-        popup.show();//showing popup menu
-
+    public void fab_customers(View v) {
+        android.support.v4.app.FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.container, customerInsert);
+        fragmentTransaction.addToBackStack(null);
+        int callBackStack = fragmentTransaction.commit();
     }
 
     @Override
@@ -74,23 +66,24 @@ public class Customers extends DrawerActivity {
     }
 
     public void pic_selector(View view) {
-        mCustomerAvatar = (ImageView)view ;
+        mCustomerAvatar = (ImageView) view;
         Intent gallery_Intent = new Intent(getApplicationContext(), GalleryUtil.class);
         startActivityForResult(gallery_Intent, GALLERY_ACTIVITY_CODE);
 
     }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == GALLERY_ACTIVITY_CODE) {
-            if(resultCode == Activity.RESULT_OK){
+            if (resultCode == Activity.RESULT_OK) {
                 String picturePath = data.getStringExtra("picturePath");
                 //perform Crop on the Image Selected from Gallery
                 performCrop(picturePath);
             }
         }
-        if (requestCode == RESULT_CROP ) {
-            if(resultCode == Activity.RESULT_OK){
+        if (requestCode == RESULT_CROP) {
+            if (resultCode == Activity.RESULT_OK) {
                 Uri imageUri = data.getData();
                 Samples.customerAvatar.add(imageUri);
                 mCustomerAvatar.setImageURI(imageUri);

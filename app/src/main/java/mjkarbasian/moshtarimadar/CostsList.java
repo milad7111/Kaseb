@@ -1,6 +1,7 @@
 package mjkarbasian.moshtarimadar;
 
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,11 +25,20 @@ import static mjkarbasian.moshtarimadar.helper.Samples.setCostNames;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class CostsFragment extends Fragment {
+public class CostsList extends Fragment {
     CostAdapter mCostAdapter;
     ListView mListView;
 
-    public CostsFragment() {
+
+    public CostsList() {
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+
+        FloatingActionButton fab = (FloatingActionButton) getActivity().findViewById(R.id.fab);
+        super.onCreate(savedInstanceState);
+//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     @Override
@@ -43,8 +53,7 @@ public class CostsFragment extends Fragment {
         int monthCounter = 0;
         int olderCounter = 0;
 
-        if(costsCode.size()==0)
-        {
+        if (costsCode.size() == 0) {
             setCostCode();
             setCostDue();
             setCostNames(getActivity());
@@ -52,54 +61,59 @@ public class CostsFragment extends Fragment {
             setCost(getActivity());
         }
 
-        for (String date : costsDue)
-        {
+        for (String date : costsDue) {
             try {
                 todayCheck = Utility.isToday(date);
-                if(todayCheck) todayCounter++;
+                if (todayCheck) todayCounter++;
                 weekCheck = Utility.isThisWeek(date);
-                if(weekCheck && !todayCheck) weekCounter++;
+                if (weekCheck && !todayCheck) weekCounter++;
                 monthCheck = Utility.isThisMonth(date);
-                if(monthCheck && !weekCheck && !todayCheck) monthCounter++;
-                if(!monthCheck&& !weekCheck && !todayCheck) olderCounter++;
-            } catch (ParseException e) {e.printStackTrace();}
+                if (monthCheck && !weekCheck && !todayCheck) monthCounter++;
+                if (!monthCheck && !weekCheck && !todayCheck) olderCounter++;
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
 
         }
-        if(todayCounter>0){ mCostAdapter.addSectionHeaderItem(getString(R.string.header_today));
-            for(int i=0;i< costs.get(0).size();i++)
-            {
+        if (todayCounter > 0) {
+            mCostAdapter.addSectionHeaderItem(getString(R.string.header_today));
+            for (int i = 0; i < costs.get(0).size(); i++) {
                 try {
-                    if(Utility.isToday(costs.get(0).get(i)))mCostAdapter.addItem(costs.get(1).get(i));
+                    if (Utility.isToday(costs.get(0).get(i)))
+                        mCostAdapter.addItem(costs.get(1).get(i));
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
-            }}
-        if(weekCounter>0) {
+            }
+        }
+        if (weekCounter > 0) {
             mCostAdapter.addSectionHeaderItem(getString(R.string.header_this_week));
-            for(int i=0;i< costs.get(0).size();i++)
-            {
+            for (int i = 0; i < costs.get(0).size(); i++) {
                 try {
-                    if(!Utility.isToday(costs.get(0).get(i))&&Utility.isThisWeek(costs.get(0).get(i)))mCostAdapter.addItem(costs.get(1).get(i));
+                    if (!Utility.isToday(costs.get(0).get(i)) && Utility.isThisWeek(costs.get(0).get(i)))
+                        mCostAdapter.addItem(costs.get(1).get(i));
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
-            }}
-        if(monthCounter>0){ mCostAdapter.addSectionHeaderItem(getString(R.string.header_this_month));
-            for(int i=0;i< costs.get(0).size();i++)
-            {
+            }
+        }
+        if (monthCounter > 0) {
+            mCostAdapter.addSectionHeaderItem(getString(R.string.header_this_month));
+            for (int i = 0; i < costs.get(0).size(); i++) {
                 try {
-                    if(!Utility.isToday(costs.get(0).get(i))&&!Utility.isThisWeek(costs.get(0).get(i))&&Utility.isThisMonth(costs.get(0).get(i)))mCostAdapter.addItem(costs.get(1).get(i));
+                    if (!Utility.isToday(costs.get(0).get(i)) && !Utility.isThisWeek(costs.get(0).get(i)) && Utility.isThisMonth(costs.get(0).get(i)))
+                        mCostAdapter.addItem(costs.get(1).get(i));
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
-            }}
-        if(olderCounter>0)
-        {
+            }
+        }
+        if (olderCounter > 0) {
             mCostAdapter.addSectionHeaderItem(getString(R.string.header_older));
-            for(int i=0;i< costs.get(0).size();i++)
-            {
+            for (int i = 0; i < costs.get(0).size(); i++) {
                 try {
-                    if(!Utility.isToday(costs.get(0).get(i))&&!Utility.isThisWeek(costs.get(0).get(i))&&!Utility.isThisMonth(costs.get(0).get(i)))mCostAdapter.addItem(costs.get(1).get(i));
+                    if (!Utility.isToday(costs.get(0).get(i)) && !Utility.isThisWeek(costs.get(0).get(i)) && !Utility.isThisMonth(costs.get(0).get(i)))
+                        mCostAdapter.addItem(costs.get(1).get(i));
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
@@ -111,4 +125,6 @@ public class CostsFragment extends Fragment {
         mListView.setAdapter(mCostAdapter);
         return rootView;
     }
+
+
 }

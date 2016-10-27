@@ -27,6 +27,7 @@ public class KasebDbHelper extends SQLiteOpenHelper {
                 KasebContract.Customers.COLUMN_LAST_NAME + " TEXT NOT NULL," +
                 KasebContract.Customers.COLUMN_PHONE_MOBILE + " TEXT NOT NULL UNIQUE,"+
                 KasebContract.Customers.COLUMN_PHONE_WORK + " TEXT,"+
+                KasebContract.Customers.COLUMN_PHONE_HOME + " TEXT,"+
                 KasebContract.Customers.COLUMN_PHONE_FAX + " TEXT," +
                 KasebContract.Customers.COLUMN_PHONE_OTHER+ " TEXT,"+
                 KasebContract.Customers.COLUMN_EMAIL+" TEXT,"+
@@ -36,7 +37,7 @@ public class KasebDbHelper extends SQLiteOpenHelper {
                 KasebContract.Customers.COLUMN_ADDRESS_STREET+ " TEXT,"+
                 KasebContract.Customers.COLUMN_ADDRESS_POSTAL_CODE+ " TEXT,"+
                 KasebContract.Customers.COLUMN_DESCRIPTION+" TEXT,"+
-                KasebContract.Customers.COLUMN_IS_DELETED+ " BLOB NOT NULL," +
+                KasebContract.Customers.COLUMN_IS_DELETED+ " BOOLEAN NOT NULL DEFAULT 0," +
                 KasebContract.Customers.COLUMN_STATE_ID + " INTEGER NOT NULL,"+
                 " FOREIGN KEY ("+ KasebContract.Customers.COLUMN_STATE_ID +") REFERENCES "+
                 KasebContract.State.TABLE_NAME + " ("+KasebContract.State._ID+") "

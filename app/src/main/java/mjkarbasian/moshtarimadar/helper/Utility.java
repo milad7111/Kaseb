@@ -5,7 +5,6 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.widget.ImageView;
 
-import java.net.URI;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -37,6 +36,7 @@ public class Utility {
         String pathStr = segments[segments.length-1];
         return pathStr;
     }
+
     public static String formatPurchase(Context context,String purcahseAmount){
 
         return context.getString(R.string.format_purchase_amount,purcahseAmount);

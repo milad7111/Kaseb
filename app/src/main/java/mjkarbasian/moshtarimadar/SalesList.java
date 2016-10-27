@@ -21,11 +21,11 @@ import static mjkarbasian.moshtarimadar.helper.Samples.salesDue;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class SalesFragment extends Fragment {
+public class SalesList extends Fragment {
     SaleAdapter mSalesAdapter;
     ListView mListView;
 
-    public SalesFragment() {
+    public SalesList() {
     }
 
     @Override

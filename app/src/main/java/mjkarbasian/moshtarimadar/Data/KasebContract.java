@@ -86,6 +86,7 @@ public class KasebContract {
         public static final String COLUMN_IS_DELETED = "is_deleted";
         public static final String COLUMN_EMAIL = "email";
         public static final String COLUMN_PHONE_WORK = "phone_work";
+        public static final String COLUMN_PHONE_HOME = "phone_home";
         public static final String COLUMN_PHONE_OTHER = "phone_other";
         public static final String COLUMN_PHONE_FAX = "phone_fax";
         public static final String COLUMN_ADDRESS_COUNTRY = "address_country";
