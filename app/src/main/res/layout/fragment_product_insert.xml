@@ -30,4 +30,33 @@
         android:layout_height="wrap_content"
         android:hint="@string/hint_product_description" />
 
+    <EditText
+        android:id="@+id/input_buy_price"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/hint_buy_price"
+        android:inputType="numberDecimal" />
+
+    <EditText
+        android:id="@+id/input_quantity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/hint_quantity"
+        android:inputType="number" />
+
+    <EditText
+        android:id="@+id/input_sale_price"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/hint_sale_price"
+        android:inputType="numberDecimal" />
+
+    <EditText
+        android:id="@+id/input_buy_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="@string/hint_date"
+        android:inputType="date" />
+
 </LinearLayout>

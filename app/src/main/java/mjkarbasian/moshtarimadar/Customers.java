@@ -19,6 +19,7 @@ import android.widget.Toast;
 import java.io.File;
 import mjkarbasian.moshtarimadar.helper.GalleryUtil;
 import mjkarbasian.moshtarimadar.helper.Samples;
+import mjkarbasian.moshtarimadar.helper.Utility;
 
 public class Customers extends DrawerActivity {
 
@@ -38,6 +39,8 @@ public class Customers extends DrawerActivity {
         super.onCreate(savedInstanceState);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        //this line initialize all references
+        Utility.initializer(this);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         fragmentManager.beginTransaction().replace(R.id.container, customersFragment).commit();
     }
@@ -69,7 +72,6 @@ public class Customers extends DrawerActivity {
         mCustomerAvatar = (ImageView) view;
         Intent gallery_Intent = new Intent(getApplicationContext(), GalleryUtil.class);
         startActivityForResult(gallery_Intent, GALLERY_ACTIVITY_CODE);
-
     }
 
     @Override
