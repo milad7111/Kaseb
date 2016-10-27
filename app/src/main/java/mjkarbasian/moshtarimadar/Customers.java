@@ -39,9 +39,8 @@ public class Customers extends DrawerActivity {
         super.onCreate(savedInstanceState);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        //this line initialize all references
-        Utility.initializer(this);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Utility.initializer(this);
         fragmentManager.beginTransaction().replace(R.id.container, customersFragment).commit();
     }
 

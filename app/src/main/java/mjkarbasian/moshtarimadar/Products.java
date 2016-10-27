@@ -20,7 +20,6 @@ public class Products extends DrawerActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getLayoutInflater().inflate(R.layout.activity_products, (FrameLayout) findViewById(R.id.container));
-
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
