@@ -21,6 +21,8 @@ import mjkarbasian.moshtarimadar.helper.GalleryUtil;
 import mjkarbasian.moshtarimadar.helper.Samples;
 import mjkarbasian.moshtarimadar.helper.Utility;
 
+
+
 public class Customers extends DrawerActivity {
 
     private static final int REQUEST_CROP_URI = 800;
