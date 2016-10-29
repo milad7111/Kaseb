@@ -1,10 +1,9 @@
 package mjkarbasian.moshtarimadar;
 
-import android.database.sqlite.SQLiteDatabase;
-import android.support.v4.app.Fragment;
 import android.content.ContentValues;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -17,8 +16,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import mjkarbasian.moshtarimadar.Data.KasebContract;
-import mjkarbasian.moshtarimadar.Data.KasebDbHelper;
-import mjkarbasian.moshtarimadar.R;
+import mjkarbasian.moshtarimadar.helper.Utility;
 
 /**
  * Created by Unique on 10/21/2016.
@@ -41,6 +39,7 @@ public class CustomerInsert extends Fragment {
     EditText addressStreet;
     EditText addressPostalCode;
     private Uri insertUri;
+    View rootView;
 
     ContentValues customerValues = new ContentValues();
 
@@ -51,7 +50,7 @@ public class CustomerInsert extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_customer_insert, container, false);
+        rootView = inflater.inflate(R.layout.fragment_customer_insert, container, false);
 
         stateType = (Spinner) rootView.findViewById(R.id.input_state_type_spinner);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(),
@@ -151,6 +150,7 @@ public class CustomerInsert extends Fragment {
     }
 
     private void backToLastPage() {
+        Utility.clearForm((ViewGroup) rootView);
         getFragmentManager().popBackStackImmediate();
     }
 }
