@@ -14,19 +14,21 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import mjkarbasian.moshtarimadar.Data.KasebContract;
+import mjkarbasian.moshtarimadar.helper.Utility;
 
 /**
  * Created by Unique on 10/25/2016.
  */
 public class ProductInsert extends Fragment {
 
-    private static final String LOG_TAG = CostInsert.class.getSimpleName() ;
+    private static final String LOG_TAG = CostInsert.class.getSimpleName();
     EditText productName;
     EditText productCode;
     EditText unit;
     EditText productDescription;
     ContentValues productValues = new ContentValues();
     private Uri insertUri;
+    View rootView;
 
     public ProductInsert() {
         setHasOptionsMenu(true);
@@ -34,16 +36,16 @@ public class ProductInsert extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState){
-        View rootView = inflater.inflate(R.layout.fragment_product_insert, container, false);
+                             Bundle savedInstanceState) {
+        rootView = inflater.inflate(R.layout.fragment_product_insert, container, false);
 
 //        unit = (Spinner) rootView.findViewById(R.id.input_unit_spinner);
 //        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(),
 //                R.array.unit, android.R.layout.simple_spinner_item);
-        productName = (EditText)rootView.findViewById(R.id.input_product_name);
-        productCode = (EditText)rootView.findViewById(R.id.input_product_code);
-        unit = (EditText)rootView.findViewById(R.id.input_product_unit);
-        productDescription = (EditText)rootView.findViewById(R.id.input_product_description);
+        productName = (EditText) rootView.findViewById(R.id.input_product_name);
+        productCode = (EditText) rootView.findViewById(R.id.input_product_code);
+        unit = (EditText) rootView.findViewById(R.id.input_product_unit);
+        productDescription = (EditText) rootView.findViewById(R.id.input_product_description);
 //        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 //        unit.setAdapter(adapter);
 
@@ -57,14 +59,15 @@ public class ProductInsert extends Fragment {
         menu.removeItem(R.id.search_button);
         inflater.inflate(R.menu.fragments_for_insert, menu);
     }
+
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.save_inputs:{
-                productValues.put(KasebContract.Products.COLUMN_PRODUCT_NAME,productName.getText().toString());
-                productValues.put(KasebContract.Products.COLUMN_PRODUCT_CODE,productCode.getText().toString());
-                productValues.put(KasebContract.Products.COLUMN_UNIT,unit.getText().toString());
-                productValues.put(KasebContract.Products.COLUMN_DESCRIPTION,productDescription.getText().toString());
-                insertUri =getActivity().getContentResolver().insert(
+            case R.id.save_inputs: {
+                productValues.put(KasebContract.Products.COLUMN_PRODUCT_NAME, productName.getText().toString());
+                productValues.put(KasebContract.Products.COLUMN_PRODUCT_CODE, productCode.getText().toString());
+                productValues.put(KasebContract.Products.COLUMN_UNIT, unit.getText().toString());
+                productValues.put(KasebContract.Products.COLUMN_DESCRIPTION, productDescription.getText().toString());
+                insertUri = getActivity().getContentResolver().insert(
                         KasebContract.Products.CONTENT_URI,
                         productValues
                 );
@@ -95,6 +98,7 @@ public class ProductInsert extends Fragment {
 
     // this method back to the activity view. this must be a utility method.
     private void backToLastPage() {
+        Utility.clearForm((ViewGroup) rootView);
         getFragmentManager().popBackStackImmediate();
     }
 }

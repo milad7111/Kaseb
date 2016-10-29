@@ -3,6 +3,9 @@ package mjkarbasian.moshtarimadar.helper;
 import android.content.Context;
 import android.graphics.Color;
 import android.net.Uri;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 
 import java.text.DecimalFormat;
@@ -230,6 +233,17 @@ public class Utility {
         }
 
 
+    }
+    public static void clearForm(ViewGroup group)
+    {
+        for (int i = 0, count = group.getChildCount(); i < count; ++i) {
+            View view = group.getChildAt(i);
+            if (view instanceof EditText) {
+                ((EditText)view).setText("");
+            }
+            if(view instanceof ViewGroup && (((ViewGroup)view).getChildCount() > 0))
+                clearForm((ViewGroup)view);
+        }
     }
 
 }

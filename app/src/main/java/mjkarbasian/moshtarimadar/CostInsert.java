@@ -16,6 +16,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import mjkarbasian.moshtarimadar.Data.KasebContract;
+import mjkarbasian.moshtarimadar.helper.Utility;
 
 /**
  * Created by family on 10/19/2016.
@@ -30,6 +31,7 @@ public class CostInsert extends Fragment {
     EditText costDescription;
     ContentValues costValues = new ContentValues();
     private Uri insertUri;
+    View rootView;
 
     public CostInsert() {
         setHasOptionsMenu(true);
@@ -39,7 +41,7 @@ public class CostInsert extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_cost_insert, container, false);
+        rootView = inflater.inflate(R.layout.fragment_cost_insert, container, false);
         costType = (Spinner) rootView.findViewById(R.id.input_cost_type_spinner);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(),
                 R.array.cost_types, android.R.layout.simple_spinner_item);
@@ -53,14 +55,6 @@ public class CostInsert extends Fragment {
         costType.setAdapter(adapter);
 
         return rootView;
-    }
-
-    private void clearEditText() {
-        costName.getText().clear();
-        costCode.getText().clear();
-        costDate.getText().clear();
-        costDescription.getText().clear();
-        costAmount.getText().clear();
     }
 
     @Override
@@ -104,7 +98,7 @@ public class CostInsert extends Fragment {
 
     // this method back to the activity view. this must be a utility method.
     private void backToLastPage() {
-        clearEditText();
+        Utility.clearForm((ViewGroup) rootView);
         getFragmentManager().popBackStackImmediate();
     }
 }
