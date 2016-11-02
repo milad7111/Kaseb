@@ -104,12 +104,15 @@
         </activity>
 
         <provider
-            android:authorities="mjkarbasian.moshtarimadar"
             android:name=".Data.KasebProvider"
+            android:authorities="mjkarbasian.moshtarimadar"
             android:enabled="true"
             android:exported="true"
-            android:permission="com.myApp.LICENSE_TO_KILL"
-            ></provider>
+            android:permission="com.myApp.LICENSE_TO_KILL" />
+
+        <activity
+            android:name=".SettingsActivity"
+            android:label="@string/title_activity_settings"></activity>
     </application>
 
 </manifest>
