@@ -133,6 +133,25 @@
         <item>Salary</item>
         <item>Others</item>
     </string-array>
+    <!--default cost types strings-->
+    <string name="cost_types_bill">Bill</string>
+    <string name="cost_types_tax">Tax</string>
+    <string name="cost_types_salary">Salary</string>
+    <string name="cost_types_others">Other</string>
+    <!-- default tax type strings-->
+    <string name="tax_types_vas">VAS</string>
+    <string name="tax_types_discount">Discount</string>
+    <!-- default payment method strings-->
+    <string name="payment_method_cash">Cash</string>
+    <string name="payment_method_credit">Credit</string>
+    <string name="payment_method_cheque">Cheque</string>
+    <string name="payment_method_pos">POS</string>
+    <!-- default customer states-->
+    <string name="states_gold">Gold</string>
+    <string name="states_silver">Silver</string>
+    <string name="states_bronze">Bronze</string>
+    <string name="states_instart">In Start</string>
+
     <!-- CustomerInsert Hints-->
     <string name="hint_first_name">First name</string>
     <string name="hint_last_name">Last name</string>

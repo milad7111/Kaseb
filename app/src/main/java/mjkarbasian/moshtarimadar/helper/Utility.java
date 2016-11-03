@@ -1,8 +1,10 @@
 package mjkarbasian.moshtarimadar.helper;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.graphics.Color;
 import android.net.Uri;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
@@ -15,6 +17,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
+import mjkarbasian.moshtarimadar.Data.KasebContract;
 import mjkarbasian.moshtarimadar.R;
 
 import static mjkarbasian.moshtarimadar.helper.Samples.salesCode;
@@ -34,6 +37,8 @@ import static mjkarbasian.moshtarimadar.helper.Samples.setSalesCustomer;
  * Created by family on 6/24/2016.
  */
 public class Utility {
+    private static final String LOG_TAG = Utility.class.getSimpleName();
+
     public static String getTheLastPathUri(Uri uri) {
         String[] segments = uri.getPath().split("/");
         String pathStr = segments[segments.length - 1];
@@ -203,6 +208,11 @@ public class Utility {
 
     public static void initializer(Context context) {
 
+        costTypesInit(context);
+        taxTypesInit(context);
+        paymentsMethodinit(context);
+        stateInits(context);
+
         if (Samples.productCode.size() == 0) {
             Samples.setProductCode();
             Samples.setProductName(context);
@@ -233,6 +243,38 @@ public class Utility {
         }
 
 
+    }
+
+    private static void stateInits(Context context) {
+
+    }
+
+    private static void paymentsMethodinit(Context context) {
+
+    }
+
+    private static void taxTypesInit(Context context) {
+
+    }
+
+    private static void costTypesInit(Context context) {
+        ContentValues[] costTypesPointer = new ContentValues[4];
+        ContentValues costTypes = new ContentValues();
+
+        costTypes.put(KasebContract.CostTypes.COLUMN_COST_TYPE_POINTER, R.string.cost_types_bill);
+        costTypesPointer[0] = costTypes;
+        costTypes.put(KasebContract.CostTypes.COLUMN_COST_TYPE_POINTER, R.string.cost_types_salary);
+        costTypesPointer[1] = costTypes;
+        costTypes.put(KasebContract.CostTypes.COLUMN_COST_TYPE_POINTER, R.string.cost_types_tax);
+        costTypesPointer[2] = costTypes;
+        costTypes.put(KasebContract.CostTypes.COLUMN_COST_TYPE_POINTER, R.string.cost_types_others);
+        costTypesPointer[3] = costTypes;
+
+        int insertedUri = context.getContentResolver().bulkInsert(
+                KasebContract.CostTypes.CONTENT_URI,
+                costTypesPointer
+        );
+        Log.d(LOG_TAG, "Data successfully initialized to: " + Integer.toString(insertedUri));
     }
 
     public static void clearForm(ViewGroup group) {

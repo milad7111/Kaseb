@@ -6,10 +6,12 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import java.util.ArrayList;
 
+import mjkarbasian.moshtarimadar.Data.KasebContract;
 import mjkarbasian.moshtarimadar.adapters.HeaderAdaper;
 
 /**
@@ -38,6 +40,45 @@ public class PreferenceHeader extends Fragment {
         mListView = (ListView) rootView.findViewById(R.id.list_view_setting_types);
         headerAdaper = new HeaderAdaper(getActivity(), headerIcons, headerTitle, headerSummary);
         mListView.setAdapter(headerAdaper);
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                //create an instance of typeSetting Fragment and its passing value bundle
+                Bundle columnName = new Bundle();
+                TypeSettingFragment typeFragment = new TypeSettingFragment();
+                //filtering typeSetting from Headers By an if
+                if (position < 4) {
+                    switch (position) {
+                        case 0: {
+                            // this is cost types setting so we call typeSettingFragment by passing it Cost type column Name
+                            columnName.putString("columnName", KasebContract.CostTypes.COLUMN_COST_TYPE_POINTER);
+                            break;
+                        }
+                        case 1: {
+                            columnName.putString("columnName", KasebContract.TaxTypes.COLUMN_TAX_TYPE_POINTER);
+                            break;
+                        }
+                        case 2: {
+                            columnName.putString("columnName", KasebContract.PaymentMethods.COLUMN_PAYMENT_METHOD_POINTER);
+                            break;
+                        }
+                        case 3: {
+                            columnName.putString("columnName", KasebContract.State.COLUMN_STATE_POINTER);
+                            break;
+                        }
+                        default:
+
+                    }
+                    typeFragment.setArguments(columnName);
+                    android.support.v4.app.FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+                    fragmentTransaction.replace(R.id.container, typeFragment);
+                    fragmentTransaction.addToBackStack(null);
+                    int callBackStack = fragmentTransaction.commit();
+                }
+
+
+            }
+        });
         return rootView;
     }
 

@@ -37,8 +37,8 @@ public class HeaderAdaper extends BaseAdapter {
     }
 
     @Override
-    public Object getItem(int position) {
-        return position;
+    public String getItem(int position) {
+        return mHeaderTitle.get(position);
     }
 
     @Override

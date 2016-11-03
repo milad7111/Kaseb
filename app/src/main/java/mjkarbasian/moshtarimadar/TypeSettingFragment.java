@@ -93,27 +93,36 @@ public class TypeSettingFragment extends Fragment  implements LoaderManager.Load
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         Log.d(LOG_TAG, "onCreateLoader");
         Uri cursorUri = null;
+        String _idColumn = null;
         switch (mColumnName) {
             case (KasebContract.CostTypes.COLUMN_COST_TYPE_POINTER): {
                 cursorUri = KasebContract.CostTypes.CONTENT_URI;
+                _idColumn = KasebContract.CostTypes._ID;
                 break;
             }
             case (KasebContract.TaxTypes.COLUMN_TAX_TYPE_POINTER): {
                 cursorUri = KasebContract.TaxTypes.CONTENT_URI;
+                _idColumn = KasebContract.TaxTypes._ID;
+
                 break;
             }
             case (KasebContract.PaymentMethods.COLUMN_PAYMENT_METHOD_POINTER): {
                 cursorUri = KasebContract.PaymentMethods.CONTENT_URI;
+                _idColumn = KasebContract.PaymentMethods._ID;
+
                 break;
             }
             case (KasebContract.State.COLUMN_STATE_POINTER): {
                 cursorUri = KasebContract.State.CONTENT_URI;
+                _idColumn = KasebContract.State._ID;
                 break;
             }
             default:
                 new UnsupportedOperationException("Setting Not Match..!");
         }
-        return new CursorLoader(getActivity(), cursorUri, null, mColumnName, null, null);
+
+        String[] mProjection = {_idColumn ,mColumnName};
+        return new CursorLoader(getActivity(), cursorUri, mProjection, null, null, null);
     }
 
     @Override
