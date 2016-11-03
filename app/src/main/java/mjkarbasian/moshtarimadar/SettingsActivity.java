@@ -2,9 +2,13 @@ package mjkarbasian.moshtarimadar;
 
 
 import android.annotation.TargetApi;
+import android.app.LoaderManager;
 import android.content.Context;
+import android.content.CursorLoader;
 import android.content.Intent;
+import android.content.Loader;
 import android.content.res.Configuration;
+import android.database.Cursor;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
@@ -19,12 +23,20 @@ import android.preference.RingtonePreference;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 
-import java.util.List;
+import java.util.ArrayList;
+
+import mjkarbasian.moshtarimadar.Data.KasebContract;
+import mjkarbasian.moshtarimadar.adapters.HeaderAdaper;
+import mjkarbasian.moshtarimadar.adapters.TypesSettingAdapter;
 
 /**
  * A {@link PreferenceActivity} that presents a set of application settings. On
@@ -122,8 +134,9 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
         setupActionBar();
+        getFragmentManager().beginTransaction().add(new HeaderFragment(), null).commit();
+        super.onCreate(savedInstanceState);
     }
 
     /**
@@ -145,14 +158,26 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
         return isXLargeTablet(this);
     }
 
+//    @Override
+//    public void onHeaderClick(Header header, int position) {
+//        super.onHeaderClick(header, position);
+//        if (header.id == R.id.setting_fragment_cost) {
+//            Bundle b = new Bundle();
+//            b.putString("columnName", KasebContract.CostTypes.COLUMN_COST_TYPE_POINTER);
+//            PreferenceFragment costType = new TypesSettingActivity();
+//            costType.setArguments(b);
+//            getFragmentManager().beginTransaction().replace(android.R.id.content, costType).commit();
+//        }
+//    }
+
     /**
      * {@inheritDoc}
      */
-    @Override
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    public void onBuildHeaders(List<Header> target) {
-        loadHeadersFromResource(R.xml.pref_headers, target);
-    }
+//    @Override
+//    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+//    public void onBuildHeaders(List<Header> target) {
+//        loadHeadersFromResource(R.xml.pref_headers, target);
+//    }
 
     /**
      * This method stops fragment injection in malicious applications.
@@ -163,7 +188,8 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                 || GeneralPreferenceFragment.class.getName().equals(fragmentName)
                 || DataSyncPreferenceFragment.class.getName().equals(fragmentName)
                 || NotificationPreferenceFragment.class.getName().equals(fragmentName)
-                || CostSettingActivity.class.getName().equals(fragmentName);
+                || TypesSettingActivity.class.getName().equals(fragmentName)
+                || HeaderFragment.class.getName().equals(fragmentName);
     }
 
     /**
@@ -177,7 +203,6 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             super.onCreate(savedInstanceState);
             addPreferencesFromResource(R.xml.pref_general);
             setHasOptionsMenu(true);
-
             // Bind the summaries of EditText/List/Dialog/Ringtone preferences
             // to their values. When their values change, their summaries are
             // updated to reflect the new value, per the Android Design
@@ -195,6 +220,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             }
             return super.onOptionsItemSelected(item);
         }
+
     }
 
     /**
@@ -257,20 +283,169 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
         }
     }
 
-    public static class CostSettingActivity extends PreferenceFragment {
+    public static class TypesSettingActivity extends PreferenceFragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
+        static TypesSettingAdapter adapter = null;
+        ListView mListView;
+        private final String LOG_TAG = TypesSettingAdapter.class.getSimpleName();
+        String mColumnName;
+        final static int FRAGMENT_TYPE_LOADER = 0;
 
-        public CostSettingActivity() {
+        public TypesSettingActivity() {
             super();
+        }
+
+        @Override
+        public void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            setHasOptionsMenu(true);
+
         }
 
         @Nullable
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-            return inflater.inflate(R.layout.fragment_costs, container, false);
+            mColumnName = getArguments().getString("columnName");
+            adapter = new TypesSettingAdapter(getActivity(), null, 0, mColumnName);
+            View rootView = inflater.inflate(R.layout.fragment_setting_types, container, false);
+            mListView = (ListView) rootView.findViewById(R.id.list_view_setting_types);
+            mListView.setAdapter(adapter);
+            return rootView;
         }
 
+        @Override
+        public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+            // Inflate the menu; this adds items to the action bar if it is present.
+            inflater.inflate(R.menu.types_setting, menu);
+        }
+
+        @Override
+        public boolean onOptionsItemSelected(MenuItem item) {
+            // Handle action bar item clicks here. The action bar will
+            // automatically handle clicks on the Home/Up button, so long
+            // as you specify a parent activity in AndroidManifest.xml.
+            int id = item.getItemId();
+            return super.onOptionsItemSelected(item);
+        }
+
+        @Override
+        public void onStart() {
+            Log.d(LOG_TAG, "onStart");
+            super.onStart();
+            updateList();
+
+        }
+
+
+        @Override
+        public void onActivityCreated(Bundle savedInstanceState) {
+            Log.d(LOG_TAG, "onActivityCreated");
+            super.onActivityCreated(savedInstanceState);
+            getLoaderManager().initLoader(FRAGMENT_TYPE_LOADER, null, this);
+        }
+
+        private void updateList() {
+
+            getLoaderManager().restartLoader(FRAGMENT_TYPE_LOADER, null, this);
+
+        }
+
+        @Override
+        public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+            Log.d(LOG_TAG, "onCreateLoader");
+            Uri cursorUri = null;
+            switch (mColumnName) {
+                case (KasebContract.CostTypes.COLUMN_COST_TYPE_POINTER): {
+                    cursorUri = KasebContract.CostTypes.CONTENT_URI;
+                    break;
+                }
+                case (KasebContract.TaxTypes.COLUMN_TAX_TYPE_POINTER): {
+                    cursorUri = KasebContract.TaxTypes.CONTENT_URI;
+                    break;
+                }
+                case (KasebContract.PaymentMethods.COLUMN_PAYMENT_METHOD_POINTER): {
+                    cursorUri = KasebContract.PaymentMethods.CONTENT_URI;
+                    break;
+                }
+                case (KasebContract.State.COLUMN_STATE_POINTER): {
+                    cursorUri = KasebContract.State.CONTENT_URI;
+                    break;
+                }
+                default:
+                    new UnsupportedOperationException("Setting Not Match..!");
+            }
+            return new CursorLoader(getActivity(), cursorUri, null, mColumnName, null, null);
+        }
+
+        @Override
+        public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
+            Log.d(LOG_TAG, "onLoadFinished");
+            adapter.swapCursor(cursor);
+        }
+
+        @Override
+        public void onLoaderReset(Loader<Cursor> loader) {
+            Log.d(LOG_TAG, "onLoadReset");
+            adapter.swapCursor(null);
+        }
     }
 
+    public static class HeaderFragment extends PreferenceFragment {
+        ListView mListView;
+        HeaderAdaper headerAdaper;
+        ArrayList<Integer> headerIcons = new ArrayList<>();
+        ArrayList<String> headerTitle = new ArrayList<>();
+        ArrayList<String> headerSummary = new ArrayList<>();
 
+        @Override
+        public void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            setHasOptionsMenu(true);
+            headerIcons = initHeaderIcon();
+            headerTitle = initHeaderTitle();
+            headerSummary = initHeaderSummary();
+        }
+
+        @Nullable
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+            View rootView = inflater.inflate(R.layout.fragment_setting_types, container, false);
+            mListView = (ListView) rootView.findViewById(R.id.list_view_setting_types);
+            headerAdaper = new HeaderAdaper(getActivity(), headerIcons, headerTitle, headerSummary);
+            mListView.setAdapter(headerAdaper);
+            return rootView;
+        }
+
+        private ArrayList<String> initHeaderSummary() {
+            return null;
+        }
+
+        private ArrayList<String> initHeaderTitle() {
+            ArrayList headerTitle = new ArrayList<>();
+            headerTitle.add(getActivity().getResources().getString(R.string.pref_header_cost));
+            headerTitle.add(getActivity().getResources().getString(R.string.pref_header_tax));
+            headerTitle.add(getActivity().getResources().getString(R.string.pref_header_payment));
+            headerTitle.add(getActivity().getResources().getString(R.string.pref_header_customer));
+            headerTitle.add(getActivity().getResources().getString(R.string.pref_header_backup));
+            headerTitle.add(getActivity().getResources().getString(R.string.pref_header_import_data));
+            headerTitle.add(getActivity().getResources().getString(R.string.pref_header_kaseb));
+            headerTitle.add(getActivity().getResources().getString(R.string.pref_header_notifications));
+            return headerTitle;
+        }
+
+        private ArrayList<Integer> initHeaderIcon() {
+            ArrayList<Integer> headerIcons = new ArrayList<>();
+            headerIcons.add(R.drawable.information);
+            headerIcons.add(R.drawable.information);
+            headerIcons.add(R.drawable.information);
+            headerIcons.add(R.drawable.information);
+            headerIcons.add(R.drawable.information);
+            headerIcons.add(R.drawable.information);
+            headerIcons.add(R.drawable.information);
+            headerIcons.add(R.drawable.information);
+            return headerIcons;
+        }
+
+
+    }
 }

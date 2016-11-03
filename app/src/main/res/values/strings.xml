@@ -223,4 +223,5 @@
     <string name="pref_header_backup">Backup</string>
     <string name="pref_header_import_data">Import data</string>
     <string name="pref_header_kaseb">Kaseb</string>
+    <string name="add_types_setting">Add item</string>
 </resources>

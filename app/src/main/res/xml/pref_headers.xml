@@ -3,7 +3,7 @@
     <!-- These settings headers are only used on tablets. -->
 
     <header
-        android:fragment="mjkarbasian.moshtarimadar.SettingsActivity$CostSettingActivity"
+        android:id="@+id/setting_fragment_cost"
         android:icon="@drawable/ic_info_black_24dp"
         android:title="@string/pref_header_cost" />
     <header
