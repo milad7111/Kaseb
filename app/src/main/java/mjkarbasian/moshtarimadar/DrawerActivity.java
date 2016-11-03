@@ -107,7 +107,8 @@ public class DrawerActivity extends AppCompatActivity
             startActivity(intent);
 
         } else if (id == R.id.nav_setting) {
-          getFragmentManager().beginTransaction().replace(R.id.container,new SettingsActivity.HeaderFragment()).commit();
+            intent = new Intent(this, MySetting.class);
+            startActivity(intent);
 
         } else if (id == R.id.nav_about_us) {
 
