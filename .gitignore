@@ -6,9 +6,5 @@
 /.idea/libraries
 .DS_Store
 /build
-<<<<<<< HEAD
-/captures'.idea' 
-=======
-/captures
->>>>>>> b4bc5c87911e8341821206adb72471660e1f4274
+/captures'.idea'
 '.idea' 
