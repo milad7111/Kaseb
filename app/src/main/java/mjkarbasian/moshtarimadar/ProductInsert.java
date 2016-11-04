@@ -1,5 +1,6 @@
 package mjkarbasian.moshtarimadar;
 
+import android.app.Dialog;
 import android.content.ContentValues;
 import android.net.Uri;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -26,7 +28,12 @@ public class ProductInsert extends Fragment {
     EditText productCode;
     EditText unit;
     EditText productDescription;
+    EditText buyPrice;
+    EditText quantity;
+    EditText salePrice;
+    EditText buyDate;
     ContentValues productValues = new ContentValues();
+    ContentValues productHistoryValues = new ContentValues();
     private Uri insertUri;
     View rootView;
 
@@ -39,6 +46,7 @@ public class ProductInsert extends Fragment {
                              Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_product_insert, container, false);
 
+
 //        unit = (Spinner) rootView.findViewById(R.id.input_unit_spinner);
 //        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(),
 //                R.array.unit, android.R.layout.simple_spinner_item);
@@ -46,6 +54,11 @@ public class ProductInsert extends Fragment {
         productCode = (EditText) rootView.findViewById(R.id.input_product_code);
         unit = (EditText) rootView.findViewById(R.id.input_product_unit);
         productDescription = (EditText) rootView.findViewById(R.id.input_product_description);
+
+        buyPrice = (EditText) rootView.findViewById(R.id.input_buy_price);
+        quantity = (EditText) rootView.findViewById(R.id.input_quantity);
+        salePrice = (EditText) rootView.findViewById(R.id.input_sale_price);
+        buyDate = (EditText) rootView.findViewById(R.id.input_buy_date);
 //        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 //        unit.setAdapter(adapter);
 
@@ -53,8 +66,7 @@ public class ProductInsert extends Fragment {
     }
 
     @Override
-    public void onCreateOptionsMenu(
-            Menu menu, MenuInflater inflater) {
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         menu.removeItem(R.id.sort_button);
         menu.removeItem(R.id.search_button);
         inflater.inflate(R.menu.fragments_for_insert, menu);
@@ -72,11 +84,26 @@ public class ProductInsert extends Fragment {
                         productValues
                 );
 
+                productHistoryValues.put(KasebContract.ProductHistory.COLUMN_COST, buyPrice.getText().toString());
+                productHistoryValues.put(KasebContract.ProductHistory.COLUMN_QUANTITY, quantity.getText().toString());
+                productHistoryValues.put(KasebContract.ProductHistory.COLUMN_SALE_PRICE, salePrice.getText().toString());
+                productHistoryValues.put(KasebContract.ProductHistory.COLUMN_DATE, buyDate.getText().toString());
+                productHistoryValues.put(KasebContract.ProductHistory.COLUMN_PRODUCT_ID, insertUri.getLastPathSegment());
+
+                insertUri = getActivity().getContentResolver().insert(
+                        KasebContract.ProductHistory.CONTENT_URI,
+                        productHistoryValues
+                );
+
                 //region disabling edit
                 productName.setEnabled(false);
                 productCode.setEnabled(false);
                 unit.setEnabled(false);
                 productDescription.setEnabled(false);
+                buyPrice.setEnabled(false);
+                quantity.setEnabled(false);
+                salePrice.setEnabled(false);
+                buyDate.setEnabled(false);
 
                 //just a message to show everything are under control
                 Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.msg_insert_succeed),
@@ -87,7 +114,6 @@ public class ProductInsert extends Fragment {
 
                 break;
             }
-
         }
         return super.onOptionsItemSelected(item);
     }

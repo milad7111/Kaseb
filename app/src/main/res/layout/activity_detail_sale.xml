@@ -25,11 +25,11 @@
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab_detail_sale"
-        android:onClick="fab_detail_sale"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
+        android:onClick="fab_detail_sale"
         android:src="@android:drawable/ic_input_add" />
 
 </android.support.design.widget.CoordinatorLayout>

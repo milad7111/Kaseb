@@ -1,5 +1,6 @@
 package mjkarbasian.moshtarimadar.helper;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.net.Uri;
@@ -34,6 +35,16 @@ import static mjkarbasian.moshtarimadar.helper.Samples.setSalesCustomer;
  * Created by family on 6/24/2016.
  */
 public class Utility {
+
+
+    public static Dialog dialogBuilder(Context context, int layout, int title) {
+        Dialog dialog = new Dialog(context);
+        dialog.setContentView(layout);
+        dialog.setTitle(title);
+
+        return dialog;
+    }
+
     public static String getTheLastPathUri(Uri uri) {
         String[] segments = uri.getPath().split("/");
         String pathStr = segments[segments.length - 1];
@@ -76,8 +87,8 @@ public class Utility {
         int day = 0;
         try {
             Date dateDate = df.parse(date);
-            year = dateDate.getYear() + 1900;
-            month = dateDate.getMonth();
+            year = dateDate.getYear()+1900;
+            month=dateDate.getMonth();
             day = dateDate.getDay();
         } catch (ParseException e) {
             e.printStackTrace();
@@ -92,6 +103,8 @@ public class Utility {
         Locale current = context.getResources().getConfiguration().locale;
         return current.getCountry();
     }
+
+
 
     public static String doubleFormatter(double myNumber) {
         DecimalFormat f = (DecimalFormat) DecimalFormat.getInstance();

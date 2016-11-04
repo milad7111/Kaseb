@@ -29,28 +29,28 @@ public class DetailProductsView extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        Intent intent =getActivity().getIntent();
+        Intent intent = getActivity().getIntent();
         String productCode = intent.getStringExtra("productCode");
         int position = intent.getIntExtra("position", 0);
 
         View view = inflater.inflate(R.layout.fragment_detail_products, container, false);
-        ImageView productImage = (ImageView)view.findViewById(R.id.image_product);
+        ImageView productImage = (ImageView) view.findViewById(R.id.image_product);
         productImage.setImageResource(Integer.parseInt(Samples.productPics.get(position)));
 
-        TextView productName = (TextView)view.findViewById(R.id.detail_product_name);
-        TextView Code = (TextView)view.findViewById(R.id.detail_product_code);
-        TextView unit = (TextView)view.findViewById(R.id.detail_product_unit);
+        TextView productName = (TextView) view.findViewById(R.id.detail_product_name);
+        TextView Code = (TextView) view.findViewById(R.id.detail_product_code);
+        TextView unit = (TextView) view.findViewById(R.id.detail_product_unit);
         productName.setText(Samples.products.get(2).get(position));
         Code.setText(Utility.doubleFormatter(Double.parseDouble(productCode)));
         unit.setText(getActivity().getResources().getString(R.string.sample_unit));
-        DetailProductPriceList mPriceListAdapter = new DetailProductPriceList(getActivity(),productCode);
-        mListView =(ListView) view.findViewById(R.id.listview_detail_product);
+        DetailProductPriceList mPriceListAdapter = new DetailProductPriceList(getActivity(), productCode);
+        mListView = (ListView) view.findViewById(R.id.listview_detail_product);
         mListView.setAdapter(mPriceListAdapter);
 
         //dynamically change cards height but it must modify
-        CardView priceList = (CardView)view.findViewById(R.id.card_detail_price_list);
+        CardView priceList = (CardView) view.findViewById(R.id.card_detail_price_list);
         ViewGroup.LayoutParams layoutParamsTax = priceList.getLayoutParams();
-        layoutParamsTax.height = Utility.dipConverter(mListView.getCount() * 50 + 30 ,getActivity());//this is in pixels Must item height recognize dynamically
+        layoutParamsTax.height = Utility.dipConverter(mListView.getCount() * 50 + 30, getActivity());//this is in pixels Must item height recognize dynamically
         priceList.setLayoutParams(layoutParamsTax);
 
         return view;

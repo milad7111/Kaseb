@@ -21,8 +21,6 @@ import mjkarbasian.moshtarimadar.helper.GalleryUtil;
 import mjkarbasian.moshtarimadar.helper.Samples;
 import mjkarbasian.moshtarimadar.helper.Utility;
 
-
-
 public class Customers extends DrawerActivity {
 
     private static final int REQUEST_CROP_URI = 800;
@@ -41,6 +39,8 @@ public class Customers extends DrawerActivity {
         super.onCreate(savedInstanceState);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        //this line initialize all references
+        Utility.initializer(this);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         Utility.initializer(this);
         fragmentManager.beginTransaction().replace(R.id.container, customersFragment).commit();
@@ -73,7 +73,6 @@ public class Customers extends DrawerActivity {
         mCustomerAvatar = (ImageView) view;
         Intent gallery_Intent = new Intent(getApplicationContext(), GalleryUtil.class);
         startActivityForResult(gallery_Intent, GALLERY_ACTIVITY_CODE);
-
     }
 
     @Override
