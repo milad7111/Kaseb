@@ -2,6 +2,7 @@ package mjkarbasian.moshtarimadar.helper;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.net.Uri;
 import android.util.Log;
@@ -38,7 +39,6 @@ import static mjkarbasian.moshtarimadar.helper.Samples.setSalesCustomer;
  */
 public class Utility {
     private static final String LOG_TAG = Utility.class.getSimpleName();
-
     public static String getTheLastPathUri(Uri uri) {
         String[] segments = uri.getPath().split("/");
         String pathStr = segments[segments.length - 1];
@@ -207,11 +207,12 @@ public class Utility {
     }
 
     public static void initializer(Context context) {
-
+        Cursor cursor = context.getContentResolver().query(KasebContract.CostTypes.CONTENT_URI,null,null,null,null);
+        if(cursor.getCount()==0){
         costTypesInit(context);
         taxTypesInit(context);
         paymentsMethodinit(context);
-        stateInits(context);
+        stateInits(context);}
 
         if (Samples.productCode.size() == 0) {
             Samples.setProductCode();
@@ -256,23 +257,19 @@ public class Utility {
     private static void taxTypesInit(Context context) {
 
     }
-
     private static void costTypesInit(Context context) {
-        ContentValues[] costTypesPointer = new ContentValues[4];
-        ContentValues costTypes = new ContentValues();
-
-        costTypes.put(KasebContract.CostTypes.COLUMN_COST_TYPE_POINTER, R.string.cost_types_bill);
-        costTypesPointer[0] = costTypes;
-        costTypes.put(KasebContract.CostTypes.COLUMN_COST_TYPE_POINTER, R.string.cost_types_salary);
-        costTypesPointer[1] = costTypes;
-        costTypes.put(KasebContract.CostTypes.COLUMN_COST_TYPE_POINTER, R.string.cost_types_tax);
-        costTypesPointer[2] = costTypes;
-        costTypes.put(KasebContract.CostTypes.COLUMN_COST_TYPE_POINTER, R.string.cost_types_others);
-        costTypesPointer[3] = costTypes;
+        ContentValues[] contentValues;
+        contentValues = new ContentValues[4];
+        int[] ids = new int[]{R.string.cost_types_bill,R.string.cost_types_salary, R.string.cost_types_tax,R.string.cost_types_others };
+        for(int i=0;i<ids.length;i++){
+            ContentValues costTypes = new ContentValues();
+            costTypes.put(KasebContract.CostTypes.COLUMN_COST_TYPE_POINTER, ids[i]);
+            contentValues[i]= costTypes;
+        }
 
         int insertedUri = context.getContentResolver().bulkInsert(
                 KasebContract.CostTypes.CONTENT_URI,
-                costTypesPointer
+                contentValues
         );
         Log.d(LOG_TAG, "Data successfully initialized to: " + Integer.toString(insertedUri));
     }

@@ -27,8 +27,10 @@ public class TypesSettingAdapter extends CursorAdapter {
 
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
+
         TextView textView = (TextView)view;
         typePointer = cursor.getInt(cursor.getColumnIndex(columnName));
+        cursor.moveToNext();
         textView.setText(context.getResources().getString(typePointer));
     }
 
