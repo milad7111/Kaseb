@@ -27,7 +27,7 @@ public class Products extends DrawerActivity {
         fragmentManager.beginTransaction().replace(R.id.container, productsFragment).commit();
     }
 
-    public void fab_products(View v){
+    public void fab_products(View v) {
         android.support.v4.app.FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.container, productInsert);
         fragmentTransaction.addToBackStack(null);
@@ -35,6 +35,7 @@ public class Products extends DrawerActivity {
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
+
         // Inflate the menu; this adds items to the action bar if it is present.
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_products, menu);
@@ -48,6 +49,4 @@ public class Products extends DrawerActivity {
                 searchManager.getSearchableInfo(getComponentName()));
         return true;
     }
-
-
 }

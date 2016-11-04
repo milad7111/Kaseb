@@ -157,4 +157,16 @@
     <string name="hint_product_code">Product code</string>
     <string name="hint_product_unit">Product unit</string>
     <string name="hint_product_description">Product description</string>
+    <!-- ProductHistoryInsert Hints-->
+    <string name="hint_buy_price">Buy Price</string>
+    <string name="hint_quantity">Quantity</string>
+    <string name="hint_sale_price">Sale Price</string>
+    <string name="hint_date">Buy Date: yy-mm-dd</string>
+    <string name="hint_product_history_save">Save</string>
+    <string name="hint_buy_price_discount_amount">Discount Amount</string>
+    <string name="hint_buy_price_discount_percent">Discount Percent</string>
+    <!-- Sale&DetailSaleInsert -->
+    <string name="title_add_product_for_sale">Choose Your Product ...</string>
+    <string name="title_add_product_history">Product History</string>
+    <string name="save_button">Save</string>
 </resources>

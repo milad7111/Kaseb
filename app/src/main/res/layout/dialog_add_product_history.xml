@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <EditText
+        android:id="@+id/add_product_history_buy_price"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/hint_buy_price"
+        android:inputType="numberDecimal" />
+
+    <EditText
+        android:id="@+id/add_product_history_quantity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/hint_quantity"
+        android:inputType="number" />
+
+    <EditText
+        android:id="@+id/add_product_history_sale_price"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/hint_sale_price"
+        android:inputType="numberDecimal" />
+
+    <EditText
+        android:id="@+id/add_product_history_buy_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="@string/hint_date"
+        android:inputType="date" />
+
+    <EditText
+        android:id="@+id/add_product_history_discount_amount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="@string/hint_buy_price_discount_amount"
+        android:inputType="numberDecimal" />
+
+    <EditText
+        android:id="@+id/add_product_history_discount_percent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="@string/hint_buy_price_discount_percent"
+        android:inputType="numberDecimal" />
+
+    <Button
+        android:id="@+id/add_product_history_button1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/text1"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="51dp"
+        android:text="@string/save_button" />
+
+</LinearLayout>
