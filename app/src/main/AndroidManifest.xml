@@ -18,6 +18,10 @@
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
+            android:name=".DetailSaleInsert"
+            android:label="@string/title_activity_detail_sale"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
             android:name=".Customers"
             android:label="@string/title_customer"
             android:theme="@style/AppTheme.NoActionBar">
@@ -104,12 +108,11 @@
         </activity>
 
         <provider
-            android:authorities="mjkarbasian.moshtarimadar"
             android:name=".Data.KasebProvider"
+            android:authorities="mjkarbasian.moshtarimadar"
             android:enabled="true"
             android:exported="true"
-            android:permission="com.myApp.LICENSE_TO_KILL"
-            ></provider>
+            android:permission="com.myApp.LICENSE_TO_KILL"></provider>
     </application>
 
 </manifest>

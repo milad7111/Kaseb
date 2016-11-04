@@ -1,19 +1,17 @@
 package mjkarbasian.moshtarimadar.helper;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.net.Uri;
 import android.widget.ImageView;
-
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
-
 import mjkarbasian.moshtarimadar.R;
-
 import static mjkarbasian.moshtarimadar.helper.Samples.salesCode;
 import static mjkarbasian.moshtarimadar.helper.Samples.setSale;
 import static mjkarbasian.moshtarimadar.helper.Samples.setSaleDueDate;
@@ -31,6 +29,16 @@ import static mjkarbasian.moshtarimadar.helper.Samples.setSalesCustomer;
  * Created by family on 6/24/2016.
  */
 public class Utility {
+
+    public static Dialog dialogBuilder (Context context, int layout, int title)
+    {
+        Dialog dialog = new Dialog(context);
+        dialog.setContentView(layout);
+        dialog.setTitle(title);
+
+        return dialog;
+    }
+
     public static String getTheLastPathUri(Uri uri){
         String[] segments = uri.getPath().split("/");
         String pathStr = segments[segments.length-1];

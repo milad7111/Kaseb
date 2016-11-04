@@ -1,6 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <EditText
+        android:id="@+id/input_product_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/hint_product_name" />
+
+    <EditText
+        android:id="@+id/input_product_code"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="@string/hint_product_code"
+        android:inputType="number" />
+
+    <EditText
+        android:id="@+id/input_product_unit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/hint_product_unit" />
+
+    <EditText
+        android:id="@+id/input_product_description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/hint_product_description" />
+
+    <EditText
+        android:id="@+id/input_buy_price"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/hint_buy_price"
+        android:inputType="numberDecimal" />
+
+    <EditText
+        android:id="@+id/input_quantity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/hint_quantity"
+        android:inputType="number" />
+
+    <EditText
+        android:id="@+id/input_sale_price"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/hint_sale_price"
+        android:inputType="numberDecimal" />
+
+    <EditText
+        android:id="@+id/input_buy_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="@string/hint_date"
+        android:inputType="date" />
 
 </LinearLayout>
