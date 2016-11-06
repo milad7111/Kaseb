@@ -16,6 +16,7 @@ public class DrawerActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     DrawerLayout mDrawer;
     private ActionBarDrawerToggle mDrawerToggle;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,27 +88,29 @@ public class DrawerActivity extends AppCompatActivity
 
         if (id == R.id.nav_customers) {
             // Handle the camera action
-            intent = new Intent(this,Customers.class);
+            intent = new Intent(this, Customers.class);
             startActivity(intent);
         } else if (id == R.id.nav_debtors) {
-            intent = new Intent(this,Debators.class);
+            intent = new Intent(this, Debators.class);
             startActivity(intent);
 
         } else if (id == R.id.nav_sales) {
-            intent = new Intent(this,Sales.class);
+            intent = new Intent(this, Sales.class);
             startActivity(intent);
 
         } else if (id == R.id.nav_costs) {
-            intent = new Intent(this,Costs.class);
+            intent = new Intent(this, Costs.class);
             startActivity(intent);
 
         } else if (id == R.id.nav_products) {
-            intent = new Intent(this,Products.class);
+            intent = new Intent(this, Products.class);
             startActivity(intent);
 
         } else if (id == R.id.nav_setting) {
+            intent = new Intent(this, MySetting.class);
+            startActivity(intent);
 
-        }else if (id == R.id.nav_about_us) {
+        } else if (id == R.id.nav_about_us) {
 
         }
 
