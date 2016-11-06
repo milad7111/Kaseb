@@ -257,5 +257,6 @@
     <string name="pref_header_kaseb">Kaseb</string>
     <string name="add_types_setting">Add item</string>
     <string name="title_activity_my_setting">Setting</string>
->>>>>>> setting
+    <string name="add_new_type">Add new type</string>
+    >>>>>>> setting
 </resources>

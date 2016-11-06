@@ -15,4 +15,5 @@ public class MySetting extends DrawerActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         fragmentManager.beginTransaction().replace(R.id.container,new PreferenceHeader()).commit();
     }
+
 }

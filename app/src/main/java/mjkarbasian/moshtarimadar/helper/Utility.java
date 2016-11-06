@@ -221,11 +221,13 @@ public class Utility {
 
     public static void initializer(Context context) {
         Cursor cursor = context.getContentResolver().query(KasebContract.CostTypes.CONTENT_URI,null,null,null,null);
-        if(cursor.getCount()==0){
-        costTypesInit(context);
-        taxTypesInit(context);
-        paymentsMethodinit(context);
-        stateInits(context);}
+        if(cursor.getCount()==0) costTypesInit(context);
+        cursor = context.getContentResolver().query(KasebContract.TaxTypes.CONTENT_URI,null,null,null,null);
+        if(cursor.getCount()==0) taxTypesInit(context);
+        cursor = context.getContentResolver().query(KasebContract.PaymentMethods.CONTENT_URI,null,null,null,null);
+        if(cursor.getCount()==0)paymentsMethodinit(context);
+        cursor = context.getContentResolver().query(KasebContract.State.CONTENT_URI,null,null,null,null);
+        if(cursor.getCount()==0) stateInits(context);
 
         if (Samples.productCode.size() == 0) {
             Samples.setProductCode();
@@ -260,14 +262,57 @@ public class Utility {
     }
 
     private static void stateInits(Context context) {
+        ContentValues[] contentValues;
+        contentValues = new ContentValues[4];
+        int[] ids = new int[]{R.string.states_gold,R.string.states_silver,R.string.states_bronze,R.string.states_instart};
+        for(int i=0;i<ids.length;i++){
+            ContentValues states = new ContentValues();
+            states.put(KasebContract.State.COLUMN_STATE_POINTER, ids[i]);
+            contentValues[i]= states;
+        }
+
+        int insertedUri = context.getContentResolver().bulkInsert(
+                KasebContract.State.CONTENT_URI,
+                contentValues
+        );
+        Log.d(LOG_TAG, "Data successfully initialized to: " + Integer.toString(insertedUri));
+
 
     }
 
     private static void paymentsMethodinit(Context context) {
+        ContentValues[] contentValues;
+        contentValues = new ContentValues[4];
+        int[] ids = new int[]{R.string.payment_method_cash,R.string.payment_method_cheque,R.string.payment_method_credit,R.string.payment_method_pos};
+        for(int i=0;i<ids.length;i++){
+            ContentValues paymentMethods = new ContentValues();
+            paymentMethods.put(KasebContract.PaymentMethods.COLUMN_PAYMENT_METHOD_POINTER, ids[i]);
+            contentValues[i]= paymentMethods;
+        }
+
+        int insertedUri = context.getContentResolver().bulkInsert(
+                KasebContract.PaymentMethods.CONTENT_URI,
+                contentValues
+        );
+        Log.d(LOG_TAG, "Data successfully initialized to: " + Integer.toString(insertedUri));
 
     }
 
     private static void taxTypesInit(Context context) {
+        ContentValues[] contentValues;
+        contentValues = new ContentValues[2];
+        int[] ids = new int[]{R.string.tax_types_vas,R.string.tax_types_discount};
+        for(int i=0;i<ids.length;i++){
+            ContentValues taxTypes = new ContentValues();
+            taxTypes.put(KasebContract.TaxTypes.COLUMN_TAX_TYPE_POINTER, ids[i]);
+            contentValues[i]= taxTypes;
+        }
+
+        int insertedUri = context.getContentResolver().bulkInsert(
+                KasebContract.TaxTypes.CONTENT_URI,
+                contentValues
+        );
+        Log.d(LOG_TAG, "Data successfully initialized to: " + Integer.toString(insertedUri));
 
     }
     private static void costTypesInit(Context context) {
