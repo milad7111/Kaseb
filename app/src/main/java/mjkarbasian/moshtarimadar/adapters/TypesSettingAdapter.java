@@ -12,7 +12,7 @@ import android.widget.TextView;
  */
 public class TypesSettingAdapter extends CursorAdapter {
     String columnName;
-    private int typePointer;
+    private String typePointer;
 
     public TypesSettingAdapter(Context context, Cursor c, int flags,String column) {
         super(context, c, flags);
@@ -29,8 +29,8 @@ public class TypesSettingAdapter extends CursorAdapter {
     public void bindView(View view, Context context, Cursor cursor) {
 
         TextView textView = (TextView)view;
-        typePointer = cursor.getInt(cursor.getColumnIndex(columnName));
-        textView.setText(context.getResources().getString(typePointer));
+        typePointer = cursor.getString(cursor.getColumnIndex(columnName));
+        textView.setText(typePointer);
     }
 
 }
