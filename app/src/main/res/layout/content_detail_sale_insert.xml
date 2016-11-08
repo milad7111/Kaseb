@@ -5,8 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="mjkarbasian.moshtarimadar.DetailSale"
-    tools:showIn="@layout/activity_detail_sale">
+    tools:context="mjkarbasian.moshtarimadar.DetailSaleInsert"
+    tools:showIn="@layout/activity_detail_sale_insert">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -17,7 +17,75 @@
         android:orientation="vertical">
 
         <android.support.v7.widget.CardView
-            android:id="@+id/card_detail_sale_items_list"
+            android:id="@+id/card_detail_sale_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:nestedScrollingEnabled="true">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorPrimary"
+                    android:gravity="center"
+                    android:padding="4dp"
+                    android:text="@string/detail_sales_info_header"
+                    android:textAppearance="?android:textAppearanceMedium"
+                    android:textColor="@color/colorWhite" />
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="left|start"
+                    android:padding="4dp"
+                    android:id="@+id/detail_sales_info_sale_code"
+                    android:hint="@string/detail_sales_info_sale_code"
+                    android:textAppearance="?android:textAppearanceMedium"
+                    android:textColor="@color/colorPrimary"
+                    android:inputType="text" />
+
+                <EditText
+                    android:id="@+id/detail_sales_info_sale_date"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="@string/hint_date"
+                    android:inputType="date" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:id="@+id/detail_sales_info_customer"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="left|start"
+                        android:text="@string/detail_sales_info_customer"
+                        android:textAppearance="?android:textAppearanceMedium"
+                        android:textColor="@color/colorPrimary" />
+
+                    <TextView
+                        android:id="@+id/detail_sales_info_customer_details"
+                        android:layout_width="0dp"
+                        android:layout_height="fill_parent"
+                        android:layout_weight="1"
+                        android:textAppearance="?android:textAppearanceMedium" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/card_detail_sale_insert_items_list"
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:layout_marginTop="@dimen/activity_vertical_margin"
@@ -47,7 +115,7 @@
         </android.support.v7.widget.CardView>
 
         <android.support.v7.widget.CardView
-            android:id="@+id/card_detail_sale_payments"
+            android:id="@+id/card_detail_sale_insert_payments"
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:layout_marginTop="@dimen/activity_vertical_margin">
@@ -75,7 +143,7 @@
         </android.support.v7.widget.CardView>
 
         <android.support.v7.widget.CardView
-            android:id="@+id/card_detail_sale_tax_discounts"
+            android:id="@+id/card_detail_sale_insert_tax_discounts"
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:layout_marginTop="@dimen/activity_vertical_margin">
@@ -126,28 +194,6 @@
                     android:text="@string/detail_sales_summary_header"
                     android:textAppearance="?android:textAppearanceMedium"
                     android:textColor="@color/colorWhite" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="left|start"
-                        android:text="@string/detail_sales_summary_customer_code"
-                        android:textAppearance="?android:textAppearanceMedium"
-                        android:textColor="@color/colorPrimary" />
-
-                    <TextView
-                        android:id="@+id/card_detail_sale_customer_code"
-                        android:layout_width="0dp"
-                        android:layout_height="fill_parent"
-                        android:layout_weight="1"
-                        android:textAppearance="?android:textAppearanceMedium" />
-                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"

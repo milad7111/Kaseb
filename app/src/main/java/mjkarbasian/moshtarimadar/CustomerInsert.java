@@ -1,10 +1,9 @@
 package mjkarbasian.moshtarimadar;
 
-import android.database.sqlite.SQLiteDatabase;
-import android.support.v4.app.Fragment;
 import android.content.ContentValues;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -17,8 +16,6 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import mjkarbasian.moshtarimadar.Data.KasebContract;
-import mjkarbasian.moshtarimadar.Data.KasebDbHelper;
-import mjkarbasian.moshtarimadar.R;
 
 /**
  * Created by Unique on 10/21/2016.
