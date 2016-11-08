@@ -85,12 +85,11 @@ public class KasebDbHelper extends SQLiteOpenHelper {
                 KasebContract.DetailSalePayments.COLUMN_AMOUNT + " REAL NOT NULL," +
                 KasebContract.DetailSalePayments.COLUMN_PAYMENT_METHOD_ID+" INTEGER NOT NULL, " +
                 KasebContract.DetailSalePayments.COLUMN_DETAIL_SALE_ID + " INTEGER NOT NULL, " +
+                KasebContract.DetailSalePayments.COLUMN_MODIFIED_DATE+" TEXT, "+
                 " FOREIGN KEY (" + KasebContract.DetailSalePayments.COLUMN_DETAIL_SALE_ID + ") REFERENCES "  +
                 KasebContract.DetailSale.TABLE_NAME + " ("+ KasebContract.DetailSale._ID + "), " +
                 " FOREIGN KEY (" + KasebContract.DetailSalePayments.COLUMN_PAYMENT_METHOD_ID + ") REFERENCES "  +
-                KasebContract.PaymentMethods.TABLE_NAME + " ("+ KasebContract.PaymentMethods._ID + ")," +
-                KasebContract.DetailSalePayments.COLUMN_MODIFIED_DATE + " TEXT" +
-
+                KasebContract.PaymentMethods.TABLE_NAME + " ("+ KasebContract.PaymentMethods._ID + ")" +
               ");";
         //endregion
 
