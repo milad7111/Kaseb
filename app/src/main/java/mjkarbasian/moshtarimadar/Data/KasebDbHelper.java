@@ -47,14 +47,14 @@ public class KasebDbHelper extends SQLiteOpenHelper {
         //region 2 create state Table
         final String CREATE_STATE_TABLE = "CREATE TABLE " + KasebContract.State.TABLE_NAME + "(" +
                 KasebContract.State._ID + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
-                KasebContract.State.COLUMN_STATE_POINTER + " INTEGER NOT NULL" + ");";
+                KasebContract.State.COLUMN_STATE_POINTER + " TEXT UNIQUE NOT NULL" + ");";
         //endregion
 
         //region 3 create sales table
         final String CREATE_SALES_TABLE = "CREATE TABLE " + KasebContract.Sales.TABLE_NAME + "(" +
                 KasebContract.Sales._ID + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
-                KasebContract.Sales.COLUMN_IS_DELETED + " BLOB NOT NULL," +
-                KasebContract.Sales.COLUMN_SALE_CODE + " TEXT NOT NULL," +
+                KasebContract.Sales.COLUMN_IS_DELETED + " BOOLEAN NOT NULL DEFAULT 0," +
+                KasebContract.Sales.COLUMN_SALE_CODE + " TEXT NOT NULL UNIQUE," +
                 KasebContract.Sales.COLUMN_CUSTOMER_ID +" INTEGER NOT NULL," +
                 " FOREIGN KEY ("+KasebContract.Sales.COLUMN_CUSTOMER_ID+") REFERENCES "+
                 KasebContract.Customers.TABLE_NAME + " ("+KasebContract.Customers._ID+")"+
@@ -71,7 +71,7 @@ public class KasebDbHelper extends SQLiteOpenHelper {
                 KasebContract.DetailSale.COLUMN_TOTAL_TAX + " REAL NOT NULL,"+
                 KasebContract.DetailSale.COLUMN_TOTAL_DUE + " REAL NOT NULL,"+
                 KasebContract.DetailSale.COLUMN_TOTAL_PAID+ " REAL NOT NULL,"+
-                KasebContract.DetailSale.COLUMN_IS_BALANCED+ " BLOB NOT NULL,"+
+                KasebContract.DetailSale.COLUMN_IS_BALANCED+ " BOOLEAN NOT NULL DEFAULT 0,"+
                 KasebContract.DetailSale.COLUMN_SALE_ID + " INTEGER NOT NULL," +
                 " FOREIGN KEY (" + KasebContract.DetailSale.COLUMN_SALE_ID + ") REFERENCES "+
                 KasebContract.Sales.TABLE_NAME + " ("+ KasebContract.Sales._ID + ")"+
@@ -88,7 +88,9 @@ public class KasebDbHelper extends SQLiteOpenHelper {
                 " FOREIGN KEY (" + KasebContract.DetailSalePayments.COLUMN_DETAIL_SALE_ID + ") REFERENCES "  +
                 KasebContract.DetailSale.TABLE_NAME + " ("+ KasebContract.DetailSale._ID + "), " +
                 " FOREIGN KEY (" + KasebContract.DetailSalePayments.COLUMN_PAYMENT_METHOD_ID + ") REFERENCES "  +
-                KasebContract.PaymentMethods.TABLE_NAME + " ("+ KasebContract.PaymentMethods._ID + ")" +
+                KasebContract.PaymentMethods.TABLE_NAME + " ("+ KasebContract.PaymentMethods._ID + ")," +
+                KasebContract.DetailSalePayments.COLUMN_MODIFIED_DATE + " TEXT" +
+
               ");";
         //endregion
 
@@ -122,13 +124,13 @@ public class KasebDbHelper extends SQLiteOpenHelper {
         //region 8 create paymentMethods table
         final String CREATE_PAYMENT_METHODS_TABLE = "CREATE TABLE " + KasebContract.PaymentMethods.TABLE_NAME + "(" +
                 KasebContract.PaymentMethods._ID + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
-                KasebContract.PaymentMethods.COLUMN_PAYMENT_METHOD_POINTER+ " INTEGER NOT NULL" + ");";
+                KasebContract.PaymentMethods.COLUMN_PAYMENT_METHOD_POINTER+ " TEXT  NOT NULL UNIQUE" + ");";
         //endregion
 
         //region 9 create taxtypes table
         final String CREATE_TAX_TYPES_TABLE = "CREATE TABLE " + KasebContract.TaxTypes.TABLE_NAME + "(" +
                 KasebContract.TaxTypes._ID + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
-                KasebContract.TaxTypes.COLUMN_TAX_TYPE_POINTER+ " INTEGER NOT NULL" + ");";
+                KasebContract.TaxTypes.COLUMN_TAX_TYPE_POINTER+ " TEXT  NOT NULL UNIQUE" + ");";
         //endregion
 
         //region 10 create product table
@@ -170,9 +172,13 @@ public class KasebDbHelper extends SQLiteOpenHelper {
         //region 13 create cost-types table
         final String CREATE_COST_TYPES_TABLE = "CREATE TABLE " + KasebContract.CostTypes.TABLE_NAME + "(" +
                 KasebContract.CostTypes._ID + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
-                KasebContract.CostTypes.COLUMN_COST_TYPE_POINTER+ " INTEGER NOT NULL" + ");";
+                KasebContract.CostTypes.COLUMN_COST_TYPE_POINTER+ " TEXT NOT NULL UNIQUE" + ");";
         //endregion
 
+        if (!db.isReadOnly()) {
+            // Enable foreign key constraints
+            db.execSQL("PRAGMA foreign_keys=ON;");
+        }
         db.execSQL(CREATE_PAYMENT_METHODS_TABLE);
         db.execSQL(CREATE_TAX_TYPES_TABLE);
         db.execSQL(CREATE_PRODUCTS_TABLE);

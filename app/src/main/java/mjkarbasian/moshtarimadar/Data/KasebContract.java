@@ -203,6 +203,7 @@ public class KasebContract {
         public static final String COLUMN_PAYMENT_METHOD_ID = "payment_method_id";
         public static final String COLUMN_DUE_DATE = "due_date";
         public static final String COLUMN_AMOUNT = "amount";
+        public static final String COLUMN_MODIFIED_DATE = "modify_date";
 
         //Defining Uri Maker functions : content://AUTHORITY/DetailSalePayments/id
         public static Uri buildDetailSalePaymentsUri(long id) {
