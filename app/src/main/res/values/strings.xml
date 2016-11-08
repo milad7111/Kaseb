@@ -85,10 +85,12 @@
     <string name="non_member">no member</string>
     <string name="title_activity_detail_sale">DetailSale</string>
     <string name="detail_sales_products_items_header">Items list</string>
+    <string name="detail_sales_info_header">Info</string>
     <string name="detail_sales_payment_header">Payments</string>
     <string name="detail_sales_taxDiscount_header">Other Items</string>
     <string name="detail_sales_summary_header">Summary</string>
-    <string name="detail_sales_summary_customer_code">Customer</string>
+    <string name="detail_sales_info_customer">Customer</string>
+    <string name="detail_sales_info_sale_code">Sale Code</string>
     <string name="detail_sales_summary_total_amount">Total amount</string>
     <string name="detail_sales_summary_total_balance">Balance</string>
     <string name="payment_model_cash">cash</string>
@@ -102,6 +104,7 @@
     <string name="detail_sales_summary_final_amount">Final amount</string>
     <string name="detail_sales_summary_payment">Payed</string>
     <string name="print_detail_sale_action_description">it prints your sale detail description and make a picture in your gallery</string>
+    <string name="print_your_factor">it prints your factor</string>
     <string name="fab_add_payment">Add payment</string>
     <string name="fab_add_tax">Add tax</string>
     <string name="fab_add_discount">Add discount</string>
@@ -109,6 +112,7 @@
     <string name="print_button">print</string>
     <string name="save">save</string>
     <string name="save_detail_sale_action_description">it let you save your changes</string>
+    <string name="save_your_factor">it let you save your factor</string>
     <string name="title_activity_detail_products">DetailProducts</string>
     <string name="title_product_name">Name</string>
     <string name="title_product_code">Code</string>
@@ -258,5 +262,19 @@
     <string name="add_types_setting">Add item</string>
     <string name="title_activity_my_setting">Setting</string>
     <string name="add_new_type">Add new type</string>
-    >>>>>>> setting
+
+    <string name="sample_product_name_7">LG 290</string>
+    <string name="sample_product_name_8">LG 478</string>
+    <string name="sample_product_name_9">Sony 2020</string>
+    <string name="sample_product_name_10">Sony J10i2</string>
+    <string name="hint_discount_amount">Discount Amount</string>
+    <string name="hint_discount_percent">Discount Percent</string>
+    <string name="hint_tax_amount">Tax Amount</string>
+    <string name="hint_tax_percent">Tax Percent</string>
+    <string name="hint_due_date">Due Date</string>
+    <string name="hint_payment_amount">Payment Amount</string>
+    <string-array name="payment_method">
+        <item>Check</item>
+        <item>Cash</item>
+    </string-array>
 </resources>

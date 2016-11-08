@@ -29,7 +29,7 @@ public class Sales extends DrawerActivity {
 
     public void fab_sales(View v){
         Intent intent = null;
-        intent = new Intent(getBaseContext(), DetailSaleInsert.class).putExtra("saleCode", sales.get(1).get(2));
+        intent = new Intent(getBaseContext(), DetailSaleInsert.class);
         startActivity(intent);
     }
 
