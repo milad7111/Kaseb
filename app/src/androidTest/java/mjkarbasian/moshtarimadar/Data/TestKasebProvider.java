@@ -23,7 +23,7 @@ import static mjkarbasian.moshtarimadar.Data.KasebContract.*;
 /**
  * Created by Unique on 10/13/2016.
  */
-public class TestKasebProvider extends AndroidTestCase {
+public class  TestKasebProvider extends AndroidTestCase {
 
     public static long sample_number = 100;
     final static String LOG_TAG = TestKasebProvider.class.getSimpleName();
