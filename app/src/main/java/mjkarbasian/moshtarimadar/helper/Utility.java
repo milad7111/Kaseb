@@ -264,7 +264,9 @@ public class Utility {
     private static void stateInits(Context context) {
         ContentValues[] contentValues;
         contentValues = new ContentValues[4];
-        int[] ids = new int[]{R.string.states_gold,R.string.states_silver,R.string.states_bronze,R.string.states_instart};
+        String[] ids = new String[]{context.getResources().getString(R.string.states_gold),
+                context.getResources().getString(R.string.states_silver),
+                context.getResources().getString(R.string.states_bronze,R.string.states_instart)};
         for(int i=0;i<ids.length;i++){
             ContentValues states = new ContentValues();
             states.put(KasebContract.State.COLUMN_STATE_POINTER, ids[i]);
@@ -283,7 +285,10 @@ public class Utility {
     private static void paymentsMethodinit(Context context) {
         ContentValues[] contentValues;
         contentValues = new ContentValues[4];
-        int[] ids = new int[]{R.string.payment_method_cash,R.string.payment_method_cheque,R.string.payment_method_credit,R.string.payment_method_pos};
+        String[] ids = new String[]{context.getResources().getString(R.string.payment_method_cash)
+                ,context.getResources().getString(R.string.payment_method_cheque)
+                ,context.getResources().getString(R.string.payment_method_credit)
+                ,context.getResources().getString(R.string.payment_method_pos)};
         for(int i=0;i<ids.length;i++){
             ContentValues paymentMethods = new ContentValues();
             paymentMethods.put(KasebContract.PaymentMethods.COLUMN_PAYMENT_METHOD_POINTER, ids[i]);
@@ -301,7 +306,8 @@ public class Utility {
     private static void taxTypesInit(Context context) {
         ContentValues[] contentValues;
         contentValues = new ContentValues[2];
-        int[] ids = new int[]{R.string.tax_types_vas,R.string.tax_types_discount};
+        String[] ids = new String[]{context.getResources().getString(R.string.tax_types_vas)
+                ,context.getResources().getString(R.string.tax_types_discount)};
         for(int i=0;i<ids.length;i++){
             ContentValues taxTypes = new ContentValues();
             taxTypes.put(KasebContract.TaxTypes.COLUMN_TAX_TYPE_POINTER, ids[i]);
@@ -318,7 +324,10 @@ public class Utility {
     private static void costTypesInit(Context context) {
         ContentValues[] contentValues;
         contentValues = new ContentValues[4];
-        int[] ids = new int[]{R.string.cost_types_bill,R.string.cost_types_salary, R.string.cost_types_tax,R.string.cost_types_others };
+        String[] ids = new String[]{context.getResources().getString(R.string.cost_types_bill),
+                context.getResources().getString(R.string.cost_types_salary),
+                context.getResources().getString(R.string.cost_types_tax),
+                context.getResources().getString(R.string.cost_types_others)};
         for(int i=0;i<ids.length;i++){
             ContentValues costTypes = new ContentValues();
             costTypes.put(KasebContract.CostTypes.COLUMN_COST_TYPE_POINTER, ids[i]);
