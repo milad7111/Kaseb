@@ -2,7 +2,9 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="72dp"
+    android:paddingEnd="4dp"
     android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="4dp"
     android:paddingStart="@dimen/activity_horizontal_margin">
 
     <LinearLayout
@@ -18,19 +20,19 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/item_list_cost_name"
+                android:id="@+id/item_list_name"
                 android:layout_width="fill_parent"
                 android:layout_height="0dp"
                 android:layout_marginLeft="@dimen/item_horizontal_margin"
                 android:layout_marginStart="@dimen/item_horizontal_margin"
                 android:layout_weight="1"
                 android:fontFamily="sans-serif-condensed"
-                android:text="@string/sample_cost_name"
+                android:text="@string/sample_ali_ghorbani"
                 android:textAppearance="?android:textAppearanceMedium"
                 android:textColor="@color/cardview_dark_background" />
 
             <TextView
-                android:id="@+id/item_list_cost_date"
+                android:id="@+id/item_list_date"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_marginLeft="@dimen/item_horizontal_margin"
@@ -40,7 +42,7 @@
                 android:textAppearance="?android:textAppearanceSmall" />
 
             <TextView
-                android:id="@+id/item_list_cost_code"
+                android:id="@+id/item_list_code"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_marginLeft="@dimen/item_horizontal_margin"
@@ -52,7 +54,7 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/item_list_cost_amount"
+            android:id="@+id/item_list_amount"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/activity_horizontal_margin"

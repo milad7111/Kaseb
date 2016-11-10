@@ -67,7 +67,6 @@ public class PreferenceHeader extends Fragment {
                             break;
                         }
                         default:
-
                     }
                     typeFragment.setArguments(columnName);
                     android.support.v4.app.FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
@@ -75,8 +74,6 @@ public class PreferenceHeader extends Fragment {
                     fragmentTransaction.addToBackStack(null);
                     int callBackStack = fragmentTransaction.commit();
                 }
-
-
             }
         });
         return rootView;

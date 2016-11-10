@@ -9,23 +9,30 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 
+import mjkarbasian.moshtarimadar.Data.KasebContract;
+
 public class Costs extends DrawerActivity {
 
-    Fragment costsFragment = new CostsList();
+    Fragment costsFragment = new CostSaleProductList();
+    Bundle costsFragmentBundle = new Bundle();
 
     android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
     Fragment costInsert = new CostInsert();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        costsFragmentBundle.putString("columnName", KasebContract.Costs.COLUMN_COST_CODE);
+        costsFragmentBundle.putString("witchActivity", "cost");
+        costsFragment.setArguments(costsFragmentBundle);
         fragmentManager.beginTransaction().replace(R.id.container, costsFragment).commit();
     }
 
     public void fab_costs(View v) {
-
         android.support.v4.app.FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.container, costInsert);
         fragmentTransaction.addToBackStack(null);
