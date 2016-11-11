@@ -9,12 +9,10 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 
-import mjkarbasian.moshtarimadar.Data.KasebContract;
-
 public class Costs extends DrawerActivity {
 
-    Fragment costsFragment = new CostSaleProductList();
-    Bundle costsFragmentBundle = new Bundle();
+    Fragment costsSaleProductFragment = new CostSaleProductList();
+    Bundle costsBundle = new Bundle();
 
     android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
     Fragment costInsert = new CostInsert();
@@ -26,13 +24,12 @@ public class Costs extends DrawerActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        costsFragmentBundle.putString("columnName", KasebContract.Costs.COLUMN_COST_CODE);
-        costsFragmentBundle.putString("witchActivity", "cost");
-        costsFragment.setArguments(costsFragmentBundle);
-        fragmentManager.beginTransaction().replace(R.id.container, costsFragment).commit();
+        costsBundle.putString("witchActivity", "cost");
+        costsSaleProductFragment.setArguments(costsBundle);
+        fragmentManager.beginTransaction().replace(R.id.container, costsSaleProductFragment).commit();
     }
 
-    public void fab_costs(View v) {
+    public void fab_cost_sale_product(View v) {
         android.support.v4.app.FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.container, costInsert);
         fragmentTransaction.addToBackStack(null);

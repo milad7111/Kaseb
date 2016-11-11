@@ -12,7 +12,8 @@ import android.view.View;
 
 public class Products extends DrawerActivity {
 
-    Fragment productsFragment = new ProductsList();
+    Fragment costsSaleProductFragment = new CostSaleProductList();
+    Bundle productsBundle = new Bundle();
     Fragment productInsert = new ProductInsert();
 
     android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
@@ -24,10 +25,13 @@ public class Products extends DrawerActivity {
         setSupportActionBar(toolbar);
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        fragmentManager.beginTransaction().replace(R.id.container, productsFragment).commit();
+
+        productsBundle.putString("witchActivity", "product");
+        costsSaleProductFragment.setArguments(productsBundle);
+        fragmentManager.beginTransaction().replace(R.id.container, costsSaleProductFragment).commit();
     }
 
-    public void fab_products(View v) {
+    public void fab_cost_sale_product(View v) {
         android.support.v4.app.FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.container, productInsert);
         fragmentTransaction.addToBackStack(null);

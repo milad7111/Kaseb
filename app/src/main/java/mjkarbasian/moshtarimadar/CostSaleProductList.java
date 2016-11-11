@@ -19,7 +19,6 @@ import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 
 import mjkarbasian.moshtarimadar.Data.KasebContract;
-import mjkarbasian.moshtarimadar.adapters.CostSaleProductAdapter;
 
 /**
  * Created by Unique on 10/11/2016.
@@ -27,17 +26,14 @@ import mjkarbasian.moshtarimadar.adapters.CostSaleProductAdapter;
 public class CostSaleProductList extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
     private final String LOG_TAG = CostSaleProductList.class.getSimpleName();
-    String mColumnName;
     final static String COST_CLASS_NAME = KasebContract.Costs.class.getSimpleName();
     final static String SALE_CLASS_NAME = KasebContract.Sales.class.getSimpleName();
     final static String PRODUCT_CLASS_NAME = KasebContract.Products.class.getSimpleName();
     final static int FRAGMENT_COST_SALE_PRODUCT_LOADER = 1;
 
-    CostSaleProductAdapter mAdapter = null;
-    SimpleCursorAdapter mAdapter2 = null;
+    SimpleCursorAdapter mAdapter = null;
     ListView mListView;
     String[] mProjection;
-    //Bundle thisBundle;
 
     public CostSaleProductList() {
         super();
@@ -45,11 +41,9 @@ public class CostSaleProductList extends Fragment implements LoaderManager.Loade
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        FloatingActionButton fab;
-        //thisBundle = getArguments();
+        FloatingActionButton fab = (FloatingActionButton) this.getActivity().findViewById(R.id.fab_cost_sale_product);
         switch (getArguments().getString("witchActivity")) {
             case "cost": {
-                fab = (FloatingActionButton) this.getActivity().findViewById(R.id.fab);
                 mProjection = new String[]{
                         null,
                         KasebContract.Costs.COLUMN_COST_NAME,
@@ -59,7 +53,6 @@ public class CostSaleProductList extends Fragment implements LoaderManager.Loade
                 break;
             }
             case "sale": {
-                fab = (FloatingActionButton) getActivity().findViewById(R.id.fab_sales);
                 mProjection = new String[]{
                         null,
                         KasebContract.Sales.COLUMN_CUSTOMER_ID,
@@ -69,7 +62,6 @@ public class CostSaleProductList extends Fragment implements LoaderManager.Loade
                 break;
             }
             case "product": {
-                fab = (FloatingActionButton) getActivity().findViewById(R.id.fab_products);
                 mProjection = new String[]{
                         null,
                         KasebContract.Products.COLUMN_PRODUCT_NAME,
@@ -87,35 +79,22 @@ public class CostSaleProductList extends Fragment implements LoaderManager.Loade
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        mColumnName = getArguments().getString("columnName");
-        mAdapter2 = new SimpleCursorAdapter(
+        mAdapter = new SimpleCursorAdapter(
                 getActivity(),
-                android.R.layout.simple_list_item_2,
+                R.layout.list_item_cost_sale_product,
                 null,
                 mProjection,
                 new int[]{
+                        0,
                         R.id.item_list_name,
                         R.id.item_list_amount,
                         R.id.item_list_code,
                         R.id.item_list_date},
                 0);
-//        mAdapter = new CostSaleProductAdapter(
-//                getActivity(),
-//                null,
-//                R.id.list_view_cost_sale_product ,
-//                new String[] {
-//                        KasebContract.Costs.COLUMN_COST_NAME,
-//                        KasebContract.Costs.COLUMN_AMOUNT,
-//                        KasebContract.Costs.COLUMN_COST_CODE,
-//                        KasebContract.Costs.COLUMN_DATE},
-//                new int[] {
-//                        R.id.item_list_name,
-//                        R.id.item_list_amount,
-//                        R.id.item_list_code,
-//                        R.id.item_list_date},0);
+
         View rootView = inflater.inflate(R.layout.fragment_cost_sale_product, container, false);
-        //mListView = (ListView) rootView.findViewById(R.id.list_view_cost_sale_product);
-        //mListView.setAdapter(mAdapter);
+        mListView = (ListView) rootView.findViewById(R.id.list_view_cost_sale_product);
+        mListView.setAdapter(mAdapter);
         return rootView;
     }
 
@@ -200,17 +179,17 @@ public class CostSaleProductList extends Fragment implements LoaderManager.Loade
         Uri cursorUri = null;
         String _idColumn = null;
         switch (getArguments().getString("witchActivity")) {
-            case "cost" : {
+            case "cost": {
                 cursorUri = KasebContract.Costs.CONTENT_URI;
                 _idColumn = KasebContract.Costs._ID;
                 break;
             }
-            case "sale" : {
+            case "sale": {
                 cursorUri = KasebContract.Sales.CONTENT_URI;
                 _idColumn = KasebContract.Sales._ID;
                 break;
             }
-            case "product" : {
+            case "product": {
                 cursorUri = KasebContract.Products.CONTENT_URI;
                 _idColumn = KasebContract.Products._ID;
                 break;
@@ -226,12 +205,12 @@ public class CostSaleProductList extends Fragment implements LoaderManager.Loade
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
         Log.d(LOG_TAG, "onLoadFinished");
-        mAdapter2.swapCursor(cursor);
+        mAdapter.swapCursor(cursor);
     }
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
         Log.d(LOG_TAG, "onLoadReset");
-        mAdapter2.swapCursor(null);
+        mAdapter.swapCursor(null);
     }
 }

@@ -10,11 +10,10 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 
-import static mjkarbasian.moshtarimadar.helper.Samples.sales;
-
 public class Sales extends DrawerActivity {
 
-    Fragment salesFragment = new SalesList();
+    Fragment costsSaleProductFragment = new CostSaleProductList();
+    Bundle salesBundle = new Bundle();
 
     android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
 
@@ -24,10 +23,13 @@ public class Sales extends DrawerActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        fragmentManager.beginTransaction().replace(R.id.container, salesFragment).commit();
+
+        salesBundle.putString("witchActivity", "sale");
+        costsSaleProductFragment.setArguments(salesBundle);
+        fragmentManager.beginTransaction().replace(R.id.container, costsSaleProductFragment).commit();
     }
 
-    public void fab_sales(View v){
+    public void fab_cost_sale_product(View v) {
         Intent intent = null;
         intent = new Intent(getBaseContext(), DetailSaleInsert.class);
         startActivity(intent);

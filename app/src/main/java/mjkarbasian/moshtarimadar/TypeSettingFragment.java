@@ -106,7 +106,6 @@ public class TypeSettingFragment extends Fragment implements LoaderManager.Loade
         Log.d(LOG_TAG, "onStart");
         super.onStart();
         updateList();
-
     }
 
     @Override
