@@ -35,15 +35,16 @@ import static mjkarbasian.moshtarimadar.helper.Samples.setSalesCustomer;
 public class DetailCustomer extends AppCompatActivity {
     Toolbar mToolbar;
     Integer customerPosiotion;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_customer);
         mToolbar = (Toolbar) findViewById(R.id.customer_detail_toolbar);
         setSupportActionBar(mToolbar);
-        if(!(Utility.getLocale(this).equals("IR"))){
-        mToolbar.setNavigationIcon(R.drawable.arrow_left);
-        }else{
+        if (!(Utility.getLocale(this).equals("IR"))) {
+            mToolbar.setNavigationIcon(R.drawable.arrow_left);
+        } else {
             mToolbar.setNavigationIcon(R.drawable.arrow_right);
         }
 
@@ -52,23 +53,19 @@ public class DetailCustomer extends AppCompatActivity {
         customerPosiotion = position;
 
         ((CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar_layout)).setTitle(this.getResources().getString(Samples.customerName[position]));
-        ImageView customerAvatar = (ImageView)findViewById(R.id.image_toolbar);
+        ImageView customerAvatar = (ImageView) findViewById(R.id.image_toolbar);
 
-        if(Samples.customerAvatar.size()==0)
-        {
+        if (Samples.customerAvatar.size() == 0) {
             customerAvatar.setImageResource(R.drawable.account);
-        }
-        else
-        {
-            if(!(Samples.customerAvatar.size()<=position)){
-                customerAvatar.setImageURI(Samples.customerAvatar.get(position));}
-            else {
+        } else {
+            if (!(Samples.customerAvatar.size() <= position)) {
+                customerAvatar.setImageURI(Samples.customerAvatar.get(position));
+            } else {
                 customerAvatar.setImageResource(R.drawable.account);
             }
         }
 
-        if(salesCode.size()==0)
-        {
+        if (salesCode.size() == 0) {
 
             setSalesCode();
             setSaleDueDate();
@@ -95,7 +92,7 @@ public class DetailCustomer extends AppCompatActivity {
 
         final ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
         final DetailCustomerAdapter adapter = new DetailCustomerAdapter
-                (getSupportFragmentManager(), tabLayout.getTabCount(),this,position);
+                (getSupportFragmentManager(), tabLayout.getTabCount(), this, position);
         viewPager.setAdapter(adapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -123,6 +120,7 @@ public class DetailCustomer extends AppCompatActivity {
         inflater.inflate(R.menu.menu_detail_customer, menu);
         return true;
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -134,17 +132,17 @@ public class DetailCustomer extends AppCompatActivity {
                 Toast.makeText(this, getApplicationContext().getResources().getString(R.string.edit_action_description), Toast.LENGTH_LONG).show();
                 break;
             case R.id.gold_member:
-                Samples.customerMembership[customerPosiotion] = 1 ;
+                Samples.customerMembership[customerPosiotion] = 1;
 
                 break;
             case R.id.silver_member:
-                Samples.customerMembership[customerPosiotion] = 2 ;
+                Samples.customerMembership[customerPosiotion] = 2;
                 break;
             case R.id.bronze_member:
-                Samples.customerMembership[customerPosiotion] = 3 ;
+                Samples.customerMembership[customerPosiotion] = 3;
                 break;
             case R.id.non_member:
-                Samples.customerMembership[customerPosiotion] = 4 ;
+                Samples.customerMembership[customerPosiotion] = 4;
                 return true;
         }
         return super.onOptionsItemSelected(item);
