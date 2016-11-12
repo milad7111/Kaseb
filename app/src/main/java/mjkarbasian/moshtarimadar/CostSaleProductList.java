@@ -13,12 +13,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
-import android.widget.SimpleCursorAdapter;
 
 import mjkarbasian.moshtarimadar.Data.KasebContract;
+import mjkarbasian.moshtarimadar.adapters.CostSaleProductAdapter;
 
 /**
  * Created by Unique on 10/11/2016.
@@ -26,12 +27,9 @@ import mjkarbasian.moshtarimadar.Data.KasebContract;
 public class CostSaleProductList extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
     private final String LOG_TAG = CostSaleProductList.class.getSimpleName();
-    final static String COST_CLASS_NAME = KasebContract.Costs.class.getSimpleName();
-    final static String SALE_CLASS_NAME = KasebContract.Sales.class.getSimpleName();
-    final static String PRODUCT_CLASS_NAME = KasebContract.Products.class.getSimpleName();
     final static int FRAGMENT_COST_SALE_PRODUCT_LOADER = 1;
 
-    SimpleCursorAdapter mAdapter = null;
+    CostSaleProductAdapter mAdapter = null;
     ListView mListView;
     String[] mProjection;
 
@@ -41,7 +39,7 @@ public class CostSaleProductList extends Fragment implements LoaderManager.Loade
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        FloatingActionButton fab = (FloatingActionButton) this.getActivity().findViewById(R.id.fab_cost_sale_product);
+        FloatingActionButton fab = (FloatingActionButton) getActivity().findViewById(R.id.fab_cost_sale_product);
         switch (getArguments().getString("witchActivity")) {
             case "cost": {
                 mProjection = new String[]{
@@ -56,8 +54,6 @@ public class CostSaleProductList extends Fragment implements LoaderManager.Loade
                 mProjection = new String[]{
                         null,
                         KasebContract.Sales.COLUMN_CUSTOMER_ID,
-                        KasebContract.Sales.COLUMN_SALE_CODE,
-                        KasebContract.Sales.COLUMN_SALE_CODE,
                         KasebContract.Sales.COLUMN_SALE_CODE};
                 break;
             }
@@ -65,8 +61,6 @@ public class CostSaleProductList extends Fragment implements LoaderManager.Loade
                 mProjection = new String[]{
                         null,
                         KasebContract.Products.COLUMN_PRODUCT_NAME,
-                        KasebContract.Products.COLUMN_PRODUCT_CODE,
-                        KasebContract.Products.COLUMN_PRODUCT_CODE,
                         KasebContract.Products.COLUMN_PRODUCT_CODE};
                 break;
             }
@@ -79,18 +73,11 @@ public class CostSaleProductList extends Fragment implements LoaderManager.Loade
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        mAdapter = new SimpleCursorAdapter(
+        mAdapter = new CostSaleProductAdapter(
                 getActivity(),
-                R.layout.list_item_cost_sale_product,
                 null,
-                mProjection,
-                new int[]{
-                        0,
-                        R.id.item_list_name,
-                        R.id.item_list_amount,
-                        R.id.item_list_code,
-                        R.id.item_list_date},
-                0);
+                0,
+                getArguments().getString("witchActivity"));
 
         View rootView = inflater.inflate(R.layout.fragment_cost_sale_product, container, false);
         mListView = (ListView) rootView.findViewById(R.id.list_view_cost_sale_product);
@@ -119,8 +106,8 @@ public class CostSaleProductList extends Fragment implements LoaderManager.Loade
         }
     }
 
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
 //        // Handle action bar item clicks here. The action bar will
 //        // automatically handle clicks on the Home/Up button, so long
 //        // as you specify a parent activity in AndroidManifest.xml.
@@ -151,9 +138,8 @@ public class CostSaleProductList extends Fragment implements LoaderManager.Loade
 //                }
 //            });
 //        } else Log.d(LOG_TAG, " Insert Dialog is null..! ");
-//        return super.onOptionsItemSelected(item);
-//
-//    }
+        return super.onOptionsItemSelected(item);
+    }
 
     @Override
     public void onStart() {
@@ -175,7 +161,7 @@ public class CostSaleProductList extends Fragment implements LoaderManager.Loade
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-//        Log.d(LOG_TAG, "onCreateLoader");
+        Log.d(LOG_TAG, "onCreateLoader");
         Uri cursorUri = null;
         String _idColumn = null;
         switch (getArguments().getString("witchActivity")) {
