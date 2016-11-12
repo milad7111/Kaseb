@@ -1,5 +1,6 @@
 package mjkarbasian.moshtarimadar;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -16,7 +17,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import mjkarbasian.moshtarimadar.Data.KasebContract;
 import mjkarbasian.moshtarimadar.adapters.CostSaleProductAdapter;
@@ -82,6 +85,14 @@ public class CostSaleProductList extends Fragment implements LoaderManager.Loade
         View rootView = inflater.inflate(R.layout.fragment_cost_sale_product, container, false);
         mListView = (ListView) rootView.findViewById(R.id.list_view_cost_sale_product);
         mListView.setAdapter(mAdapter);
+
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(getActivity(), position + "", Toast.LENGTH_SHORT).show();
+            }
+        });
+
         return rootView;
     }
 

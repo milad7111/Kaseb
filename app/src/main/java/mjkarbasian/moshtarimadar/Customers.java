@@ -42,7 +42,6 @@ public class Customers extends DrawerActivity {
         //this line initialize all references
         Utility.initializer(this);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        Utility.initializer(this);
         fragmentManager.beginTransaction().replace(R.id.container, customersFragment).commit();
     }
 
