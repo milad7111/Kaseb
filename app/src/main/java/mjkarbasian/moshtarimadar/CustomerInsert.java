@@ -16,6 +16,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import mjkarbasian.moshtarimadar.Data.KasebContract;
+import mjkarbasian.moshtarimadar.adapters.TypesSettingAdapter;
 import mjkarbasian.moshtarimadar.helper.Utility;
 
 
@@ -23,6 +24,8 @@ import mjkarbasian.moshtarimadar.helper.Utility;
  * Created by Unique on 10/21/2016.
  */
 public class CustomerInsert extends Fragment {
+
+//    static TypesSettingAdapter stateTypesAdapter = null;
 
     EditText firstName;
     EditText lastName;
@@ -110,7 +113,7 @@ public class CustomerInsert extends Fragment {
 
 //                Long.parseLong(StateRowId.getLastPathSegment())
 
-                customerValues.put(KasebContract.Customers.COLUMN_STATE_ID, stateType.getSelectedItemPosition());
+                customerValues.put(KasebContract.Customers.COLUMN_STATE_ID, stateType.getSelectedItemPosition() + 1);
                 insertUri = getActivity().getContentResolver().insert(
                         KasebContract.Customers.CONTENT_URI,
                         customerValues

@@ -14,7 +14,7 @@ public class TypesSettingAdapter extends CursorAdapter {
     String columnName;
     private String typePointer;
 
-    public TypesSettingAdapter(Context context, Cursor c, int flags,String column) {
+    public TypesSettingAdapter(Context context, Cursor c, int flags, String column) {
         super(context, c, flags);
         columnName = column;
     }
@@ -27,10 +27,8 @@ public class TypesSettingAdapter extends CursorAdapter {
 
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
-
-        TextView textView = (TextView)view;
+        TextView textView = (TextView) view;
         typePointer = cursor.getString(cursor.getColumnIndex(columnName));
         textView.setText(typePointer);
     }
-
 }
