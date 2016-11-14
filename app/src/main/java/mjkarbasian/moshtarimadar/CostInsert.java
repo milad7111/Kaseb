@@ -1,6 +1,7 @@
 package mjkarbasian.moshtarimadar;
 
 import android.content.ContentValues;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -10,12 +11,12 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
 import mjkarbasian.moshtarimadar.Data.KasebContract;
+import mjkarbasian.moshtarimadar.adapters.TypesSettingAdapter;
 import mjkarbasian.moshtarimadar.helper.Utility;
 
 /**
@@ -43,17 +44,26 @@ public class CostInsert extends Fragment {
                              Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_cost_insert, container, false);
         costType = (Spinner) rootView.findViewById(R.id.input_cost_type_spinner);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(),
-                R.array.cost_types, android.R.layout.simple_spinner_item);
+//        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(),
+//                R.array.cost_types, android.R.layout.simple_spinner_item);
         costName = (EditText) rootView.findViewById(R.id.input_cost_name);
         costCode = (EditText) rootView.findViewById(R.id.input_cost_code);
         costAmount = (EditText) rootView.findViewById(R.id.input_cost_amount);
         costDate = (EditText) rootView.findViewById(R.id.input_cost_date);
         costDescription = (EditText) rootView.findViewById(R.id.input_cost_description);
 
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        costType.setAdapter(adapter);
 
+        Cursor cursor = getContext().getContentResolver().query(KasebContract.CostTypes.CONTENT_URI
+                ,null,null,null,null);
+        int[] toViews = {
+                android.R.id.text1
+        };
+        String[] fromColumns = {
+                KasebContract.CostTypes.COLUMN_COST_TYPE_POINTER
+        };
+
+        TypesSettingAdapter cursorAdapter = new TypesSettingAdapter(getActivity(),cursor,0,KasebContract.CostTypes.COLUMN_COST_TYPE_POINTER);
+        costType.setAdapter(cursorAdapter);
         return rootView;
     }
 

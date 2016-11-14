@@ -3,6 +3,8 @@ package mjkarbasian.moshtarimadar;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.ContentValues;
+import android.content.Context;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -23,6 +25,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import mjkarbasian.moshtarimadar.Data.KasebContract;
+import mjkarbasian.moshtarimadar.adapters.TypesSettingAdapter;
 import mjkarbasian.moshtarimadar.helper.Utility;
 
 public class DetailSaleInsert extends AppCompatActivity {
@@ -67,6 +70,7 @@ public class DetailSaleInsert extends AppCompatActivity {
     Button dialogButton;
     Spinner paymentMethod;
     Uri insertUri;
+    private static Context mContext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,10 +78,9 @@ public class DetailSaleInsert extends AppCompatActivity {
         setContentView(R.layout.activity_detail_sale_insert);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
         //Fill in Sale summary
         customerId = 1;
-
+        mContext = this;
         customerInfo = (TextView) findViewById(R.id.detail_sales_info_customer);
         TextView totalAmount = (TextView) findViewById(R.id.card_detail_sale_summary_total_amount);
         TextView tax = (TextView) findViewById(R.id.card_detail_sale_summary_tax);
@@ -290,10 +293,17 @@ public class DetailSaleInsert extends AppCompatActivity {
                                 , R.string.fab_add_payment);
 
                         paymentMethod = (Spinner) dialog.findViewById(R.id.input_payment_method_spinner);
-                        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getBaseContext(),
-                                R.array.payment_method, android.R.layout.simple_spinner_item);
-                        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                        paymentMethod.setAdapter(adapter);
+                        Cursor cursor = getContentResolver().query(KasebContract.PaymentMethods.CONTENT_URI
+                                ,null,null,null,null);
+                        int[] toViews = {
+                                android.R.id.text1
+                        };
+                        String[] fromColumns = {
+                                KasebContract.PaymentMethods.COLUMN_PAYMENT_METHOD_POINTER
+                        };
+
+                        TypesSettingAdapter cursorAdapter = new TypesSettingAdapter(mContext,cursor,0,KasebContract.PaymentMethods.COLUMN_PAYMENT_METHOD_POINTER);
+                        paymentMethod.setAdapter(cursorAdapter);
 
                         dialogButton = (Button) dialog.findViewById(R.id.add_payment_for_sale_button1);
                         dialogButton.setOnClickListener(new View.OnClickListener() {

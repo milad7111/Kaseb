@@ -1,6 +1,5 @@
 package mjkarbasian.moshtarimadar;
 
-import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
