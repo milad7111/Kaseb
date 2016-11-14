@@ -11,21 +11,25 @@ import android.view.View;
 
 public class Costs extends DrawerActivity {
 
-    Fragment costsFragment = new CostsList();
+    Fragment costsSaleProductFragment = new CostSaleProductList();
+    Bundle costsBundle = new Bundle();
 
     android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
     Fragment costInsert = new CostInsert();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        fragmentManager.beginTransaction().replace(R.id.container, costsFragment).commit();
+
+        costsBundle.putString("witchActivity", "cost");
+        costsSaleProductFragment.setArguments(costsBundle);
+        fragmentManager.beginTransaction().replace(R.id.container, costsSaleProductFragment).commit();
     }
 
-    public void fab_costs(View v) {
-
+    public void fab_cost_sale_product(View v) {
         android.support.v4.app.FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.container, costInsert);
         fragmentTransaction.addToBackStack(null);

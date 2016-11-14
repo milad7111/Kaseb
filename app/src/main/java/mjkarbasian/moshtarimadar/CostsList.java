@@ -7,9 +7,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+
 import java.text.ParseException;
+
 import mjkarbasian.moshtarimadar.adapters.CostAdapter;
 import mjkarbasian.moshtarimadar.helper.Utility;
+
 import static mjkarbasian.moshtarimadar.helper.Samples.costs;
 import static mjkarbasian.moshtarimadar.helper.Samples.costsCode;
 import static mjkarbasian.moshtarimadar.helper.Samples.costsDue;
@@ -120,6 +123,4 @@ public class CostsList extends Fragment {
         mListView.setAdapter(mCostAdapter);
         return rootView;
     }
-
-
 }

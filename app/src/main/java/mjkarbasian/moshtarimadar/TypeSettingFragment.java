@@ -47,7 +47,6 @@ public class TypeSettingFragment extends Fragment implements LoaderManager.Loade
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-
     }
 
     @Nullable
@@ -74,45 +73,40 @@ public class TypeSettingFragment extends Fragment implements LoaderManager.Loade
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         Dialog typeInsert = null;
-            switch (mColumnName) {
-                case CostTypes.COLUMN_COST_TYPE_POINTER:
-                     typeInsert = Utility.dialogBuilder(getActivity(), R.layout.dialog_add_type_setting, R.id.title_dialog_add_cost_type);
-                    break;
-                case PaymentMethods.COLUMN_PAYMENT_METHOD_POINTER:
-                     typeInsert = Utility.dialogBuilder(getActivity(), R.layout.dialog_add_type_setting, R.id.title_dialog_add_payment_methods);
-                    break;
-                case TaxTypes.COLUMN_TAX_TYPE_POINTER:
-                    typeInsert = Utility.dialogBuilder(getActivity(), R.layout.dialog_add_type_setting, R.id.title_dialog_add_tax_types);
-                    break;
-                case State.COLUMN_STATE_POINTER:
-                    typeInsert = Utility.dialogBuilder(getActivity(), R.layout.dialog_add_type_setting, R.id.title_dialog_add_state);
-                    break;
-            }
-            if(typeInsert!=null) {
-                typeInsert.show();
-                Button dialogButton =(Button)typeInsert.findViewById(R.id.button_add_type_setting);
-                final Dialog finalTypeInsert = typeInsert;
-                dialogButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        finalTypeInsert.dismiss();
-                    }
-                });
-            }
-            else Log.d(LOG_TAG," Insert Dialog is null..! ");
-        return super.onOptionsItemSelected(item);
-
+        switch (mColumnName) {
+            case CostTypes.COLUMN_COST_TYPE_POINTER:
+                typeInsert = Utility.dialogBuilder(getActivity(), R.layout.dialog_add_type_setting, R.id.title_dialog_add_cost_type);
+                break;
+            case PaymentMethods.COLUMN_PAYMENT_METHOD_POINTER:
+                typeInsert = Utility.dialogBuilder(getActivity(), R.layout.dialog_add_type_setting, R.id.title_dialog_add_payment_methods);
+                break;
+            case TaxTypes.COLUMN_TAX_TYPE_POINTER:
+                typeInsert = Utility.dialogBuilder(getActivity(), R.layout.dialog_add_type_setting, R.id.title_dialog_add_tax_types);
+                break;
+            case State.COLUMN_STATE_POINTER:
+                typeInsert = Utility.dialogBuilder(getActivity(), R.layout.dialog_add_type_setting, R.id.title_dialog_add_state);
+                break;
         }
-
+        if (typeInsert != null) {
+            typeInsert.show();
+            Button dialogButton = (Button) typeInsert.findViewById(R.id.button_add_type_setting);
+            final Dialog finalTypeInsert = typeInsert;
+            dialogButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    finalTypeInsert.dismiss();
+                }
+            });
+        } else Log.d(LOG_TAG, " Insert Dialog is null..! ");
+        return super.onOptionsItemSelected(item);
+    }
 
     @Override
     public void onStart() {
         Log.d(LOG_TAG, "onStart");
         super.onStart();
         updateList();
-
     }
-
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -122,9 +116,7 @@ public class TypeSettingFragment extends Fragment implements LoaderManager.Loade
     }
 
     private void updateList() {
-
         getLoaderManager().restartLoader(FRAGMENT_TYPE_LOADER, null, this);
-
     }
 
     @Override
@@ -174,5 +166,4 @@ public class TypeSettingFragment extends Fragment implements LoaderManager.Loade
         Log.d(LOG_TAG, "onLoadReset");
         adapter.swapCursor(null);
     }
-
 }
