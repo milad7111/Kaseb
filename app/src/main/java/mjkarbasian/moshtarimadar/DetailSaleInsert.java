@@ -16,7 +16,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -25,6 +24,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import mjkarbasian.moshtarimadar.Data.KasebContract;
+import mjkarbasian.moshtarimadar.adapters.CostSaleProductAdapter;
+import mjkarbasian.moshtarimadar.adapters.CustomerAdapter;
 import mjkarbasian.moshtarimadar.adapters.TypesSettingAdapter;
 import mjkarbasian.moshtarimadar.helper.Utility;
 
@@ -64,13 +65,14 @@ public class DetailSaleInsert extends AppCompatActivity {
     FloatingActionButton fab;
     AlertDialog.Builder builder;
     ListView modeList;
-    String[] stringArray;
-    ArrayAdapter<String> modeAdapter;
+    CostSaleProductAdapter mAdapter = null;
+    CustomerAdapter mCAdapter = null;
     Dialog dialog;
     Button dialogButton;
     Spinner paymentMethod;
     Uri insertUri;
     private static Context mContext;
+    String[] mProjection;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +80,7 @@ public class DetailSaleInsert extends AppCompatActivity {
         setContentView(R.layout.activity_detail_sale_insert);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
         //Fill in Sale summary
         customerId = 1;
         mContext = this;
@@ -261,18 +264,26 @@ public class DetailSaleInsert extends AppCompatActivity {
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
                     case 0:
-                        builder = new AlertDialog.Builder(DetailSaleInsert.this);
-                        builder.setTitle(R.string.fab_add_product);
+                        mProjection = new String[]{
+                                KasebContract.Products._ID,
+                                KasebContract.Products.COLUMN_PRODUCT_NAME,
+                                KasebContract.Products.COLUMN_PRODUCT_CODE};
 
                         modeList = new ListView(DetailSaleInsert.this);
-                        stringArray = new String[]{
-                                getString(R.string.sample_product_name_7)
-                                , getString(R.string.sample_product_name_8)
-                                , getString(R.string.sample_product_name_9)
-                                , getString(R.string.sample_product_name_10)};
-                        modeAdapter = new ArrayAdapter<>(DetailSaleInsert.this,
-                                android.R.layout.simple_list_item_1, android.R.id.text1, stringArray);
-                        modeList.setAdapter(modeAdapter);
+                        mAdapter = new CostSaleProductAdapter(
+                                DetailSaleInsert.this,
+                                getContentResolver().query(
+                                        KasebContract.Products.CONTENT_URI,
+                                        mProjection,
+                                        null,
+                                        null,
+                                        null),
+                                0,
+                                "product");
+                        modeList.setAdapter(mAdapter);
+
+                        builder = new AlertDialog.Builder(DetailSaleInsert.this);
+                        builder.setTitle(R.string.fab_add_product);
 
                         modeList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                             @Override
@@ -294,15 +305,19 @@ public class DetailSaleInsert extends AppCompatActivity {
 
                         paymentMethod = (Spinner) dialog.findViewById(R.id.input_payment_method_spinner);
                         Cursor cursor = getContentResolver().query(KasebContract.PaymentMethods.CONTENT_URI
-                                ,null,null,null,null);
+                                , null, null, null, null);
                         int[] toViews = {
                                 android.R.id.text1
                         };
+
                         String[] fromColumns = {
                                 KasebContract.PaymentMethods.COLUMN_PAYMENT_METHOD_POINTER
                         };
 
-                        TypesSettingAdapter cursorAdapter = new TypesSettingAdapter(mContext,cursor,0,KasebContract.PaymentMethods.COLUMN_PAYMENT_METHOD_POINTER);
+                        TypesSettingAdapter cursorAdapter = new TypesSettingAdapter(mContext,
+                                cursor,
+                                0,
+                                KasebContract.PaymentMethods.COLUMN_PAYMENT_METHOD_POINTER);
                         paymentMethod.setAdapter(cursorAdapter);
 
                         dialogButton = (Button) dialog.findViewById(R.id.add_payment_for_sale_button1);
@@ -346,18 +361,26 @@ public class DetailSaleInsert extends AppCompatActivity {
                         dialog.show();
                         break;
                     case 4:
-                        builder = new AlertDialog.Builder(DetailSaleInsert.this);
-                        builder.setTitle(R.string.fab_add_product);
+                        mProjection = new String[]{
+                                KasebContract.Customers._ID,
+                                KasebContract.Customers.COLUMN_FIRST_NAME,
+                                KasebContract.Customers.COLUMN_LAST_NAME,
+                                KasebContract.Customers.COLUMN_STATE_ID};
 
                         modeList = new ListView(DetailSaleInsert.this);
-                        stringArray = new String[]{
-                                "John"
-                                , "Joseph"
-                                , "Christin"
-                                , "Susan"};
-                        modeAdapter = new ArrayAdapter<String>(DetailSaleInsert.this,
-                                android.R.layout.simple_list_item_1, android.R.id.text1, stringArray);
-                        modeList.setAdapter(modeAdapter);
+                        mCAdapter = new CustomerAdapter(
+                                DetailSaleInsert.this,
+                                getContentResolver().query(
+                                        KasebContract.Customers.CONTENT_URI,
+                                        mProjection,
+                                        null,
+                                        null,
+                                        null),
+                                0);
+                        modeList.setAdapter(mCAdapter);
+
+                        builder = new AlertDialog.Builder(DetailSaleInsert.this);
+                        builder.setTitle(R.string.fab_add_product);
 
                         modeList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                             @Override

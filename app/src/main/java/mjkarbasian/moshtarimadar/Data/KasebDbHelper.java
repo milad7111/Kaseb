@@ -18,6 +18,15 @@ public class KasebDbHelper extends SQLiteOpenHelper {
     }
 
     @Override
+    public void onOpen(SQLiteDatabase db) {
+        super.onOpen(db);
+        if (!db.isReadOnly()) {
+            // Enable foreign key constraints
+            db.execSQL("PRAGMA foreign_keys=ON;");
+        }
+    }
+
+    @Override
     public void onCreate(SQLiteDatabase db) {
 
         //region 1 create customers Table
@@ -174,10 +183,6 @@ public class KasebDbHelper extends SQLiteOpenHelper {
                 KasebContract.CostTypes.COLUMN_COST_TYPE_POINTER+ " TEXT NOT NULL UNIQUE" + ");";
         //endregion
 
-        if (!db.isReadOnly()) {
-            // Enable foreign key constraints
-            db.execSQL("PRAGMA foreign_keys=ON;");
-        }
         db.execSQL(CREATE_PAYMENT_METHODS_TABLE);
         db.execSQL(CREATE_TAX_TYPES_TABLE);
         db.execSQL(CREATE_PRODUCTS_TABLE);
