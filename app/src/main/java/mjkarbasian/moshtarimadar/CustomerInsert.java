@@ -54,6 +54,7 @@ public class CustomerInsert extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         rootView = inflater.inflate(R.layout.fragment_customer_insert, container, false);
 
         stateType = (Spinner) rootView.findViewById(R.id.input_state_type_spinner);
