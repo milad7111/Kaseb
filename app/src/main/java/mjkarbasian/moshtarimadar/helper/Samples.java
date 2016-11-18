@@ -2,6 +2,7 @@ package mjkarbasian.moshtarimadar.helper;
 
 import android.content.Context;
 import android.net.Uri;
+import android.os.Bundle;
 
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -9,13 +10,14 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 
+import mjkarbasian.moshtarimadar.Data.KasebContract;
 import mjkarbasian.moshtarimadar.R;
 
 /**
  * Created by family on 6/27/2016.
  */
 public class Samples {
-    public static Integer[] customerName = {R.string.sample_ali_ghorbani,R.string.sample_mohammad_alikhani,R.string.sample_sima_saberzadeh};
+    public static Integer[] customerName = {R.string.sample_ali_ghorbani_name,R.string.sample_mohammad_alikhani_name,R.string.sample_sima_saberzadeh};
     public static ArrayList<Uri> customerAvatar = new ArrayList<Uri>();
 
     public static Integer[] paymentModels ={R.string.payment_model_cash,R.string.payment_model_pos,R.string.payment_model_cheque,R.string.payment_model_credit};
@@ -36,7 +38,7 @@ public class Samples {
     public static double[] debtorOneBalance={900000,250000,350000};
     public static double[] debtorTwoBalance={600000,250000,250000,100000};
     public static double[][] debtorBalance = {debtorOneBalance,debtorTwoBalance};
-    public static Float[]customerRating = new Float[]{4.4f,3.2f,2.5f};
+    public static Float[] customerRating = new Float[]{4.4f,3.2f,2.5f};
     public static String[] customerPhoneNumber={"09124383454","09121343254","09122515237"};
     public static String[] customerEmail={"a.ghorbani@yahoo.com","maA1367@gmail.com","saberzade.sima@gmail.com"};
     public static double[] customerPurchaseAmount ={5590000,8320000,732000};
@@ -844,5 +846,136 @@ public class Samples {
         productPriceList.add(5,productPics);
     }
 
+    public static Bundle customer_1 = new Bundle();
+    public static Bundle product_1 = new Bundle();
+    public static Bundle cost_1 = new Bundle();
+    public static Bundle sale_1 = new Bundle();
+    public static Bundle sale_2 = new Bundle();
+    public static Bundle detail_sale_1 = new Bundle();
+    public static Bundle detail_sale_2 = new Bundle();
+    public static Bundle product_history = new Bundle();
+    public static Bundle ds1ProductItems = new Bundle();
+    public static Bundle ds2ProductItems = new Bundle();
+    public static Bundle ds1PaymentItems = new Bundle();
+    public static Bundle ds2PaymentItems = new Bundle();
+    public static Bundle ds1TaxItems = new Bundle();
+    public static Bundle ds2TaxItems = new Bundle();
+    public static Float product_1_sale_price = 1400.0f;
+
+    public static void setCustomer_1(Context context){
+        customer_1.putString(KasebContract.Customers.COLUMN_FIRST_NAME,
+                context.getResources().getString(R.string.sample_ali_ghorbani_name));
+        customer_1.putString(KasebContract.Customers.COLUMN_LAST_NAME,
+                context.getResources().getString(R.string.sample_ali_ghorbani_last_name));
+        customer_1.putString(KasebContract.Customers.COLUMN_EMAIL,"a.ghorbani@gmail.com");
+        customer_1.putString(KasebContract.Customers.COLUMN_PHONE_MOBILE,"09124383454");
+        customer_1.putString(KasebContract.Customers.COLUMN_PHONE_FAX,"02144552345");
+        customer_1.putString(KasebContract.Customers.COLUMN_PHONE_HOME,"02143546576");
+        customer_1.putString(KasebContract.Customers.COLUMN_PHONE_WORK,"+12354657856");
+        customer_1.putString(KasebContract.Customers.COLUMN_PHONE_OTHER,"+1234351267" );
+        customer_1.putString(KasebContract.Customers.COLUMN_ADDRESS_CITY,
+                context.getResources().getString(R.string.sample_ali_ghorbani_city));
+        customer_1.putString(KasebContract.Customers.COLUMN_ADDRESS_COUNTRY,
+                context.getResources().getString(R.string.sample_ali_ghorbani_country));
+        customer_1.putString(KasebContract.Customers.COLUMN_ADDRESS_STREET,
+                context.getResources().getString(R.string.sample_ali_ghorbani_street));
+        customer_1.putString(KasebContract.Customers.COLUMN_ADDRESS_POSTAL_CODE,
+                context.getResources().getString(R.string.sample_ali_ghorbani_postal_code));
+        customer_1.putString(KasebContract.Customers.COLUMN_BIRTHDAY,"1985/08/12");
+        customer_1.putString(KasebContract.Customers.COLUMN_DESCRIPTION,
+                context.getResources().getString(R.string.sample_ali_ghorbani_description));
+        customer_1.putInt(KasebContract.Customers.COLUMN_STATE_ID,
+                2);
+    }
+    public static void setProduct_1(Context context){
+        product_1.putString(KasebContract.Products.COLUMN_PRODUCT_NAME,
+                context.getResources().getString(R.string.sample_product_name_2));
+        product_1.putString(KasebContract.Products.COLUMN_PRODUCT_CODE,"101" );
+        product_1.putString(KasebContract.Products.COLUMN_DESCRIPTION, "very light");
+        product_1.putString(KasebContract.Products.COLUMN_UNIT,
+                context.getResources().getString(R.string.sample_unit));
+    }
+    public static void setCost_1(Context context){
+        cost_1.putString(KasebContract.Costs.COLUMN_COST_NAME,context.getResources().getString(R.string.sample_cost_name));
+        cost_1.putString(KasebContract.Costs.COLUMN_COST_CODE,"101");
+        cost_1.putString(KasebContract.Costs.COLUMN_DATE,"2015/08/03");
+        cost_1.putString(KasebContract.Costs.COLUMN_DESCRIPTION,context.getResources().getString(R.string.sample_cost_description));
+        cost_1.putFloat(KasebContract.Costs.COLUMN_AMOUNT, 1500.0f);
+        cost_1.putInt(KasebContract.Costs.COLUMN_COST_TYPE_ID, 2);
+
+    }
+    public static void setSale_1(Context context){
+        sale_1.putString(KasebContract.Sales.COLUMN_SALE_CODE, context.getResources().getString(R.string.sample_sale_code));
+        sale_1.putInt(KasebContract.Sales.COLUMN_CUSTOMER_ID,1);
+    }
+    public static void setSale_2(Context context){
+        sale_2.putString(KasebContract.Sales.COLUMN_SALE_CODE,context.getResources().getString(R.string.sample_sale_code_2));
+        sale_2.putInt(KasebContract.Sales.COLUMN_CUSTOMER_ID, 1);
+    }
+    public static void setProduct_history(Context context){
+        product_history.putInt(KasebContract.ProductHistory.COLUMN_PRODUCT_ID,1);
+        product_history.putInt(KasebContract.ProductHistory.COLUMN_QUANTITY,10);
+        product_history.putString(KasebContract.ProductHistory.COLUMN_DATE, "2016/10/20");
+        product_history.putFloat(KasebContract.ProductHistory.COLUMN_COST, 1100);
+        product_history.putFloat(KasebContract.ProductHistory.COLUMN_SALE_PRICE, product_1_sale_price);
+    }
+    public static void setDS1ProductItems(Context context){
+       ds1ProductItems.putInt(KasebContract.DetailSaleProducts.COLUMN_DETAIL_SALE_ID,1);
+       ds1ProductItems.putInt(KasebContract.DetailSaleProducts.COLUMN_PRODUCT_ID, 1);
+       ds1ProductItems.putInt(KasebContract.DetailSaleProducts.COLUMN_QUANTITY, 5);
+       ds1ProductItems.putFloat(KasebContract.DetailSaleProducts.COLUMN_AMOUNT,5*product_1_sale_price);
+   }
+    public static void setDS2ProductItems(Context context){
+        ds2ProductItems.putInt(KasebContract.DetailSaleProducts.COLUMN_DETAIL_SALE_ID,2);
+        ds2ProductItems.putInt(KasebContract.DetailSaleProducts.COLUMN_PRODUCT_ID,1);
+        ds2ProductItems.putInt(KasebContract.DetailSaleProducts.COLUMN_QUANTITY,10);
+        ds2ProductItems.putFloat(KasebContract.DetailSaleProducts.COLUMN_AMOUNT,10*product_1_sale_price);
+    }
+    public static void setDS1PaymentItems(Context context){
+        ds1PaymentItems.putInt(KasebContract.DetailSalePayments.COLUMN_DETAIL_SALE_ID,1);
+        ds1PaymentItems.putInt(KasebContract.DetailSalePayments.COLUMN_PAYMENT_METHOD_ID, 1);
+        ds1PaymentItems.putFloat(KasebContract.DetailSalePayments.COLUMN_AMOUNT, product_1_sale_price);
+        ds1PaymentItems.putString(KasebContract.DetailSalePayments.COLUMN_DUE_DATE, "20116/11/17");
+        ds1PaymentItems.putString(KasebContract.DetailSalePayments.COLUMN_MODIFIED_DATE,"20116/11/17");
+    }
+    public static void setDS2PaymentItems(Context context){
+        ds2PaymentItems.putInt(KasebContract.DetailSalePayments.COLUMN_DETAIL_SALE_ID,2);
+        ds2PaymentItems.putInt(KasebContract.DetailSalePayments.COLUMN_PAYMENT_METHOD_ID,3);
+        ds2PaymentItems.putFloat(KasebContract.DetailSalePayments.COLUMN_AMOUNT, product_1_sale_price-200);
+        ds2PaymentItems.putString(KasebContract.DetailSalePayments.COLUMN_DUE_DATE, "20116/12/17");
+        ds2PaymentItems.putString(KasebContract.DetailSalePayments.COLUMN_MODIFIED_DATE,"20116/11/19");
+    }
+    public static void setDS1TaxItems(Context context){
+        ds1TaxItems.putInt(KasebContract.DetailSaleTaxes.COLUMN_DETAIL_SALE_ID,1);
+        ds1TaxItems.putInt(KasebContract.DetailSaleTaxes.COLUMN_TAX_TYPE_ID,1);
+        ds1TaxItems.putFloat(KasebContract.DetailSaleTaxes.COLUMN_AMOUNT, 0.09f *5.0f* product_1_sale_price);
+    }
+    public static void setDS2TaxItems(Context context){
+        ds2TaxItems.putInt(KasebContract.DetailSaleTaxes.COLUMN_DETAIL_SALE_ID,2);
+        ds2TaxItems.putInt(KasebContract.DetailSaleTaxes.COLUMN_TAX_TYPE_ID,1);
+        ds2TaxItems.putFloat(KasebContract.DetailSaleTaxes.COLUMN_AMOUNT,0.09f*10.0f*product_1_sale_price);
+    }
+    public static void setDetailSale_1(Context context){
+       detail_sale_1.putInt(KasebContract.DetailSale.COLUMN_SALE_ID, 1);
+       detail_sale_1.putString(KasebContract.DetailSale.COLUMN_DATE, "2016/11/17");
+       detail_sale_1.putInt(KasebContract.DetailSale.COLUMN_ITEMS_NUMBER, 1);
+       detail_sale_1.putInt(KasebContract.DetailSale.COLUMN_IS_BALANCED, 1);
+       detail_sale_1.putFloat(KasebContract.DetailSale.COLUMN_SUB_TOTAL, 5.0f * product_1_sale_price);
+       detail_sale_1.putFloat(KasebContract.DetailSale.COLUMN_TOTAL_TAX,0.09f*5.0f*product_1_sale_price);
+        detail_sale_1.putFloat(KasebContract.DetailSale.COLUMN_TOTAL_DISCOUNT,0.0f);
+       detail_sale_1.putFloat(KasebContract.DetailSale.COLUMN_TOTAL_DUE, 5.0f * product_1_sale_price - 0.09f*5.0f*product_1_sale_price );
+       detail_sale_1.putFloat(KasebContract.DetailSale.COLUMN_TOTAL_PAID, 5.0f * product_1_sale_price - 0.09f*5.0f*product_1_sale_price);
+    }
+    public static void setDetailSale_2(Context context){
+        detail_sale_2.putInt(KasebContract.DetailSale.COLUMN_SALE_ID, 2);
+        detail_sale_2.putString(KasebContract.DetailSale.COLUMN_DATE, "2016/11/19");
+        detail_sale_2.putInt(KasebContract.DetailSale.COLUMN_ITEMS_NUMBER, 1);
+        detail_sale_2.putInt(KasebContract.DetailSale.COLUMN_IS_BALANCED, 0);
+        detail_sale_2.putFloat(KasebContract.DetailSale.COLUMN_SUB_TOTAL, 10.0f * product_1_sale_price);
+        detail_sale_2.putFloat(KasebContract.DetailSale.COLUMN_TOTAL_TAX,0.09f*10.0f*product_1_sale_price);
+        detail_sale_2.putFloat(KasebContract.DetailSale.COLUMN_TOTAL_DISCOUNT,0.0f);
+        detail_sale_2.putFloat(KasebContract.DetailSale.COLUMN_TOTAL_DUE, 10.0f * product_1_sale_price - 0.1f*10.0f*product_1_sale_price );
+        detail_sale_2.putFloat(KasebContract.DetailSale.COLUMN_TOTAL_PAID, 5.0f * product_1_sale_price - 0.1f*5.0f*product_1_sale_price);
+    }
 }
 
