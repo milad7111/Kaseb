@@ -1,6 +1,7 @@
 package mjkarbasian.moshtarimadar;
 
 import android.content.ContentValues;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -10,7 +11,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -57,8 +57,6 @@ public class CustomerInsert extends Fragment {
         rootView = inflater.inflate(R.layout.fragment_customer_insert, container, false);
 
         stateType = (Spinner) rootView.findViewById(R.id.input_state_type_spinner);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(),
-                R.array.state_types, android.R.layout.simple_spinner_item);
         firstName = (EditText) rootView.findViewById(R.id.input_first_name);
         lastName = (EditText) rootView.findViewById(R.id.input_last_name);
         birthDay = (EditText) rootView.findViewById(R.id.input_birth_day);
@@ -73,9 +71,17 @@ public class CustomerInsert extends Fragment {
         addressCity = (EditText) rootView.findViewById(R.id.input_address_city);
         addressStreet = (EditText) rootView.findViewById(R.id.input_address_street);
         addressPostalCode = (EditText) rootView.findViewById(R.id.input_address_postal_code);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        stateType.setAdapter(adapter);
 
+        Cursor cursor = getContext().getContentResolver().query(KasebContract.State.CONTENT_URI
+                ,null,null,null,null);
+        int[] toViews = {
+                android.R.id.text1
+        };
+        String[] fromColumns = {
+                KasebContract.State.COLUMN_STATE_POINTER
+        };
+        TypesSettingAdapter cursorAdapter = new TypesSettingAdapter(getActivity(),cursor,0,KasebContract.State.COLUMN_STATE_POINTER);
+        stateType.setAdapter(cursorAdapter);
         return rootView;
     }
 
