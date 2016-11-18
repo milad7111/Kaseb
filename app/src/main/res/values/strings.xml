@@ -22,8 +22,10 @@
     <string name="label_total_customer_debt">Debt</string>
     <string name="sample_text_debt_of_customer_amount">800</string>
     <string name="sample_text_purchase_of_customer_amount">1,500,000</string>
-    <string name="sample_ali_ghorbani">Ali Ghorbani</string>
-    <string name="sample_mohammad_alikhani">Mohammad AliKhani</string>
+    <string name="sample_ali_ghorbani_name">Ali</string>
+    <string name="sample_ali_ghorbani_last_name">Ghorbani</string>
+    <string name="sample_mohammad_alikhani_name">Mohammad</string>
+    <string name="sample_mohammad_alikhani_last_name">AliKhani</string>
     <string name="sample_sima_saberzadeh">Sima Saberzadeh</string>
     <string name="format_purchase_amount"><xliff:g id="purchase_amount">%1$s</xliff:g> $</string>
     <string name="search_title">Search</string>
@@ -273,6 +275,13 @@
     <string name="hint_tax_percent">Tax Percent</string>
     <string name="hint_due_date">Due Date</string>
     <string name="hint_payment_amount">Payment Amount</string>
+    <string name="sample_ali_ghorbani_city">Tehran</string>
+    <string name="sample_ali_ghorbani_country">Iran</string>
+    <string name="sample_ali_ghorbani_street">ValiAsr</string>
+    <string name="sample_ali_ghorbani_postal_code">1856958458</string>
+    <string name="sample_ali_ghorbani_description">find in congress</string>
+    <string name="sample_cost_description">no description</string>
+    <string name="sample_sale_code_2">INV-000124</string>
     <string-array name="payment_method">
         <item>Check</item>
         <item>Cash</item>
