@@ -10,13 +10,8 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import java.text.ParseException;
-
 import mjkarbasian.moshtarimadar.adapters.ProductAdapter;
 import mjkarbasian.moshtarimadar.helper.Samples;
-import mjkarbasian.moshtarimadar.helper.Utility;
-
-import static mjkarbasian.moshtarimadar.helper.Samples.costs;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -43,11 +38,11 @@ public class ProductsList extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_products, container, false);
         mListView = (ListView)rootView.findViewById(R.id.list_view_products);
         mListView.setAdapter(mProductAdapter);
-
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(getActivity(),DetailProducts.class).putExtra("productCode",Samples.products.get(1).get(position))
+                Intent intent = new Intent(getActivity(),DetailProducts.class)
+                        .putExtra("productCode",Samples.products.get(1).get(position))
                         .putExtra("position",position);
                 startActivity(intent);
             }
