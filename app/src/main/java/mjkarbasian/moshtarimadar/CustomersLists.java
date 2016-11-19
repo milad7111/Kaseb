@@ -2,7 +2,6 @@ package mjkarbasian.moshtarimadar;
 
 import android.content.Intent;
 import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -20,7 +19,6 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import mjkarbasian.moshtarimadar.Data.KasebContract;
-import mjkarbasian.moshtarimadar.adapters.CostSaleProductAdapter;
 import mjkarbasian.moshtarimadar.adapters.CustomerAdapter;
 
 /**
@@ -62,6 +60,7 @@ public class CustomersLists extends Fragment implements LoaderManager.LoaderCall
         View rootView = inflater.inflate(R.layout.fragment_customers, container, false);
         mListView = (ListView) rootView.findViewById(R.id.list_view_customers);
         mListView.setAdapter(mCustomerAdapter);
+
 
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
