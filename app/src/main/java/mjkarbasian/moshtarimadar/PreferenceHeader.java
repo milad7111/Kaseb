@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.ContactsContract;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -17,7 +18,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 
 import mjkarbasian.moshtarimadar.Data.KasebContract;
@@ -91,12 +99,90 @@ public class PreferenceHeader extends Fragment {
                             Intent contactPickerIntent = new Intent(Intent.ACTION_GET_CONTENT);
                             contactPickerIntent.setType(ContactsContract.Contacts.CONTENT_ITEM_TYPE);
                             startActivityForResult(contactPickerIntent, RESULT_PICK_CONTACT);
+                            break;
+                        }
+                        case 4:{
+                            new AlertDialog.Builder(getActivity())
+                                    .setTitle(getActivity().getResources().getString(R.string.pref_header_backup))
+                                    .setMessage(getActivity().getResources().getString(R.string.dialog_select_backup_restore))
+                                    .setPositiveButton(getActivity().getResources().getString(R.string.dialog_select_backup), new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            try {
+                                                doBackup();
+                                            } catch (IOException e) {
+                                                e.printStackTrace();
+                                            }
+                                        }
+                                    })
+                                            .setNegativeButton(getActivity().getResources().getString(R.string.dialog_select_restore), new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    doRestore();
+                                                }
+                                            })
+                                            .setNeutralButton(getActivity().getResources().getString(R.string.dialog_select_cancel), new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    dialog.dismiss();
+                                                }
+                                            })
+                                            .show();
                         }
                     }
                 }
             }
         });
         return rootView;
+    }
+
+    private void doRestore() {
+        try {
+            File sd = Environment.getExternalStorageDirectory();
+            File data = Environment.getDataDirectory();
+            if (sd.canWrite()) {
+                final String currentDBPath = getActivity().getDatabasePath("kaseb.db").getPath();
+                String backupDBPath = Environment.getExternalStorageDirectory()+"/kaseb_copy.db";
+                File backupDB = new File(currentDBPath);
+                File currentDB = new File(backupDBPath);
+                FileChannel src = new FileInputStream(currentDB).getChannel();
+                FileChannel dst = new FileOutputStream(backupDB).getChannel();
+                dst.transferFrom(src, 0, src.size());
+                src.close();
+                dst.close();
+                Toast.makeText(getActivity(), "Import Successful!",
+                        Toast.LENGTH_SHORT).show();
+            }
+        } catch (Exception e) {
+
+            Toast.makeText(getActivity(), "Import Failed!", Toast.LENGTH_SHORT)
+                    .show();
+
+        }
+
+    }
+
+    private void doBackup() throws IOException {
+        final String inFileName = getActivity().getDatabasePath("kaseb.db").getPath();
+        File dbFile = new File(inFileName);
+        FileInputStream fis = new FileInputStream(dbFile);
+
+        String outFileName = Environment.getExternalStorageDirectory()+"/kaseb_copy.db";
+
+        // Open the empty db as the output stream
+        OutputStream output = new FileOutputStream(outFileName);
+
+        // Transfer bytes from the inputfile to the outputfile
+        byte[] buffer = new byte[1024];
+        int length;
+        while ((length = fis.read(buffer))>0){
+            output.write(buffer, 0, length);
+        }
+
+        // Close the streams
+        output.flush();
+        output.close();
+        fis.close();
     }
 
     public void onActivityResult(int reqCode, int resultCode, Intent data) {
@@ -167,6 +253,7 @@ public class PreferenceHeader extends Fragment {
         String contactEmail = null;
         if(cr.moveToFirst())
             contactEmail = cr.getString(cr.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.Email.DATA));
+        cr.close();
         return contactEmail;
     }
 
@@ -176,6 +263,7 @@ public class PreferenceHeader extends Fragment {
         String contactMobilePhone = null;
         if(cr.moveToFirst())
             contactMobilePhone = cr.getString(cr.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.Phone.NUMBER));
+        cr.close();
         return contactMobilePhone;
     }
 
@@ -191,7 +279,7 @@ public class PreferenceHeader extends Fragment {
             firstName = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.StructuredName.GIVEN_NAME));
             family = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.StructuredName.FAMILY_NAME));
         }
-
+        cursor.close();
         return new String[]{firstName, family};
     }
 

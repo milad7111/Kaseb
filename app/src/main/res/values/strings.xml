@@ -258,7 +258,7 @@
     <string name="pref_header_tax">Tax types</string>
     <string name="pref_header_payment">Payment methods</string>
     <string name="pref_header_customer">Customer states</string>
-    <string name="pref_header_backup">Backup</string>
+    <string name="pref_header_backup">Backup/Restore</string>
     <string name="pref_header_import_contacts">Import Contacts</string>
     <string name="pref_header_kaseb">Kaseb</string>
     <string name="add_types_setting">Add item</string>
@@ -289,6 +289,10 @@
     <string name="dialog_input_import_contact_first_last_name">First Name or Last Name</string>
     <string name="dialog_input_import_contact_phone_mobile">Mobile Phone Number</string>
     <string name="dialog_input_import_contact_general">Input Data</string>
+    <string name="dialog_select_backup_restore">Do you want to back up your Data or Restore your previous Backup?</string>
+    <string name="dialog_select_backup">Backup</string>
+    <string name="dialog_select_restore">Restore</string>
+    <string name="dialog_select_cancel">Cancel</string>
     <string-array name="payment_method">
         <item>Check</item>
         <item>Cash</item>
