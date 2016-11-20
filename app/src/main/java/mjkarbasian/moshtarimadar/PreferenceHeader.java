@@ -2,6 +2,7 @@ package mjkarbasian.moshtarimadar;
 
 import android.app.Activity;
 import android.content.ContentValues;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
@@ -9,6 +10,8 @@ import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +28,7 @@ import mjkarbasian.moshtarimadar.adapters.HeaderAdaper;
  */
 public class PreferenceHeader extends Fragment {
     private static final int RESULT_PICK_CONTACT = 1;
+    private static final String LOG_TAG = PreferenceHeader.class.getSimpleName();
     ListView mListView;
     HeaderAdaper headerAdaper;
     ArrayList<Integer> headerIcons = new ArrayList<>();
@@ -84,8 +88,6 @@ public class PreferenceHeader extends Fragment {
                 } else {
                     switch (position) {
                         case 5: {
-//                            Intent contactPickerIntent = new Intent(Intent.ACTION_PICK,
-//                                    ContactsContract.CommonDataKinds.Phone.CONTENT_URI);
                             Intent contactPickerIntent = new Intent(Intent.ACTION_GET_CONTENT);
                             contactPickerIntent.setType(ContactsContract.Contacts.CONTENT_ITEM_TYPE);
                             startActivityForResult(contactPickerIntent, RESULT_PICK_CONTACT);
@@ -99,10 +101,9 @@ public class PreferenceHeader extends Fragment {
 
     public void onActivityResult(int reqCode, int resultCode, Intent data) {
         super.onActivityResult(reqCode, resultCode, data);
-        String given = null;
-        String family= null;
-        String display = null;
-        String contactMobilePhone= null;
+        String[] displayName = new String[2];
+        String phoneMobile= null;
+        String phoneHome = null;
         String contactEmail = null;
         String contactId = null;
         switch (reqCode) {
@@ -113,35 +114,85 @@ public class PreferenceHeader extends Fragment {
                     if (contactCursor.moveToFirst()) {
                         contactId = contactCursor.getString(contactCursor.getColumnIndex(ContactsContract.Contacts._ID));
                     }
-                    Cursor cr = getActivity().getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, ContactsContract.CommonDataKinds.Phone.CONTACT_ID
-                            + " = " + contactId, null, null);
-                    if(cr.moveToFirst())
-                    contactMobilePhone = cr.getString(cr.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.Phone.NUMBER));
-                    cr = getActivity().getContentResolver().query(ContactsContract.CommonDataKinds.Email.CONTENT_URI, null, ContactsContract.CommonDataKinds.Email.CONTACT_ID + " = ?", new String[]{contactId}, null);;
-                    if(cr.moveToFirst())
-                     contactMobilePhone = cr.getString(cr.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.Email.DATA));
-                    cr = getActivity().getContentResolver().query(ContactsContract.Data.CONTENT_URI,null,ContactsContract.Data.CONTACT_ID + " = ?",
-                            new String[] {contactId},null);
-
-                    while (cr.moveToNext()) {
-                             given = cr.getString(cr.getColumnIndex(ContactsContract.CommonDataKinds.StructuredName.GIVEN_NAME));
-                             family = cr.getString(cr.getColumnIndex(ContactsContract.CommonDataKinds.StructuredName.FAMILY_NAME));
-                             display = cr.getString(cr.getColumnIndex(ContactsContract.CommonDataKinds.StructuredName.DISPLAY_NAME));
+                    displayName = getNames(contactId);
+                    if(displayName[0]==null||displayName[1]==null){
+                        dataError(getActivity().getResources().getString(R.string.dialog_input_import_contact_first_last_name));
+                        break;
                     }
-                    cr.close();
-                    if (given!=null&&family!=null&&contactMobilePhone!=null){
+                    if(contactCursor.getString(contactCursor.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER)).equals("1"))
+                    phoneMobile = getMobileNumber(contactId);
+                    else {
+                        dataError(getActivity().getResources().getString(R.string.dialog_input_import_contact_phone_mobile));
+                        break;
+                    }
+                    contactEmail = getEmail(contactId);
+
+                    if (displayName[0]!=null&&displayName[1]!=null&&phoneMobile!=null){
                     ContentValues contactValue = new ContentValues();
-                    contactValue.put(KasebContract.Customers.COLUMN_FIRST_NAME,given);
-                    contactValue.put(KasebContract.Customers.COLUMN_LAST_NAME,family);
-                    contactValue.put(KasebContract.Customers.COLUMN_PHONE_MOBILE,contactMobilePhone);
+                    contactValue.put(KasebContract.Customers.COLUMN_FIRST_NAME,displayName[0]);
+                    contactValue.put(KasebContract.Customers.COLUMN_LAST_NAME,displayName[1]);
+                    contactValue.put(KasebContract.Customers.COLUMN_PHONE_MOBILE,phoneMobile);
                     contactValue.put(KasebContract.Customers.COLUMN_EMAIL,contactEmail);
                     Uri insertUri = getActivity().getContentResolver().insert(KasebContract.Customers.CONTENT_URI,contactValue);
+                    Log.v(LOG_TAG, "Contact successfully is imported in: " + insertUri.toString());
+                    }
+                    else {
+                    dataError(getActivity().getResources().getString(R.string.dialog_input_import_contact_general));
                     }
                     break;
                 }
 
             }
         }
+    }
+
+    private void dataError(String name) {
+        new AlertDialog.Builder(getActivity())
+                .setTitle(getActivity().getResources().getString(R.string.dialog_title_import_customer_fail))
+                .setMessage(getActivity().getResources().getString(R.string.dialog_message_import_customer_fail_par1) + name +
+                        getActivity().getResources().getString(R.string.dialog_message_import_customer_fail_par2))
+                .setPositiveButton(getActivity().getResources().getString(R.string.dialog_positive_button), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+                })
+                .show();
+
+    }
+
+    private String getEmail(String contactId) {
+        Cursor cr = getActivity().getContentResolver().query(ContactsContract.CommonDataKinds.Email.CONTENT_URI,
+                null, ContactsContract.CommonDataKinds.Email.CONTACT_ID + " = ?", new String[]{contactId}, null);;
+        String contactEmail = null;
+        if(cr.moveToFirst())
+            contactEmail = cr.getString(cr.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.Email.DATA));
+        return contactEmail;
+    }
+
+    private String getMobileNumber(String contactId) {
+        Cursor cr = getActivity().getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, ContactsContract.CommonDataKinds.Phone.CONTACT_ID
+                + " = " + contactId, null, null);
+        String contactMobilePhone = null;
+        if(cr.moveToFirst())
+            contactMobilePhone = cr.getString(cr.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.Phone.NUMBER));
+        return contactMobilePhone;
+    }
+
+    private String[] getNames(String contactId) {
+        String firstName = null;
+        String family = null;
+        String whereName = ContactsContract.Data.MIMETYPE + " = ? AND " + ContactsContract.CommonDataKinds.StructuredName.CONTACT_ID + " = ?";
+        String[] whereNameParams = new String[] { ContactsContract.CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE, contactId };
+        Cursor cursor = getActivity().getContentResolver().query(ContactsContract.Data.CONTENT_URI
+                , null, whereName, whereNameParams,
+                ContactsContract.CommonDataKinds.StructuredName.GIVEN_NAME);
+        while (cursor.moveToNext()) {
+            firstName = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.StructuredName.GIVEN_NAME));
+            family = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.StructuredName.FAMILY_NAME));
+        }
+
+        return new String[]{firstName, family};
     }
 
     private ArrayList<String> initHeaderSummary() {
@@ -155,9 +206,9 @@ public class PreferenceHeader extends Fragment {
         headerTitle.add(getActivity().getResources().getString(R.string.pref_header_payment));
         headerTitle.add(getActivity().getResources().getString(R.string.pref_header_customer));
         headerTitle.add(getActivity().getResources().getString(R.string.pref_header_backup));
-        headerTitle.add(getActivity().getResources().getString(R.string.pref_header_import_data));
-        headerTitle.add(getActivity().getResources().getString(R.string.pref_header_kaseb));
-        headerTitle.add(getActivity().getResources().getString(R.string.pref_header_notifications));
+        headerTitle.add(getActivity().getResources().getString(R.string.pref_header_import_contacts));
+//        headerTitle.add(getActivity().getResources().getString(R.string.pref_header_kaseb));
+//        headerTitle.add(getActivity().getResources().getString(R.string.pref_header_notifications));
         return headerTitle;
     }
 
@@ -169,8 +220,8 @@ public class PreferenceHeader extends Fragment {
         headerIcons.add(R.drawable.information);
         headerIcons.add(R.drawable.information);
         headerIcons.add(R.drawable.information);
-        headerIcons.add(R.drawable.information);
-        headerIcons.add(R.drawable.information);
+//        headerIcons.add(R.drawable.information);
+//        headerIcons.add(R.drawable.information);
         return headerIcons;
     }
 
