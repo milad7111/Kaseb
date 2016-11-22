@@ -51,8 +51,6 @@ public class DetailSaleInsert extends AppCompatActivity {
     long taxTypeId[];
     long amountTax[];
 
-    TextView customerInfo;
-
     ContentValues saleValues = new ContentValues();
     ContentValues detailsaleValues = new ContentValues();
     ContentValues[] itemsValuesArray;
@@ -70,9 +68,15 @@ public class DetailSaleInsert extends AppCompatActivity {
     Dialog dialog;
     Button dialogButton;
     Spinner paymentMethod;
+    Spinner taxTypes;
     Uri insertUri;
     private static Context mContext;
     String[] mProjection;
+    TextView nameCustomer;
+    TextView familyCustomer;
+
+    Cursor cursor;
+    TypesSettingAdapter cursorAdapter = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,13 +88,14 @@ public class DetailSaleInsert extends AppCompatActivity {
         //Fill in Sale summary
         customerId = 1;
         mContext = this;
-        customerInfo = (TextView) findViewById(R.id.detail_sales_info_customer);
         TextView totalAmount = (TextView) findViewById(R.id.card_detail_sale_summary_total_amount);
         TextView tax = (TextView) findViewById(R.id.card_detail_sale_summary_tax);
         TextView discount = (TextView) findViewById(R.id.card_detail_sale_summary_discount);
         TextView finalAmount = (TextView) findViewById(R.id.card_detail_sale_summary_final_amount);
         TextView payed = (TextView) findViewById(R.id.card_detail_sale_summary_payed);
         TextView balance = (TextView) findViewById(R.id.card_detail_sale_summary_balance);
+        nameCustomer = (TextView) findViewById(R.id.detail_sales_info_customer_name);
+        familyCustomer = (TextView) findViewById(R.id.detail_sales_info_customer_family);
 
         fab = (FloatingActionButton) findViewById(R.id.fab_detail_sale_insert);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -126,7 +131,6 @@ public class DetailSaleInsert extends AppCompatActivity {
 
                 //region disabling edit
                 saleCode.setEnabled(false);
-                customerInfo.setEnabled(false);
 
                 EditText saleDate = (EditText) findViewById(R.id.detail_sales_info_sale_date);
 
@@ -304,17 +308,10 @@ public class DetailSaleInsert extends AppCompatActivity {
                                 , R.string.fab_add_payment);
 
                         paymentMethod = (Spinner) dialog.findViewById(R.id.input_payment_method_spinner);
-                        Cursor cursor = getContentResolver().query(KasebContract.PaymentMethods.CONTENT_URI
+                        cursor = getContentResolver().query(KasebContract.PaymentMethods.CONTENT_URI
                                 , null, null, null, null);
-                        int[] toViews = {
-                                android.R.id.text1
-                        };
 
-                        String[] fromColumns = {
-                                KasebContract.PaymentMethods.COLUMN_PAYMENT_METHOD_POINTER
-                        };
-
-                        TypesSettingAdapter cursorAdapter = new TypesSettingAdapter(mContext,
+                        cursorAdapter = new TypesSettingAdapter(mContext,
                                 cursor,
                                 0,
                                 KasebContract.PaymentMethods.COLUMN_PAYMENT_METHOD_POINTER);
@@ -334,6 +331,16 @@ public class DetailSaleInsert extends AppCompatActivity {
                         dialog = Utility.dialogBuilder(DetailSaleInsert.this
                                 , R.layout.dialog_add_tax_for_sale
                                 , R.string.fab_add_tax);
+
+                        taxTypes = (Spinner) dialog.findViewById(R.id.input_tax_type_spinner);
+                        cursor = getContentResolver().query(KasebContract.TaxTypes.CONTENT_URI
+                                , null, null, null, null);
+
+                        cursorAdapter = new TypesSettingAdapter(mContext,
+                                cursor,
+                                0,
+                                KasebContract.TaxTypes.COLUMN_TAX_TYPE_POINTER);
+                        taxTypes.setAdapter(cursorAdapter);
 
                         dialogButton = (Button) dialog.findViewById(R.id.add_tax_for_sale_button1);
                         dialogButton.setOnClickListener(new View.OnClickListener() {
@@ -380,13 +387,19 @@ public class DetailSaleInsert extends AppCompatActivity {
                         modeList.setAdapter(mCAdapter);
 
                         builder = new AlertDialog.Builder(DetailSaleInsert.this);
-                        builder.setTitle(R.string.fab_add_product);
+                        builder.setTitle(R.string.fab_add_customer);
 
                         modeList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                             @Override
                             public void onItemClick(AdapterView<?> parent, View view, int position,
                                                     long id) {
-                                Toast.makeText(DetailSaleInsert.this, position + "", Toast.LENGTH_SHORT).show();
+                                Cursor c = mCAdapter.getCursor();
+                                c.moveToPosition(position);
+
+                                nameCustomer.setText(c.getString(c.getColumnIndex(KasebContract.Customers.COLUMN_FIRST_NAME)));
+                                familyCustomer.setText(c.getString(c.getColumnIndex(KasebContract.Customers.COLUMN_LAST_NAME)));
+                                customerId = Long.parseLong(c.getString(c.getColumnIndex(KasebContract.Customers._ID)));
+                                dialog.dismiss();
                             }
                         });
 

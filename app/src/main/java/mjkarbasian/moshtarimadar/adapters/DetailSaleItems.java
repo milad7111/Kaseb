@@ -21,7 +21,7 @@ public class DetailSaleItems extends BaseAdapter {
     Context mContext;
     ArrayList<ArrayList<String>> mData = new ArrayList<ArrayList<String>>();
 
-    public DetailSaleItems(Context context,String saleCode) {
+    public DetailSaleItems(Context context, String saleCode) {
         super();
         mContext = context;
         mSaleCode = saleCode;
@@ -31,9 +31,9 @@ public class DetailSaleItems extends BaseAdapter {
         ArrayList<String> numbers = new ArrayList<String>();
         ArrayList<String> totalAmount = new ArrayList<String>();
 
-        int j= 0;
-        for(String code: Samples.saleProductList.get(0)){
-            if(code.equals(saleCode)){
+        int j = 0;
+        for (String code : Samples.saleProductList.get(0)) {
+            if (code.equals(saleCode)) {
                 productName.add(Samples.saleProductList.get(1).get(j));
                 price.add(Samples.saleProductList.get(2).get(j));
                 numbers.add(Samples.saleProductList.get(3).get(j));
@@ -41,10 +41,10 @@ public class DetailSaleItems extends BaseAdapter {
             }
             j++;
         }
-        mData.add(0,productName);
-        mData.add(1,price);
-        mData.add(2,numbers);
-        mData.add(3,totalAmount);
+        mData.add(0, productName);
+        mData.add(1, price);
+        mData.add(2, numbers);
+        mData.add(3, totalAmount);
     }
 
     @Override
@@ -64,19 +64,18 @@ public class DetailSaleItems extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        LayoutInflater inflater = (LayoutInflater)mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = convertView;
-        if(convertView==null)
-        {
-            view = inflater.inflate(R.layout.list_item_detail_sale_items,null);
+        if (convertView == null) {
+            view = inflater.inflate(R.layout.list_item_detail_sale_items, null);
         }
-        TextView productName =(TextView) view.findViewById(R.id.detail_sale_items_list_code);
-        TextView numbers =(TextView) view.findViewById(R.id.detail_sale_items_list_numbers);
-        TextView amount =(TextView) view.findViewById(R.id.detail_sale_items_list_amount);
+        TextView productName = (TextView) view.findViewById(R.id.detail_sale_items_list_code);
+        TextView numbers = (TextView) view.findViewById(R.id.detail_sale_items_list_numbers);
+        TextView amount = (TextView) view.findViewById(R.id.detail_sale_items_list_amount);
 
         productName.setText(mData.get(0).get(position));
         numbers.setText(mData.get(2).get(position));
-        amount.setText(Utility.formatPurchase(mContext,Utility.DecimalSeperation(mContext,Double.parseDouble(mData.get(3).get(position)))));
+        amount.setText(Utility.formatPurchase(mContext, Utility.DecimalSeperation(mContext, Double.parseDouble(mData.get(3).get(position)))));
 
         return view;
     }

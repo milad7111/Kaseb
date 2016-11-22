@@ -32,7 +32,7 @@ public class HeaderAdaper extends BaseAdapter {
 
     @Override
     public int getCount() {
-       int size = mHeaderIcon.size();
+        int size = mHeaderIcon.size();
         return size;
     }
 

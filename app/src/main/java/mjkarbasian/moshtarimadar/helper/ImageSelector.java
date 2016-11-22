@@ -16,33 +16,33 @@ import mjkarbasian.moshtarimadar.Customers;
  */
 public class ImageSelector extends Activity {
 
-    private final int GALLERY_ACTIVITY_CODE=200;
+    private final int GALLERY_ACTIVITY_CODE = 200;
     private final int RESULT_CROP = 400;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-                //Start Activity To Select Image From Gallery
-                Intent gallery_Intent = new Intent(getApplicationContext(), GalleryUtil.class);
-                startActivityForResult(gallery_Intent, GALLERY_ACTIVITY_CODE);
-            }
+        //Start Activity To Select Image From Gallery
+        Intent gallery_Intent = new Intent(getApplicationContext(), GalleryUtil.class);
+        startActivityForResult(gallery_Intent, GALLERY_ACTIVITY_CODE);
+    }
 
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == GALLERY_ACTIVITY_CODE) {
-            if(resultCode == Activity.RESULT_OK){
+            if (resultCode == Activity.RESULT_OK) {
                 String picturePath = data.getStringExtra("picturePath");
                 //perform Crop on the Image Selected from Gallery
                 performCrop(picturePath);
             }
         }
-        if (requestCode == RESULT_CROP ) {
-            if(resultCode == Activity.RESULT_OK){
+        if (requestCode == RESULT_CROP) {
+            if (resultCode == Activity.RESULT_OK) {
                 Uri imageUri = data.getData();
-             Intent intent = new Intent(this, Customers.class).putExtra("imageUri",imageUri.toString());
+                Intent intent = new Intent(this, Customers.class).putExtra("imageUri", imageUri.toString());
                 startActivity(intent);
                 // Set The Bitmap Data To ImageView
             }

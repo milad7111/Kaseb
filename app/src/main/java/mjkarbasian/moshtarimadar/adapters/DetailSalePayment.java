@@ -22,8 +22,7 @@ public class DetailSalePayment extends BaseAdapter {
     String mSaleCode;
     ArrayList<ArrayList<String>> mData = new ArrayList<ArrayList<String>>();
 
-
-    public DetailSalePayment(Context context,String saleCode) {
+    public DetailSalePayment(Context context, String saleCode) {
         super();
 
         mContext = context;
@@ -33,18 +32,18 @@ public class DetailSalePayment extends BaseAdapter {
         ArrayList<String> paymentModel = new ArrayList<String>();
         ArrayList<String> paymentAmount = new ArrayList<String>();
 
-        int j= 0;
-        for(String code: Samples.salePaymentList.get(0)){
-            if(code.equals(saleCode)){
+        int j = 0;
+        for (String code : Samples.salePaymentList.get(0)) {
+            if (code.equals(saleCode)) {
                 paymentDate.add(Samples.salePaymentList.get(2).get(j));
                 paymentModel.add(Samples.salePaymentList.get(3).get(j));
                 paymentAmount.add(Samples.salePaymentList.get(4).get(j));
             }
             j++;
         }
-        mData.add(0,paymentDate);
-        mData.add(1,paymentModel);
-        mData.add(2,paymentAmount);
+        mData.add(0, paymentDate);
+        mData.add(1, paymentModel);
+        mData.add(2, paymentAmount);
     }
 
     @Override
@@ -64,19 +63,18 @@ public class DetailSalePayment extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        LayoutInflater inflater = (LayoutInflater)mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = convertView;
-        if(convertView==null)
-        {
-            view = inflater.inflate(R.layout.list_item_detail_sale_items,null);
+        if (convertView == null) {
+            view = inflater.inflate(R.layout.list_item_detail_sale_items, null);
         }
-        TextView paymentDate =(TextView) view.findViewById(R.id.detail_sale_items_list_code);
-        TextView paymentModel =(TextView) view.findViewById(R.id.detail_sale_items_list_numbers);
-        TextView paymentAmount =(TextView) view.findViewById(R.id.detail_sale_items_list_amount);
+        TextView paymentDate = (TextView) view.findViewById(R.id.detail_sale_items_list_code);
+        TextView paymentModel = (TextView) view.findViewById(R.id.detail_sale_items_list_numbers);
+        TextView paymentAmount = (TextView) view.findViewById(R.id.detail_sale_items_list_amount);
 
-        if(!(Utility.getLocale(mContext).equals("IR"))) {
+        if (!(Utility.getLocale(mContext).equals("IR"))) {
             paymentDate.setText(mData.get(0).get(position));
-        }else{
+        } else {
             paymentDate.setText(Utility.JalaliDatePicker(mData.get(0).get(position)));
         }
         paymentModel.setText(mData.get(1).get(position));

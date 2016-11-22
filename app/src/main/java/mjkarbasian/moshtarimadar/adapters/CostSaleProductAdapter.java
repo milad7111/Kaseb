@@ -23,7 +23,7 @@ public class CostSaleProductAdapter extends CursorAdapter {
     String code;
     String date;
     String amount;
-    Cursor c;
+    Cursor mCursor;
 
     public CostSaleProductAdapter(Context context, Cursor c, int flags, String tableName) {
         super(context, c, flags);
@@ -57,17 +57,17 @@ public class CostSaleProductAdapter extends CursorAdapter {
                 //region read customer FirstName & LastName
                 String customerId = cursor.getString(cursor.getColumnIndex(KasebContract.Sales.COLUMN_CUSTOMER_ID));
 
-                c = context.getContentResolver().query(
+                mCursor = context.getContentResolver().query(
                         KasebContract.Customers.buildCustomerUri(Long.parseLong(customerId)),
                         new String[]{KasebContract.Customers.COLUMN_FIRST_NAME, KasebContract.Customers.COLUMN_LAST_NAME},
                         null,
                         null,
                         null);
 
-                if (c != null) {
-                    if (c.moveToFirst()) {
-                        firstName = c.getString(c.getColumnIndex(KasebContract.Customers.COLUMN_FIRST_NAME));
-                        lastName = c.getString(c.getColumnIndex(KasebContract.Customers.COLUMN_LAST_NAME));
+                if (mCursor != null) {
+                    if (mCursor.moveToFirst()) {
+                        firstName = mCursor.getString(mCursor.getColumnIndex(KasebContract.Customers.COLUMN_FIRST_NAME));
+                        lastName = mCursor.getString(mCursor.getColumnIndex(KasebContract.Customers.COLUMN_LAST_NAME));
                         name = firstName + "   " + lastName;
                     }
                 }
@@ -76,17 +76,17 @@ public class CostSaleProductAdapter extends CursorAdapter {
                 //region read DetailSale Date & TotalPaid
                 String saleId = cursor.getString(cursor.getColumnIndex(KasebContract.Sales._ID));
 
-                c = context.getContentResolver().query(
+                mCursor = context.getContentResolver().query(
                         KasebContract.DetailSale.buildDetailSaleUri(Long.parseLong(saleId)),
                         new String[]{KasebContract.DetailSale.COLUMN_DATE, KasebContract.DetailSale.COLUMN_TOTAL_PAID},
                         null,
                         null,
                         null);
 
-                if (c != null) {
-                    if (c.moveToFirst()) {
-                        date = c.getString(c.getColumnIndex(KasebContract.DetailSale.COLUMN_DATE));
-                        amount = c.getString(c.getColumnIndex(KasebContract.DetailSale.COLUMN_TOTAL_PAID));
+                if (mCursor != null) {
+                    if (mCursor.moveToFirst()) {
+                        date = mCursor.getString(mCursor.getColumnIndex(KasebContract.DetailSale.COLUMN_DATE));
+                        amount = mCursor.getString(mCursor.getColumnIndex(KasebContract.DetailSale.COLUMN_TOTAL_PAID));
                     }
                 }
                 //endregion
@@ -99,17 +99,17 @@ public class CostSaleProductAdapter extends CursorAdapter {
                 //region read DetailSale Date & TotalPaid
                 String productId = cursor.getString(cursor.getColumnIndex(KasebContract.Products._ID));
 
-                c = context.getContentResolver().query(
+                mCursor = context.getContentResolver().query(
                         KasebContract.ProductHistory.buildProductHistoryUri(Long.parseLong(productId)),
                         new String[]{KasebContract.ProductHistory.COLUMN_DATE, KasebContract.ProductHistory.COLUMN_COST},
                         null,
                         null,
                         null);
 
-                if (c != null) {
-                    if (c.moveToFirst()) {
-                        date = c.getString(c.getColumnIndex(KasebContract.ProductHistory.COLUMN_DATE));
-                        amount = c.getString(c.getColumnIndex(KasebContract.ProductHistory.COLUMN_COST));
+                if (mCursor != null) {
+                    if (mCursor.moveToFirst()) {
+                        date = mCursor.getString(mCursor.getColumnIndex(KasebContract.ProductHistory.COLUMN_DATE));
+                        amount = mCursor.getString(mCursor.getColumnIndex(KasebContract.ProductHistory.COLUMN_COST));
                     }
                 }
                 //endregion
@@ -124,5 +124,7 @@ public class CostSaleProductAdapter extends CursorAdapter {
         textViewCode.setText(code);
         textViewDate.setText(date);
         textViewAmount.setText(amount);
+
+        mCursor.close();
     }
 }

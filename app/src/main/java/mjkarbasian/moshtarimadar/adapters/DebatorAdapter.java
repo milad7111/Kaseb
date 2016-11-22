@@ -40,9 +40,11 @@ import static mjkarbasian.moshtarimadar.helper.Utility.getLocale;
  */
 public class DebatorAdapter extends BaseAdapter {
     Context mContext;
-    public DebatorAdapter(Context context){
+
+    public DebatorAdapter(Context context) {
         mContext = context;
     }
+
     @Override
     public int getCount() {
         return debatorName.length;
@@ -60,53 +62,48 @@ public class DebatorAdapter extends BaseAdapter {
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
-        LayoutInflater inflater = (LayoutInflater)mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         View view = convertView;
 
-        if(convertView==null)
-        {
-            view = inflater.inflate(R.layout.list_item_debators,parent,false);
+        if (convertView == null) {
+            view = inflater.inflate(R.layout.list_item_debators, parent, false);
         }
 
 
-        TextView debatorNameText = (TextView)view.findViewById(R.id.item_card_debator_name);
+        TextView debatorNameText = (TextView) view.findViewById(R.id.item_card_debator_name);
         debatorNameText.setText(mContext.getString(customerName[position]));
 
-        ImageView customerAvater = (ImageView)view.findViewById(R.id.item_card_customer_avater);
-        if(Samples.customerAvatar.size()==0)
-        {
+        ImageView customerAvater = (ImageView) view.findViewById(R.id.item_card_customer_avater);
+        if (Samples.customerAvatar.size() == 0) {
             customerAvater.setImageResource(R.drawable.kaseb_pic);
-        }
-        else
-        {
-            if(!(Samples.customerAvatar.size()<=position)){
-                customerAvater.setImageURI(Samples.customerAvatar.get(position));}
-            else {
+        } else {
+            if (!(Samples.customerAvatar.size() <= position)) {
+                customerAvater.setImageURI(Samples.customerAvatar.get(position));
+            } else {
                 customerAvater.setImageResource(R.drawable.kaseb_pic);
             }
         }
 
-        TextView debatorBalanceText =(TextView)view.findViewById(R.id.item_card_balance_amount);
+        TextView debatorBalanceText = (TextView) view.findViewById(R.id.item_card_balance_amount);
         DecimalFormat format = new DecimalFormat();
         format.setDecimalSeparatorAlwaysShown(true);
-        String balanceAmount =(String)format.format(customerDebateBalance[position]);
+        String balanceAmount = (String) format.format(customerDebateBalance[position]);
         balanceAmount = formatPurchase(mContext, balanceAmount);
         debatorBalanceText.setText(balanceAmount);
 
         TableLayout balanceTable = (TableLayout) view.findViewById(R.id.table_balance_debators);
 
-        for(int i = 0;i< debtorsCodeNums[position];i++)
-        {
+        for (int i = 0; i < debtorsCodeNums[position]; i++) {
             //there is an if for a bug that shows row twice
-            if(balanceTable.getChildCount()<= debtorsCodeNums[position]){
-            final TableRow tableRow = new TableRow(mContext);
+            if (balanceTable.getChildCount() <= debtorsCodeNums[position]) {
+                final TableRow tableRow = new TableRow(mContext);
 
-            //Table layout attrbute
-            TableRow.LayoutParams layoutParams = new TableRow.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            layoutParams.setMargins(0, 4, 0, 0);
-            tableRow.setLayoutParams(layoutParams);
-            tableRow.setClickable(true);
+                //Table layout attrbute
+                TableRow.LayoutParams layoutParams = new TableRow.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                layoutParams.setMargins(0, 4, 0, 0);
+                tableRow.setLayoutParams(layoutParams);
+                tableRow.setClickable(true);
                 tableRow.setOnClickListener(new View.OnClickListener() {
                     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
                     @Override
@@ -116,48 +113,49 @@ public class DebatorAdapter extends BaseAdapter {
 
                     }
                 });
-             //Define row elements
-            TextView codeText = new TextView(mContext);
-            TextView dueText = new TextView(mContext);
-            TextView balanceText = new TextView(mContext);
-            codeText.setText(doubleFormatter(debtorsCode[position][i]));
-            if(!getLocale(mContext).equals("IR")){
-            dueText.setText(debtorsDue[position][i]);}
-            else {
-            dueText.setText(JalaliDatePicker(debtorsDue[position][i]));
-            }
-            balanceText.setText(DecimalSeperation(mContext, debtorBalance[position][i]));
+                //Define row elements
+                TextView codeText = new TextView(mContext);
+                TextView dueText = new TextView(mContext);
+                TextView balanceText = new TextView(mContext);
+                codeText.setText(doubleFormatter(debtorsCode[position][i]));
+                if (!getLocale(mContext).equals("IR")) {
+                    dueText.setText(debtorsDue[position][i]);
+                } else {
+                    dueText.setText(JalaliDatePicker(debtorsDue[position][i]));
+                }
+                balanceText.setText(DecimalSeperation(mContext, debtorBalance[position][i]));
 
-            //Layout attributes of table row element
-            codeText.setGravity(Gravity.CENTER);
-            dueText.setGravity(Gravity.CENTER);
-            balanceText.setGravity(Gravity.CENTER);
+                //Layout attributes of table row element
+                codeText.setGravity(Gravity.CENTER);
+                dueText.setGravity(Gravity.CENTER);
+                balanceText.setGravity(Gravity.CENTER);
 
                 if (Build.VERSION.SDK_INT < 23) {
-                    codeText.setTextAppearance(mContext,R.style.debator_table_cell_text);
+                    codeText.setTextAppearance(mContext, R.style.debator_table_cell_text);
                     dueText.setTextAppearance(mContext, R.style.debator_table_cell_text);
-                    balanceText.setTextAppearance(mContext,R.style.debator_table_cell_text);
+                    balanceText.setTextAppearance(mContext, R.style.debator_table_cell_text);
 
-                }else {
+                } else {
                     codeText.setTextAppearance(R.style.debator_table_cell_text);
                     dueText.setTextAppearance(R.style.debator_table_cell_text);
                     balanceText.setTextAppearance(R.style.debator_table_cell_text);
 
                 }
 
-            int height = dipConverter(40, mContext); // margin in pixels
-            TableRow.LayoutParams layoutParams1 = new  TableRow.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,height,1.0f);
-            TableRow.LayoutParams layoutParams2 = new TableRow.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, height,1.0f);
-            TableRow.LayoutParams layoutParams3 = new TableRow.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, height,2.0f);
-            codeText.setLayoutParams(layoutParams1);
-            dueText.setLayoutParams(layoutParams2);
-            balanceText.setLayoutParams(layoutParams3);
+                int height = dipConverter(40, mContext); // margin in pixels
+                TableRow.LayoutParams layoutParams1 = new TableRow.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, height, 1.0f);
+                TableRow.LayoutParams layoutParams2 = new TableRow.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, height, 1.0f);
+                TableRow.LayoutParams layoutParams3 = new TableRow.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, height, 2.0f);
+                codeText.setLayoutParams(layoutParams1);
+                dueText.setLayoutParams(layoutParams2);
+                balanceText.setLayoutParams(layoutParams3);
 
-            //Adding views to parents
-            tableRow.addView(codeText);
-            tableRow.addView(dueText);
-            tableRow.addView(balanceText);
-            balanceTable.addView(tableRow);}
+                //Adding views to parents
+                tableRow.addView(codeText);
+                tableRow.addView(dueText);
+                tableRow.addView(balanceText);
+                balanceTable.addView(tableRow);
+            }
         }
 
         //Card actions click handler
@@ -174,7 +172,7 @@ public class DebatorAdapter extends BaseAdapter {
         messageImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_VIEW,Uri.fromParts("sms", debtorsMobileNumber[position], null));
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.fromParts("sms", debtorsMobileNumber[position], null));
                 mContext.startActivity(intent);
             }
         });

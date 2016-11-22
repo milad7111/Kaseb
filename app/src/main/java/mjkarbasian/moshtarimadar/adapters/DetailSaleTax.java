@@ -21,8 +21,7 @@ public class DetailSaleTax extends BaseAdapter {
     String mSaleCode;
     ArrayList<ArrayList<String>> mData = new ArrayList<ArrayList<String>>();
 
-
-    public DetailSaleTax(Context context,String saleCode) {
+    public DetailSaleTax(Context context, String saleCode) {
         super();
         //Coloumns are : salecode,Off/Tax,amount
         mContext = context;
@@ -30,16 +29,16 @@ public class DetailSaleTax extends BaseAdapter {
         ArrayList<String> offTaxModel = new ArrayList<String>();
         ArrayList<String> offTaxAmount = new ArrayList<String>();
 
-        int j= 0;
-        for(String code: Samples.saleOffTaxList.get(0)){
-            if(code.equals(saleCode)){
+        int j = 0;
+        for (String code : Samples.saleOffTaxList.get(0)) {
+            if (code.equals(saleCode)) {
                 offTaxModel.add(Samples.saleOffTaxList.get(1).get(j));
                 offTaxAmount.add(Samples.saleOffTaxList.get(2).get(j));
             }
             j++;
         }
-        mData.add(0,offTaxModel);
-        mData.add(1,offTaxAmount);
+        mData.add(0, offTaxModel);
+        mData.add(1, offTaxAmount);
     }
 
     @Override
@@ -59,18 +58,18 @@ public class DetailSaleTax extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        LayoutInflater inflater = (LayoutInflater)mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = convertView;
-        if(convertView==null)
-        {
-            view = inflater.inflate(R.layout.list_item_detail_sale_items,null);
+        if (convertView == null) {
+            view = inflater.inflate(R.layout.list_item_detail_sale_items, null);
         }
-        TextView offTaxModel =(TextView) view.findViewById(R.id.detail_sale_items_list_code);
-        TextView offTaxAmount =(TextView) view.findViewById(R.id.detail_sale_items_list_amount);
+        TextView offTaxModel = (TextView) view.findViewById(R.id.detail_sale_items_list_code);
+        TextView offTaxAmount = (TextView) view.findViewById(R.id.detail_sale_items_list_amount);
         offTaxModel.setText(mData.get(0).get(position));
 //        if(mData.get(0).get(position).equals(mContext.getResources().getString(Samples.offTaxSticks[1])))
 //        offTaxModel.setTextColor(mContext.getResources().getColor(R.color.colorAccent));
         offTaxAmount.setText(Utility.formatPurchase(mContext, Utility.DecimalSeperation(mContext, Double.parseDouble(mData.get(1).get(position)))));
 
-        return view;    }
+        return view;
+    }
 }

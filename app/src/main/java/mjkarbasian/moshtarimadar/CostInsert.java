@@ -52,9 +52,9 @@ public class CostInsert extends Fragment {
         costDate = (EditText) rootView.findViewById(R.id.input_cost_date);
         costDescription = (EditText) rootView.findViewById(R.id.input_cost_description);
 
-
         Cursor cursor = getContext().getContentResolver().query(KasebContract.CostTypes.CONTENT_URI
-                ,null,null,null,null);
+                , null, null, null, null);
+
         int[] toViews = {
                 android.R.id.text1
         };
@@ -62,14 +62,13 @@ public class CostInsert extends Fragment {
                 KasebContract.CostTypes.COLUMN_COST_TYPE_POINTER
         };
 
-        TypesSettingAdapter cursorAdapter = new TypesSettingAdapter(getActivity(),cursor,0,KasebContract.CostTypes.COLUMN_COST_TYPE_POINTER);
+        TypesSettingAdapter cursorAdapter = new TypesSettingAdapter(getActivity(), cursor, 0, KasebContract.CostTypes.COLUMN_COST_TYPE_POINTER);
         costType.setAdapter(cursorAdapter);
         return rootView;
     }
 
     @Override
-    public void onCreateOptionsMenu(
-            Menu menu, MenuInflater inflater) {
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         menu.removeItem(R.id.sort_button);
         menu.removeItem(R.id.search_button);
         inflater.inflate(R.menu.fragments_for_insert, menu);

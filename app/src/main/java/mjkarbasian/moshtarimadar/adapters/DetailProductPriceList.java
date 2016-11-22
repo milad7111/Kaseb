@@ -21,7 +21,7 @@ public class DetailProductPriceList extends BaseAdapter {
     Context mContext;
     ArrayList<ArrayList<String>> mData = new ArrayList<ArrayList<String>>();
 
-    public DetailProductPriceList(Context context,String productCode) {
+    public DetailProductPriceList(Context context, String productCode) {
         super();
         mContext = context;
         mProductCode = productCode;
@@ -33,9 +33,9 @@ public class DetailProductPriceList extends BaseAdapter {
         ArrayList<String> sPrice = new ArrayList<String>();
 
 
-        int j= 0;
-        for(String code: Samples.productPriceList.get(0)){
-            if(code.equals(productCode)){
+        int j = 0;
+        for (String code : Samples.productPriceList.get(0)) {
+            if (code.equals(productCode)) {
                 date.add(Samples.productPriceList.get(1).get(j));
                 time.add(Samples.productPriceList.get(2).get(j));
                 bPrice.add(Samples.productPriceList.get(3).get(j));
@@ -43,16 +43,16 @@ public class DetailProductPriceList extends BaseAdapter {
             }
             j++;
         }
-        mData.add(0,bPrice);
-        mData.add(1,sPrice);
-        mData.add(2,date);
+        mData.add(0, bPrice);
+        mData.add(1, sPrice);
+        mData.add(2, date);
         mData.add(3, time);
 
     }
 
     @Override
     public int getCount() {
-        return  mData.get(0).size();
+        return mData.get(0).size();
     }
 
     @Override
@@ -67,25 +67,25 @@ public class DetailProductPriceList extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        LayoutInflater inflater = (LayoutInflater)mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = convertView;
-        if(convertView==null)
-        {
-            view = inflater.inflate(R.layout.list_item_price_list,null);
+        if (convertView == null) {
+            view = inflater.inflate(R.layout.list_item_price_list, null);
         }
-        TextView buyPrice =(TextView) view.findViewById(R.id.price_list_bPrice);
-        TextView salePrice =(TextView) view.findViewById(R.id.price_list_sPrice);
-        TextView date =(TextView) view.findViewById(R.id.price_list_date);
-        TextView time =(TextView) view.findViewById(R.id.price_list_time);
+        TextView buyPrice = (TextView) view.findViewById(R.id.price_list_bPrice);
+        TextView salePrice = (TextView) view.findViewById(R.id.price_list_sPrice);
+        TextView date = (TextView) view.findViewById(R.id.price_list_date);
+        TextView time = (TextView) view.findViewById(R.id.price_list_time);
 
         buyPrice.setText(Utility.formatPurchase(mContext, Utility.DecimalSeperation(mContext, Double.parseDouble(mData.get(0).get(position)))));
         salePrice.setText(Utility.formatPurchase(mContext, Utility.DecimalSeperation(mContext, Double.parseDouble(mData.get(1).get(position)))));
 
-        if(!(Utility.getLocale(mContext).equals("IR"))) {
+        if (!(Utility.getLocale(mContext).equals("IR"))) {
             date.setText(mData.get(2).get(position));
-        }else{
+        } else {
             date.setText(Utility.JalaliDatePicker(mData.get(2).get(position)));
         }
         time.setText(mData.get(3).get(position));
-        return view;    }
+        return view;
+    }
 }
