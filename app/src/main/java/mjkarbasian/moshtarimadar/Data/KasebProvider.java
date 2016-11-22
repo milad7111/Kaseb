@@ -6,12 +6,10 @@ import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.UriMatcher;
 import android.database.Cursor;
-import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.support.annotation.Nullable;
-import android.util.Log;
 
 import mjkarbasian.moshtarimadar.helper.Utility;
 
@@ -592,7 +590,8 @@ public class KasebProvider extends ContentProvider {
                 retCursor = mOpenHelper.getReadableDatabase().query(
                         KasebContract.DetailSaleProducts.TABLE_NAME,
                         projection,
-                        dataSetSelectionMaker(KasebContract.DetailSaleProducts.TABLE_NAME, KasebContract.DetailSaleProducts.COLUMN_DETAIL_SALE_ID),
+                        dataSetSelectionMaker(KasebContract.DetailSaleProducts.TABLE_NAME,
+                                KasebContract.DetailSaleProducts.COLUMN_DETAIL_SALE_ID),
                         new String[]{detailSaleId},
                         null,
                         null,
@@ -674,6 +673,23 @@ public class KasebProvider extends ContentProvider {
                         projection,
                         dataSetSelectionMaker(KasebContract.Costs.TABLE_NAME, KasebContract.Costs.COLUMN_COST_TYPE_ID),
                         new String[]{costTypeId},
+                        null,
+                        null,
+                        sortOrder
+                );
+                break;
+            }
+            //endregion
+
+            //region 37 DETAIL_SALE_BY_SALE_ID
+            case DETAIL_SALE_BY_SALE_ID: {
+                String saleId = Utility.getTheLastPathUri(uri);
+                retCursor = mOpenHelper.getReadableDatabase().query(
+                        KasebContract.DetailSale.TABLE_NAME,
+                        projection,
+                        dataSetSelectionMaker(KasebContract.DetailSale.TABLE_NAME,
+                                KasebContract.DetailSale.COLUMN_SALE_ID),
+                        new String[]{saleId},
                         null,
                         null,
                         sortOrder

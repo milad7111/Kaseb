@@ -33,7 +33,6 @@ public class Customers extends DrawerActivity {
 
     android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

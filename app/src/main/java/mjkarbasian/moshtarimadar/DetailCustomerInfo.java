@@ -1,6 +1,7 @@
 package mjkarbasian.moshtarimadar;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -10,41 +11,67 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import mjkarbasian.moshtarimadar.helper.Samples;
+import mjkarbasian.moshtarimadar.Data.KasebContract;
 import mjkarbasian.moshtarimadar.helper.Utility;
-
-import static mjkarbasian.moshtarimadar.helper.Samples.customerPhoneNumber;
 
 /**
  * Created by family on 7/27/2016.
  */
 public class DetailCustomerInfo extends Fragment {
-    Integer customerPosition;
-    public DetailCustomerInfo(Integer position) {
+    Integer customerosition;
+    String[] mProjectionCursor;
+    Uri uriCursor;
+    String phoneMobileCustomer;
+    String emailCustomer;
+
+    public DetailCustomerInfo() {
         super();
-        customerPosition = position;
+    }
+
+    public DetailCustomerInfo(Uri uri) {
+        super();
+        uriCursor = uri;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view  = inflater.inflate(R.layout.customer_info, container, false);
+        View view = inflater.inflate(R.layout.customer_info, container, false);
 
+        mProjectionCursor = new String[]{
+                KasebContract.Customers._ID,
+                KasebContract.Customers.COLUMN_PHONE_MOBILE,
+                KasebContract.Customers.COLUMN_EMAIL};
 
-        TextView customerPhone = (TextView)view.findViewById(R.id.customer_phone_number);
-        TextView customerEmail = (TextView)view.findViewById(R.id.customer_email_txt);
+        Cursor customerCursor = getContext().getContentResolver().query(
+                uriCursor,
+                mProjectionCursor,
+                null,
+                null,
+                null
+        );
 
-        customerPhone.setText(Utility.doubleFormatter(Double.parseDouble(Samples.customerPhoneNumber[customerPosition])));
-        customerEmail.setText(Samples.customerEmail[customerPosition]);
+        TextView customerPhoneMobile = (TextView) view.findViewById(R.id.customer_phone_number);
+        TextView customerEmail = (TextView) view.findViewById(R.id.customer_email_txt);
 
-        ImageView callImage = (ImageView)view.findViewById(R.id.customer_call_btn);
-        ImageView smsImage = (ImageView)view.findViewById(R.id.customer_sms_btn);
-        ImageView emailImage = (ImageView)view.findViewById(R.id.customer_email_btn);
-        ImageView shareImage = (ImageView)view.findViewById(R.id.customer_share_btn);
+        if (customerCursor != null) {
+            if (customerCursor.moveToFirst()) {
+                phoneMobileCustomer = customerCursor.getString(customerCursor.getColumnIndex(KasebContract.Customers.COLUMN_PHONE_MOBILE));
+                emailCustomer = customerCursor.getString(customerCursor.getColumnIndex(KasebContract.Customers.COLUMN_EMAIL));
+            }
+        }
+
+        customerPhoneMobile.setText(Utility.doubleFormatter(Double.parseDouble(phoneMobileCustomer)));
+        customerEmail.setText(emailCustomer);
+
+        ImageView callImage = (ImageView) view.findViewById(R.id.customer_call_btn);
+        ImageView smsImage = (ImageView) view.findViewById(R.id.customer_sms_btn);
+        ImageView emailImage = (ImageView) view.findViewById(R.id.customer_email_btn);
+        ImageView shareImage = (ImageView) view.findViewById(R.id.customer_share_btn);
 
         callImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", customerPhoneNumber[customerPosition], null));
+                Intent intent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", phoneMobileCustomer, null));
                 getActivity().startActivity(intent);
             }
         });
@@ -52,7 +79,7 @@ public class DetailCustomerInfo extends Fragment {
         smsImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_VIEW,Uri.fromParts("sms", customerPhoneNumber[customerPosition], null));
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.fromParts("sms", phoneMobileCustomer, null));
                 getActivity().startActivity(intent);
             }
         });
@@ -62,7 +89,7 @@ public class DetailCustomerInfo extends Fragment {
             public void onClick(View v) {
                 Intent intent = new Intent(Intent.ACTION_SEND);
                 intent.setType("text/plain");
-                intent.putExtra(Intent.EXTRA_TEXT, customerPhoneNumber[customerPosition]);
+                intent.putExtra(Intent.EXTRA_TEXT, phoneMobileCustomer);
                 getActivity().startActivity(Intent.createChooser(intent, "Share with"));
             }
         });
@@ -72,12 +99,11 @@ public class DetailCustomerInfo extends Fragment {
             public void onClick(View v) {
                 Intent intent = new Intent(Intent.ACTION_SEND);
                 intent.setType("text/html");
-                intent.putExtra(Intent.EXTRA_TEXT, customerPhoneNumber[customerPosition]);
+                intent.putExtra(Intent.EXTRA_TEXT, emailCustomer);
                 getActivity().startActivity(Intent.createChooser(intent, "Send Email"));
             }
         });
 
-
         return view;
-}
+    }
 }

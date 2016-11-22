@@ -1,86 +1,72 @@
 package mjkarbasian.moshtarimadar.adapters;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
+import android.widget.CursorAdapter;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-
+import mjkarbasian.moshtarimadar.Data.KasebContract;
 import mjkarbasian.moshtarimadar.R;
-import mjkarbasian.moshtarimadar.helper.Samples;
-import mjkarbasian.moshtarimadar.helper.Utility;
 
 /**
  * Created by family on 7/30/2016.
  */
-public class CustomerBillAdapter extends BaseAdapter {
+public class CustomerBillAdapter extends CursorAdapter {
     Context mContext;
-    Integer customerPosition;
-    ArrayList<String> mData = new ArrayList<String>();
+    private LayoutInflater cursorInflater;
+    String saleId;
+    String[] mProjection;
+    String saleCode;
+    String dueDate;
+    String totalDue;
+    Cursor mCursor;
 
+    public CustomerBillAdapter(Context context, Cursor c, int flags) {
+        super(context, c, flags);
+        cursorInflater = (LayoutInflater) context.getSystemService(
+                Context.LAYOUT_INFLATER_SERVICE);
+    }
 
-    public CustomerBillAdapter(Context context,int position)
-    {
-        super();
-        mContext = context;
-        customerPosition = position;
-        String customerName = context.getResources().getString(Samples.customerName[position]);
+    @Override
+    public View newView(Context context, Cursor cursor, ViewGroup parent) {
+        return cursorInflater.inflate(R.layout.list_item_bills, parent, false);
+    }
 
-        if(mData.size()==0 && !(Samples.sales.size()==0))
-        {
-            for(int i=0 ; i< Samples.sales.get(2).size();i++){
-                if(Samples.sales.get(2).get(i).equals(customerName)){
-                    mData.add(Samples.sales.get(1).get(i));
-                }
+    @Override
+    public void bindView(View view, Context context, Cursor cursor) {
+        TextView textViewDate = (TextView) view.findViewById(R.id.item_list_bill_due_date);
+        TextView textViewPurchaseAmount = (TextView) view.findViewById(R.id.item_list_bill_purchase_amount);
+        TextView textViewSaleCode = (TextView) view.findViewById(R.id.item_list_bill_sale_code);
+
+        saleId = cursor.getString(cursor.getColumnIndex(KasebContract.Sales._ID));
+        saleCode = cursor.getString(cursor.getColumnIndex(KasebContract.Sales.COLUMN_SALE_CODE));
+
+        mProjection = new String[]{
+                KasebContract.DetailSale._ID,
+                KasebContract.DetailSale.COLUMN_DATE,
+                KasebContract.DetailSale.COLUMN_TOTAL_DUE};
+
+        mCursor = context.getContentResolver().query(
+                KasebContract.DetailSale.saleDetailSale(Long.parseLong(saleId)),
+                mProjection,
+                null,
+                null,
+                null);
+
+        if (mCursor != null) {
+            if (mCursor.moveToFirst()) {
+                dueDate = mCursor.getString(mCursor.getColumnIndex(KasebContract.DetailSale.COLUMN_DATE));
+                totalDue = mCursor.getString(mCursor.getColumnIndex(KasebContract.DetailSale.COLUMN_TOTAL_DUE));
             }
         }
-    }
 
-    @Override
-    public int getCount() {
-        return mData.size();
-    }
+        mCursor.close();
 
-    @Override
-    public Object getItem(int position) {
-        return mData.get(position);
-    }
-
-    @Override
-    public long getItemId(int position) {
-        return position;
-    }
-
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        LayoutInflater inflater = (LayoutInflater)mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View view = convertView;
-        if(convertView==null)
-        {
-            view = inflater.inflate(R.layout.list_item_products,null);
-        }
-        TextView nameText = (TextView) view.findViewById(R.id.item_list_product_name);
-        TextView codeText = (TextView) view.findViewById(R.id.item_list_product_code);
-        TextView dateText = (TextView) view.findViewById(R.id.item_list_product_date);
-        TextView priceText = (TextView) view.findViewById(R.id.item_list_product_price);
-
-        nameText.setText(Samples.sales.get(2).get(Samples.sales.get(1).indexOf(mData.get(position))));
-        codeText.setText(Utility.doubleFormatter(Double.parseDouble(mData.get(position))));
-
-        if(!(Utility.getLocale(mContext).equals("IR"))){
-            dateText.setText(Samples.sales.get(0).get(Samples.sales.get(1).indexOf(mData.get(position))));
-
-        }
-        else{
-            dateText.setText(Utility.JalaliDatePicker(Samples.sales.get(0).get(Samples.sales.get(1).indexOf(mData.get(position)))));
-        }
-
-        priceText.setText(Utility.formatPurchase(mContext, Utility.DecimalSeperation(mContext, Integer.parseInt(Samples.sales.get(3).get(Samples.sales.get(1).indexOf(mData.get(position)))))));
-
-
-        return view;
+        textViewDate.setText(dueDate);
+        textViewPurchaseAmount.setText(totalDue);
+        textViewSaleCode.setText(saleCode);
     }
 }

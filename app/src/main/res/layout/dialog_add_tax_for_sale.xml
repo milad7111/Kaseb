@@ -19,6 +19,12 @@
         android:textColor="#FFF"
         android:hint="@string/hint_tax_percent" />
 
+    <Spinner
+        android:id="@+id/input_tax_type_spinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:spinnerMode="dropdown" />
+
     <Button
         android:id="@+id/add_tax_for_sale_button1"
         android:layout_width="wrap_content"
