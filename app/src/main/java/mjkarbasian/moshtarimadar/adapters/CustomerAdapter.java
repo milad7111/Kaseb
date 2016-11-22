@@ -22,9 +22,7 @@ public class CustomerAdapter extends CursorAdapter {
     private LayoutInflater cursorInflater;
     String name;
     String stateId;
-    String statePointer;
     String amount;
-    Cursor c;
 
     public CustomerAdapter(Context context, Cursor c, int flags) {
         super(context, c, flags);
@@ -43,35 +41,18 @@ public class CustomerAdapter extends CursorAdapter {
         TextView textViewAmount = (TextView) view.findViewById(R.id.item_list_purchase_amount);
         ImageView imageViewState = (ImageView) view.findViewById(R.id.item_list_customer_state);
 
-        //region read customer FirstName & LastName
         stateId = cursor.getString(cursor.getColumnIndex(KasebContract.Customers.COLUMN_STATE_ID));
-
-        c = context.getContentResolver().query(
-                KasebContract.State.buildStateUri(Long.parseLong(stateId)),
-                new String[]{KasebContract.State.COLUMN_STATE_POINTER},
-                null,
-                null,
-                null);
-
-        if (c != null) {
-            if (c.moveToFirst()) {
-                statePointer = c.getString(c.getColumnIndex(KasebContract.State.COLUMN_STATE_POINTER));
-            }
-        }
-        //endregion
-
         name = cursor.getString(cursor.getColumnIndex(KasebContract.Customers.COLUMN_FIRST_NAME)) + "   " +
                 cursor.getString(cursor.getColumnIndex(KasebContract.Customers.COLUMN_LAST_NAME));
-
         amount = "120000";
 
         switch (stateId) {
             case "1": {
-                imageViewState.setColorFilter(Color.rgb(255,223,0));
+                imageViewState.setColorFilter(Color.rgb(255, 223, 0));
                 break;
             }
             case "2": {
-                imageViewState.setColorFilter(Color.rgb(192,192,192));
+                imageViewState.setColorFilter(Color.rgb(192, 192, 192));
                 break;
             }
             case "3": {

@@ -65,10 +65,29 @@ public class CustomersLists extends Fragment implements LoaderManager.LoaderCall
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(getActivity(), DetailCustomer.class).putExtra("position", position);
-                startActivity(intent);
+                Cursor cursor = (Cursor) parent.getItemAtPosition(position);
+                if (cursor != null) {
+                    Intent intent = new Intent(getActivity(), DetailCustomer.class)
+                            .setData(KasebContract.Customers.buildCustomerUri(
+                                    Long.parseLong(cursor.getString(cursor.getColumnIndex(KasebContract.Customers._ID)))
+                            ));
+                    startActivity(intent);
+                }
             }
         });
+
+
+//                    String locationSetting = Utility.getPreferredLocation(getActivity());
+//                    Intent intent = new Intent(getActivity(), DetailActivity.class)
+//                            .setData(WeatherContract.WeatherEntry.buildWeatherLocationWithDate(
+//                                    locationSetting, cursor.getLong(COL_WEATHER_DATE)
+//                            ));
+//                    startActivity(intent);
+//                    ((Callback)getActivity())
+//                            .onItemSelected(WeatherContract.WeatherEntry.buildWeatherLocationWithDate(
+//                                    locationSetting, cursor.getLong(COL_WEATHER_DATE)));
+//                }
+//                mPosition = position;
 
         return rootView;
     }

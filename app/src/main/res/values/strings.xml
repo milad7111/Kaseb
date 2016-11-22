@@ -16,6 +16,7 @@
     <string name="title_products">Products</string>
     <string name="title_setting">Setting</string>
     <string name="title_about_us">About us</string>
+    <string name="title_exit">Good Bye</string>
     <string name="title_activity_customers">Customers</string>
     <string name="label_total_sale">Total Sale($)</string>
     <string name="label_total_customer_purchase">Purchase</string>

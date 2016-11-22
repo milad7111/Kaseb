@@ -3,6 +3,7 @@ package mjkarbasian.moshtarimadar.helper;
 /**
  * Created by family on 7/28/2016.
  */
+
 import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
@@ -13,7 +14,7 @@ import android.util.Log;
 
 import java.io.File;
 
-public class GalleryUtil extends Activity{
+public class GalleryUtil extends Activity {
     private final static int RESULT_SELECT_IMAGE = 100;
     public static final int MEDIA_TYPE_IMAGE = 1;
     private static final String TAG = "GalleryUtil";
@@ -24,11 +25,11 @@ public class GalleryUtil extends Activity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        try{
+        try {
             //Pick Image From Gallery
             Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
             startActivityForResult(i, RESULT_SELECT_IMAGE);
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -37,13 +38,13 @@ public class GalleryUtil extends Activity{
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        switch(requestCode){
+        switch (requestCode) {
             case RESULT_SELECT_IMAGE:
 
                 if (resultCode == Activity.RESULT_OK && data != null && data.getData() != null) {
-                    try{
+                    try {
                         Uri selectedImage = data.getData();
-                        String[] filePathColumn = {MediaStore.Images.Media.DATA };
+                        String[] filePathColumn = {MediaStore.Images.Media.DATA};
                         Cursor cursor = getContentResolver().query(selectedImage,
                                 filePathColumn, null, null, null);
                         cursor.moveToFirst();
@@ -54,17 +55,17 @@ public class GalleryUtil extends Activity{
 
                         //return Image Path to the Main Activity
                         Intent returnFromGalleryIntent = new Intent();
-                        returnFromGalleryIntent.putExtra("picturePath",picturePath);
-                        setResult(RESULT_OK,returnFromGalleryIntent);
+                        returnFromGalleryIntent.putExtra("picturePath", picturePath);
+                        setResult(RESULT_OK, returnFromGalleryIntent);
                         finish();
-                    }catch(Exception e){
+                    } catch (Exception e) {
                         e.printStackTrace();
                         Intent returnFromGalleryIntent = new Intent();
                         setResult(RESULT_CANCELED, returnFromGalleryIntent);
                         finish();
                     }
-                }else{
-                    Log.i(TAG,"RESULT_CANCELED");
+                } else {
+                    Log.i(TAG, "RESULT_CANCELED");
                     Intent returnFromGalleryIntent = new Intent();
                     setResult(RESULT_CANCELED, returnFromGalleryIntent);
                     finish();

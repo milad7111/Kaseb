@@ -41,11 +41,10 @@ public class ProductAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        LayoutInflater inflater = (LayoutInflater)mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = convertView;
-        if(convertView==null)
-        {
-            view = inflater.inflate(R.layout.list_item_products,null);
+        if (convertView == null) {
+            view = inflater.inflate(R.layout.list_item_products, null);
         }
         TextView nameText = (TextView) view.findViewById(R.id.item_list_product_name);
         TextView codeText = (TextView) view.findViewById(R.id.item_list_product_code);
@@ -54,14 +53,13 @@ public class ProductAdapter extends BaseAdapter {
 
         nameText.setText(Samples.productName.get(position));
         codeText.setText(Utility.doubleFormatter(Integer.parseInt(Samples.productCode.get(position))));
-        if(!(Utility.getLocale(mContext).equals("IR"))){
+        if (!(Utility.getLocale(mContext).equals("IR"))) {
             dateText.setText(Samples.productDate.get(position));
 
-        }
-        else{
+        } else {
             dateText.setText(Utility.JalaliDatePicker(Samples.productDate.get(position)));
         }
-        priceText.setText(Utility.formatPurchase(mContext,Utility.DecimalSeperation(mContext,Integer.parseInt(Samples.productPrice.get(position)))));
+        priceText.setText(Utility.formatPurchase(mContext, Utility.DecimalSeperation(mContext, Integer.parseInt(Samples.productPrice.get(position)))));
         return view;
     }
 }

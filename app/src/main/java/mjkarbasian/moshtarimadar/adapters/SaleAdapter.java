@@ -10,8 +10,8 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.TreeSet;
 
-import mjkarbasian.moshtarimadar.helper.Samples;
 import mjkarbasian.moshtarimadar.R;
+import mjkarbasian.moshtarimadar.helper.Samples;
 import mjkarbasian.moshtarimadar.helper.Utility;
 
 /**
@@ -26,10 +26,9 @@ public class SaleAdapter extends BaseAdapter {
     private TreeSet<Integer> sectionHeader = new TreeSet<Integer>();
     LayoutInflater mInflater;
 
-
     public SaleAdapter(Context context) {
         mContext = context;
-        mInflater = (LayoutInflater)mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        mInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
     }
 
@@ -52,18 +51,19 @@ public class SaleAdapter extends BaseAdapter {
     public void addSectionHeaderItem(final String item) {
         mData.add(item);
         sectionHeader.add(mData.size() - 1);
-        notifyDataSetChanged();}
+        notifyDataSetChanged();
+    }
 
 
     @Override
     public int getCount() {
-     return mData.size();
+        return mData.size();
 
     }
 
     @Override
     public Object getItem(int position) {
-        return  mData.get(position);
+        return mData.get(position);
     }
 
     @Override
@@ -75,32 +75,31 @@ public class SaleAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         int rowType = getItemViewType(position);
         View view = convertView;
-            switch (rowType) {
-                case TYPE_ITEM:
-                    view = mInflater.inflate(R.layout.list_item_sales, null);
-                    TextView customerName = (TextView)view.findViewById(R.id.item_list_sale_customer_name);
-                    TextView saleCode =(TextView)view.findViewById(R.id.item_list_sale_code);
-                    TextView saleAmount = (TextView)view.findViewById(R.id.item_list_sale_purchase_amount);
-                    TextView saleDue = (TextView)view.findViewById(R.id.item_list_sale_due_date);
-                    customerName.setText(Samples.sales.get(2).get(Samples.sales.get(1).indexOf(mData.get(position))));
-                    saleCode.setText(Utility.doubleFormatter(Integer.parseInt(mData.get(position))));
-                    saleAmount.setText(Utility.formatPurchase(mContext, Utility.DecimalSeperation(mContext, Integer.parseInt(Samples.sales.get(4).get(Samples.sales.get(1).indexOf(mData.get(position)))))));
-                    if(!(Utility.getLocale(mContext).equals("IR"))){
-                        saleDue.setText(Samples.sales.get(0).get(Samples.sales.get(1).indexOf(mData.get(position))));
+        switch (rowType) {
+            case TYPE_ITEM:
+                view = mInflater.inflate(R.layout.list_item_sales, null);
+                TextView customerName = (TextView) view.findViewById(R.id.item_list_sale_customer_name);
+                TextView saleCode = (TextView) view.findViewById(R.id.item_list_sale_code);
+                TextView saleAmount = (TextView) view.findViewById(R.id.item_list_sale_purchase_amount);
+                TextView saleDue = (TextView) view.findViewById(R.id.item_list_sale_due_date);
+                customerName.setText(Samples.sales.get(2).get(Samples.sales.get(1).indexOf(mData.get(position))));
+                saleCode.setText(Utility.doubleFormatter(Integer.parseInt(mData.get(position))));
+                saleAmount.setText(Utility.formatPurchase(mContext, Utility.DecimalSeperation(mContext, Integer.parseInt(Samples.sales.get(4).get(Samples.sales.get(1).indexOf(mData.get(position)))))));
+                if (!(Utility.getLocale(mContext).equals("IR"))) {
+                    saleDue.setText(Samples.sales.get(0).get(Samples.sales.get(1).indexOf(mData.get(position))));
 
-                    }
-                    else{
-                     saleDue.setText(Utility.JalaliDatePicker(Samples.sales.get(0).get(Samples.sales.get(1).indexOf(mData.get(position)))));
-                    }
-                    break;
-                case TYPE_SEPARATOR:
-                    view = mInflater.inflate(R.layout.list_item_date_header, null);
-                    TextView headerText = (TextView)view.findViewById(R.id.header_list_sale);
-                    headerText.setText(mData.get(position));
-                    break;
-                default:
+                } else {
+                    saleDue.setText(Utility.JalaliDatePicker(Samples.sales.get(0).get(Samples.sales.get(1).indexOf(mData.get(position)))));
+                }
+                break;
+            case TYPE_SEPARATOR:
+                view = mInflater.inflate(R.layout.list_item_date_header, null);
+                TextView headerText = (TextView) view.findViewById(R.id.header_list_sale);
+                headerText.setText(mData.get(position));
+                break;
+            default:
 
-            }
+        }
 
         return view;
     }

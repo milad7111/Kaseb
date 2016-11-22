@@ -43,6 +43,7 @@ public class CustomerInsert extends Fragment {
     EditText addressStreet;
     EditText addressPostalCode;
     private Uri insertUri;
+    //    ImageView imageCustomer;
     View rootView;
 
     ContentValues customerValues = new ContentValues();
@@ -51,11 +52,32 @@ public class CustomerInsert extends Fragment {
         setHasOptionsMenu(true);
     }
 
+//    public void insertImg(int id , Bitmap img ) {
+//
+//
+//        byte[] data = getBitmapAsByteArray(img); // this is a function
+//
+//        imageCustomer.bi.bindLong(1, id);
+//        insertStatement_logo.bindBlob(2, data);
+//
+//        insertStatement_logo.executeInsert();
+//        insertStatement_logo.clearBindings() ;
+//
+//    }
+//
+//    public static byte[] getBitmapAsByteArray(Bitmap bitmap) {
+//        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+//        bitmap.compress(Bitmap.CompressFormat.PNG, 0, outputStream);
+//        return outputStream.toByteArray();
+//    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         rootView = inflater.inflate(R.layout.fragment_customer_insert, container, false);
+
+//        imageCustomer = (ImageView) rootView.findViewById(R.id.input_image_customer);
 
         stateType = (Spinner) rootView.findViewById(R.id.input_state_type_spinner);
         firstName = (EditText) rootView.findViewById(R.id.input_first_name);
@@ -74,14 +96,16 @@ public class CustomerInsert extends Fragment {
         addressPostalCode = (EditText) rootView.findViewById(R.id.input_address_postal_code);
 
         Cursor cursor = getContext().getContentResolver().query(KasebContract.State.CONTENT_URI
-                ,null,null,null,null);
+                , null, null, null, null);
+
         int[] toViews = {
                 android.R.id.text1
         };
         String[] fromColumns = {
                 KasebContract.State.COLUMN_STATE_POINTER
         };
-        TypesSettingAdapter cursorAdapter = new TypesSettingAdapter(getActivity(),cursor,0,KasebContract.State.COLUMN_STATE_POINTER);
+
+        TypesSettingAdapter cursorAdapter = new TypesSettingAdapter(getActivity(), cursor, 0, KasebContract.State.COLUMN_STATE_POINTER);
         stateType.setAdapter(cursorAdapter);
         return rootView;
     }

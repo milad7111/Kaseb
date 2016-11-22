@@ -68,6 +68,13 @@ import static mjkarbasian.moshtarimadar.helper.Samples.setSalesCustomer;
  */
 public class Utility {
 
+    public static String makePlaceholders(int len) {
+        StringBuilder sb = new StringBuilder(len * 2 - 1);
+        sb.append("?");
+        for (int i = 1; i < len; i++)
+            sb.append(",?");
+        return sb.toString();
+    }
 
     public static Dialog dialogBuilder(Context context, int layout, int title) {
         Dialog dialog = new Dialog(context);
@@ -309,13 +316,13 @@ public class Utility {
     private static void productHistoryInits(Context context) {
         setProduct_history(context);
         ContentValues productHistory = new ContentValues();
-        productHistory.put(KasebContract.ProductHistory.COLUMN_PRODUCT_ID,product_history.getInt(KasebContract.ProductHistory.COLUMN_PRODUCT_ID));
-        productHistory.put(KasebContract.ProductHistory.COLUMN_QUANTITY,product_history.getInt(KasebContract.ProductHistory.COLUMN_QUANTITY));
-        productHistory.put(KasebContract.ProductHistory.COLUMN_COST,product_history.getFloat(KasebContract.ProductHistory.COLUMN_COST));
-        productHistory.put(KasebContract.ProductHistory.COLUMN_SALE_PRICE,product_history.getFloat(KasebContract.ProductHistory.COLUMN_SALE_PRICE));
-        productHistory.put(KasebContract.ProductHistory.COLUMN_DATE,product_history.getString(KasebContract.ProductHistory.COLUMN_DATE));
+        productHistory.put(KasebContract.ProductHistory.COLUMN_PRODUCT_ID, product_history.getInt(KasebContract.ProductHistory.COLUMN_PRODUCT_ID));
+        productHistory.put(KasebContract.ProductHistory.COLUMN_QUANTITY, product_history.getInt(KasebContract.ProductHistory.COLUMN_QUANTITY));
+        productHistory.put(KasebContract.ProductHistory.COLUMN_COST, product_history.getFloat(KasebContract.ProductHistory.COLUMN_COST));
+        productHistory.put(KasebContract.ProductHistory.COLUMN_SALE_PRICE, product_history.getFloat(KasebContract.ProductHistory.COLUMN_SALE_PRICE));
+        productHistory.put(KasebContract.ProductHistory.COLUMN_DATE, product_history.getString(KasebContract.ProductHistory.COLUMN_DATE));
 
-        Uri productHUri = context.getContentResolver().insert(KasebContract.ProductHistory.CONTENT_URI,productHistory);
+        Uri productHUri = context.getContentResolver().insert(KasebContract.ProductHistory.CONTENT_URI, productHistory);
     }
 
     private static void detailSaleInits(Context context) {
@@ -324,29 +331,29 @@ public class Utility {
         ContentValues detailSale1 = new ContentValues();
         ContentValues detailSale2 = new ContentValues();
 
-        detailSale1.put(KasebContract.DetailSale.COLUMN_SALE_ID,detail_sale_1.getInt(KasebContract.DetailSale.COLUMN_SALE_ID));
-        detailSale1.put(KasebContract.DetailSale.COLUMN_DATE,detail_sale_1.getString(KasebContract.DetailSale.COLUMN_DATE));
-        detailSale1.put(KasebContract.DetailSale.COLUMN_ITEMS_NUMBER,detail_sale_1.getInt(KasebContract.DetailSale.COLUMN_ITEMS_NUMBER));
-        detailSale1.put(KasebContract.DetailSale.COLUMN_SUB_TOTAL,detail_sale_1.getFloat(KasebContract.DetailSale.COLUMN_SUB_TOTAL));
-        detailSale1.put(KasebContract.DetailSale.COLUMN_TOTAL_TAX,detail_sale_1.getFloat(KasebContract.DetailSale.COLUMN_TOTAL_TAX));
-        detailSale1.put(KasebContract.DetailSale.COLUMN_TOTAL_DISCOUNT,detail_sale_1.getFloat(KasebContract.DetailSale.COLUMN_TOTAL_DISCOUNT));
-        detailSale1.put(KasebContract.DetailSale.COLUMN_TOTAL_DUE,detail_sale_1.getFloat(KasebContract.DetailSale.COLUMN_TOTAL_DUE));
-        detailSale1.put(KasebContract.DetailSale.COLUMN_TOTAL_PAID,detail_sale_1.getFloat(KasebContract.DetailSale.COLUMN_TOTAL_PAID));
-        detailSale1.put(KasebContract.DetailSale.COLUMN_IS_BALANCED,detail_sale_1.getInt(KasebContract.DetailSale.COLUMN_IS_BALANCED));
+        detailSale1.put(KasebContract.DetailSale.COLUMN_SALE_ID, detail_sale_1.getInt(KasebContract.DetailSale.COLUMN_SALE_ID));
+        detailSale1.put(KasebContract.DetailSale.COLUMN_DATE, detail_sale_1.getString(KasebContract.DetailSale.COLUMN_DATE));
+        detailSale1.put(KasebContract.DetailSale.COLUMN_ITEMS_NUMBER, detail_sale_1.getInt(KasebContract.DetailSale.COLUMN_ITEMS_NUMBER));
+        detailSale1.put(KasebContract.DetailSale.COLUMN_SUB_TOTAL, detail_sale_1.getFloat(KasebContract.DetailSale.COLUMN_SUB_TOTAL));
+        detailSale1.put(KasebContract.DetailSale.COLUMN_TOTAL_TAX, detail_sale_1.getFloat(KasebContract.DetailSale.COLUMN_TOTAL_TAX));
+        detailSale1.put(KasebContract.DetailSale.COLUMN_TOTAL_DISCOUNT, detail_sale_1.getFloat(KasebContract.DetailSale.COLUMN_TOTAL_DISCOUNT));
+        detailSale1.put(KasebContract.DetailSale.COLUMN_TOTAL_DUE, detail_sale_1.getFloat(KasebContract.DetailSale.COLUMN_TOTAL_DUE));
+        detailSale1.put(KasebContract.DetailSale.COLUMN_TOTAL_PAID, detail_sale_1.getFloat(KasebContract.DetailSale.COLUMN_TOTAL_PAID));
+        detailSale1.put(KasebContract.DetailSale.COLUMN_IS_BALANCED, detail_sale_1.getInt(KasebContract.DetailSale.COLUMN_IS_BALANCED));
 
-        detailSale2.put(KasebContract.DetailSale.COLUMN_SALE_ID,detail_sale_2.getInt(KasebContract.DetailSale.COLUMN_SALE_ID));
-        detailSale2.put(KasebContract.DetailSale.COLUMN_DATE,detail_sale_2.getString(KasebContract.DetailSale.COLUMN_DATE));
-        detailSale2.put(KasebContract.DetailSale.COLUMN_ITEMS_NUMBER,detail_sale_2.getInt(KasebContract.DetailSale.COLUMN_ITEMS_NUMBER));
-        detailSale2.put(KasebContract.DetailSale.COLUMN_SUB_TOTAL,detail_sale_2.getFloat(KasebContract.DetailSale.COLUMN_SUB_TOTAL));
-        detailSale2.put(KasebContract.DetailSale.COLUMN_TOTAL_TAX,detail_sale_2.getFloat(KasebContract.DetailSale.COLUMN_TOTAL_TAX));
-        detailSale2.put(KasebContract.DetailSale.COLUMN_TOTAL_DISCOUNT,detail_sale_2.getFloat(KasebContract.DetailSale.COLUMN_TOTAL_DISCOUNT));
-        detailSale2.put(KasebContract.DetailSale.COLUMN_TOTAL_DUE,detail_sale_2.getFloat(KasebContract.DetailSale.COLUMN_TOTAL_DUE));
-        detailSale2.put(KasebContract.DetailSale.COLUMN_TOTAL_PAID,detail_sale_2.getFloat(KasebContract.DetailSale.COLUMN_TOTAL_PAID));
+        detailSale2.put(KasebContract.DetailSale.COLUMN_SALE_ID, detail_sale_2.getInt(KasebContract.DetailSale.COLUMN_SALE_ID));
+        detailSale2.put(KasebContract.DetailSale.COLUMN_DATE, detail_sale_2.getString(KasebContract.DetailSale.COLUMN_DATE));
+        detailSale2.put(KasebContract.DetailSale.COLUMN_ITEMS_NUMBER, detail_sale_2.getInt(KasebContract.DetailSale.COLUMN_ITEMS_NUMBER));
+        detailSale2.put(KasebContract.DetailSale.COLUMN_SUB_TOTAL, detail_sale_2.getFloat(KasebContract.DetailSale.COLUMN_SUB_TOTAL));
+        detailSale2.put(KasebContract.DetailSale.COLUMN_TOTAL_TAX, detail_sale_2.getFloat(KasebContract.DetailSale.COLUMN_TOTAL_TAX));
+        detailSale2.put(KasebContract.DetailSale.COLUMN_TOTAL_DISCOUNT, detail_sale_2.getFloat(KasebContract.DetailSale.COLUMN_TOTAL_DISCOUNT));
+        detailSale2.put(KasebContract.DetailSale.COLUMN_TOTAL_DUE, detail_sale_2.getFloat(KasebContract.DetailSale.COLUMN_TOTAL_DUE));
+        detailSale2.put(KasebContract.DetailSale.COLUMN_TOTAL_PAID, detail_sale_2.getFloat(KasebContract.DetailSale.COLUMN_TOTAL_PAID));
 
-        Uri ds1Uri = context.getContentResolver().insert(KasebContract.DetailSale.CONTENT_URI,detailSale1);
-        Log.d(LOG_TAG,ds1Uri.toString());
-        Uri ds2Uri = context.getContentResolver().insert(KasebContract.DetailSale.CONTENT_URI,detailSale2);
-        Log.d(LOG_TAG,ds2Uri.toString());
+        Uri ds1Uri = context.getContentResolver().insert(KasebContract.DetailSale.CONTENT_URI, detailSale1);
+        Log.d(LOG_TAG, ds1Uri.toString());
+        Uri ds2Uri = context.getContentResolver().insert(KasebContract.DetailSale.CONTENT_URI, detailSale2);
+        Log.d(LOG_TAG, ds2Uri.toString());
     }
 
     private static void dSaleTaxInits(Context context) {
@@ -355,16 +362,16 @@ public class Utility {
         ContentValues dsTax1 = new ContentValues();
         ContentValues dsTax2 = new ContentValues();
 
-        dsTax1.put(KasebContract.DetailSaleTaxes.COLUMN_DETAIL_SALE_ID,ds1TaxItems.getInt(KasebContract.DetailSaleTaxes.COLUMN_DETAIL_SALE_ID));
-        dsTax1.put(KasebContract.DetailSaleTaxes.COLUMN_TAX_TYPE_ID,ds1TaxItems.getInt(KasebContract.DetailSaleTaxes.COLUMN_TAX_TYPE_ID));
-        dsTax1.put(KasebContract.DetailSaleTaxes.COLUMN_AMOUNT,ds1TaxItems.getFloat(KasebContract.DetailSaleTaxes.COLUMN_AMOUNT));
+        dsTax1.put(KasebContract.DetailSaleTaxes.COLUMN_DETAIL_SALE_ID, ds1TaxItems.getInt(KasebContract.DetailSaleTaxes.COLUMN_DETAIL_SALE_ID));
+        dsTax1.put(KasebContract.DetailSaleTaxes.COLUMN_TAX_TYPE_ID, ds1TaxItems.getInt(KasebContract.DetailSaleTaxes.COLUMN_TAX_TYPE_ID));
+        dsTax1.put(KasebContract.DetailSaleTaxes.COLUMN_AMOUNT, ds1TaxItems.getFloat(KasebContract.DetailSaleTaxes.COLUMN_AMOUNT));
 
-        dsTax2.put(KasebContract.DetailSaleTaxes.COLUMN_DETAIL_SALE_ID,ds2TaxItems.getInt(KasebContract.DetailSaleTaxes.COLUMN_DETAIL_SALE_ID));
-        dsTax2.put(KasebContract.DetailSaleTaxes.COLUMN_TAX_TYPE_ID,ds2TaxItems.getInt(KasebContract.DetailSaleTaxes.COLUMN_TAX_TYPE_ID));
-        dsTax2.put(KasebContract.DetailSaleTaxes.COLUMN_AMOUNT,ds2TaxItems.getFloat(KasebContract.DetailSaleTaxes.COLUMN_AMOUNT));
+        dsTax2.put(KasebContract.DetailSaleTaxes.COLUMN_DETAIL_SALE_ID, ds2TaxItems.getInt(KasebContract.DetailSaleTaxes.COLUMN_DETAIL_SALE_ID));
+        dsTax2.put(KasebContract.DetailSaleTaxes.COLUMN_TAX_TYPE_ID, ds2TaxItems.getInt(KasebContract.DetailSaleTaxes.COLUMN_TAX_TYPE_ID));
+        dsTax2.put(KasebContract.DetailSaleTaxes.COLUMN_AMOUNT, ds2TaxItems.getFloat(KasebContract.DetailSaleTaxes.COLUMN_AMOUNT));
 
-        Uri ds1TaxUri = context.getContentResolver().insert(KasebContract.DetailSaleTaxes.CONTENT_URI,dsTax1);
-        Uri ds2TaxUri = context.getContentResolver().insert(KasebContract.DetailSaleTaxes.CONTENT_URI,dsTax2);
+        Uri ds1TaxUri = context.getContentResolver().insert(KasebContract.DetailSaleTaxes.CONTENT_URI, dsTax1);
+        Uri ds2TaxUri = context.getContentResolver().insert(KasebContract.DetailSaleTaxes.CONTENT_URI, dsTax2);
     }
 
     private static void dSalePaymentInits(Context context) {
@@ -373,20 +380,20 @@ public class Utility {
         ContentValues dsPayment1 = new ContentValues();
         ContentValues dsPayment2 = new ContentValues();
 
-        dsPayment1.put(KasebContract.DetailSalePayments.COLUMN_DETAIL_SALE_ID,ds1PaymentItems.getInt(KasebContract.DetailSalePayments.COLUMN_DETAIL_SALE_ID));
-        dsPayment1.put(KasebContract.DetailSalePayments.COLUMN_MODIFIED_DATE,ds1PaymentItems.getString(KasebContract.DetailSalePayments.COLUMN_MODIFIED_DATE));
-        dsPayment1.put(KasebContract.DetailSalePayments.COLUMN_DUE_DATE,ds1PaymentItems.getString(KasebContract.DetailSalePayments.COLUMN_DUE_DATE));
-        dsPayment1.put(KasebContract.DetailSalePayments.COLUMN_PAYMENT_METHOD_ID,ds1PaymentItems.getInt(KasebContract.DetailSalePayments.COLUMN_PAYMENT_METHOD_ID));
-        dsPayment1.put(KasebContract.DetailSalePayments.COLUMN_AMOUNT,ds1PaymentItems.getFloat(KasebContract.DetailSalePayments.COLUMN_AMOUNT));
+        dsPayment1.put(KasebContract.DetailSalePayments.COLUMN_DETAIL_SALE_ID, ds1PaymentItems.getInt(KasebContract.DetailSalePayments.COLUMN_DETAIL_SALE_ID));
+        dsPayment1.put(KasebContract.DetailSalePayments.COLUMN_MODIFIED_DATE, ds1PaymentItems.getString(KasebContract.DetailSalePayments.COLUMN_MODIFIED_DATE));
+        dsPayment1.put(KasebContract.DetailSalePayments.COLUMN_DUE_DATE, ds1PaymentItems.getString(KasebContract.DetailSalePayments.COLUMN_DUE_DATE));
+        dsPayment1.put(KasebContract.DetailSalePayments.COLUMN_PAYMENT_METHOD_ID, ds1PaymentItems.getInt(KasebContract.DetailSalePayments.COLUMN_PAYMENT_METHOD_ID));
+        dsPayment1.put(KasebContract.DetailSalePayments.COLUMN_AMOUNT, ds1PaymentItems.getFloat(KasebContract.DetailSalePayments.COLUMN_AMOUNT));
 
-        dsPayment2.put(KasebContract.DetailSalePayments.COLUMN_DETAIL_SALE_ID,ds2PaymentItems.getInt(KasebContract.DetailSalePayments.COLUMN_DETAIL_SALE_ID));
-        dsPayment2.put(KasebContract.DetailSalePayments.COLUMN_MODIFIED_DATE,ds2PaymentItems.getString(KasebContract.DetailSalePayments.COLUMN_MODIFIED_DATE));
-        dsPayment2.put(KasebContract.DetailSalePayments.COLUMN_DUE_DATE,ds2PaymentItems.getString(KasebContract.DetailSalePayments.COLUMN_DUE_DATE));
-        dsPayment2.put(KasebContract.DetailSalePayments.COLUMN_PAYMENT_METHOD_ID,ds2PaymentItems.getInt(KasebContract.DetailSalePayments.COLUMN_PAYMENT_METHOD_ID));
-        dsPayment2.put(KasebContract.DetailSalePayments.COLUMN_AMOUNT,ds2PaymentItems.getFloat(KasebContract.DetailSalePayments.COLUMN_AMOUNT));
+        dsPayment2.put(KasebContract.DetailSalePayments.COLUMN_DETAIL_SALE_ID, ds2PaymentItems.getInt(KasebContract.DetailSalePayments.COLUMN_DETAIL_SALE_ID));
+        dsPayment2.put(KasebContract.DetailSalePayments.COLUMN_MODIFIED_DATE, ds2PaymentItems.getString(KasebContract.DetailSalePayments.COLUMN_MODIFIED_DATE));
+        dsPayment2.put(KasebContract.DetailSalePayments.COLUMN_DUE_DATE, ds2PaymentItems.getString(KasebContract.DetailSalePayments.COLUMN_DUE_DATE));
+        dsPayment2.put(KasebContract.DetailSalePayments.COLUMN_PAYMENT_METHOD_ID, ds2PaymentItems.getInt(KasebContract.DetailSalePayments.COLUMN_PAYMENT_METHOD_ID));
+        dsPayment2.put(KasebContract.DetailSalePayments.COLUMN_AMOUNT, ds2PaymentItems.getFloat(KasebContract.DetailSalePayments.COLUMN_AMOUNT));
 
-        Uri ds1PaymentUri = context.getContentResolver().insert(KasebContract.DetailSalePayments.CONTENT_URI,dsPayment1);
-        Uri ds2PaymentUri = context.getContentResolver().insert(KasebContract.DetailSalePayments.CONTENT_URI,dsPayment2);
+        Uri ds1PaymentUri = context.getContentResolver().insert(KasebContract.DetailSalePayments.CONTENT_URI, dsPayment1);
+        Uri ds2PaymentUri = context.getContentResolver().insert(KasebContract.DetailSalePayments.CONTENT_URI, dsPayment2);
     }
 
     private static void dSaleProductInits(Context context) {
@@ -395,18 +402,18 @@ public class Utility {
         ContentValues dsProduct1 = new ContentValues();
         ContentValues dsProduct2 = new ContentValues();
 
-        dsProduct1.put(KasebContract.DetailSaleProducts.COLUMN_PRODUCT_ID,ds1ProductItems.getInt(KasebContract.DetailSaleProducts.COLUMN_PRODUCT_ID));
-        dsProduct1.put(KasebContract.DetailSaleProducts.COLUMN_DETAIL_SALE_ID,ds1ProductItems.getInt(KasebContract.DetailSaleProducts.COLUMN_DETAIL_SALE_ID));
-        dsProduct1.put(KasebContract.DetailSaleProducts.COLUMN_QUANTITY,ds1ProductItems.getInt(KasebContract.DetailSaleProducts.COLUMN_QUANTITY));
-        dsProduct1.put(KasebContract.DetailSaleProducts.COLUMN_AMOUNT,ds1ProductItems.getFloat(KasebContract.DetailSaleProducts.COLUMN_AMOUNT));
+        dsProduct1.put(KasebContract.DetailSaleProducts.COLUMN_PRODUCT_ID, ds1ProductItems.getInt(KasebContract.DetailSaleProducts.COLUMN_PRODUCT_ID));
+        dsProduct1.put(KasebContract.DetailSaleProducts.COLUMN_DETAIL_SALE_ID, ds1ProductItems.getInt(KasebContract.DetailSaleProducts.COLUMN_DETAIL_SALE_ID));
+        dsProduct1.put(KasebContract.DetailSaleProducts.COLUMN_QUANTITY, ds1ProductItems.getInt(KasebContract.DetailSaleProducts.COLUMN_QUANTITY));
+        dsProduct1.put(KasebContract.DetailSaleProducts.COLUMN_AMOUNT, ds1ProductItems.getFloat(KasebContract.DetailSaleProducts.COLUMN_AMOUNT));
 
-        dsProduct2.put(KasebContract.DetailSaleProducts.COLUMN_PRODUCT_ID,ds2ProductItems.getInt(KasebContract.DetailSaleProducts.COLUMN_PRODUCT_ID));
-        dsProduct2.put(KasebContract.DetailSaleProducts.COLUMN_DETAIL_SALE_ID,ds2ProductItems.getInt(KasebContract.DetailSaleProducts.COLUMN_DETAIL_SALE_ID));
-        dsProduct2.put(KasebContract.DetailSaleProducts.COLUMN_QUANTITY,ds2ProductItems.getInt(KasebContract.DetailSaleProducts.COLUMN_QUANTITY));
-        dsProduct2.put(KasebContract.DetailSaleProducts.COLUMN_AMOUNT,ds2ProductItems.getFloat(KasebContract.DetailSaleProducts.COLUMN_AMOUNT));
+        dsProduct2.put(KasebContract.DetailSaleProducts.COLUMN_PRODUCT_ID, ds2ProductItems.getInt(KasebContract.DetailSaleProducts.COLUMN_PRODUCT_ID));
+        dsProduct2.put(KasebContract.DetailSaleProducts.COLUMN_DETAIL_SALE_ID, ds2ProductItems.getInt(KasebContract.DetailSaleProducts.COLUMN_DETAIL_SALE_ID));
+        dsProduct2.put(KasebContract.DetailSaleProducts.COLUMN_QUANTITY, ds2ProductItems.getInt(KasebContract.DetailSaleProducts.COLUMN_QUANTITY));
+        dsProduct2.put(KasebContract.DetailSaleProducts.COLUMN_AMOUNT, ds2ProductItems.getFloat(KasebContract.DetailSaleProducts.COLUMN_AMOUNT));
 
-        Uri dsProductUri = context.getContentResolver().insert(KasebContract.DetailSaleProducts.CONTENT_URI,dsProduct1);
-        Uri dsProductUri2 = context.getContentResolver().insert(KasebContract.DetailSaleProducts.CONTENT_URI,dsProduct2);
+        Uri dsProductUri = context.getContentResolver().insert(KasebContract.DetailSaleProducts.CONTENT_URI, dsProduct1);
+        Uri dsProductUri2 = context.getContentResolver().insert(KasebContract.DetailSaleProducts.CONTENT_URI, dsProduct2);
     }
 
     private static void salesInits(Context context) {

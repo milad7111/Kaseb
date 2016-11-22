@@ -114,8 +114,9 @@
             android:enabled="true"
             android:exported="true"
             android:permission="com.myApp.LICENSE_TO_KILL"></provider>
-            android:permission="com.myApp.LICENSE_TO_KILL" />
-        <activity android:name=".MySetting"
+        android:permission="com.myApp.LICENSE_TO_KILL" />
+        <activity
+            android:name=".MySetting"
             android:label="@string/title_activity_my_setting"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>

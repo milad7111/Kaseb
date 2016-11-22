@@ -10,8 +10,8 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.TreeSet;
 
-import mjkarbasian.moshtarimadar.helper.Samples;
 import mjkarbasian.moshtarimadar.R;
+import mjkarbasian.moshtarimadar.helper.Samples;
 import mjkarbasian.moshtarimadar.helper.Utility;
 
 /**
@@ -29,7 +29,7 @@ public class CostAdapter extends BaseAdapter {
 
     public CostAdapter(Context context) {
         mContext = context;
-        mInflater = (LayoutInflater)mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        mInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
     }
 
@@ -52,7 +52,8 @@ public class CostAdapter extends BaseAdapter {
     public void addSectionHeaderItem(final String item) {
         mDataCosts.add(item);
         sectionHeader.add(mDataCosts.size() - 1);
-        notifyDataSetChanged();}
+        notifyDataSetChanged();
+    }
 
 
     @Override
@@ -63,7 +64,7 @@ public class CostAdapter extends BaseAdapter {
 
     @Override
     public Object getItem(int position) {
-        return  mDataCosts.get(position);
+        return mDataCosts.get(position);
     }
 
     @Override
@@ -78,24 +79,23 @@ public class CostAdapter extends BaseAdapter {
         switch (rowType) {
             case TYPE_ITEM:
                 view = mInflater.inflate(R.layout.list_item_costs, null);
-                TextView costName = (TextView)view.findViewById(R.id.item_list_cost_name);
-                TextView costCode =(TextView)view.findViewById(R.id.item_list_cost_code);
-                TextView costAmount = (TextView)view.findViewById(R.id.item_list_cost_amount);
-                TextView costDue = (TextView)view.findViewById(R.id.item_list_cost_date);
+                TextView costName = (TextView) view.findViewById(R.id.item_list_cost_name);
+                TextView costCode = (TextView) view.findViewById(R.id.item_list_cost_code);
+                TextView costAmount = (TextView) view.findViewById(R.id.item_list_cost_amount);
+                TextView costDue = (TextView) view.findViewById(R.id.item_list_cost_date);
                 costName.setText(Samples.costs.get(2).get(Samples.costs.get(1).indexOf(mDataCosts.get(position))));
                 costCode.setText(Utility.doubleFormatter(Integer.parseInt(mDataCosts.get(position))));
                 costAmount.setText(Utility.formatPurchase(mContext, Utility.DecimalSeperation(mContext, Integer.parseInt(Samples.costs.get(3).get(Samples.costs.get(1).indexOf(mDataCosts.get(position)))))));
-                if(!(Utility.getLocale(mContext).equals("IR"))){
+                if (!(Utility.getLocale(mContext).equals("IR"))) {
                     costDue.setText(Samples.costs.get(0).get(Samples.costs.get(1).indexOf(mDataCosts.get(position))));
 
-                }
-                else{
+                } else {
                     costDue.setText(Utility.JalaliDatePicker(Samples.costs.get(0).get(Samples.costs.get(1).indexOf(mDataCosts.get(position)))));
                 }
                 break;
             case TYPE_SEPARATOR:
                 view = mInflater.inflate(R.layout.list_item_date_header, null);
-                TextView headerText = (TextView)view.findViewById(R.id.header_list_sale);
+                TextView headerText = (TextView) view.findViewById(R.id.header_list_sale);
                 headerText.setText(mDataCosts.get(position));
                 break;
             default:

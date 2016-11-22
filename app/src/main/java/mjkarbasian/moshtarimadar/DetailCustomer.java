@@ -1,6 +1,8 @@
 package mjkarbasian.moshtarimadar;
 
 import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.TabLayout;
@@ -12,10 +14,14 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.Toast;
 
+import java.net.URI;
 import java.text.ParseException;
 
+import mjkarbasian.moshtarimadar.Data.KasebContract;
+import mjkarbasian.moshtarimadar.adapters.CustomerAdapter;
 import mjkarbasian.moshtarimadar.adapters.DetailCustomerAdapter;
 import mjkarbasian.moshtarimadar.helper.Samples;
 import mjkarbasian.moshtarimadar.helper.Utility;
@@ -36,6 +42,13 @@ public class DetailCustomer extends AppCompatActivity {
     Toolbar mToolbar;
     Integer customerPosiotion;
 
+    CustomerAdapter mCustomerAdapter = null;
+    ListView modeList;
+    String[] mProjection;
+
+    String nameCustomer;
+    String familyCustomer;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,7 +65,33 @@ public class DetailCustomer extends AppCompatActivity {
         int position = intent.getIntExtra("position", 0);
         customerPosiotion = position;
 
-        ((CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar_layout)).setTitle(this.getResources().getString(Samples.customerName[position]));
+        mProjection = new String[]{
+                KasebContract.Customers._ID,
+                KasebContract.Customers.COLUMN_FIRST_NAME,
+                KasebContract.Customers.COLUMN_LAST_NAME,
+                KasebContract.Customers.COLUMN_STATE_ID};
+
+        Uri uri = intent.getData();
+
+        Cursor customerCursor = getBaseContext().getContentResolver().query(
+                intent.getData(),
+                mProjection,
+                null,
+                null,
+                null
+                );
+
+        if (customerCursor != null) {
+            if (customerCursor.moveToFirst()) {
+                nameCustomer = customerCursor.getString(customerCursor.getColumnIndex(KasebContract.Customers.COLUMN_FIRST_NAME));
+                familyCustomer = customerCursor.getString(customerCursor.getColumnIndex(KasebContract.Customers.COLUMN_LAST_NAME));
+
+                ((CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar_layout))
+                        .setTitle(nameCustomer + "  " + familyCustomer);
+            }
+        }
+
+
         ImageView customerAvatar = (ImageView) findViewById(R.id.image_toolbar);
 
         if (Samples.customerAvatar.size() == 0) {
@@ -83,7 +122,6 @@ public class DetailCustomer extends AppCompatActivity {
             setSaleSummary();
         }
 
-
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         tabLayout.addTab(tabLayout.newTab().setText(getResources().getString(R.string.customer_tab_info)));
         tabLayout.addTab(tabLayout.newTab().setText(getResources().getString(R.string.customer_tab_dash)));
@@ -92,7 +130,7 @@ public class DetailCustomer extends AppCompatActivity {
 
         final ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
         final DetailCustomerAdapter adapter = new DetailCustomerAdapter
-                (getSupportFragmentManager(), tabLayout.getTabCount(), this, position);
+                (getSupportFragmentManager(), tabLayout.getTabCount(), this, position, uri);
         viewPager.setAdapter(adapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
