@@ -30,18 +30,15 @@ public class DetailCustomerBill extends Fragment implements LoaderManager.Loader
     String[] mProjection;
     String[] mSelection;
     String mWhereStatement;
-    Long customerID;
+    Long customerId;
 
     public DetailCustomerBill() {
         super();
     }
 
-    public DetailCustomerBill(Long id) {
-        super();
-        customerID = id;
-    }
-
     public void onCreate(Bundle savedInstanceState) {
+
+        customerId = Long.parseLong(this.getArguments().getString("customerId"));
 
         mProjection = new String[]{
                 KasebContract.Sales._ID,
@@ -107,7 +104,7 @@ public class DetailCustomerBill extends Fragment implements LoaderManager.Loader
         Log.d(LOG_TAG, "onCreateLoader");
         return new CursorLoader(
                 getActivity(),
-                KasebContract.Sales.customerSales(customerID),
+                KasebContract.Sales.customerSales(customerId),
                 mProjection,
                 mWhereStatement,
                 mSelection,

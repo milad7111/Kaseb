@@ -98,6 +98,7 @@ package mjkarbasian.moshtarimadar.adapters;
 
 import android.content.Context;
 import android.net.Uri;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -109,14 +110,12 @@ import mjkarbasian.moshtarimadar.DetailCustomerInfo;
 public class DetailCustomerAdapter extends FragmentStatePagerAdapter {
     int mNumOfTabs;
     Context mContext;
-    int customerPosition;
     Uri uriCursor;
 
-    public DetailCustomerAdapter(FragmentManager fm, int NumOfTabs, Context context, Integer position, Uri uri) {
+    public DetailCustomerAdapter(FragmentManager fm, int NumOfTabs, Context context, Uri uri) {
         super(fm);
         mContext = context;
         this.mNumOfTabs = NumOfTabs;
-        customerPosition = position;
         uriCursor = uri;
     }
 
@@ -131,7 +130,11 @@ public class DetailCustomerAdapter extends FragmentStatePagerAdapter {
                 DetailCustomerDash tab2 = new DetailCustomerDash(uriCursor);
                 return tab2;
             case 2:
-                DetailCustomerBill tab3 = new DetailCustomerBill(Long.parseLong(uriCursor.getLastPathSegment()));
+                Bundle mBundle = new Bundle();
+                mBundle.putString("customerId",uriCursor.getLastPathSegment());
+
+                DetailCustomerBill tab3 = new DetailCustomerBill();
+                tab3.setArguments(mBundle);
                 return tab3;
             default:
                 return null;

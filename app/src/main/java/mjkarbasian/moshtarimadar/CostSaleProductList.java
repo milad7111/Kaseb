@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
@@ -19,7 +20,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import mjkarbasian.moshtarimadar.Data.KasebContract;
 import mjkarbasian.moshtarimadar.adapters.CostSaleProductAdapter;
@@ -29,8 +29,12 @@ import mjkarbasian.moshtarimadar.adapters.CostSaleProductAdapter;
  */
 public class CostSaleProductList extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
-    private final String LOG_TAG = CostSaleProductList.class.getSimpleName();
     final static int FRAGMENT_COST_SALE_PRODUCT_LOADER = 1;
+    private final String LOG_TAG = CostSaleProductList.class.getSimpleName();
+    FragmentManager fragmentManager;
+
+    Fragment productHistory = new DetailProducts();
+    Bundle productHistoryBundle = new Bundle();
 
     CostSaleProductAdapter mAdapter = null;
     ListView mListView;
@@ -43,6 +47,7 @@ public class CostSaleProductList extends Fragment implements LoaderManager.Loade
     @Override
     public void onCreate(Bundle savedInstanceState) {
         FloatingActionButton fab = (FloatingActionButton) getActivity().findViewById(R.id.fab_cost_sale_product);
+
         switch (getArguments().getString("witchActivity")) {
             case "cost": {
                 mProjection = new String[]{
@@ -70,6 +75,7 @@ public class CostSaleProductList extends Fragment implements LoaderManager.Loade
             default:
                 break;
         }
+
         super.onCreate(savedInstanceState);
     }
 
@@ -89,7 +95,28 @@ public class CostSaleProductList extends Fragment implements LoaderManager.Loade
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getActivity(), position + "", Toast.LENGTH_SHORT).show();
+                switch (getArguments().getString("witchActivity")) {
+                    case "cost": {
+                        // rise detail cost
+                        break;
+                    }
+                    case "sale": {
+                        // rise detail sale
+                        break;
+                    }
+                    case "product": {
+                        Cursor cursor = (Cursor) parent.getItemAtPosition(position);
+                        if (cursor != null) {
+                            productHistoryBundle.putString("productId", cursor.getString(cursor.getColumnIndex(KasebContract.Products._ID)));
+                            productHistory.setArguments(productHistoryBundle);
+                            fragmentManager = getActivity().getSupportFragmentManager();
+                            fragmentManager.beginTransaction().replace(R.id.container, productHistory).commit();
+                        }
+                        break;
+                    }
+                    default:
+                        break;
+                }
             }
         });
 

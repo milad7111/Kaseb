@@ -60,7 +60,7 @@ public class DetailCustomerInfo extends Fragment {
             }
         }
 
-        customerPhoneMobile.setText(Utility.doubleFormatter(Double.parseDouble(phoneMobileCustomer)));
+        customerPhoneMobile.setText(phoneMobileCustomer);
         customerEmail.setText(emailCustomer);
 
         ImageView callImage = (ImageView) view.findViewById(R.id.customer_call_btn);

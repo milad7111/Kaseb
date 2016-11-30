@@ -11,7 +11,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import mjkarbasian.moshtarimadar.adapters.DetailProductPriceList;
+import mjkarbasian.moshtarimadar.adapters.DetailProductAdapter;
 import mjkarbasian.moshtarimadar.helper.Samples;
 import mjkarbasian.moshtarimadar.helper.Utility;
 
@@ -43,9 +43,10 @@ public class DetailProductsView extends Fragment {
         productName.setText(Samples.products.get(2).get(position));
         Code.setText(Utility.doubleFormatter(Double.parseDouble(productCode)));
         unit.setText(getActivity().getResources().getString(R.string.sample_unit));
-        DetailProductPriceList mPriceListAdapter = new DetailProductPriceList(getActivity(), productCode);
+        //i comment these 2 lines because errors ... MORTEZA 2/9/1395
+//        DetailProductAdapter mPriceListAdapter = new DetailProductAdapter(getActivity(), productCode);
         mListView = (ListView) view.findViewById(R.id.listview_detail_product);
-        mListView.setAdapter(mPriceListAdapter);
+//        mListView.setAdapter(mPriceListAdapter);
 
         //dynamically change cards height but it must modify
         CardView priceList = (CardView) view.findViewById(R.id.card_detail_price_list);

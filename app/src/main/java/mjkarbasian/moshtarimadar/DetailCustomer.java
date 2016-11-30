@@ -14,38 +14,16 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.Toast;
 
-import java.net.URI;
-import java.text.ParseException;
-
 import mjkarbasian.moshtarimadar.Data.KasebContract;
-import mjkarbasian.moshtarimadar.adapters.CustomerAdapter;
 import mjkarbasian.moshtarimadar.adapters.DetailCustomerAdapter;
-import mjkarbasian.moshtarimadar.helper.Samples;
 import mjkarbasian.moshtarimadar.helper.Utility;
-
-import static mjkarbasian.moshtarimadar.helper.Samples.salesCode;
-import static mjkarbasian.moshtarimadar.helper.Samples.setSale;
-import static mjkarbasian.moshtarimadar.helper.Samples.setSaleDueDate;
-import static mjkarbasian.moshtarimadar.helper.Samples.setSaleFinalAmount;
-import static mjkarbasian.moshtarimadar.helper.Samples.setSaleOffTaxList;
-import static mjkarbasian.moshtarimadar.helper.Samples.setSalePaymentList;
-import static mjkarbasian.moshtarimadar.helper.Samples.setSaleProductList;
-import static mjkarbasian.moshtarimadar.helper.Samples.setSaleSummary;
-import static mjkarbasian.moshtarimadar.helper.Samples.setSalesAmount;
-import static mjkarbasian.moshtarimadar.helper.Samples.setSalesCode;
-import static mjkarbasian.moshtarimadar.helper.Samples.setSalesCustomer;
 
 public class DetailCustomer extends AppCompatActivity {
     Toolbar mToolbar;
-    Integer customerPosiotion;
 
-    CustomerAdapter mCustomerAdapter = null;
-    ListView modeList;
     String[] mProjection;
-
     String nameCustomer;
     String familyCustomer;
 
@@ -55,6 +33,7 @@ public class DetailCustomer extends AppCompatActivity {
         setContentView(R.layout.activity_detail_customer);
         mToolbar = (Toolbar) findViewById(R.id.customer_detail_toolbar);
         setSupportActionBar(mToolbar);
+
         if (!(Utility.getLocale(this).equals("IR"))) {
             mToolbar.setNavigationIcon(R.drawable.arrow_left);
         } else {
@@ -62,24 +41,20 @@ public class DetailCustomer extends AppCompatActivity {
         }
 
         Intent intent = getIntent();
-        int position = intent.getIntExtra("position", 0);
-        customerPosiotion = position;
-
+        Uri uri = intent.getData();
         mProjection = new String[]{
                 KasebContract.Customers._ID,
                 KasebContract.Customers.COLUMN_FIRST_NAME,
                 KasebContract.Customers.COLUMN_LAST_NAME,
                 KasebContract.Customers.COLUMN_STATE_ID};
 
-        Uri uri = intent.getData();
-
         Cursor customerCursor = getBaseContext().getContentResolver().query(
-                intent.getData(),
+                uri,
                 mProjection,
                 null,
                 null,
                 null
-                );
+        );
 
         if (customerCursor != null) {
             if (customerCursor.moveToFirst()) {
@@ -91,36 +66,35 @@ public class DetailCustomer extends AppCompatActivity {
             }
         }
 
+//        ImageView customerAvatar = (ImageView) findViewById(R.id.image_toolbar);
 
-        ImageView customerAvatar = (ImageView) findViewById(R.id.image_toolbar);
+//        if (Samples.customerAvatar.size() == 0) {
+//            customerAvatar.setImageResource(R.drawable.account);
+//        } else {
+//            if (!(Samples.customerAvatar.size() <= position)) {
+//                customerAvatar.setImageURI(Samples.customerAvatar.get(position));
+//            } else {
+//                customerAvatar.setImageResource(R.drawable.account);
+//            }
+//        }
 
-        if (Samples.customerAvatar.size() == 0) {
-            customerAvatar.setImageResource(R.drawable.account);
-        } else {
-            if (!(Samples.customerAvatar.size() <= position)) {
-                customerAvatar.setImageURI(Samples.customerAvatar.get(position));
-            } else {
-                customerAvatar.setImageResource(R.drawable.account);
-            }
-        }
-
-        if (salesCode.size() == 0) {
-
-            setSalesCode();
-            setSaleDueDate();
-            setSalesCustomer(this);
-            setSalesAmount();
-            setSaleProductList();
-            try {
-                setSalePaymentList(this);
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-            setSaleOffTaxList(this);
-            setSaleFinalAmount(this);
-            setSale();
-            setSaleSummary();
-        }
+//        if (salesCode.size() == 0) {
+//
+//            setSalesCode();
+//            setSaleDueDate();
+//            setSalesCustomer(this);
+//            setSalesAmount();
+//            setSaleProductList();
+//            try {
+//                setSalePaymentList(this);
+//            } catch (ParseException e) {
+//                e.printStackTrace();
+//            }
+//            setSaleOffTaxList(this);
+//            setSaleFinalAmount(this);
+//            setSale();
+//            setSaleSummary();
+//        }
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         tabLayout.addTab(tabLayout.newTab().setText(getResources().getString(R.string.customer_tab_info)));
@@ -130,7 +104,7 @@ public class DetailCustomer extends AppCompatActivity {
 
         final ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
         final DetailCustomerAdapter adapter = new DetailCustomerAdapter
-                (getSupportFragmentManager(), tabLayout.getTabCount(), this, position, uri);
+                (getSupportFragmentManager(), tabLayout.getTabCount(), this, uri);
         viewPager.setAdapter(adapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -141,12 +115,10 @@ public class DetailCustomer extends AppCompatActivity {
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
-
             }
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
-
             }
         });
     }
@@ -170,21 +142,18 @@ public class DetailCustomer extends AppCompatActivity {
                 Toast.makeText(this, getApplicationContext().getResources().getString(R.string.edit_action_description), Toast.LENGTH_LONG).show();
                 break;
             case R.id.gold_member:
-                Samples.customerMembership[customerPosiotion] = 1;
-
+//                Samples.customerMembership[customerPosiotion] = 1;
                 break;
             case R.id.silver_member:
-                Samples.customerMembership[customerPosiotion] = 2;
+//                Samples.customerMembership[customerPosiotion] = 2;
                 break;
             case R.id.bronze_member:
-                Samples.customerMembership[customerPosiotion] = 3;
+//                Samples.customerMembership[customerPosiotion] = 3;
                 break;
             case R.id.non_member:
-                Samples.customerMembership[customerPosiotion] = 4;
+//                Samples.customerMembership[customerPosiotion] = 4;
                 return true;
         }
         return super.onOptionsItemSelected(item);
     }
-
-
 }
