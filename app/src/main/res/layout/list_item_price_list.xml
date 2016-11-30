@@ -19,7 +19,6 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center_vertical|center_horizontal"
-                android:hint="@string/hint_sample_1"
                 android:textAppearance="?android:textAppearanceMedium" />
 
             <TextView
@@ -28,7 +27,6 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center_vertical|center_horizontal"
-                android:hint="@string/hint_sample_2"
                 android:textAppearance="?android:textAppearanceMedium" />
         </LinearLayout>
 
@@ -81,16 +79,14 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/activity_horizontal_margin"
                         android:layout_marginRight="10dp"
-                        android:layout_marginStart="@dimen/activity_horizontal_margin"
-                        android:hint="@string/hint_sample_3" />
+                        android:layout_marginStart="@dimen/activity_horizontal_margin" />
 
                     <TextView
                         android:id="@+id/price_list_quantity"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                        android:layout_marginStart="@dimen/activity_horizontal_margin"
-                        android:hint="@string/hint_sample_4" />
+                        android:layout_marginStart="@dimen/activity_horizontal_margin" />
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>

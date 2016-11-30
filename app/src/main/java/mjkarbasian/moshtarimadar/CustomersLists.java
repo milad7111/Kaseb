@@ -61,7 +61,6 @@ public class CustomersLists extends Fragment implements LoaderManager.LoaderCall
         mListView = (ListView) rootView.findViewById(R.id.list_view_customers);
         mListView.setAdapter(mCustomerAdapter);
 
-
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -75,20 +74,6 @@ public class CustomersLists extends Fragment implements LoaderManager.LoaderCall
                 }
             }
         });
-
-
-//                    String locationSetting = Utility.getPreferredLocation(getActivity());
-//                    Intent intent = new Intent(getActivity(), DetailActivity.class)
-//                            .setData(WeatherContract.WeatherEntry.buildWeatherLocationWithDate(
-//                                    locationSetting, cursor.getLong(COL_WEATHER_DATE)
-//                            ));
-//                    startActivity(intent);
-//                    ((Callback)getActivity())
-//                            .onItemSelected(WeatherContract.WeatherEntry.buildWeatherLocationWithDate(
-//                                    locationSetting, cursor.getLong(COL_WEATHER_DATE)));
-//                }
-//                mPosition = position;
-
         return rootView;
     }
 

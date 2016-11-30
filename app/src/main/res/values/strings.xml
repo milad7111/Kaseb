@@ -283,8 +283,26 @@
     <string name="sample_ali_ghorbani_description">find in congress</string>
     <string name="sample_cost_description">no description</string>
     <string name="sample_sale_code_2">INV-000124</string>
+    <string name="sale_date">Sale Date</string>
+    <string name="quantity">Quantity</string>
+    <string name="dialog_select_restore">select restore</string>
+    <string name="dialog_select_cancel">select cancel</string>
+    <string name="dialog_select_backup">select backup</string>
+    <string name="dialog_select_backup_restore">select backup restore</string>
+    <string name="dialog_input_import_contact_first_last_name">input import contact first last name</string>
+    <string name="dialog_input_import_contact_phone_mobile">input import contact phone mobile</string>
+    <string name="dialog_input_import_contact_general">input import contact general</string>
+    <string name="dialog_title_import_customer_fail">import customer fail</string>
+    <string name="dialog_message_import_customer_fail_par1">customer fail par1</string>
+    <string name="dialog_message_import_customer_fail_par2">customer fail par2</string>
+    <string name="dialog_positive_button">positive button</string>
+    <string name="pref_header_import_contacts">pref header import contacts</string>
+    <string name="Add">Add</string>
     <string-array name="payment_method">
         <item>Check</item>
         <item>Cash</item>
     </string-array>
+    <string name="payment_list_for_sale_amount_title">Amount :</string>
+    <string name="payment_list_for_sale_due_date_title">Due Date :</string>
+    <string name="payment_list_for_sale_payment_method_title">Payment Type :</string>
 </resources>

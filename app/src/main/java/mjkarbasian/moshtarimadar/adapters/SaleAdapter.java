@@ -29,13 +29,11 @@ public class SaleAdapter extends BaseAdapter {
     public SaleAdapter(Context context) {
         mContext = context;
         mInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
     }
 
     public void addItem(final String item) {
         mData.add(item);
         notifyDataSetChanged();
-
     }
 
     @Override
@@ -54,11 +52,9 @@ public class SaleAdapter extends BaseAdapter {
         notifyDataSetChanged();
     }
 
-
     @Override
     public int getCount() {
         return mData.size();
-
     }
 
     @Override

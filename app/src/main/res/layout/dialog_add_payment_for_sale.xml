@@ -9,7 +9,6 @@
         android:id="@+id/add_payment_for_sale_text1"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:textColor="#FFF"
         android:hint="@string/hint_payment_amount" />
 
     <EditText
@@ -32,8 +31,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/add_payment_for_sale_text1"
         android:layout_centerHorizontal="true"
+        android:layout_gravity="center_horizontal"
         android:layout_marginTop="51dp"
-        android:text="Save"
-        android:layout_gravity="center_horizontal" />
+        android:text="@string/Add" />
 
 </LinearLayout>
