@@ -283,12 +283,6 @@
     <string name="sample_ali_ghorbani_description">find in congress</string>
     <string name="sample_cost_description">no description</string>
     <string name="sample_sale_code_2">INV-000124</string>
-    <string name="hint_sample_1">buy_price</string>
-    <string name="hint_sample_2">sale_price</string>
-    <string name="hint_sample_3">date</string>
-    <string name="hint_sample_4">quantity</string>
-    <string name="quantity">Quantity :</string>
-    <string name="sale_date">Sale Date :</string>
     <string-array name="payment_method">
         <item>Check</item>
         <item>Cash</item>
