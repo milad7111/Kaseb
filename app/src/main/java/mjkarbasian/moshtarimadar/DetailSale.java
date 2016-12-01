@@ -54,8 +54,6 @@ public class DetailSale extends AppCompatActivity {
         taxAdapter = new DetailSaleTax(this,saleCode);
         offTaxList.setAdapter(taxAdapter);
 
-
-
         //dynamically change cards height but it must modify
         CardView itemCard =(CardView)findViewById(R.id.card_detail_sale_items_list);
         ViewGroup.LayoutParams layoutParams = itemCard.getLayoutParams();
@@ -90,7 +88,6 @@ public class DetailSale extends AppCompatActivity {
         finalAmount.setText(Utility.formatPurchase(this, Utility.DecimalSeperation(this, Double.parseDouble(Samples.saleSummary.get(4).get(index)))));
         payed.setText(Utility.formatPurchase(this,Utility.DecimalSeperation(this,Double.parseDouble(Samples.saleSummary.get(5).get(index)))));
         balance.setText(Utility.formatPurchase(this,Utility.DecimalSeperation(this,Double.parseDouble(Samples.saleSummary.get(6).get(index)))));
-
 
         fab = (FloatingActionButton) findViewById(R.id.fab_detail_sale);
         fab.setVisibility(View.INVISIBLE);

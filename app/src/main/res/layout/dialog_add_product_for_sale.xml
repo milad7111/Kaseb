@@ -21,7 +21,6 @@
         android:text="New Button"
         android:id="@+id/add_product_for_sale_button1"
         android:layout_below="@+id/add_product_for_sale_text1"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="51dp" />
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>

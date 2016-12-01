@@ -23,15 +23,19 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import mjkarbasian.moshtarimadar.Data.KasebContract;
 import mjkarbasian.moshtarimadar.adapters.CostSaleProductAdapter;
 import mjkarbasian.moshtarimadar.adapters.CustomerAdapter;
+import mjkarbasian.moshtarimadar.adapters.PaymentAdapter;
 import mjkarbasian.moshtarimadar.adapters.TypesSettingAdapter;
+import mjkarbasian.moshtarimadar.helper.PaymentListModel;
 import mjkarbasian.moshtarimadar.helper.Utility;
 
 public class DetailSaleInsert extends AppCompatActivity {
-    EditText saleCode;
-    EditText saleDate;
+    private static Context mContext;
     long customerId;
     long[] productIds = new long[2];
     long itemNumber;
@@ -40,26 +44,21 @@ public class DetailSaleInsert extends AppCompatActivity {
     long totalDue;
     long totalTax;
     long totalPaid;
-
     long quantity;
     String amount;
-
     long paymentMethodId[];
     long amountPayment[];
     String dueDate[];
-
     long taxTypeId[];
     long amountTax[];
-
     ContentValues saleValues = new ContentValues();
-    ContentValues detailsaleValues = new ContentValues();
+    ContentValues detailSaleValues = new ContentValues();
     ContentValues[] itemsValuesArray;
     ContentValues itemsValues;
     ContentValues[] paymentValuesArray;
     ContentValues paymentValues;
     ContentValues[] taxValuesArray;
     ContentValues taxValues;
-
     FloatingActionButton fab;
     AlertDialog.Builder builder;
     ListView modeList;
@@ -70,10 +69,25 @@ public class DetailSaleInsert extends AppCompatActivity {
     Spinner paymentMethod;
     Spinner taxTypes;
     Uri insertUri;
-    private static Context mContext;
     String[] mProjection;
     TextView nameCustomer;
     TextView familyCustomer;
+    CostSaleProductAdapter mProductAdapter;
+    ListView mListView;
+    String[] mSelection;
+    String mWhereStatement;
+    String mWhereStatementDialog;
+    int productNumber = 0;
+    int productNumberDialog = 0;
+    List<String> mNewList = new ArrayList<String>();
+    List<String> mNewListDialog = new ArrayList<String>();
+    EditText paymentAmount;
+    EditText paymentDueDate;
+    String paymentMethodsId;
+    String paymentMethodType;
+    List<Long> paymenttAmountList = new ArrayList<Long>();
+    List<String> paymenttDueDateList = new ArrayList<String>();
+    List<String> paymenttMethodTypeList = new ArrayList<String>();
 
     Cursor cursor;
     TypesSettingAdapter cursorAdapter = null;
@@ -99,6 +113,38 @@ public class DetailSaleInsert extends AppCompatActivity {
 
         fab = (FloatingActionButton) findViewById(R.id.fab_detail_sale_insert);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        mWhereStatementDialog = KasebContract.Products._ID + " = ? ";
+
+        mProjection = new String[]{
+                KasebContract.Products._ID,
+                KasebContract.Products.COLUMN_PRODUCT_NAME,
+                KasebContract.Products.COLUMN_PRODUCT_CODE};
+
+//        mSelection = new String[]{"-1"};
+//        mWhereStatement = KasebContract.Products._ID + " = ? ";
+
+//        modeList = (ListView) findViewById(R.id.listview_sale_items);
+        mProductAdapter = new CostSaleProductAdapter(
+                DetailSaleInsert.this,
+                getContentResolver().query(
+                        KasebContract.Products.CONTENT_URI,
+                        mProjection,
+                        mWhereStatement,
+                        mSelection,
+                        null),
+                0,
+                "product");
+
+        Cursor mCursor = mProductAdapter.getCursor();
+        if (mCursor.moveToFirst())
+            for (int i = 0; i < mCursor.getCount(); i++) {
+                mNewListDialog.add(mCursor.getString(mCursor.getColumnIndex(KasebContract.Products._ID)));
+                mCursor.moveToNext();
+            }
+
+        mCursor.close();
+//        modeList.setAdapter(mProductAdapter);
     }
 
     @Override
@@ -141,19 +187,19 @@ public class DetailSaleInsert extends AppCompatActivity {
                 totalTax = 2;
                 totalPaid = 5;
 
-                detailsaleValues.put(KasebContract.DetailSale.COLUMN_DATE, saleDate.getText().toString());
-                detailsaleValues.put(KasebContract.DetailSale.COLUMN_IS_BALANCED, 0);
-                detailsaleValues.put(KasebContract.DetailSale.COLUMN_ITEMS_NUMBER, itemNumber);
-                detailsaleValues.put(KasebContract.DetailSale.COLUMN_SALE_ID, insertUri.getLastPathSegment());
-                detailsaleValues.put(KasebContract.DetailSale.COLUMN_SUB_TOTAL, subTotal);
-                detailsaleValues.put(KasebContract.DetailSale.COLUMN_TOTAL_DISCOUNT, totalDiscount);
-                detailsaleValues.put(KasebContract.DetailSale.COLUMN_TOTAL_DUE, totalDue);
-                detailsaleValues.put(KasebContract.DetailSale.COLUMN_TOTAL_PAID, totalPaid);
-                detailsaleValues.put(KasebContract.DetailSale.COLUMN_TOTAL_TAX, totalTax);
+                detailSaleValues.put(KasebContract.DetailSale.COLUMN_DATE, saleDate.getText().toString());
+                detailSaleValues.put(KasebContract.DetailSale.COLUMN_IS_BALANCED, 0);
+                detailSaleValues.put(KasebContract.DetailSale.COLUMN_ITEMS_NUMBER, itemNumber);
+                detailSaleValues.put(KasebContract.DetailSale.COLUMN_SALE_ID, insertUri.getLastPathSegment());
+                detailSaleValues.put(KasebContract.DetailSale.COLUMN_SUB_TOTAL, subTotal);
+                detailSaleValues.put(KasebContract.DetailSale.COLUMN_TOTAL_DISCOUNT, totalDiscount);
+                detailSaleValues.put(KasebContract.DetailSale.COLUMN_TOTAL_DUE, totalDue);
+                detailSaleValues.put(KasebContract.DetailSale.COLUMN_TOTAL_PAID, totalPaid);
+                detailSaleValues.put(KasebContract.DetailSale.COLUMN_TOTAL_TAX, totalTax);
 
                 insertUri = this.getContentResolver().insert(
                         KasebContract.DetailSale.CONTENT_URI,
-                        detailsaleValues
+                        detailSaleValues
                 );
 
                 productIds[0] = 1;
@@ -262,157 +308,291 @@ public class DetailSaleInsert extends AppCompatActivity {
         popup.getMenu().add(0, 0, 0, R.string.fab_add_product);
         popup.getMenu().add(0, 1, 0, R.string.fab_add_payment);
         popup.getMenu().add(0, 2, 0, R.string.fab_add_tax);
-        popup.getMenu().add(0, 3, 0, R.string.fab_add_discount);
-        popup.getMenu().add(0, 4, 0, R.string.fab_add_customer);
-        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-            public boolean onMenuItemClick(MenuItem item) {
-                switch (item.getItemId()) {
-                    case 0:
-                        mProjection = new String[]{
-                                KasebContract.Products._ID,
-                                KasebContract.Products.COLUMN_PRODUCT_NAME,
-                                KasebContract.Products.COLUMN_PRODUCT_CODE};
+        popup.getMenu().add(0, 3, 0, R.string.fab_add_customer);
+        popup.setOnMenuItemClickListener(
+                new PopupMenu.OnMenuItemClickListener() {
+                    public boolean onMenuItemClick(MenuItem item) {
+                        switch (item.getItemId()) {
+                            //region case 0 ADD PRODUCT
+                            case 0:
+                                builder = new AlertDialog.Builder(DetailSaleInsert.this);
+                                builder.setTitle(R.string.fab_add_product);
 
-                        modeList = new ListView(DetailSaleInsert.this);
-                        mAdapter = new CostSaleProductAdapter(
-                                DetailSaleInsert.this,
-                                getContentResolver().query(
-                                        KasebContract.Products.CONTENT_URI,
-                                        mProjection,
-                                        null,
-                                        null,
-                                        null),
-                                0,
-                                "product");
-                        modeList.setAdapter(mAdapter);
+                                mProjection = new String[]{
+                                        KasebContract.Products._ID,
+                                        KasebContract.Products.COLUMN_PRODUCT_NAME,
+                                        KasebContract.Products.COLUMN_PRODUCT_CODE};
 
-                        builder = new AlertDialog.Builder(DetailSaleInsert.this);
-                        builder.setTitle(R.string.fab_add_product);
+                                productNumberDialog = mNewListDialog.size();
+                                mSelection = new String[(productNumberDialog > 0 ? productNumberDialog : 1)];
+                                for (int i = 0; i < mNewListDialog.size(); i++) {
+                                    mSelection[i] = mNewListDialog.get(i);
+                                }
 
-                        modeList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                            @Override
-                            public void onItemClick(AdapterView<?> parent, View view, int position,
-                                                    long id) {
-                                Toast.makeText(DetailSaleInsert.this, position + "", Toast.LENGTH_SHORT).show();
-                            }
-                        });
+                                if (mSelection[0] == null)
+                                    mSelection[0] = "-1";
 
-                        builder.setView(modeList);
-                        dialog = builder.create();
+                                mWhereStatement = KasebContract.Products._ID + " IN (" +
+                                        Utility.makePlaceholders((productNumberDialog > 0 ? productNumberDialog : 1)) + ")";
 
-                        dialog.show();
-                        break;
-                    case 1:
-                        dialog = Utility.dialogBuilder(DetailSaleInsert.this
-                                , R.layout.dialog_add_payment_for_sale
-                                , R.string.fab_add_payment);
+                                modeList = new ListView(DetailSaleInsert.this);
+                                mAdapter = new CostSaleProductAdapter(
+                                        DetailSaleInsert.this,
+                                        getContentResolver().query(
+                                                KasebContract.Products.CONTENT_URI,
+                                                mProjection,
+                                                mWhereStatement,
+                                                mSelection,
+                                                null),
+                                        0,
+                                        "product");
+                                modeList.setAdapter(mAdapter);
 
-                        paymentMethod = (Spinner) dialog.findViewById(R.id.input_payment_method_spinner);
-                        cursor = getContentResolver().query(KasebContract.PaymentMethods.CONTENT_URI
-                                , null, null, null, null);
+                                modeList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                    @Override
+                                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                        Cursor cursor = (Cursor) parent.getItemAtPosition(position);
+                                        if (cursor != null) {
+                                            String _id = cursor.getString(cursor.getColumnIndex(KasebContract.Products._ID));
 
-                        cursorAdapter = new TypesSettingAdapter(mContext,
-                                cursor,
-                                0,
-                                KasebContract.PaymentMethods.COLUMN_PAYMENT_METHOD_POINTER);
-                        paymentMethod.setAdapter(cursorAdapter);
+                                            if (!mNewList.contains(_id)) {
+                                                productNumber = mNewList.size() + 1;
 
-                        dialogButton = (Button) dialog.findViewById(R.id.add_payment_for_sale_button1);
-                        dialogButton.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                dialog.dismiss();
-                            }
-                        });
+                                                mNewList.add(_id);
+                                                mNewListDialog.remove(_id);
 
-                        dialog.show();
-                        break;
-                    case 2:
-                        dialog = Utility.dialogBuilder(DetailSaleInsert.this
-                                , R.layout.dialog_add_tax_for_sale
-                                , R.string.fab_add_tax);
+                                                mSelection = new String[productNumber];
+                                                for (int i = 0; i < mNewList.size(); i++) {
+                                                    mSelection[i] = mNewList.get(i);
+                                                }
 
-                        taxTypes = (Spinner) dialog.findViewById(R.id.input_tax_type_spinner);
-                        cursor = getContentResolver().query(KasebContract.TaxTypes.CONTENT_URI
-                                , null, null, null, null);
+                                                mWhereStatement = KasebContract.Products._ID + " IN (" + Utility.makePlaceholders(productNumber) + ")";
 
-                        cursorAdapter = new TypesSettingAdapter(mContext,
-                                cursor,
-                                0,
-                                KasebContract.TaxTypes.COLUMN_TAX_TYPE_POINTER);
-                        taxTypes.setAdapter(cursorAdapter);
+                                                modeList = (ListView) findViewById(R.id.listview_sale_items);
+                                                mProductAdapter = new CostSaleProductAdapter(
+                                                        DetailSaleInsert.this,
+                                                        getContentResolver().query(
+                                                                KasebContract.Products.CONTENT_URI,
+                                                                mProjection,
+                                                                mWhereStatement,
+                                                                mSelection,
+                                                                null),
+                                                        0,
+                                                        "product");
+                                                modeList.setAdapter(mProductAdapter);
 
-                        dialogButton = (Button) dialog.findViewById(R.id.add_tax_for_sale_button1);
-                        dialogButton.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                dialog.dismiss();
-                            }
-                        });
+                                                modeList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                                    @Override
+                                                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                                        Cursor cursor = (Cursor) parent.getItemAtPosition(position);
+                                                        if (cursor != null) {
+                                                            String _id = cursor.getString(cursor.getColumnIndex(KasebContract.Products._ID));
 
-                        dialog.show();
-                        break;
-                    case 3:
-                        dialog = Utility.dialogBuilder(DetailSaleInsert.this
-                                , R.layout.dialog_add_discount_for_sale
-                                , R.string.fab_add_discount);
+                                                            mNewListDialog.add(_id);
+                                                            mNewList.remove(_id);
 
-                        dialogButton = (Button) dialog.findViewById(R.id.add_discount_for_sale_button1);
-                        dialogButton.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                dialog.dismiss();
-                            }
-                        });
+                                                            int addListProductNumber = mNewList.size();
 
-                        dialog.show();
-                        break;
-                    case 4:
-                        mProjection = new String[]{
-                                KasebContract.Customers._ID,
-                                KasebContract.Customers.COLUMN_FIRST_NAME,
-                                KasebContract.Customers.COLUMN_LAST_NAME,
-                                KasebContract.Customers.COLUMN_STATE_ID};
+                                                            mSelection = new String[(addListProductNumber > 0 ? addListProductNumber : 1)];
+                                                            for (int i = 0; i < addListProductNumber; i++) {
+                                                                mSelection[i] = mNewList.get(i);
+                                                            }
 
-                        modeList = new ListView(DetailSaleInsert.this);
-                        mCAdapter = new CustomerAdapter(
-                                DetailSaleInsert.this,
-                                getContentResolver().query(
-                                        KasebContract.Customers.CONTENT_URI,
-                                        mProjection,
-                                        null,
-                                        null,
-                                        null),
-                                0);
-                        modeList.setAdapter(mCAdapter);
+                                                            if (mSelection[0] == null)
+                                                                mSelection[0] = "-1";
 
-                        builder = new AlertDialog.Builder(DetailSaleInsert.this);
-                        builder.setTitle(R.string.fab_add_customer);
+                                                            mWhereStatement = KasebContract.Products._ID + " IN (" +
+                                                                    Utility.makePlaceholders((addListProductNumber > 0 ? addListProductNumber : 1)) + ")";
 
-                        modeList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                            @Override
-                            public void onItemClick(AdapterView<?> parent, View view, int position,
-                                                    long id) {
-                                Cursor c = mCAdapter.getCursor();
-                                c.moveToPosition(position);
+                                                            modeList = (ListView) findViewById(R.id.listview_sale_items);
+                                                            mProductAdapter = new CostSaleProductAdapter(
+                                                                    DetailSaleInsert.this,
+                                                                    getContentResolver().query(
+                                                                            KasebContract.Products.CONTENT_URI,
+                                                                            mProjection,
+                                                                            mWhereStatement,
+                                                                            mSelection,
+                                                                            null),
+                                                                    0,
+                                                                    "product");
+                                                            modeList.setAdapter(mProductAdapter);
+                                                        }
+                                                    }
+                                                });
 
-                                nameCustomer.setText(c.getString(c.getColumnIndex(KasebContract.Customers.COLUMN_FIRST_NAME)));
-                                familyCustomer.setText(c.getString(c.getColumnIndex(KasebContract.Customers.COLUMN_LAST_NAME)));
-                                customerId = Long.parseLong(c.getString(c.getColumnIndex(KasebContract.Customers._ID)));
-                                dialog.dismiss();
-                            }
-                        });
+                                                dialog.dismiss();
+                                            }
+                                        }
+                                        cursor.close();
+                                    }
+                                });
 
-                        builder.setView(modeList);
-                        dialog = builder.create();
+                                builder.setView(modeList);
+                                dialog = builder.create();
 
-                        dialog.show();
-                        break;
-                    default:
+//                        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+                                dialog.show();
+                                //endregion case 0
+                                break;
+                            //region case 1 ADD PAYMENT
+                            case 1:
+                                dialog = Utility.dialogBuilder(DetailSaleInsert.this
+                                        , R.layout.dialog_add_payment_for_sale
+                                        , R.string.fab_add_payment);
+
+                                paymentAmount = (EditText) dialog.findViewById(R.id.add_payment_for_sale_text1);
+                                paymentDueDate = (EditText) dialog.findViewById(R.id.input_buy_date);
+
+                                paymentMethod = (Spinner) dialog.findViewById(R.id.input_payment_method_spinner);
+                                cursor = getContentResolver().query(KasebContract.PaymentMethods.CONTENT_URI
+                                        , null, null, null, null);
+
+                                cursorAdapter = new TypesSettingAdapter(mContext,
+                                        cursor,
+                                        0,
+                                        KasebContract.PaymentMethods.COLUMN_PAYMENT_METHOD_POINTER);
+                                paymentMethod.setAdapter(cursorAdapter);
+
+                                paymentMethod.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                    @Override
+                                    public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+                                        Cursor cursor = (Cursor) paymentMethod.getSelectedItem();
+                                        paymentMethodsId =
+                                                cursor.getString(
+                                                        cursor.getColumnIndex(KasebContract.PaymentMethods._ID));
+                                        paymentMethodType =
+                                                cursor.getString(
+                                                        cursor.getColumnIndex(KasebContract.PaymentMethods.COLUMN_PAYMENT_METHOD_POINTER));
+                                    }
+
+                                    @Override
+                                    public void onNothingSelected(AdapterView<?> arg0) {
+                                    }
+                                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                        Cursor cursor = (Cursor) parent.getItemAtPosition(position);
+                                        paymentMethodsId =
+                                                cursor.getString(
+                                                        cursor.getColumnIndex(KasebContract.PaymentMethods._ID));
+                                        paymentMethodType =
+                                                cursor.getString(
+                                                        cursor.getColumnIndex(KasebContract.PaymentMethods.COLUMN_PAYMENT_METHOD_POINTER));
+                                    }
+                                });
+
+                                dialogButton = (Button) dialog.findViewById(R.id.add_payment_for_sale_button1);
+                                dialogButton.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        ListView paymentMethodRowListView = (ListView) findViewById(R.id.listview_sale_payments);
+                                        ArrayList<PaymentListModel> paymentArrayValues = new ArrayList<PaymentListModel>();
+
+                                        paymenttAmountList.add(Long.parseLong(paymentAmount.getText().toString()));
+                                        paymenttDueDateList.add(paymentDueDate.getText().toString());
+                                        paymenttMethodTypeList.add(paymentMethodType);
+
+                                        for (int i = 0; i < paymenttAmountList.size(); i++) {
+                                            PaymentListModel paymentMethodRow = new PaymentListModel();
+                                            paymentMethodRow.setpaymentAmount(paymenttAmountList.get(i));
+                                            paymentMethodRow.setpaymentDueDate(paymenttDueDateList.get(i));
+                                            paymentMethodRow.setpaymentMethod(paymenttMethodTypeList.get(i));
+
+                                            paymentArrayValues.add(paymentMethodRow);
+                                        }
+
+                                        PaymentAdapter adapter = new PaymentAdapter(getBaseContext(), paymentArrayValues);
+                                        paymentMethodRowListView.setAdapter(adapter);
+                                        dialog.dismiss();
+                                    }
+                                });
+
+                                dialog.show();
+                                //endregion case 1
+                                break;
+                            //region case 2 ADD TAX
+                            case 2:
+                                dialog = Utility.dialogBuilder(DetailSaleInsert.this
+                                        , R.layout.dialog_add_tax_for_sale
+                                        , R.string.fab_add_tax);
+
+                                taxTypes = (Spinner) dialog.findViewById(R.id.input_tax_type_spinner);
+                                cursor = getContentResolver().query(KasebContract.TaxTypes.CONTENT_URI
+                                        , null, null, null, null);
+
+                                cursorAdapter = new TypesSettingAdapter(mContext,
+                                        cursor,
+                                        0,
+                                        KasebContract.TaxTypes.COLUMN_TAX_TYPE_POINTER);
+                                taxTypes.setAdapter(cursorAdapter);
+
+                                dialogButton = (Button) dialog.findViewById(R.id.add_tax_for_sale_button1);
+                                dialogButton.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        dialog.dismiss();
+                                    }
+                                });
+
+                                dialog.show();
+                                //endregion case 2
+                                break;
+                            //region case 3 ADD CUSTOMER
+                            case 3:
+                                mProjection = new String[]{
+                                        KasebContract.Customers._ID,
+                                        KasebContract.Customers.COLUMN_FIRST_NAME,
+                                        KasebContract.Customers.COLUMN_LAST_NAME,
+                                        KasebContract.Customers.COLUMN_STATE_ID};
+
+                                modeList = new ListView(DetailSaleInsert.this);
+                                mCAdapter = new CustomerAdapter(
+                                        DetailSaleInsert.this,
+                                        getContentResolver().query(
+                                                KasebContract.Customers.CONTENT_URI,
+                                                mProjection,
+                                                null,
+                                                null,
+                                                null),
+                                        0);
+                                modeList.setAdapter(mCAdapter);
+
+                                builder = new AlertDialog.Builder(DetailSaleInsert.this);
+                                builder.setTitle(R.string.fab_add_customer);
+
+                                modeList.setOnItemClickListener(
+                                        new AdapterView.OnItemClickListener() {
+                                            @Override
+                                            public void onItemClick(AdapterView<?> parent, View view, int position,
+                                                                    long id) {
+//                                Cursor c = mCAdapter.getCursor();
+//                                c.moveToPosition(position);
+
+                                                Cursor cursor = (Cursor) parent.getItemAtPosition(position);
+                                                if (cursor != null) {
+                                                    nameCustomer.setText(cursor.getString(cursor.getColumnIndex(KasebContract.Customers.COLUMN_FIRST_NAME)));
+                                                    familyCustomer.setText(cursor.getString(cursor.getColumnIndex(KasebContract.Customers.COLUMN_LAST_NAME)));
+                                                    customerId = Long.parseLong(cursor.getString(cursor.getColumnIndex(KasebContract.Customers._ID)));
+                                                    dialog.dismiss();
+                                                }
+                                                cursor.close();
+                                            }
+                                        }
+
+                                );
+
+                                builder.setView(modeList);
+                                dialog = builder.create();
+
+                                dialog.show();
+                                break;
+                            //endregion case 3
+                            default:
+                                break;
+                        }
+                        return true;
+                    }
                 }
-                return true;
-            }
-        });
+
+        );
         popup.show();//showing popup menu
     }
 }
