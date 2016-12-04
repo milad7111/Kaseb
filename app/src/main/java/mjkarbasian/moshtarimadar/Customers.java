@@ -3,6 +3,7 @@ package mjkarbasian.moshtarimadar;
 import android.app.Activity;
 import android.app.SearchManager;
 import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -26,12 +27,14 @@ public class Customers extends DrawerActivity {
     private static final int REQUEST_CROP_URI = 800;
     private static final int GALLERY_ACTIVITY_CODE = 200;
     private static final int RESULT_CROP = 400;
+    Context mContext;
+    String mQuery;
     ImageView mCustomerAvatar;
-
     Fragment customersFragment = new CustomersLists();
     Fragment customerInsert = new CustomerInsert();
 
     android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
+    private String LOG_TAG = Customers.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +45,7 @@ public class Customers extends DrawerActivity {
         Utility.initializer(this);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         fragmentManager.beginTransaction().replace(R.id.container, customersFragment).commit();
+        mContext = this;
     }
 
     public void fab_customers(View v) {
@@ -64,7 +68,25 @@ public class Customers extends DrawerActivity {
                 (SearchView) menu.findItem(R.id.search_button).getActionView();
         searchView.setSearchableInfo(
                 searchManager.getSearchableInfo(getComponentName()));
-        return true;
+        SearchView.OnQueryTextListener queryTextListener = new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                Toast.makeText(mContext ,"onQueryTextChanging",Toast.LENGTH_LONG);
+                // this is your adapter that will be filtered
+                return true;
+            }
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                mQuery = query;
+//                FragmentManager.
+//                Log.d(LOG_TAG,"Query entered is: " + mQuery);
+                //Here u can get the value "query" which is entered in the search box.
+               return true;
+            }
+        };
+        searchView.setOnQueryTextListener(queryTextListener);
+
+        return super.onCreateOptionsMenu(menu);
     }
 
     public void pic_selector(View view) {

@@ -33,6 +33,7 @@ public class CustomersLists extends Fragment implements LoaderManager.LoaderCall
     ListView mListView;
     String[] mProjection;
 
+
     public CustomersLists() {
         super();
     }
