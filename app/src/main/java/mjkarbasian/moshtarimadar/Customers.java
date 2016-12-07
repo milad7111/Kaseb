@@ -32,6 +32,7 @@ public class Customers extends DrawerActivity {
     ImageView mCustomerAvatar;
     Fragment customersFragment = new CustomersLists();
     Fragment customerInsert = new CustomerInsert();
+    CustomersLists queryFragment = new CustomersLists();
 
     android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
     private String LOG_TAG = Customers.class.getSimpleName();
@@ -44,8 +45,25 @@ public class Customers extends DrawerActivity {
         //this line initialize all references
         Utility.initializer(this);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        fragmentManager.beginTransaction().replace(R.id.container, customersFragment).commit();
         mContext = this;
+
+        //region handle search query
+        Intent intent = getIntent();
+        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+            String query = intent.getStringExtra(SearchManager.QUERY);
+            Bundle bundle =  new Bundle();
+            bundle.putString("query",query);
+            queryFragment.setArguments(bundle);
+            android.support.v4.app.FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.container, queryFragment);
+            fragmentTransaction.addToBackStack(null);
+            int callBackStack = fragmentTransaction.commit();
+        }
+        else{
+            fragmentManager.beginTransaction().replace(R.id.container, customersFragment, "customersList").commit();
+        }
+        //endregion
+
     }
 
     public void fab_customers(View v) {
@@ -78,14 +96,11 @@ public class Customers extends DrawerActivity {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 mQuery = query;
-//                FragmentManager.
-//                Log.d(LOG_TAG,"Query entered is: " + mQuery);
                 //Here u can get the value "query" which is entered in the search box.
-               return true;
+               return (query!=null)?true:false;
             }
         };
         searchView.setOnQueryTextListener(queryTextListener);
-
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -147,4 +162,6 @@ public class Customers extends DrawerActivity {
             toast.show();
         }
     }
+
+
 }
