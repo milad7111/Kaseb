@@ -130,11 +130,10 @@ public class CustomersLists extends Fragment implements LoaderManager.LoaderCall
         String whereClause;
         String[] selectArg = null;
         if(searchQuery!=null) {
-            whereClause = mProjection[1] + " LIKE ? " ;
-//            + " OR " + mProjection[2] + " LIKE ? ";
-            selectArg = new String[1];
+            whereClause = mProjection[1] + " LIKE ? " + " OR " + mProjection[2] + " LIKE ? ";
+            selectArg = new String[2];
             selectArg[0] = "%"+searchQuery + "%" ;
-//            selectArg[1] = searchQuery + "%" ;
+            selectArg[1] = "%"+searchQuery + "%" ;
         }
         else
         {
