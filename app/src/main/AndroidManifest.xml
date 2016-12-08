@@ -52,7 +52,11 @@
             android:label="@string/title_activity_sales"
             android:parentActivityName=".Customers"
             android:theme="@style/AppTheme.NoActionBar"
+            android:launchMode="singleTop"
             >
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+            </intent-filter>
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="mjkarbasian.moshtarimadar.Customers" />
@@ -63,7 +67,11 @@
         <activity
             android:name=".Costs"
             android:label="@string/title_activity_costs"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar"
+            android:launchMode="singleTop">
+            <intent-filter>
+            <action android:name="android.intent.action.SEARCH" />
+            </intent-filter>
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="mjkarbasian.moshtarimadar.Customers" />
@@ -75,7 +83,11 @@
             android:name=".Products"
             android:label="@string/title_activity_products"
             android:parentActivityName=".Customers"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar"
+            android:launchMode="singleTop">
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+            </intent-filter>
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="mjkarbasian.moshtarimadar.Customers" />

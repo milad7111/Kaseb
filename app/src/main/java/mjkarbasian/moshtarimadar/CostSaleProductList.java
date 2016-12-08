@@ -35,6 +35,7 @@ public class CostSaleProductList extends Fragment implements LoaderManager.Loade
     CostSaleProductAdapter mAdapter = null;
     ListView mListView;
     String[] mProjection;
+    private String searchQuery;
 
     public CostSaleProductList() {
         super();
@@ -166,6 +167,11 @@ public class CostSaleProductList extends Fragment implements LoaderManager.Loade
         getLoaderManager().initLoader(FRAGMENT_COST_SALE_PRODUCT_LOADER, null, this);
     }
 
+    public void getSearchQuery(String query){
+        searchQuery = query;
+        updateList();
+    }
+
     private void updateList() {
         getLoaderManager().restartLoader(FRAGMENT_COST_SALE_PRODUCT_LOADER, null, this);
     }
@@ -175,20 +181,39 @@ public class CostSaleProductList extends Fragment implements LoaderManager.Loade
         Log.d(LOG_TAG, "onCreateLoader");
         Uri cursorUri = null;
         String _idColumn = null;
+        String whereClause=null;
+        String[] selectArg = null;
         switch (getArguments().getString("witchActivity")) {
             case "cost": {
                 cursorUri = KasebContract.Costs.CONTENT_URI;
                 _idColumn = KasebContract.Costs._ID;
+                if(searchQuery!=null) {
+                    whereClause = mProjection[1] + " LIKE ? " + " OR " + mProjection[3] + " LIKE ? ";
+                    selectArg = new String[2];
+                    selectArg[0] = "%"+searchQuery + "%" ;
+                    selectArg[1] = "%"+searchQuery + "%" ;
+                }
                 break;
             }
             case "sale": {
                 cursorUri = KasebContract.Sales.CONTENT_URI;
                 _idColumn = KasebContract.Sales._ID;
+                if(searchQuery!=null) {
+                    whereClause = mProjection[2] + " LIKE ? ";
+                    selectArg = new String[1];
+                    selectArg[0] = "%"+searchQuery + "%" ;
+                }
                 break;
             }
             case "product": {
                 cursorUri = KasebContract.Products.CONTENT_URI;
                 _idColumn = KasebContract.Products._ID;
+                if(searchQuery!=null) {
+                    whereClause = mProjection[1] + " LIKE ? " + " OR " + mProjection[2] + " LIKE ? ";
+                    selectArg = new String[2];
+                    selectArg[0] = "%"+searchQuery + "%" ;
+                    selectArg[1] = "%"+searchQuery + "%" ;
+                }
                 break;
             }
             default:
@@ -196,7 +221,7 @@ public class CostSaleProductList extends Fragment implements LoaderManager.Loade
         }
 
         mProjection[0] = _idColumn;
-        return new CursorLoader(getActivity(), cursorUri, mProjection, null, null, null);
+        return new CursorLoader(getActivity(), cursorUri, mProjection, whereClause, selectArg, null);
     }
 
     @Override
