@@ -124,10 +124,6 @@ public class CostSaleProductAdapter extends CursorAdapter {
         textViewCode.setText(code);
         textViewDate.setText(date);
         textViewAmount.setText(amount);
-<<<<<<< HEAD
-=======
-
 //        mCursor.close();
->>>>>>> addSearch
     }
 }

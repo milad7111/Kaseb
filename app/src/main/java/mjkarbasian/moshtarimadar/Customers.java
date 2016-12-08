@@ -12,6 +12,7 @@ import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -112,6 +113,22 @@ public class Customers extends DrawerActivity {
         };
         searchView.setOnQueryTextListener(queryTextListener);
         return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        CustomersLists sortFragment = (CustomersLists) fragmentManager.findFragmentByTag("customersList");
+        switch (item.getItemId()) {
+            case R.id.menu_sort_newest:
+                sortFragment.getSortOrder("Alphabetic");
+                break;
+            case R.id.menu_sort_rating:
+                sortFragment.getSortOrder("Membership");
+                break;
+            default:
+            return super.onOptionsItemSelected(item);
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     public void pic_selector(View view) {

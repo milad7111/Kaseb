@@ -33,6 +33,7 @@ public class CustomersLists extends Fragment implements LoaderManager.LoaderCall
     CustomerAdapter mCustomerAdapter = null;
     ListView mListView;
     String[] mProjection;
+    private String sortOrder = null;
 
 
     public CustomersLists() {
@@ -95,6 +96,18 @@ public class CustomersLists extends Fragment implements LoaderManager.LoaderCall
         updateList();
     }
 
+    public void getSortOrder(String sort){
+        switch (sort){
+            case "Alphabetic":
+                sortOrder =  KasebContract.Customers.COLUMN_FIRST_NAME + " ASC,"  + KasebContract.Customers.COLUMN_LAST_NAME + " ASC";
+                break;
+            case "Membership":
+                sortOrder = KasebContract.Customers.COLUMN_STATE_ID + " ASC";
+                break;
+        }
+        updateList();
+    }
+
     @Override
     public void onStart() {
         Log.d(LOG_TAG, "onStart");
@@ -128,7 +141,7 @@ public class CustomersLists extends Fragment implements LoaderManager.LoaderCall
         {
          whereClause = null;
         }
-        return new CursorLoader(getActivity(), KasebContract.Customers.CONTENT_URI, mProjection, whereClause, selectArg, null);
+        return new CursorLoader(getActivity(), KasebContract.Customers.CONTENT_URI, mProjection, whereClause, selectArg, sortOrder);
 }
 
     @Override
