@@ -183,6 +183,8 @@ public class PreferenceHeader extends Fragment {
         output.flush();
         output.close();
         fis.close();
+        Toast.makeText(getActivity(), "BackUp Successful!", Toast.LENGTH_SHORT)
+                .show();
     }
 
     public void onActivityResult(int reqCode, int resultCode, Intent data) {

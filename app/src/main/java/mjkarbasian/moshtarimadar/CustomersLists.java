@@ -28,10 +28,12 @@ public class CustomersLists extends Fragment implements LoaderManager.LoaderCall
 
     private final String LOG_TAG = CustomersLists.class.getSimpleName();
     final static int FRAGMENT_CUSTOMER_LOADER = 2;
+    String searchQuery;
 
     CustomerAdapter mCustomerAdapter = null;
     ListView mListView;
     String[] mProjection;
+
 
     public CustomersLists() {
         super();
@@ -52,6 +54,7 @@ public class CustomersLists extends Fragment implements LoaderManager.LoaderCall
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        if(getArguments()!=null) searchQuery = getArguments().getString("query");
         mCustomerAdapter = new CustomerAdapter(
                 getActivity(),
                 null,
@@ -87,6 +90,11 @@ public class CustomersLists extends Fragment implements LoaderManager.LoaderCall
         return super.onOptionsItemSelected(item);
     }
 
+    public void getSearchQuery(String query){
+        searchQuery = query;
+        updateList();
+    }
+
     @Override
     public void onStart() {
         Log.d(LOG_TAG, "onStart");
@@ -108,8 +116,20 @@ public class CustomersLists extends Fragment implements LoaderManager.LoaderCall
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         Log.d(LOG_TAG, "onCreateLoader");
-        return new CursorLoader(getActivity(), KasebContract.Customers.CONTENT_URI, mProjection, null, null, null);
-    }
+        String whereClause;
+        String[] selectArg = null;
+        if(searchQuery!=null) {
+            whereClause = mProjection[1] + " LIKE ? " + " OR " + mProjection[2] + " LIKE ? ";
+            selectArg = new String[2];
+            selectArg[0] = "%"+searchQuery + "%" ;
+            selectArg[1] = "%"+searchQuery + "%" ;
+        }
+        else
+        {
+         whereClause = null;
+        }
+        return new CursorLoader(getActivity(), KasebContract.Customers.CONTENT_URI, mProjection, whereClause, selectArg, null);
+}
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
@@ -122,4 +142,6 @@ public class CustomersLists extends Fragment implements LoaderManager.LoaderCall
         Log.d(LOG_TAG, "onLoadReset");
         mCustomerAdapter.swapCursor(null);
     }
+
+
 }
