@@ -105,6 +105,10 @@ public class CustomersLists extends Fragment implements LoaderManager.LoaderCall
         return super.onOptionsItemSelected(item);
     }
 
+    public void getSearchQuery(String query){
+        searchQuery = query;
+        updateList();
+    }
 
     @Override
     public void onStart() {

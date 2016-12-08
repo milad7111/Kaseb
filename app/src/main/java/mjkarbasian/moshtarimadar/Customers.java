@@ -32,7 +32,7 @@ public class Customers extends DrawerActivity {
     ImageView mCustomerAvatar;
     Fragment customersFragment = new CustomersLists();
     Fragment customerInsert = new CustomerInsert();
-    CustomersLists queryFragment = new CustomersLists();
+
 
     android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
     private String LOG_TAG = Customers.class.getSimpleName();
@@ -42,28 +42,38 @@ public class Customers extends DrawerActivity {
         super.onCreate(savedInstanceState);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        setDefaultKeyMode(DEFAULT_KEYS_SEARCH_LOCAL);
         //this line initialize all references
         Utility.initializer(this);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mContext = this;
-
         //region handle search query
         Intent intent = getIntent();
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-            String query = intent.getStringExtra(SearchManager.QUERY);
-            Bundle bundle =  new Bundle();
-            bundle.putString("query",query);
-            queryFragment.setArguments(bundle);
-            android.support.v4.app.FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.container, queryFragment);
-            fragmentTransaction.addToBackStack(null);
-            int callBackStack = fragmentTransaction.commit();
+            handleIntent(intent);
         }
         else{
             fragmentManager.beginTransaction().replace(R.id.container, customersFragment, "customersList").commit();
         }
         //endregion
 
+    }
+    @Override
+    protected void onNewIntent(Intent intent) {
+        setIntent(intent);
+        handleIntent(intent);
+    }
+
+    private void handleIntent(Intent intent) {
+        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+            String query = intent.getStringExtra(SearchManager.QUERY);
+            doMySearch(query);
+        }
+    }
+
+    private void doMySearch(String query) {
+         CustomersLists queryFragment = (CustomersLists) fragmentManager.findFragmentByTag("customersList");
+         queryFragment.getSearchQuery(query);
     }
 
     public void fab_customers(View v) {
@@ -89,7 +99,7 @@ public class Customers extends DrawerActivity {
         SearchView.OnQueryTextListener queryTextListener = new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextChange(String newText) {
-                Toast.makeText(mContext ,"onQueryTextChanging",Toast.LENGTH_LONG);
+                doMySearch(newText);
                 // this is your adapter that will be filtered
                 return true;
             }

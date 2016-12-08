@@ -25,7 +25,9 @@
         <activity
             android:name=".Customers"
             android:label="@string/title_customer"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar"
+            android:launchMode="singleTop"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.SEARCH" />
@@ -49,7 +51,8 @@
             android:name=".Sales"
             android:label="@string/title_activity_sales"
             android:parentActivityName=".Customers"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar"
+            >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="mjkarbasian.moshtarimadar.Customers" />
