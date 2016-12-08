@@ -96,13 +96,13 @@ public class CustomersLists extends Fragment implements LoaderManager.LoaderCall
         updateList();
     }
 
-    public void getSortOrder(String sort){
-        switch (sort){
-            case "Alphabetic":
+    public void getSortOrder(int id){
+        switch (id){
+            case R.id.menu_sort_newest:
                 sortOrder =  KasebContract.Customers.COLUMN_FIRST_NAME + " ASC,"  + KasebContract.Customers.COLUMN_LAST_NAME + " ASC";
                 break;
-            case "Membership":
-                sortOrder = KasebContract.Customers.COLUMN_STATE_ID + " ASC";
+            case R.id.menu_sort_rating:
+                sortOrder = KasebContract.Customers.COLUMN_STATE_ID + " ASC," +  KasebContract.Customers.COLUMN_FIRST_NAME + " ASC" ;
                 break;
         }
         updateList();

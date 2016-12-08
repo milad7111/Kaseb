@@ -8,6 +8,7 @@ import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 
 public class Costs extends DrawerActivity {
@@ -89,5 +90,21 @@ public class Costs extends DrawerActivity {
         };
         searchView.setOnQueryTextListener(queryTextListener);
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        CostSaleProductList sortFragment = (CostSaleProductList) fragmentManager.findFragmentByTag("CostSaleProductList");
+        switch (item.getItemId()) {
+            case R.id.menu_sort_code:
+                sortFragment.getSortOrder( R.id.menu_sort_code);
+                break;
+            case R.id.menu_sort_date:
+                sortFragment.getSortOrder(R.id.menu_sort_date);
+                break;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

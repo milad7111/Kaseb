@@ -120,10 +120,10 @@ public class Customers extends DrawerActivity {
         CustomersLists sortFragment = (CustomersLists) fragmentManager.findFragmentByTag("customersList");
         switch (item.getItemId()) {
             case R.id.menu_sort_newest:
-                sortFragment.getSortOrder("Alphabetic");
+                sortFragment.getSortOrder(R.id.menu_sort_newest);
                 break;
             case R.id.menu_sort_rating:
-                sortFragment.getSortOrder("Membership");
+                sortFragment.getSortOrder(R.id.menu_sort_rating);
                 break;
             default:
             return super.onOptionsItemSelected(item);

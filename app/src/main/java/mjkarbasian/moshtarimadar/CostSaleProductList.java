@@ -40,6 +40,8 @@ public class CostSaleProductList extends Fragment implements LoaderManager.Loade
     ListView mListView;
     String[] mProjection;
     private String searchQuery;
+    private String sortOrder;
+    private int sortId;
 
     public CostSaleProductList() {
         super();
@@ -199,6 +201,11 @@ public class CostSaleProductList extends Fragment implements LoaderManager.Loade
         updateList();
     }
 
+    public void getSortOrder(int id){
+        sortId = id;
+        updateList();
+    }
+
     private void updateList() {
         getLoaderManager().restartLoader(FRAGMENT_COST_SALE_PRODUCT_LOADER, null, this);
     }
@@ -220,6 +227,14 @@ public class CostSaleProductList extends Fragment implements LoaderManager.Loade
                     selectArg[0] = "%"+searchQuery + "%" ;
                     selectArg[1] = "%"+searchQuery + "%" ;
                 }
+                switch (sortId){
+                    case R.id.menu_sort_code:
+                        sortOrder =  KasebContract.Costs.COLUMN_COST_CODE + " ASC,"  + KasebContract.Costs.COLUMN_COST_NAME + " ASC";
+                        break;
+                    case R.id.menu_sort_date:
+                        sortOrder = KasebContract.Costs.COLUMN_DATE + " ASC," +  KasebContract.Costs.COLUMN_COST_NAME + " ASC" ;
+                        break;
+                }
                 break;
             }
             case "sale": {
@@ -229,6 +244,14 @@ public class CostSaleProductList extends Fragment implements LoaderManager.Loade
                     whereClause = mProjection[2] + " LIKE ? ";
                     selectArg = new String[1];
                     selectArg[0] = "%"+searchQuery + "%" ;
+                }
+                switch (sortId){
+                    case R.id.menu_sort_code:
+                        sortOrder =  KasebContract.Sales.COLUMN_SALE_CODE + " ASC";
+                        break;
+                    case R.id.menu_sort_date:
+                        sortOrder = null;
+                        break;
                 }
                 break;
             }
@@ -241,6 +264,14 @@ public class CostSaleProductList extends Fragment implements LoaderManager.Loade
                     selectArg[0] = "%"+searchQuery + "%" ;
                     selectArg[1] = "%"+searchQuery + "%" ;
                 }
+                switch (sortId){
+                    case R.id.menu_sort_code:
+                        sortOrder =  KasebContract.Products.COLUMN_PRODUCT_CODE + " ASC";
+                        break;
+                    case R.id.menu_sort_name:
+                        sortOrder = KasebContract.Products.COLUMN_PRODUCT_NAME + " ASC";
+                        break;
+                }
                 break;
             }
             default:
@@ -248,7 +279,7 @@ public class CostSaleProductList extends Fragment implements LoaderManager.Loade
         }
 
         mProjection[0] = _idColumn;
-        return new CursorLoader(getActivity(), cursorUri, mProjection, whereClause, selectArg, null);
+        return new CursorLoader(getActivity(), cursorUri, mProjection, whereClause, selectArg, sortOrder);
     }
 
     @Override
