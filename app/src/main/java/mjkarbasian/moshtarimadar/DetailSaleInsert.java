@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -30,8 +31,10 @@ import mjkarbasian.moshtarimadar.Data.KasebContract;
 import mjkarbasian.moshtarimadar.adapters.CostSaleProductAdapter;
 import mjkarbasian.moshtarimadar.adapters.CustomerAdapter;
 import mjkarbasian.moshtarimadar.adapters.PaymentAdapter;
+import mjkarbasian.moshtarimadar.adapters.TaxAdapter;
 import mjkarbasian.moshtarimadar.adapters.TypesSettingAdapter;
 import mjkarbasian.moshtarimadar.helper.PaymentListModel;
+import mjkarbasian.moshtarimadar.helper.TaxListModel;
 import mjkarbasian.moshtarimadar.helper.Utility;
 
 public class DetailSaleInsert extends AppCompatActivity {
@@ -83,13 +86,40 @@ public class DetailSaleInsert extends AppCompatActivity {
     List<String> mNewListDialog = new ArrayList<String>();
     EditText paymentAmount;
     EditText paymentDueDate;
+    EditText taxAmount;
+    EditText taxPercent;
     String paymentMethodsId;
+    String taxTypeeId;
     String paymentMethodType;
-    List<Long> paymenttAmountList = new ArrayList<Long>();
-    List<String> paymenttDueDateList = new ArrayList<String>();
-    List<String> paymenttMethodTypeList = new ArrayList<String>();
+    String taxType;
+    List<Long> paymentAmountList = new ArrayList<Long>();
+    List<String> paymentDueDateList = new ArrayList<String>();
+    List<String> paymentMethodTypeList = new ArrayList<String>();
+    List<String> paymentMethodIdTypeList = new ArrayList<String>();
+    List<Long> taxAmountList = new ArrayList<Long>();
+    List<String> taxPercentList = new ArrayList<String>();
+    List<String> taxTypeList = new ArrayList<String>();
+    List<String> taxTypesIdsList = new ArrayList<String>();
 
-    Cursor cursor;
+    ListView paymentMethodRowListView;
+
+    Long sTotalAmount = 0l;
+    Long sTotalTax = 0l;
+    Long sTotalDiscount = 0l;
+    Long sFinalAmount = 0l;
+    Long sPaidAmount = 0l;
+    Long sBalanceAmount = 0l;
+
+    Cursor mCursor1;
+    Cursor mCursor2;
+
+    TextView totalAmountSummary;
+    TextView taxSummary;
+    TextView discountSummary;
+    TextView finalAmountSummary;
+    TextView paidSummary;
+    TextView balanceSummary;
+
     TypesSettingAdapter cursorAdapter = null;
 
     @Override
@@ -102,12 +132,12 @@ public class DetailSaleInsert extends AppCompatActivity {
         //Fill in Sale summary
         customerId = 1;
         mContext = this;
-        TextView totalAmount = (TextView) findViewById(R.id.card_detail_sale_summary_total_amount);
-        TextView tax = (TextView) findViewById(R.id.card_detail_sale_summary_tax);
-        TextView discount = (TextView) findViewById(R.id.card_detail_sale_summary_discount);
-        TextView finalAmount = (TextView) findViewById(R.id.card_detail_sale_summary_final_amount);
-        TextView payed = (TextView) findViewById(R.id.card_detail_sale_summary_payed);
-        TextView balance = (TextView) findViewById(R.id.card_detail_sale_summary_balance);
+        totalAmountSummary = (TextView) findViewById(R.id.card_detail_sale_summary_total_amount);
+        taxSummary = (TextView) findViewById(R.id.card_detail_sale_summary_tax);
+        discountSummary = (TextView) findViewById(R.id.card_detail_sale_summary_discount);
+        finalAmountSummary = (TextView) findViewById(R.id.card_detail_sale_summary_final_amount);
+        paidSummary = (TextView) findViewById(R.id.card_detail_sale_summary_payed);
+        balanceSummary = (TextView) findViewById(R.id.card_detail_sale_summary_balance);
         nameCustomer = (TextView) findViewById(R.id.detail_sales_info_customer_name);
         familyCustomer = (TextView) findViewById(R.id.detail_sales_info_customer_family);
 
@@ -145,6 +175,41 @@ public class DetailSaleInsert extends AppCompatActivity {
 
         mCursor.close();
 //        modeList.setAdapter(mProductAdapter);
+
+        paymentMethodRowListView = (ListView) findViewById(R.id.listview_sale_payments);
+
+        ArrayList<PaymentListModel> paymentArrayValues1 = new ArrayList<PaymentListModel>();
+
+        paymentAmountList.add(12000l);
+        paymentDueDateList.add("1395/1/12");
+        paymentMethodTypeList.add("Cash");
+        paymentMethodIdTypeList.add("1");
+
+        for (int i = 0; i < paymentAmountList.size(); i++) {
+            PaymentListModel paymentMethodRow = new PaymentListModel();
+            paymentMethodRow.setPaymentAmount(paymentAmountList.get(i));
+            paymentMethodRow.setPaymentDueDate(paymentDueDateList.get(i));
+            paymentMethodRow.setPaymentMethod(paymentMethodTypeList.get(i));
+
+            paymentArrayValues1.add(paymentMethodRow);
+        }
+
+        PaymentAdapter adapter = new PaymentAdapter(getBaseContext(), paymentArrayValues1);
+        paymentMethodRowListView.setAdapter(adapter);
+        paymentMethodRowListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(DetailSaleInsert.this, "etet", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        try
+        {
+            Toast.makeText(DetailSaleInsert.this, getIntent().getExtras().get("saleId").toString(), Toast.LENGTH_SHORT).show();
+        }catch (Exception e)
+        {
+
+        }
     }
 
     @Override
@@ -180,7 +245,8 @@ public class DetailSaleInsert extends AppCompatActivity {
 
                 EditText saleDate = (EditText) findViewById(R.id.detail_sales_info_sale_date);
 
-                itemNumber = 2;
+                ListView getProductListView = (ListView) findViewById(R.id.listview_sale_items);
+                itemNumber = getProductListView.getAdapter().getCount();
                 subTotal = 10;
                 totalDiscount = 5;
                 totalDue = 10;
@@ -444,11 +510,11 @@ public class DetailSaleInsert extends AppCompatActivity {
                                 paymentDueDate = (EditText) dialog.findViewById(R.id.input_buy_date);
 
                                 paymentMethod = (Spinner) dialog.findViewById(R.id.input_payment_method_spinner);
-                                cursor = getContentResolver().query(KasebContract.PaymentMethods.CONTENT_URI
+                                mCursor1 = getContentResolver().query(KasebContract.PaymentMethods.CONTENT_URI
                                         , null, null, null, null);
 
                                 cursorAdapter = new TypesSettingAdapter(mContext,
-                                        cursor,
+                                        mCursor1,
                                         0,
                                         KasebContract.PaymentMethods.COLUMN_PAYMENT_METHOD_POINTER);
                                 paymentMethod.setAdapter(cursorAdapter);
@@ -456,26 +522,27 @@ public class DetailSaleInsert extends AppCompatActivity {
                                 paymentMethod.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                                     @Override
                                     public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-                                        Cursor cursor = (Cursor) paymentMethod.getSelectedItem();
+                                        Cursor mCursor3 = (Cursor) paymentMethod.getSelectedItem();
                                         paymentMethodsId =
-                                                cursor.getString(
-                                                        cursor.getColumnIndex(KasebContract.PaymentMethods._ID));
+                                                mCursor3.getString(
+                                                        mCursor3.getColumnIndex(KasebContract.PaymentMethods._ID));
                                         paymentMethodType =
-                                                cursor.getString(
-                                                        cursor.getColumnIndex(KasebContract.PaymentMethods.COLUMN_PAYMENT_METHOD_POINTER));
+                                                mCursor3.getString(
+                                                        mCursor3.getColumnIndex(KasebContract.PaymentMethods.COLUMN_PAYMENT_METHOD_POINTER));
                                     }
 
                                     @Override
                                     public void onNothingSelected(AdapterView<?> arg0) {
                                     }
+
                                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                        Cursor cursor = (Cursor) parent.getItemAtPosition(position);
+                                        Cursor mCursor4 = (Cursor) parent.getItemAtPosition(position);
                                         paymentMethodsId =
-                                                cursor.getString(
-                                                        cursor.getColumnIndex(KasebContract.PaymentMethods._ID));
+                                                mCursor4.getString(
+                                                        mCursor4.getColumnIndex(KasebContract.PaymentMethods._ID));
                                         paymentMethodType =
-                                                cursor.getString(
-                                                        cursor.getColumnIndex(KasebContract.PaymentMethods.COLUMN_PAYMENT_METHOD_POINTER));
+                                                mCursor4.getString(
+                                                        mCursor4.getColumnIndex(KasebContract.PaymentMethods.COLUMN_PAYMENT_METHOD_POINTER));
                                     }
                                 });
 
@@ -483,28 +550,40 @@ public class DetailSaleInsert extends AppCompatActivity {
                                 dialogButton.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
-                                        ListView paymentMethodRowListView = (ListView) findViewById(R.id.listview_sale_payments);
                                         ArrayList<PaymentListModel> paymentArrayValues = new ArrayList<PaymentListModel>();
 
-                                        paymenttAmountList.add(Long.parseLong(paymentAmount.getText().toString()));
-                                        paymenttDueDateList.add(paymentDueDate.getText().toString());
-                                        paymenttMethodTypeList.add(paymentMethodType);
+                                        paymentAmountList.add(Long.parseLong(paymentAmount.getText().toString()));
+                                        paymentDueDateList.add(paymentDueDate.getText().toString());
+                                        paymentMethodTypeList.add(paymentMethodType);
+                                        paymentMethodIdTypeList.add(paymentMethodsId);
 
-                                        for (int i = 0; i < paymenttAmountList.size(); i++) {
+                                        for (int i = 0; i < paymentAmountList.size(); i++) {
                                             PaymentListModel paymentMethodRow = new PaymentListModel();
-                                            paymentMethodRow.setpaymentAmount(paymenttAmountList.get(i));
-                                            paymentMethodRow.setpaymentDueDate(paymenttDueDateList.get(i));
-                                            paymentMethodRow.setpaymentMethod(paymenttMethodTypeList.get(i));
+                                            paymentMethodRow.setPaymentAmount(paymentAmountList.get(i));
+                                            paymentMethodRow.setPaymentDueDate(paymentDueDateList.get(i));
+                                            paymentMethodRow.setPaymentMethod(paymentMethodTypeList.get(i));
 
                                             paymentArrayValues.add(paymentMethodRow);
                                         }
 
                                         PaymentAdapter adapter = new PaymentAdapter(getBaseContext(), paymentArrayValues);
                                         paymentMethodRowListView.setAdapter(adapter);
+
                                         dialog.dismiss();
                                     }
                                 });
 
+                                dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                                    @Override
+                                    public void onDismiss(DialogInterface dialog) {
+                                        paymentMethodRowListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                            @Override
+                                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                                Toast.makeText(DetailSaleInsert.this, "hello", Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
+                                    }
+                                });
                                 dialog.show();
                                 //endregion case 1
                                 break;
@@ -514,20 +593,86 @@ public class DetailSaleInsert extends AppCompatActivity {
                                         , R.layout.dialog_add_tax_for_sale
                                         , R.string.fab_add_tax);
 
+                                taxAmount = (EditText) dialog.findViewById(R.id.add_tax_for_sale_text1);
+                                taxPercent = (EditText) dialog.findViewById(R.id.add_tax_for_sale_text2);
+
                                 taxTypes = (Spinner) dialog.findViewById(R.id.input_tax_type_spinner);
-                                cursor = getContentResolver().query(KasebContract.TaxTypes.CONTENT_URI
+                                mCursor2 = getContentResolver().query(KasebContract.TaxTypes.CONTENT_URI
                                         , null, null, null, null);
 
                                 cursorAdapter = new TypesSettingAdapter(mContext,
-                                        cursor,
+                                        mCursor2,
                                         0,
                                         KasebContract.TaxTypes.COLUMN_TAX_TYPE_POINTER);
                                 taxTypes.setAdapter(cursorAdapter);
+
+                                taxTypes.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                    @Override
+                                    public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+                                        Cursor mCursor5 = (Cursor) taxTypes.getSelectedItem();
+                                        taxTypeeId =
+                                                mCursor5.getString(
+                                                        mCursor5.getColumnIndex(KasebContract.TaxTypes._ID));
+                                        taxType =
+                                                mCursor5.getString(
+                                                        mCursor5.getColumnIndex(KasebContract.TaxTypes.COLUMN_TAX_TYPE_POINTER));
+                                    }
+
+                                    @Override
+                                    public void onNothingSelected(AdapterView<?> arg0) {
+                                    }
+
+//                                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                                        Cursor mCursor6 = (Cursor) parent.getItemAtPosition(position);
+//                                        taxTypeeId =
+//                                                mCursor6.getString(
+//                                                        mCursor6.getColumnIndex(KasebContract.TaxTypes._ID));
+//                                        taxType =
+//                                                mCursor6.getString(
+//                                                        mCursor6.getColumnIndex(KasebContract.TaxTypes.COLUMN_TAX_TYPE_POINTER));
+//                                    }
+                                });
 
                                 dialogButton = (Button) dialog.findViewById(R.id.add_tax_for_sale_button1);
                                 dialogButton.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
+                                        ListView taxTypeRowListView = (ListView) findViewById(R.id.listview_sale_tax_discount);
+
+                                        taxTypeRowListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                            @Override
+                                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                                Toast.makeText(getBaseContext(), "10", Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
+
+                                        ArrayList<TaxListModel> taxTypesArrayValues = new ArrayList<TaxListModel>();
+
+                                        taxAmountList.add(Long.parseLong(taxAmount.getText().toString()));
+                                        taxPercentList.add(taxPercent.getText().toString());
+                                        taxTypeList.add(taxType);
+                                        taxTypesIdsList.add(taxTypeeId);
+
+                                        if (taxType.equals("Discount"))
+                                            sTotalDiscount += Long.parseLong(taxAmount.getText().toString());
+                                        else
+                                            sTotalTax += Long.parseLong(taxAmount.getText().toString());
+
+                                        for (int i = 0; i < taxAmountList.size(); i++) {
+                                            TaxListModel taxTypeRow = new TaxListModel();
+                                            taxTypeRow.setTaxAmount(taxAmountList.get(i));
+                                            taxTypeRow.setTaxPercent(taxPercentList.get(i));
+                                            taxTypeRow.setTaxType(taxTypeList.get(i));
+
+                                            taxTypesArrayValues.add(taxTypeRow);
+                                        }
+
+                                        TaxAdapter adapter = new TaxAdapter(getBaseContext(), taxTypesArrayValues);
+                                        taxTypeRowListView.setAdapter(adapter);
+
+                                        taxSummary.setText(sTotalTax.toString());
+                                        discountSummary.setText(sTotalDiscount.toString());
+
                                         dialog.dismiss();
                                     }
                                 });
@@ -591,7 +736,6 @@ public class DetailSaleInsert extends AppCompatActivity {
                         return true;
                     }
                 }
-
         );
         popup.show();//showing popup menu
     }
