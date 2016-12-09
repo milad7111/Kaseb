@@ -9,14 +9,12 @@
         android:id="@+id/add_tax_for_sale_text1"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:textColor="#FFF"
         android:hint="@string/hint_tax_amount" />
 
     <EditText
         android:id="@+id/add_tax_for_sale_text2"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:textColor="#FFF"
         android:hint="@string/hint_tax_percent" />
 
     <Spinner

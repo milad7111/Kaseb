@@ -305,4 +305,7 @@
     <string name="payment_list_for_sale_amount_title">Amount :</string>
     <string name="payment_list_for_sale_due_date_title">Due Date :</string>
     <string name="payment_list_for_sale_payment_method_title">Payment Type :</string>
+    <string name="tax_list_for_sale_amount_title">Tax Amount :</string>
+    <string name="tax_list_for_sale_percent_title">Tax Percent :</string>
+    <string name="tax_list_for_sale_tax_type_title">Tax Type :</string>
 </resources>

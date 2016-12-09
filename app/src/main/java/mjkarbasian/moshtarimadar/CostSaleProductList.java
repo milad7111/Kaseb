@@ -1,6 +1,8 @@
 package mjkarbasian.moshtarimadar;
 
 
+import android.app.Activity;
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -20,6 +22,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import mjkarbasian.moshtarimadar.Data.KasebContract;
 import mjkarbasian.moshtarimadar.adapters.CostSaleProductAdapter;
@@ -36,9 +39,12 @@ public class CostSaleProductList extends Fragment implements LoaderManager.Loade
     Fragment productHistory = new DetailProducts();
     Bundle productHistoryBundle = new Bundle();
 
+    Intent detailSale;
+
     CostSaleProductAdapter mAdapter = null;
     ListView mListView;
     String[] mProjection;
+    Cursor mCursor;
 
     public CostSaleProductList() {
         super();
@@ -101,17 +107,23 @@ public class CostSaleProductList extends Fragment implements LoaderManager.Loade
                         break;
                     }
                     case "sale": {
-                        // rise detail sale
+                        mCursor = (Cursor) parent.getItemAtPosition(position);
+                        if (mCursor != null) {
+                            detailSale = new Intent(getActivity(), DetailSaleInsert.class);
+                            detailSale.putExtra("saleId", mCursor.getString(mCursor.getColumnIndex(KasebContract.Sales.COLUMN_SALE_CODE)));
+                            startActivity(detailSale);
+                        }
                         break;
                     }
                     case "product": {
-                        Cursor cursor = (Cursor) parent.getItemAtPosition(position);
-                        if (cursor != null) {
-                            productHistoryBundle.putString("productId", cursor.getString(cursor.getColumnIndex(KasebContract.Products._ID)));
+                        mCursor = (Cursor) parent.getItemAtPosition(position);
+                        if (mCursor != null) {
+                            productHistoryBundle.putString("productId", mCursor.getString(mCursor.getColumnIndex(KasebContract.Products._ID)));
                             productHistory.setArguments(productHistoryBundle);
                             fragmentManager = getActivity().getSupportFragmentManager();
                             fragmentManager.beginTransaction().replace(R.id.container, productHistory).commit();
                         }
+                        mCursor.close();
                         break;
                     }
                     default:

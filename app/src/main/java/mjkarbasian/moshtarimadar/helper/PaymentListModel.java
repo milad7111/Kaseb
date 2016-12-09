@@ -9,27 +9,27 @@ public class PaymentListModel {
     private String paymentDueDate = "";
     private String paymentMethod = "";
 
-    public Long getpaymentAmount() {
+    public Long getPaymentAmount() {
         return this.paymentAmount;
     }
 
-    public void setpaymentAmount(Long paymentAmount) {
+    public void setPaymentAmount(Long paymentAmount) {
         this.paymentAmount = paymentAmount;
     }
 
-    public String getpaymentDueDate() {
+    public String getPaymentDueDate() {
         return this.paymentDueDate;
     }
 
-    public void setpaymentDueDate(String paymentDueDate) {
+    public void setPaymentDueDate(String paymentDueDate) {
         this.paymentDueDate = paymentDueDate;
     }
 
-    public String getpaymentMethod() {
+    public String getPaymentMethod() {
         return this.paymentMethod;
     }
 
-    public void setpaymentMethod(String paymentMethod) {
+    public void setPaymentMethod(String paymentMethod) {
         this.paymentMethod = paymentMethod;
     }
 }

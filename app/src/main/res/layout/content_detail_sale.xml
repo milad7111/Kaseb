@@ -50,7 +50,8 @@
             android:id="@+id/card_detail_sale_payments"
             android:layout_width="match_parent"
             android:layout_height="200dp"
-            android:layout_marginTop="@dimen/activity_vertical_margin">
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:nestedScrollingEnabled="true">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -78,7 +79,8 @@
             android:id="@+id/card_detail_sale_tax_discounts"
             android:layout_width="match_parent"
             android:layout_height="200dp"
-            android:layout_marginTop="@dimen/activity_vertical_margin">
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:nestedScrollingEnabled="true">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -108,7 +110,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/activity_vertical_Large_margin"
-            android:layout_marginTop="@dimen/activity_vertical_margin">
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:nestedScrollingEnabled="true">
 
             <LinearLayout
                 android:layout_width="match_parent"
