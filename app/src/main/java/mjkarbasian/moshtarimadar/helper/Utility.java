@@ -580,9 +580,9 @@ public class Utility {
         int pDay = pCalendar.getDayOfMonth();
         String pDate = Integer.toString(pYear) + "/" + Integer.toString(pMonth) + "/" + Integer.toString(pDay);
         if (!getLocale(context).equals("IR")) {
-            return pDate;
+           return formatDate(calendar);
         } else {
-            return formatDate(calendar);
+            return pDate;
         }
     }
 }
