@@ -15,7 +15,6 @@ import mjkarbasian.moshtarimadar.R;
  * Created by Unique on 11/11/2016.
  */
 public class CostSaleProductAdapter extends CursorAdapter {
-    private LayoutInflater cursorInflater;
     String witchActivity;
     String firstName;
     String lastName;
@@ -24,6 +23,7 @@ public class CostSaleProductAdapter extends CursorAdapter {
     String date;
     String amount;
     Cursor mCursor;
+    private LayoutInflater cursorInflater;
 
     public CostSaleProductAdapter(Context context, Cursor c, int flags, String tableName) {
         super(context, c, flags);

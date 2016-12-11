@@ -1,7 +1,6 @@
 package mjkarbasian.moshtarimadar;
 
 
-import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
@@ -22,7 +21,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import mjkarbasian.moshtarimadar.Data.KasebContract;
 import mjkarbasian.moshtarimadar.adapters.CostSaleProductAdapter;
@@ -45,6 +43,9 @@ public class CostSaleProductList extends Fragment implements LoaderManager.Loade
     ListView mListView;
     String[] mProjection;
     Cursor mCursor;
+    private String searchQuery;
+    private String sortOrder;
+    private int sortId;
 
     public CostSaleProductList() {
         super();
@@ -205,6 +206,16 @@ public class CostSaleProductList extends Fragment implements LoaderManager.Loade
         getLoaderManager().initLoader(FRAGMENT_COST_SALE_PRODUCT_LOADER, null, this);
     }
 
+    public void getSearchQuery(String query) {
+        searchQuery = query;
+        updateList();
+    }
+
+    public void getSortOrder(int id) {
+        sortId = id;
+        updateList();
+    }
+
     private void updateList() {
         getLoaderManager().restartLoader(FRAGMENT_COST_SALE_PRODUCT_LOADER, null, this);
     }
@@ -214,20 +225,63 @@ public class CostSaleProductList extends Fragment implements LoaderManager.Loade
         Log.d(LOG_TAG, "onCreateLoader");
         Uri cursorUri = null;
         String _idColumn = null;
+        String whereClause = null;
+        String[] selectArg = null;
         switch (getArguments().getString("witchActivity")) {
             case "cost": {
                 cursorUri = KasebContract.Costs.CONTENT_URI;
                 _idColumn = KasebContract.Costs._ID;
+                if (searchQuery != null) {
+                    whereClause = mProjection[1] + " LIKE ? " + " OR " + mProjection[3] + " LIKE ? ";
+                    selectArg = new String[2];
+                    selectArg[0] = "%" + searchQuery + "%";
+                    selectArg[1] = "%" + searchQuery + "%";
+                }
+                switch (sortId) {
+                    case R.id.menu_sort_code:
+                        sortOrder = KasebContract.Costs.COLUMN_COST_CODE + " ASC," + KasebContract.Costs.COLUMN_COST_NAME + " ASC";
+                        break;
+                    case R.id.menu_sort_date:
+                        sortOrder = KasebContract.Costs.COLUMN_DATE + " ASC," + KasebContract.Costs.COLUMN_COST_NAME + " ASC";
+                        break;
+                }
                 break;
             }
             case "sale": {
                 cursorUri = KasebContract.Sales.CONTENT_URI;
                 _idColumn = KasebContract.Sales._ID;
+                if (searchQuery != null) {
+                    whereClause = mProjection[2] + " LIKE ? ";
+                    selectArg = new String[1];
+                    selectArg[0] = "%" + searchQuery + "%";
+                }
+                switch (sortId) {
+                    case R.id.menu_sort_code:
+                        sortOrder = KasebContract.Sales.COLUMN_SALE_CODE + " ASC";
+                        break;
+                    case R.id.menu_sort_date:
+                        sortOrder = null;
+                        break;
+                }
                 break;
             }
             case "product": {
                 cursorUri = KasebContract.Products.CONTENT_URI;
                 _idColumn = KasebContract.Products._ID;
+                if (searchQuery != null) {
+                    whereClause = mProjection[1] + " LIKE ? " + " OR " + mProjection[2] + " LIKE ? ";
+                    selectArg = new String[2];
+                    selectArg[0] = "%" + searchQuery + "%";
+                    selectArg[1] = "%" + searchQuery + "%";
+                }
+                switch (sortId) {
+                    case R.id.menu_sort_code:
+                        sortOrder = KasebContract.Products.COLUMN_PRODUCT_CODE + " ASC";
+                        break;
+                    case R.id.menu_sort_name:
+                        sortOrder = KasebContract.Products.COLUMN_PRODUCT_NAME + " ASC";
+                        break;
+                }
                 break;
             }
             default:
@@ -235,7 +289,7 @@ public class CostSaleProductList extends Fragment implements LoaderManager.Loade
         }
 
         mProjection[0] = _idColumn;
-        return new CursorLoader(getActivity(), cursorUri, mProjection, null, null, null);
+        return new CursorLoader(getActivity(), cursorUri, mProjection, whereClause, selectArg, sortOrder);
     }
 
     @Override

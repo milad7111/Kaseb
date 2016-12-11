@@ -3,6 +3,7 @@ package mjkarbasian.moshtarimadar;
 import android.app.Activity;
 import android.app.SearchManager;
 import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -11,6 +12,7 @@ import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -26,22 +28,53 @@ public class Customers extends DrawerActivity {
     private static final int REQUEST_CROP_URI = 800;
     private static final int GALLERY_ACTIVITY_CODE = 200;
     private static final int RESULT_CROP = 400;
+    Context mContext;
+    String mQuery;
     ImageView mCustomerAvatar;
-
     Fragment customersFragment = new CustomersLists();
     Fragment customerInsert = new CustomerInsert();
 
+
     android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
+    private String LOG_TAG = Customers.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        setDefaultKeyMode(DEFAULT_KEYS_SEARCH_LOCAL);
         //this line initialize all references
         Utility.initializer(this);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        fragmentManager.beginTransaction().replace(R.id.container, customersFragment).commit();
+        mContext = this;
+        //region handle search query
+        Intent intent = getIntent();
+        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+            handleIntent(intent);
+        } else {
+            fragmentManager.beginTransaction().replace(R.id.container, customersFragment, "customersList").commit();
+        }
+        //endregion
+
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        setIntent(intent);
+        handleIntent(intent);
+    }
+
+    private void handleIntent(Intent intent) {
+        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+            String query = intent.getStringExtra(SearchManager.QUERY);
+            doMySearch(query);
+        }
+    }
+
+    private void doMySearch(String query) {
+        CustomersLists queryFragment = (CustomersLists) fragmentManager.findFragmentByTag("customersList");
+        queryFragment.getSearchQuery(query);
     }
 
     public void fab_customers(View v) {
@@ -64,7 +97,39 @@ public class Customers extends DrawerActivity {
                 (SearchView) menu.findItem(R.id.search_button).getActionView();
         searchView.setSearchableInfo(
                 searchManager.getSearchableInfo(getComponentName()));
-        return true;
+        SearchView.OnQueryTextListener queryTextListener = new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                doMySearch(newText);
+                // this is your adapter that will be filtered
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                mQuery = query;
+                //Here u can get the value "query" which is entered in the search box.
+                return (query != null) ? true : false;
+            }
+        };
+        searchView.setOnQueryTextListener(queryTextListener);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        CustomersLists sortFragment = (CustomersLists) fragmentManager.findFragmentByTag("customersList");
+        switch (item.getItemId()) {
+            case R.id.menu_sort_newest:
+                sortFragment.getSortOrder(R.id.menu_sort_newest);
+                break;
+            case R.id.menu_sort_rating:
+                sortFragment.getSortOrder(R.id.menu_sort_rating);
+                break;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     public void pic_selector(View view) {
@@ -125,4 +190,6 @@ public class Customers extends DrawerActivity {
             toast.show();
         }
     }
+
+
 }

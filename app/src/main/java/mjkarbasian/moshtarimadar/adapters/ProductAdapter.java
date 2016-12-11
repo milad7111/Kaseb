@@ -59,7 +59,11 @@ public class ProductAdapter extends BaseAdapter {
         } else {
             dateText.setText(Utility.JalaliDatePicker(Samples.productDate.get(position)));
         }
-        priceText.setText(Utility.formatPurchase(mContext, Utility.DecimalSeperation(mContext, Integer.parseInt(Samples.productPrice.get(position)))));
+        priceText.setText(
+                Utility.formatPurchase(
+                        mContext, Utility.DecimalSeperation(
+                                mContext, Integer.parseInt(
+                                        Samples.productPrice.get(position)))));
         return view;
     }
 }

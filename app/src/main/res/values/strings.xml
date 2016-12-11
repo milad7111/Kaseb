@@ -105,7 +105,7 @@
     <string name="detail_sales_summary_tax">Tax</string>
     <string name="detail_sales_summary_discount">Discount</string>
     <string name="detail_sales_summary_final_amount">Final amount</string>
-    <string name="detail_sales_summary_payment">Payed</string>
+    <string name="detail_sales_summary_payment">Paid</string>
     <string name="print_detail_sale_action_description">it prints your sale detail description and make a picture in your gallery</string>
     <string name="print_your_factor">it prints your factor</string>
     <string name="fab_add_payment">Add payment</string>
@@ -259,8 +259,8 @@
     <string name="pref_header_tax">Tax types</string>
     <string name="pref_header_payment">Payment methods</string>
     <string name="pref_header_customer">Customer states</string>
-    <string name="pref_header_backup">Backup</string>
-    <string name="pref_header_import_data">Import data</string>
+    <string name="pref_header_backup">Backup/Restore</string>
+    <string name="pref_header_import_contacts">Import Contacts</string>
     <string name="pref_header_kaseb">Kaseb</string>
     <string name="add_types_setting">Add item</string>
     <string name="title_activity_my_setting">Setting</string>
@@ -283,21 +283,17 @@
     <string name="sample_ali_ghorbani_description">find in congress</string>
     <string name="sample_cost_description">no description</string>
     <string name="sample_sale_code_2">INV-000124</string>
-    <string name="sale_date">Sale Date</string>
-    <string name="quantity">Quantity</string>
-    <string name="dialog_select_restore">select restore</string>
-    <string name="dialog_select_cancel">select cancel</string>
-    <string name="dialog_select_backup">select backup</string>
-    <string name="dialog_select_backup_restore">select backup restore</string>
-    <string name="dialog_input_import_contact_first_last_name">input import contact first last name</string>
-    <string name="dialog_input_import_contact_phone_mobile">input import contact phone mobile</string>
-    <string name="dialog_input_import_contact_general">input import contact general</string>
-    <string name="dialog_title_import_customer_fail">import customer fail</string>
-    <string name="dialog_message_import_customer_fail_par1">customer fail par1</string>
-    <string name="dialog_message_import_customer_fail_par2">customer fail par2</string>
-    <string name="dialog_positive_button">positive button</string>
-    <string name="pref_header_import_contacts">pref header import contacts</string>
-    <string name="Add">Add</string>
+    <string name="dialog_title_import_customer_fail">Import Failed</string>
+    <string name="dialog_message_import_customer_fail_par1">"Contact could not be imported! "</string>
+    <string name="dialog_message_import_customer_fail_par2">" is not complete."</string>
+    <string name="dialog_positive_button">OK</string>
+    <string name="dialog_input_import_contact_first_last_name">First Name or Last Name</string>
+    <string name="dialog_input_import_contact_phone_mobile">Mobile Phone Number</string>
+    <string name="dialog_input_import_contact_general">Input Data</string>
+    <string name="dialog_select_backup_restore">Do you want to back up your Data or Restore your previous Backup?</string>
+    <string name="dialog_select_backup">Backup</string>
+    <string name="dialog_select_restore">Restore</string>
+    <string name="dialog_select_cancel">Cancel</string>
     <string-array name="payment_method">
         <item>Check</item>
         <item>Cash</item>
@@ -308,4 +304,10 @@
     <string name="tax_list_for_sale_amount_title">Tax Amount :</string>
     <string name="tax_list_for_sale_percent_title">Tax Percent :</string>
     <string name="tax_list_for_sale_tax_type_title">Tax Type :</string>
+    <string name="Add">ADD</string>
+    <string name="sale_date">Sale Date :</string>
+    <string name="quantity">Quantity :</string>
+    <string name="sort_name">Sort Name</string>
+    <string name="how_many">How Many ...?</string>
+    <string name="hint_number_product">Count</string>
 </resources>
