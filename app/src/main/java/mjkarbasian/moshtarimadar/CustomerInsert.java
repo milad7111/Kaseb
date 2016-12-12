@@ -42,11 +42,10 @@ public class CustomerInsert extends Fragment {
     EditText addressCity;
     EditText addressStreet;
     EditText addressPostalCode;
-    private Uri insertUri;
     //    ImageView imageCustomer;
     View rootView;
-
     ContentValues customerValues = new ContentValues();
+    private Uri insertUri;
 
     public CustomerInsert() {
         setHasOptionsMenu(true);

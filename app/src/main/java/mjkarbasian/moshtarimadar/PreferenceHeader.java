@@ -29,7 +29,7 @@ import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 
 import mjkarbasian.moshtarimadar.Data.KasebContract;
-import mjkarbasian.moshtarimadar.adapters.HeaderAdaper;
+import mjkarbasian.moshtarimadar.adapters.HeaderAdapter;
 
 /**
  * Created by family on 11/3/2016.
@@ -38,7 +38,7 @@ public class PreferenceHeader extends Fragment {
     private static final int RESULT_PICK_CONTACT = 1;
     private static final String LOG_TAG = PreferenceHeader.class.getSimpleName();
     ListView mListView;
-    HeaderAdaper headerAdaper;
+    HeaderAdapter headerAdaper;
     ArrayList<Integer> headerIcons = new ArrayList<>();
     ArrayList<String> headerTitle = new ArrayList<>();
     ArrayList<String> headerSummary = new ArrayList<>();
@@ -57,7 +57,7 @@ public class PreferenceHeader extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_setting_types, container, false);
         mListView = (ListView) rootView.findViewById(R.id.list_view_setting_types);
-        headerAdaper = new HeaderAdaper(getActivity(), headerIcons, headerTitle, headerSummary);
+        headerAdaper = new HeaderAdapter(getActivity(), headerIcons, headerTitle, headerSummary);
         mListView.setAdapter(headerAdaper);
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

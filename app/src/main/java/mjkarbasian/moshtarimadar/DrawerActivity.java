@@ -12,8 +12,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import mjkarbasian.moshtarimadar.Data.KasebContract;
-
 public class DrawerActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     DrawerLayout mDrawer;
@@ -113,9 +111,6 @@ public class DrawerActivity extends AppCompatActivity
             startActivity(intent);
 
         } else if (id == R.id.nav_about_us) {
-        }
-        else if (id == R.id.nav_exit) {
-            finish();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

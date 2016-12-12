@@ -1,6 +1,7 @@
 package mjkarbasian.moshtarimadar;
 
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -36,9 +37,12 @@ public class CostSaleProductList extends Fragment implements LoaderManager.Loade
     Fragment productHistory = new DetailProducts();
     Bundle productHistoryBundle = new Bundle();
 
+    Intent detailSale;
+
     CostSaleProductAdapter mAdapter = null;
     ListView mListView;
     String[] mProjection;
+    Cursor mCursor;
     private String searchQuery;
     private String sortOrder;
     private int sortId;
@@ -104,17 +108,23 @@ public class CostSaleProductList extends Fragment implements LoaderManager.Loade
                         break;
                     }
                     case "sale": {
-                        // rise detail sale
+                        mCursor = (Cursor) parent.getItemAtPosition(position);
+                        if (mCursor != null) {
+                            detailSale = new Intent(getActivity(), DetailSaleInsert.class);
+                            detailSale.putExtra("saleId", mCursor.getString(mCursor.getColumnIndex(KasebContract.Sales.COLUMN_SALE_CODE)));
+                            startActivity(detailSale);
+                        }
                         break;
                     }
                     case "product": {
-                        Cursor cursor = (Cursor) parent.getItemAtPosition(position);
-                        if (cursor != null) {
-                            productHistoryBundle.putString("productId", cursor.getString(cursor.getColumnIndex(KasebContract.Products._ID)));
+                        mCursor = (Cursor) parent.getItemAtPosition(position);
+                        if (mCursor != null) {
+                            productHistoryBundle.putString("productId", mCursor.getString(mCursor.getColumnIndex(KasebContract.Products._ID)));
                             productHistory.setArguments(productHistoryBundle);
                             fragmentManager = getActivity().getSupportFragmentManager();
                             fragmentManager.beginTransaction().replace(R.id.container, productHistory).commit();
                         }
+                        mCursor.close();
                         break;
                     }
                     default:
@@ -196,12 +206,12 @@ public class CostSaleProductList extends Fragment implements LoaderManager.Loade
         getLoaderManager().initLoader(FRAGMENT_COST_SALE_PRODUCT_LOADER, null, this);
     }
 
-    public void getSearchQuery(String query){
+    public void getSearchQuery(String query) {
         searchQuery = query;
         updateList();
     }
 
-    public void getSortOrder(int id){
+    public void getSortOrder(int id) {
         sortId = id;
         updateList();
     }
@@ -215,24 +225,24 @@ public class CostSaleProductList extends Fragment implements LoaderManager.Loade
         Log.d(LOG_TAG, "onCreateLoader");
         Uri cursorUri = null;
         String _idColumn = null;
-        String whereClause=null;
+        String whereClause = null;
         String[] selectArg = null;
         switch (getArguments().getString("witchActivity")) {
             case "cost": {
                 cursorUri = KasebContract.Costs.CONTENT_URI;
                 _idColumn = KasebContract.Costs._ID;
-                if(searchQuery!=null) {
+                if (searchQuery != null) {
                     whereClause = mProjection[1] + " LIKE ? " + " OR " + mProjection[3] + " LIKE ? ";
                     selectArg = new String[2];
-                    selectArg[0] = "%"+searchQuery + "%" ;
-                    selectArg[1] = "%"+searchQuery + "%" ;
+                    selectArg[0] = "%" + searchQuery + "%";
+                    selectArg[1] = "%" + searchQuery + "%";
                 }
-                switch (sortId){
+                switch (sortId) {
                     case R.id.menu_sort_code:
-                        sortOrder =  KasebContract.Costs.COLUMN_COST_CODE + " ASC,"  + KasebContract.Costs.COLUMN_COST_NAME + " ASC";
+                        sortOrder = KasebContract.Costs.COLUMN_COST_CODE + " ASC," + KasebContract.Costs.COLUMN_COST_NAME + " ASC";
                         break;
                     case R.id.menu_sort_date:
-                        sortOrder = KasebContract.Costs.COLUMN_DATE + " ASC," +  KasebContract.Costs.COLUMN_COST_NAME + " ASC" ;
+                        sortOrder = KasebContract.Costs.COLUMN_DATE + " ASC," + KasebContract.Costs.COLUMN_COST_NAME + " ASC";
                         break;
                 }
                 break;
@@ -240,14 +250,14 @@ public class CostSaleProductList extends Fragment implements LoaderManager.Loade
             case "sale": {
                 cursorUri = KasebContract.Sales.CONTENT_URI;
                 _idColumn = KasebContract.Sales._ID;
-                if(searchQuery!=null) {
+                if (searchQuery != null) {
                     whereClause = mProjection[2] + " LIKE ? ";
                     selectArg = new String[1];
-                    selectArg[0] = "%"+searchQuery + "%" ;
+                    selectArg[0] = "%" + searchQuery + "%";
                 }
-                switch (sortId){
+                switch (sortId) {
                     case R.id.menu_sort_code:
-                        sortOrder =  KasebContract.Sales.COLUMN_SALE_CODE + " ASC";
+                        sortOrder = KasebContract.Sales.COLUMN_SALE_CODE + " ASC";
                         break;
                     case R.id.menu_sort_date:
                         sortOrder = null;
@@ -258,15 +268,15 @@ public class CostSaleProductList extends Fragment implements LoaderManager.Loade
             case "product": {
                 cursorUri = KasebContract.Products.CONTENT_URI;
                 _idColumn = KasebContract.Products._ID;
-                if(searchQuery!=null) {
+                if (searchQuery != null) {
                     whereClause = mProjection[1] + " LIKE ? " + " OR " + mProjection[2] + " LIKE ? ";
                     selectArg = new String[2];
-                    selectArg[0] = "%"+searchQuery + "%" ;
-                    selectArg[1] = "%"+searchQuery + "%" ;
+                    selectArg[0] = "%" + searchQuery + "%";
+                    selectArg[1] = "%" + searchQuery + "%";
                 }
-                switch (sortId){
+                switch (sortId) {
                     case R.id.menu_sort_code:
-                        sortOrder =  KasebContract.Products.COLUMN_PRODUCT_CODE + " ASC";
+                        sortOrder = KasebContract.Products.COLUMN_PRODUCT_CODE + " ASC";
                         break;
                     case R.id.menu_sort_name:
                         sortOrder = KasebContract.Products.COLUMN_PRODUCT_NAME + " ASC";

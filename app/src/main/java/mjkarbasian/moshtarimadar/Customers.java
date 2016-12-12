@@ -52,13 +52,13 @@ public class Customers extends DrawerActivity {
         Intent intent = getIntent();
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             handleIntent(intent);
-        }
-        else{
+        } else {
             fragmentManager.beginTransaction().replace(R.id.container, customersFragment, "customersList").commit();
         }
         //endregion
 
     }
+
     @Override
     protected void onNewIntent(Intent intent) {
         setIntent(intent);
@@ -73,8 +73,8 @@ public class Customers extends DrawerActivity {
     }
 
     private void doMySearch(String query) {
-         CustomersLists queryFragment = (CustomersLists) fragmentManager.findFragmentByTag("customersList");
-         queryFragment.getSearchQuery(query);
+        CustomersLists queryFragment = (CustomersLists) fragmentManager.findFragmentByTag("customersList");
+        queryFragment.getSearchQuery(query);
     }
 
     public void fab_customers(View v) {
@@ -104,11 +104,12 @@ public class Customers extends DrawerActivity {
                 // this is your adapter that will be filtered
                 return true;
             }
+
             @Override
             public boolean onQueryTextSubmit(String query) {
                 mQuery = query;
                 //Here u can get the value "query" which is entered in the search box.
-               return (query!=null)?true:false;
+                return (query != null) ? true : false;
             }
         };
         searchView.setOnQueryTextListener(queryTextListener);
@@ -126,7 +127,7 @@ public class Customers extends DrawerActivity {
                 sortFragment.getSortOrder(R.id.menu_sort_rating);
                 break;
             default:
-            return super.onOptionsItemSelected(item);
+                return super.onOptionsItemSelected(item);
         }
         return super.onOptionsItemSelected(item);
     }

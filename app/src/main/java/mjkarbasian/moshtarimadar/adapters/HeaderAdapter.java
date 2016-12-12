@@ -15,14 +15,14 @@ import mjkarbasian.moshtarimadar.R;
 /**
  * Created by family on 11/3/2016.
  */
-public class HeaderAdaper extends BaseAdapter {
+public class HeaderAdapter extends BaseAdapter {
     private final Context mContext;
     private final LayoutInflater mInflater;
     ArrayList<Integer> mHeaderIcon;
     ArrayList<String> mHeaderTitle;
     ArrayList<String> mHeaderSummary = new ArrayList<>();
 
-    public HeaderAdaper(Context context, ArrayList<Integer> headerIcon, ArrayList<String> headerTitle, ArrayList<String> headerSummary) {
+    public HeaderAdapter(Context context, ArrayList<Integer> headerIcon, ArrayList<String> headerTitle, ArrayList<String> headerSummary) {
         mContext = context;
         mHeaderIcon = headerIcon;
         mHeaderSummary = headerSummary;

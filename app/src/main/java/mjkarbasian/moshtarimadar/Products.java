@@ -42,7 +42,8 @@ public class Products extends DrawerActivity {
 
         Intent intent = getIntent();
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) handleIntent(intent);
-        else fragmentManager.beginTransaction().replace(R.id.container, costsSaleProductFragment,"CostSaleProductList").commit();
+        else
+            fragmentManager.beginTransaction().replace(R.id.container, costsSaleProductFragment, "CostSaleProductList").commit();
     }
 
     @Override
@@ -90,11 +91,12 @@ public class Products extends DrawerActivity {
                 // this is your adapter that will be filtered
                 return true;
             }
+
             @Override
             public boolean onQueryTextSubmit(String query) {
                 mQuery = query;
                 //Here u can get the value "query" which is entered in the search box.
-                return (query!=null)?true:false;
+                return (query != null) ? true : false;
             }
         };
         searchView.setOnQueryTextListener(queryTextListener);
@@ -106,7 +108,7 @@ public class Products extends DrawerActivity {
         CostSaleProductList sortFragment = (CostSaleProductList) fragmentManager.findFragmentByTag("CostSaleProductList");
         switch (item.getItemId()) {
             case R.id.menu_sort_code:
-                sortFragment.getSortOrder( R.id.menu_sort_code);
+                sortFragment.getSortOrder(R.id.menu_sort_code);
                 break;
             case R.id.menu_sort_name:
                 sortFragment.getSortOrder(R.id.menu_sort_name);
