@@ -39,15 +39,7 @@ import mjkarbasian.moshtarimadar.helper.Utility;
 public class DetailSaleInsert extends AppCompatActivity {
     private static Context mContext;
     long customerId;
-    long[] productIds = new long[2];
     long itemNumber;
-    long quantity;
-    String amount;
-    long paymentMethodId[];
-    long amountPayment[];
-    String dueDate[];
-    long taxTypeId[];
-    long amountTax[];
     ContentValues saleValues = new ContentValues();
     ContentValues detailSaleValues = new ContentValues();
     ContentValues[] itemsValuesArray;
@@ -131,8 +123,6 @@ public class DetailSaleInsert extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        //Fill in Sale summary
-        customerId = 1;
         mContext = this;
 
         totalAmountSummary = (TextView) findViewById(R.id.card_detail_sale_summary_total_amount);
@@ -219,8 +209,15 @@ public class DetailSaleInsert extends AppCompatActivity {
                         getApplicationContext().getResources().getString(R.string.print_your_factor), Toast.LENGTH_LONG).show();
                 break;
             case R.id.save:
-                EditText saleCode = (EditText) findViewById(R.id.detail_sales_info_sale_code);
 
+                //region SetValues
+                EditText saleCode = (EditText) findViewById(R.id.detail_sales_info_sale_code);
+                //endregion
+
+                //region Check
+                //endregion
+
+                //region Insert Sale
                 saleValues.put(KasebContract.Sales.COLUMN_CUSTOMER_ID, customerId);
                 saleValues.put(KasebContract.Sales.COLUMN_IS_DELETED, 0);
                 saleValues.put(KasebContract.Sales.COLUMN_SALE_CODE, saleCode.getText().toString());
@@ -230,9 +227,10 @@ public class DetailSaleInsert extends AppCompatActivity {
                         saleValues
                 );
 
-                //region disabling edit
                 saleCode.setEnabled(false);
+                //endregion
 
+                //region Insert DetailSale
                 EditText saleDate = (EditText) findViewById(R.id.detail_sales_info_sale_date);
 
                 ListView getProductListView = (ListView) findViewById(R.id.listview_sale_items);
@@ -252,7 +250,9 @@ public class DetailSaleInsert extends AppCompatActivity {
                         KasebContract.DetailSale.CONTENT_URI,
                         detailSaleValues
                 );
+                //endregion
 
+                //region Insert DetailSaleProducts
                 int count = mNewList.size();
                 itemsValuesArray = new ContentValues[count];
 
@@ -271,7 +271,9 @@ public class DetailSaleInsert extends AppCompatActivity {
                         KasebContract.DetailSaleProducts.CONTENT_URI,
                         itemsValuesArray
                 );
+                //endregion
 
+                //region Insert DetailSalePayments
                 count = paymentMethodIdTypeList.size();
                 paymentValuesArray = new ContentValues[count];
 
@@ -290,7 +292,9 @@ public class DetailSaleInsert extends AppCompatActivity {
                         KasebContract.DetailSalePayments.CONTENT_URI,
                         paymentValuesArray
                 );
+                //endregion
 
+                //region Insert DetailSaleTaxes
                 count = taxTypesIdsList.size();
                 taxValuesArray = new ContentValues[count];
 
@@ -308,6 +312,7 @@ public class DetailSaleInsert extends AppCompatActivity {
                         KasebContract.DetailSaleTaxes.CONTENT_URI,
                         taxValuesArray
                 );
+                //endregion
 
                 //just a message to show everything are under control
                 Toast.makeText(this,

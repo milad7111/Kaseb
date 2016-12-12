@@ -68,6 +68,8 @@ import static mjkarbasian.moshtarimadar.helper.Samples.setSalesCustomer;
  */
 public class Utility {
 
+    private static final String LOG_TAG = Utility.class.getSimpleName();
+
     public static String makePlaceholders(int len) {
         StringBuilder sb = new StringBuilder(len * 2 - 1);
         sb.append("?");
@@ -83,8 +85,6 @@ public class Utility {
 
         return dialog;
     }
-
-    private static final String LOG_TAG = Utility.class.getSimpleName();
 
     public static String getTheLastPathUri(Uri uri) {
         String[] segments = uri.getPath().split("/");
