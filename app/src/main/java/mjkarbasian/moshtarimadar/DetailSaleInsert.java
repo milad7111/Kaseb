@@ -238,6 +238,7 @@ public class DetailSaleInsert extends AppCompatActivity {
 
                 //region Insert DetailSale
                 EditText saleDate = (EditText) findViewById(R.id.detail_sales_info_sale_date);
+                saleDate.setText(Utility.preInsertDate(mContext));
 
                 ListView getProductListView = (ListView) findViewById(R.id.listview_sale_items);
                 itemNumber = getProductListView.getAdapter().getCount();
