@@ -110,8 +110,11 @@ public class CostSaleProductList extends Fragment implements LoaderManager.Loade
                     case "sale": {
                         mCursor = (Cursor) parent.getItemAtPosition(position);
                         if (mCursor != null) {
-                            detailSale = new Intent(getActivity(), DetailSaleInsert.class);
-                            detailSale.putExtra("saleId", mCursor.getString(mCursor.getColumnIndex(KasebContract.Sales.COLUMN_SALE_CODE)));
+                            detailSale = new Intent(getActivity(), DetailSaleView.class);
+                            detailSale.putExtra("forViewAndUpdateSales", true);
+                            detailSale.putExtra("saleId", mCursor.getString(mCursor.getColumnIndex(KasebContract.Sales._ID)));
+                            detailSale.putExtra("saleCode", mCursor.getString(mCursor.getColumnIndex(KasebContract.Sales.COLUMN_SALE_CODE)));
+                            detailSale.putExtra("customerId", mCursor.getLong(mCursor.getColumnIndex(KasebContract.Sales.COLUMN_CUSTOMER_ID)));
                             startActivity(detailSale);
                         }
                         break;
