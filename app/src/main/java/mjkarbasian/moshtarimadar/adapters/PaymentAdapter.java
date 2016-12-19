@@ -6,7 +6,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -96,7 +95,7 @@ public class PaymentAdapter extends BaseAdapter implements View.OnClickListener 
 
         @Override
         public void onClick(View arg0) {
-            Toast.makeText(mContext, mPosition + "", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(mContext, mPosition + "", Toast.LENGTH_SHORT).show();
         }
     }
 }

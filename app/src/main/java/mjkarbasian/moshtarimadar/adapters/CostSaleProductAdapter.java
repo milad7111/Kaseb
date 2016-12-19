@@ -96,20 +96,22 @@ public class CostSaleProductAdapter extends CursorAdapter {
             }
             case "product": {
 
-                //region read DetailSale Date & TotalPaid
+                //region read ProductHistory Date & SalePrice
                 String productId = cursor.getString(cursor.getColumnIndex(KasebContract.Products._ID));
 
                 mCursor = context.getContentResolver().query(
-                        KasebContract.ProductHistory.buildProductHistoryUri(Long.parseLong(productId)),
-                        new String[]{KasebContract.ProductHistory.COLUMN_DATE, KasebContract.ProductHistory.COLUMN_COST},
+                        KasebContract.ProductHistory.aProductHistory(Long.parseLong(productId)),
+                        new String[]{
+                                KasebContract.ProductHistory.COLUMN_DATE,
+                                KasebContract.ProductHistory.COLUMN_SALE_PRICE},
                         null,
                         null,
                         null);
 
                 if (mCursor != null) {
-                    if (mCursor.moveToFirst()) {
+                    if (mCursor.moveToLast()) {
                         date = mCursor.getString(mCursor.getColumnIndex(KasebContract.ProductHistory.COLUMN_DATE));
-                        amount = mCursor.getString(mCursor.getColumnIndex(KasebContract.ProductHistory.COLUMN_COST));
+                        amount = mCursor.getString(mCursor.getColumnIndex(KasebContract.ProductHistory.COLUMN_SALE_PRICE));
                     }
                 }
                 //endregion
