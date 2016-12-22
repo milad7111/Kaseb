@@ -17,7 +17,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import mjkarbasian.moshtarimadar.Data.KasebContract;
 import mjkarbasian.moshtarimadar.R;
@@ -85,12 +87,22 @@ public class TypeSettingFragment extends Fragment implements LoaderManager.Loade
                 typeInsert = Utility.dialogBuilder(getActivity(), R.layout.dialog_add_type_setting, R.id.title_dialog_add_tax_types);
                 break;
             case State.COLUMN_STATE_POINTER:
-                typeInsert = Utility.dialogBuilder(getActivity(), R.layout.dialog_add_type_setting, R.id.title_dialog_add_state);
+                typeInsert = Utility.dialogBuilder(getActivity(), R.layout.dialog_add_state_type_setting, R.id.title_dialog_add_state);
                 break;
         }
         if (typeInsert != null) {
             typeInsert.show();
             Button dialogButton = (Button) typeInsert.findViewById(R.id.button_add_type_setting);
+            if(mColumnName.equals(State.COLUMN_STATE_POINTER)){
+                ImageView starImage = (ImageView)typeInsert.findViewById(R.id.dialog_state_color_selection);
+                starImage.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Toast toast = Toast.makeText(getActivity(),"select color",Toast.LENGTH_LONG);
+                        toast.show();
+                    }
+                });
+            }
             final Dialog finalTypeInsert = typeInsert;
             dialogButton.setOnClickListener(new View.OnClickListener() {
                 @Override

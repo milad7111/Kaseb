@@ -317,4 +317,5 @@
     <string name="fab_edit_payment">Edit Payment</string>
     <string name="fab_edit_tax">Edit Tax</string>
     <string name="edit">edit</string>
+    <string name="dialog_select_state_color">Select a Color</string>
 </resources>

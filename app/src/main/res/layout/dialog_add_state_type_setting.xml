@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <EditText
+        android:id="@+id/add_types_setting"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/add_new_type" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:text="@string/dialog_select_state_color"
+            android:textAppearance="?android:textAppearanceMedium"
+            />
+        <ImageView
+            android:id="@+id/dialog_state_color_selection"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:gravity="end"
+            android:padding="3dp"
+            android:src="@drawable/star"
+            android:tint="@color/colorAccent" />
+    </LinearLayout>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Save"
+        android:id="@+id/button_add_type_setting"
+        android:layout_gravity="center"
+        android:layout_marginTop="51dp" />
+
+</LinearLayout>
