@@ -22,6 +22,7 @@
 
         <activity
             android:name=".Sales.DetailSaleInsert"
+            android:parentActivityName=".Sales.Sales"
             android:label="@string/title_activity_detail_sale"
             android:theme="@style/AppTheme.NoActionBar" >
         <meta-data
@@ -132,16 +133,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Sales.Sales" />
         </activity>
-
-        <!--<activity-->
-        <!--android:name=".Deta"-->
-        <!--android:label="@string/title_activity_detail_products"-->
-        <!--android:parentActivityName=".Products"-->
-        <!--android:theme="@style/AppTheme.NoActionBar">-->
-        <!--<meta-data-->
-        <!--android:name="android.support.PARENT_ACTIVITY"-->
-        <!--android:value="mjkarbasian.moshtarimadar.Products.Products" />-->
-        <!--</activity>-->
 
         <provider
             android:name=".Data.KasebProvider"

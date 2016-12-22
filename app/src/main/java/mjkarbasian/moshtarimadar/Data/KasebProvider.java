@@ -20,10 +20,6 @@ import mjkarbasian.moshtarimadar.helper.Utility;
 
 public class KasebProvider extends ContentProvider {
 
-    private static final UriMatcher sUriMatcher = buildUriMatcher();
-    final static String LOG_TAG = KasebProvider.class.getSimpleName();
-    private KasebDbHelper mOpenHelper;
-
     //region defining uri integers
     public static final int CUSTOMERS = 100;
     public static final int CUSTOMERS_RECORD = 101;
@@ -51,7 +47,6 @@ public class KasebProvider extends ContentProvider {
     public static final int DETAIL_SALE_TAXES_RECORD = 125;
     public static final int STATE = 126;
     public static final int STATE_RECORD = 127;
-
     public static final int CUSTOMER_BY_STATE = 301;
     public static final int SALES_BY_CUSTOMER = 302;
     public static final int DETAIL_SALE_BY_SALE_ID = 303;
@@ -63,9 +58,13 @@ public class KasebProvider extends ContentProvider {
     public static final int DETAIL_SALE_TAXES_BY_TAX_TYPE = 309;
     public static final int PRODUCT_HISTORY_BY_PRODUCT_ID = 310;
     public static final int COSTS_BY_TYPE = 311;
+    final static String LOG_TAG = KasebProvider.class.getSimpleName();
+    private static final UriMatcher sUriMatcher = buildUriMatcher();
+    private static final SQLiteQueryBuilder sSalesByCustomerQueryBuilder;
     //endregion
 
-    private static final SQLiteQueryBuilder sSalesByCustomerQueryBuilder;
+    private static final SQLiteQueryBuilder sDetailSaleBySaleQueryBuilder;
+    public static KasebDbHelper mOpenHelper;
 
     static {
         sSalesByCustomerQueryBuilder = new SQLiteQueryBuilder();
@@ -80,8 +79,6 @@ public class KasebProvider extends ContentProvider {
                         " = " + KasebContract.Sales.TABLE_NAME +
                         "." + KasebContract.Sales.COLUMN_CUSTOMER_ID);
     }
-
-    private static final SQLiteQueryBuilder sDetailSaleBySaleQueryBuilder;
 
     static {
         sDetailSaleBySaleQueryBuilder = new SQLiteQueryBuilder();
@@ -104,6 +101,51 @@ public class KasebProvider extends ContentProvider {
     private static String dataSetSelectionMaker(String tableName, String ColumnName) {
         return ColumnName + " =?";
         //return tableName + "." + ColumnName + " =?";
+    }
+
+    private static UriMatcher buildUriMatcher() {
+
+        final UriMatcher uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
+        final String authority = KasebContract.CONTENT_AUTHORITY;
+        uriMatcher.addURI(authority, KasebContract.PATH_CUSTOMERS, CUSTOMERS);
+        uriMatcher.addURI(authority, KasebContract.PATH_CUSTOMERS + "/#", CUSTOMERS_RECORD);
+        uriMatcher.addURI(authority, KasebContract.PATH_SALES, SALES);
+        uriMatcher.addURI(authority, KasebContract.PATH_SALES + "/#", SALES_RECORD);
+        uriMatcher.addURI(authority, KasebContract.PATH_DETAIL_SALE, DETAIL_SALE);
+        uriMatcher.addURI(authority, KasebContract.PATH_DETAIL_SALE + "/#", DETAIL_SALE_RECORD);
+        uriMatcher.addURI(authority, KasebContract.PATH_PRODUCTS, PRODUCTS);
+        uriMatcher.addURI(authority, KasebContract.PATH_PRODUCTS + "/#", PRODUCTS_RECORD);
+        uriMatcher.addURI(authority, KasebContract.PATH_PRODUCT_HISTORY, PRODUCT_HISTORY);
+        uriMatcher.addURI(authority, KasebContract.PATH_PRODUCT_HISTORY + "/#", PRODUCT_HISTORY_RECORD);
+        uriMatcher.addURI(authority, KasebContract.PATH_COSTS, COSTS);
+        uriMatcher.addURI(authority, KasebContract.PATH_COSTS + "/#", COSTS_RECORD);
+        uriMatcher.addURI(authority, KasebContract.PATH_COST_TYPES, COST_TYPES);
+        uriMatcher.addURI(authority, KasebContract.PATH_COST_TYPES + "/#", COST_TYPES_RECORD);
+        uriMatcher.addURI(authority, KasebContract.PATH_PAYMENT_METHODS, PAYMENT_METHODS);
+        uriMatcher.addURI(authority, KasebContract.PATH_PAYMENT_METHODS + "/#", PAYMENT_METHODS_RECORD);
+        uriMatcher.addURI(authority, KasebContract.PATH_TAX_TYPES, TAX_TYPES);
+        uriMatcher.addURI(authority, KasebContract.PATH_TAX_TYPES + "/#", TAX_TYPES_RECORD);
+        uriMatcher.addURI(authority, KasebContract.PATH_DETAIL_SALE_PRODUCTS, DETAIL_SALE_PRODUCTS);
+        uriMatcher.addURI(authority, KasebContract.PATH_DETAIL_SALE_PRODUCTS + "/#", DETAIL_SALE_PRODUCTS_RECORD);
+        uriMatcher.addURI(authority, KasebContract.PATH_DETAIL_SALE_PAYMENTS, DETAIL_SALE_PAYMENTS);
+        uriMatcher.addURI(authority, KasebContract.PATH_DETAIL_SALE_PAYMENTS + "/#", DETAIL_SALE_PAYMENTS_RECORD);
+        uriMatcher.addURI(authority, KasebContract.PATH_DETAIL_SALE_TAXES, DETAIL_SALE_TAXES);
+        uriMatcher.addURI(authority, KasebContract.PATH_DETAIL_SALE_TAXES + "/#", DETAIL_SALE_TAXES_RECORD);
+        uriMatcher.addURI(authority, KasebContract.PATH_STATE, STATE);
+        uriMatcher.addURI(authority, KasebContract.PATH_STATE + "/#", STATE_RECORD);
+        //new uris
+        uriMatcher.addURI(authority, KasebContract.PATH_CUSTOMERS + "/state_id/*", CUSTOMER_BY_STATE);
+        uriMatcher.addURI(authority, KasebContract.PATH_SALES + "/customer_id/*", SALES_BY_CUSTOMER);
+        uriMatcher.addURI(authority, KasebContract.PATH_DETAIL_SALE + "/sale_id/*", DETAIL_SALE_BY_SALE_ID);
+        uriMatcher.addURI(authority, KasebContract.PATH_DETAIL_SALE + "/is_balanced/*", DETAIL_SALE_BY_IS_BALANCED);
+        uriMatcher.addURI(authority, KasebContract.PATH_DETAIL_SALE_PAYMENTS + "/detail_sale_id/*", DETAIL_SALE_PAYMENT_BY_DETAIL_SALE_ID);
+        uriMatcher.addURI(authority, KasebContract.PATH_DETAIL_SALE_PAYMENTS + "/payment_method_id/*", DETAIL_SALE_PAYMENT_BY_PAYMENT_METHOD);
+        uriMatcher.addURI(authority, KasebContract.PATH_DETAIL_SALE_PRODUCTS + "/detail_sale_id/*", DETAIL_SALE_PRODUCT_BY_DETAIL_SALE_ID);
+        uriMatcher.addURI(authority, KasebContract.PATH_DETAIL_SALE_TAXES + "/detail_sale_id/*", DETAIL_SALE_TAXES_BY_DETAIL_SALE_ID);
+        uriMatcher.addURI(authority, KasebContract.PATH_DETAIL_SALE_TAXES + "/tax_type_id/*", DETAIL_SALE_TAXES_BY_TAX_TYPE);
+        uriMatcher.addURI(authority, KasebContract.PATH_PRODUCT_HISTORY + "/product_id/*", PRODUCT_HISTORY_BY_PRODUCT_ID);
+        uriMatcher.addURI(authority, KasebContract.PATH_COSTS + "/cost_type_id/*", COSTS_BY_TYPE);
+        return uriMatcher;
     }
 
     @Override
@@ -1034,51 +1076,6 @@ public class KasebProvider extends ContentProvider {
             getContext().getContentResolver().notifyChange(uri, null);
         }
         return rowsUpdated;
-    }
-
-    private static UriMatcher buildUriMatcher() {
-
-        final UriMatcher uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
-        final String authority = KasebContract.CONTENT_AUTHORITY;
-        uriMatcher.addURI(authority, KasebContract.PATH_CUSTOMERS, CUSTOMERS);
-        uriMatcher.addURI(authority, KasebContract.PATH_CUSTOMERS + "/#", CUSTOMERS_RECORD);
-        uriMatcher.addURI(authority, KasebContract.PATH_SALES, SALES);
-        uriMatcher.addURI(authority, KasebContract.PATH_SALES + "/#", SALES_RECORD);
-        uriMatcher.addURI(authority, KasebContract.PATH_DETAIL_SALE, DETAIL_SALE);
-        uriMatcher.addURI(authority, KasebContract.PATH_DETAIL_SALE + "/#", DETAIL_SALE_RECORD);
-        uriMatcher.addURI(authority, KasebContract.PATH_PRODUCTS, PRODUCTS);
-        uriMatcher.addURI(authority, KasebContract.PATH_PRODUCTS + "/#", PRODUCTS_RECORD);
-        uriMatcher.addURI(authority, KasebContract.PATH_PRODUCT_HISTORY, PRODUCT_HISTORY);
-        uriMatcher.addURI(authority, KasebContract.PATH_PRODUCT_HISTORY + "/#", PRODUCT_HISTORY_RECORD);
-        uriMatcher.addURI(authority, KasebContract.PATH_COSTS, COSTS);
-        uriMatcher.addURI(authority, KasebContract.PATH_COSTS + "/#", COSTS_RECORD);
-        uriMatcher.addURI(authority, KasebContract.PATH_COST_TYPES, COST_TYPES);
-        uriMatcher.addURI(authority, KasebContract.PATH_COST_TYPES + "/#", COST_TYPES_RECORD);
-        uriMatcher.addURI(authority, KasebContract.PATH_PAYMENT_METHODS, PAYMENT_METHODS);
-        uriMatcher.addURI(authority, KasebContract.PATH_PAYMENT_METHODS + "/#", PAYMENT_METHODS_RECORD);
-        uriMatcher.addURI(authority, KasebContract.PATH_TAX_TYPES, TAX_TYPES);
-        uriMatcher.addURI(authority, KasebContract.PATH_TAX_TYPES + "/#", TAX_TYPES_RECORD);
-        uriMatcher.addURI(authority, KasebContract.PATH_DETAIL_SALE_PRODUCTS, DETAIL_SALE_PRODUCTS);
-        uriMatcher.addURI(authority, KasebContract.PATH_DETAIL_SALE_PRODUCTS + "/#", DETAIL_SALE_PRODUCTS_RECORD);
-        uriMatcher.addURI(authority, KasebContract.PATH_DETAIL_SALE_PAYMENTS, DETAIL_SALE_PAYMENTS);
-        uriMatcher.addURI(authority, KasebContract.PATH_DETAIL_SALE_PAYMENTS + "/#", DETAIL_SALE_PAYMENTS_RECORD);
-        uriMatcher.addURI(authority, KasebContract.PATH_DETAIL_SALE_TAXES, DETAIL_SALE_TAXES);
-        uriMatcher.addURI(authority, KasebContract.PATH_DETAIL_SALE_TAXES + "/#", DETAIL_SALE_TAXES_RECORD);
-        uriMatcher.addURI(authority, KasebContract.PATH_STATE, STATE);
-        uriMatcher.addURI(authority, KasebContract.PATH_STATE + "/#", STATE_RECORD);
-        //new uris
-        uriMatcher.addURI(authority, KasebContract.PATH_CUSTOMERS + "/state_id/*", CUSTOMER_BY_STATE);
-        uriMatcher.addURI(authority, KasebContract.PATH_SALES + "/customer_id/*", SALES_BY_CUSTOMER);
-        uriMatcher.addURI(authority, KasebContract.PATH_DETAIL_SALE + "/sale_id/*", DETAIL_SALE_BY_SALE_ID);
-        uriMatcher.addURI(authority, KasebContract.PATH_DETAIL_SALE + "/is_balanced/*", DETAIL_SALE_BY_IS_BALANCED);
-        uriMatcher.addURI(authority, KasebContract.PATH_DETAIL_SALE_PAYMENTS + "/detail_sale_id/*", DETAIL_SALE_PAYMENT_BY_DETAIL_SALE_ID);
-        uriMatcher.addURI(authority, KasebContract.PATH_DETAIL_SALE_PAYMENTS + "/payment_method_id/*", DETAIL_SALE_PAYMENT_BY_PAYMENT_METHOD);
-        uriMatcher.addURI(authority, KasebContract.PATH_DETAIL_SALE_PRODUCTS + "/detail_sale_id/*", DETAIL_SALE_PRODUCT_BY_DETAIL_SALE_ID);
-        uriMatcher.addURI(authority, KasebContract.PATH_DETAIL_SALE_TAXES + "/detail_sale_id/*", DETAIL_SALE_TAXES_BY_DETAIL_SALE_ID);
-        uriMatcher.addURI(authority, KasebContract.PATH_DETAIL_SALE_TAXES + "/tax_type_id/*", DETAIL_SALE_TAXES_BY_TAX_TYPE);
-        uriMatcher.addURI(authority, KasebContract.PATH_PRODUCT_HISTORY + "/product_id/*", PRODUCT_HISTORY_BY_PRODUCT_ID);
-        uriMatcher.addURI(authority, KasebContract.PATH_COSTS + "/cost_type_id/*", COSTS_BY_TYPE);
-        return uriMatcher;
     }
 
     @Override

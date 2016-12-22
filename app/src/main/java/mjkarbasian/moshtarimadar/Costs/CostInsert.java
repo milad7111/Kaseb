@@ -32,8 +32,8 @@ public class CostInsert extends Fragment {
     EditText costDate;
     EditText costDescription;
     ContentValues costValues = new ContentValues();
-    private Uri insertUri;
     View rootView;
+    private Uri insertUri;
 
     public CostInsert() {
         setHasOptionsMenu(true);
@@ -45,8 +45,6 @@ public class CostInsert extends Fragment {
                              Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_cost_insert, container, false);
         costType = (Spinner) rootView.findViewById(R.id.input_cost_type_spinner);
-//        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(),
-//                R.array.cost_types, android.R.layout.simple_spinner_item);
         costName = (EditText) rootView.findViewById(R.id.input_cost_name);
         costCode = (EditText) rootView.findViewById(R.id.input_cost_code);
         costAmount = (EditText) rootView.findViewById(R.id.input_cost_amount);

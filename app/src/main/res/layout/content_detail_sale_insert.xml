@@ -55,7 +55,8 @@
                     android:layout_height="wrap_content"
                     android:ems="10"
                     android:hint="@string/hint_date"
-                    android:inputType="date" />
+                    android:inputType="date"
+                    android:textColor="@color/colorPrimary" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -64,19 +65,20 @@
 
                     <TextView
                         android:id="@+id/detail_sales_info_customer_name"
-                        android:layout_width="0dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="left|start"
-                        android:text="@string/detail_sales_info_customer"
+                        android:text="@string/detail_sales_info_customer_name"
                         android:textAppearance="?android:textAppearanceMedium"
                         android:textColor="@color/colorPrimary" />
 
                     <TextView
                         android:id="@+id/detail_sales_info_customer_family"
-                        android:layout_width="0dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="fill_parent"
                         android:layout_weight="1"
+                        android:text="@string/detail_sales_info_customer_family"
                         android:textAppearance="?android:textAppearanceMedium"
                         android:textColor="@color/colorPrimary" />
                 </LinearLayout>
