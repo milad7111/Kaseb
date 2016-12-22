@@ -113,6 +113,7 @@ public class DetailSaleInsert extends AppCompatActivity {
     TextView finalAmountSummary;
     TextView paidSummary;
     TextView balanceSummary;
+    EditText saleDate;
 
     TypesSettingAdapter cursorAdapter = null;
 
@@ -133,6 +134,9 @@ public class DetailSaleInsert extends AppCompatActivity {
         balanceSummary = (TextView) findViewById(R.id.card_detail_sale_summary_balance);
         nameCustomer = (TextView) findViewById(R.id.detail_sales_info_customer_name);
         familyCustomer = (TextView) findViewById(R.id.detail_sales_info_customer_family);
+
+         saleDate = (EditText) findViewById(R.id.detail_sales_info_sale_date);
+        saleDate.setText(Utility.preInsertDate(mContext));
 
         totalAmountSummary.setText(
                 Utility.formatPurchase(mContext, Utility.DecimalSeperation(mContext, 0)));
@@ -237,8 +241,7 @@ public class DetailSaleInsert extends AppCompatActivity {
                 //endregion
 
                 //region Insert DetailSale
-                EditText saleDate = (EditText) findViewById(R.id.detail_sales_info_sale_date);
-                saleDate.setText(Utility.preInsertDate(mContext));
+
 
                 ListView getProductListView = (ListView) findViewById(R.id.listview_sale_items);
                 itemNumber = getProductListView.getAdapter().getCount();

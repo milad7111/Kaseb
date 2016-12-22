@@ -26,8 +26,7 @@ public class CustomerAdapter extends CursorAdapter {
 
     public CustomerAdapter(Context context, Cursor c, int flags) {
         super(context, c, flags);
-        cursorInflater = (LayoutInflater) context.getSystemService(
-                Context.LAYOUT_INFLATER_SERVICE);
+        cursorInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     @Override
@@ -62,10 +61,6 @@ public class CustomerAdapter extends CursorAdapter {
             default:
                 break;
         }
-//        imageViewState.setImageResource(R.drawable.star);
-//        imageViewState.setColorFilter(Color.argb(10, 10, 10, 10));
-//        imageViewState.setColorFilter(ContextCompat.getColor(context, R.color.cardview_light_background));
-
         textViewName.setText(name);
         textViewAmount.setText(amount);
     }

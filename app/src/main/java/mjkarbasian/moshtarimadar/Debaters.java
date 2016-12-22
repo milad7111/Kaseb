@@ -1,29 +1,48 @@
 package mjkarbasian.moshtarimadar;
 
 import android.app.SearchManager;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
-import android.widget.FrameLayout;
-import android.widget.ListView;
 
-import mjkarbasian.moshtarimadar.adapters.DebatorAdapter;
+public class Debaters extends DrawerActivity {
 
-public class Debators extends DrawerActivity {
-    DebatorAdapter mDebatorAdapter;
-    ListView mListView;
+    FragmentManager fragmentManager = getSupportFragmentManager();
+    Fragment debatersList = new DebatersList();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_debators);
-        getLayoutInflater().inflate(R.layout.activity_debators,(FrameLayout)findViewById(R.id.container));
-        mListView =(ListView) findViewById(R.id.list_view_debators);
-        mDebatorAdapter = new DebatorAdapter(this);
-        mListView.setAdapter(mDebatorAdapter);
+
+        Intent intent = getIntent();
+        if (Intent.ACTION_SEARCH.equals(intent.getAction())) handleIntent(intent);
+        else
+            fragmentManager.beginTransaction().replace(R.id.container, debatersList, "debatersList").commit();
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        setIntent(intent);
+        handleIntent(intent);
+    }
+
+    private void handleIntent(Intent intent) {
+        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+            String query = intent.getStringExtra(SearchManager.QUERY);
+            doMySearch(query);
+        }
+    }
+
+    private void doMySearch(String query) {
+        DebatersList queryFragment = (DebatersList) fragmentManager.findFragmentByTag("debatersList");
+        queryFragment.getSearchQuery(query);
     }
 
     @Override

@@ -47,7 +47,7 @@
         </activity>
 
         <activity
-            android:name=".Debators"
+            android:name=".Debaters"
             android:label="@string/title_debator"
             android:theme="@style/AppTheme.NoActionBar">
 
