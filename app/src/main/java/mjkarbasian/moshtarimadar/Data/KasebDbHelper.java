@@ -46,6 +46,7 @@ public class KasebDbHelper extends SQLiteOpenHelper {
                 KasebContract.Customers.COLUMN_ADDRESS_STREET + " TEXT," +
                 KasebContract.Customers.COLUMN_ADDRESS_POSTAL_CODE + " TEXT," +
                 KasebContract.Customers.COLUMN_DESCRIPTION + " TEXT," +
+                KasebContract.Customers.COLUMN_CUSTOMER_PICTURE + " BLOB," +
                 KasebContract.Customers.COLUMN_IS_DELETED + " BOOLEAN NOT NULL DEFAULT 0," +
                 KasebContract.Customers.COLUMN_STATE_ID + " INTEGER NOT NULL DEFAULT 4," +
                 " FOREIGN KEY (" + KasebContract.Customers.COLUMN_STATE_ID + ") REFERENCES " +
@@ -56,6 +57,9 @@ public class KasebDbHelper extends SQLiteOpenHelper {
         //region 2 create state Table
         final String CREATE_STATE_TABLE = "CREATE TABLE " + KasebContract.State.TABLE_NAME + "(" +
                 KasebContract.State._ID + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
+                KasebContract.State.COLUMN_STATE_COLOR_R + " INTEGER NOT NULL DEFAULT 0 " +
+                KasebContract.State.COLUMN_STATE_COLOR_G + " INTEGER NOT NULL DEFAULT 0 " +
+                KasebContract.State.COLUMN_STATE_COLOR_B + " INTEGER NOT NULL DEFAULT 0 " +
                 KasebContract.State.COLUMN_STATE_POINTER + " TEXT UNIQUE NOT NULL" + ");";
         //endregion
 
@@ -94,6 +98,8 @@ public class KasebDbHelper extends SQLiteOpenHelper {
                 KasebContract.DetailSalePayments.COLUMN_AMOUNT + " REAL NOT NULL," +
                 KasebContract.DetailSalePayments.COLUMN_PAYMENT_METHOD_ID + " INTEGER NOT NULL, " +
                 KasebContract.DetailSalePayments.COLUMN_DETAIL_SALE_ID + " INTEGER NOT NULL, " +
+                //is pass must change in version 2 biz rule must change.
+                KasebContract.DetailSalePayments.COLUMN_IS_PASS + " BOOLEAN NOT NULL DEFAULT 1," +
                 KasebContract.DetailSalePayments.COLUMN_MODIFIED_DATE + " TEXT, " +
                 " FOREIGN KEY (" + KasebContract.DetailSalePayments.COLUMN_DETAIL_SALE_ID + ") REFERENCES " +
                 KasebContract.DetailSale.TABLE_NAME + " (" + KasebContract.DetailSale._ID + "), " +
@@ -147,6 +153,7 @@ public class KasebDbHelper extends SQLiteOpenHelper {
                 KasebContract.Products.COLUMN_PRODUCT_NAME + " TEXT NOT NULL UNIQUE," +
                 KasebContract.Products.COLUMN_PRODUCT_CODE + " TEXT," +
                 KasebContract.Products.COLUMN_DESCRIPTION + " TEXT," +
+                KasebContract.Products.COLUMN_PRODUCT_PICTURE + " BLOB," +
                 KasebContract.Products.COLUMN_UNIT + " TEXT);";
         //endregion
 

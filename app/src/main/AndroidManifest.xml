@@ -21,6 +21,16 @@
             android:theme="@style/AppTheme.NoActionBar" />
 
         <activity
+            android:name=".DetailSaleView"
+            android:label="@string/app_name"
+            android:parentActivityName=".Sales.Sales"
+            android:theme="@style/AppTheme.NoActionBar" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Sales.Sales" />
+        </activity>
+
+        <activity
             android:name=".Sales.DetailSaleInsert"
             android:parentActivityName=".Sales.Sales"
             android:label="@string/title_activity_detail_sale"
@@ -131,7 +141,7 @@
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".Sales.Sales" />
+                android:value="mjkarbasian.moshtarimadar.Sales.Sales" />
         </activity>
 
         <provider

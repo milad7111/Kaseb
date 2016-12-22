@@ -93,6 +93,7 @@ public class KasebContract {
         public static final String COLUMN_ADDRESS_CITY = "address_city";
         public static final String COLUMN_ADDRESS_STREET = "address_street";
         public static final String COLUMN_ADDRESS_POSTAL_CODE = "address_postal_code";
+        public static final String COLUMN_CUSTOMER_PICTURE = "cusomer_picture";
 
         //Defining Uri Maker functions : content://AUTHORITY/customers/id
         public static Uri buildCustomerUri(long id) {
@@ -117,6 +118,9 @@ public class KasebContract {
         //Defining columns
         public static final String TABLE_NAME = "state";
         public static final String COLUMN_STATE_POINTER = "state_pointer";
+        public static final String COLUMN_STATE_COLOR_R = "state_color_r";
+        public static final String COLUMN_STATE_COLOR_G = "state_color_g";
+        public static final String COLUMN_STATE_COLOR_B = "state_color_b";
 
         //Defining Uri Maker functions : content://AUTHORITY/state/id
         public static Uri buildStateUri(long id) {
@@ -204,6 +208,8 @@ public class KasebContract {
         public static final String COLUMN_DUE_DATE = "due_date";
         public static final String COLUMN_AMOUNT = "amount";
         public static final String COLUMN_MODIFIED_DATE = "modify_date";
+        //is pass must change in version 2 biz rule must change.
+        public static final String COLUMN_IS_PASS = "is_pass";
 
         //Defining Uri Maker functions : content://AUTHORITY/DetailSalePayments/id
         public static Uri buildDetailSalePaymentsUri(long id) {
@@ -332,6 +338,7 @@ public class KasebContract {
         public static final String COLUMN_PRODUCT_CODE = "product_code";
         public static final String COLUMN_UNIT = "unit";
         public static final String COLUMN_DESCRIPTION = "description";
+        public static final String COLUMN_PRODUCT_PICTURE = "product_picture" ;
 
         //Defining Uri Maker functions : content://AUTHORITY/products/id
         public static Uri buildProductsUri(long id) {
