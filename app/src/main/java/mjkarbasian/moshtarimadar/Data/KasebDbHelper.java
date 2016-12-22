@@ -57,9 +57,7 @@ public class KasebDbHelper extends SQLiteOpenHelper {
         //region 2 create state Table
         final String CREATE_STATE_TABLE = "CREATE TABLE " + KasebContract.State.TABLE_NAME + "(" +
                 KasebContract.State._ID + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
-                KasebContract.State.COLUMN_STATE_COLOR_R + " INTEGER NOT NULL DEFAULT 0 " +
-                KasebContract.State.COLUMN_STATE_COLOR_G + " INTEGER NOT NULL DEFAULT 0 " +
-                KasebContract.State.COLUMN_STATE_COLOR_B + " INTEGER NOT NULL DEFAULT 0 " +
+                KasebContract.State.COLUMN_STATE_COLOR + " TEXT NOT NULL DEFAULT #000000 " +
                 KasebContract.State.COLUMN_STATE_POINTER + " TEXT UNIQUE NOT NULL" + ");";
         //endregion
 

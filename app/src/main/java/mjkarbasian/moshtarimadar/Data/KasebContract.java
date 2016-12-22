@@ -118,9 +118,8 @@ public class KasebContract {
         //Defining columns
         public static final String TABLE_NAME = "state";
         public static final String COLUMN_STATE_POINTER = "state_pointer";
-        public static final String COLUMN_STATE_COLOR_R = "state_color_r";
-        public static final String COLUMN_STATE_COLOR_G = "state_color_g";
-        public static final String COLUMN_STATE_COLOR_B = "state_color_b";
+        public static final String COLUMN_STATE_COLOR= "state_color_r";
+
 
         //Defining Uri Maker functions : content://AUTHORITY/state/id
         public static Uri buildStateUri(long id) {
