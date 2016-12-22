@@ -124,7 +124,8 @@ public class CostSaleProductList extends Fragment implements LoaderManager.Loade
                             productHistoryBundle.putString("productId", mCursor.getString(mCursor.getColumnIndex(KasebContract.Products._ID)));
                             productHistory.setArguments(productHistoryBundle);
                             fragmentManager = getActivity().getSupportFragmentManager();
-                            fragmentManager.beginTransaction().replace(R.id.container, productHistory).commit();
+                            fragmentManager.beginTransaction().addToBackStack(null).replace(R.id.container, productHistory).commit();
+
                         }
                         mCursor.close();
                         break;

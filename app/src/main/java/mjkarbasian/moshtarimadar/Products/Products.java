@@ -40,7 +40,6 @@ public class Products extends DrawerActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setDefaultKeyMode(DEFAULT_KEYS_SEARCH_LOCAL);
 
-
         productsBundle.putString("witchActivity", "product");
         costsSaleProductFragment.setArguments(productsBundle);
 
