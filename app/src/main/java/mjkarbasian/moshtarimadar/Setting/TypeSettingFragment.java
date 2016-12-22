@@ -19,7 +19,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.Toast;
+
+import com.pes.androidmaterialcolorpickerdialog.ColorPicker;
 
 import mjkarbasian.moshtarimadar.Data.KasebContract;
 import mjkarbasian.moshtarimadar.R;
@@ -98,8 +99,15 @@ public class TypeSettingFragment extends Fragment implements LoaderManager.Loade
                 starImage.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Toast toast = Toast.makeText(getActivity(),"select color",Toast.LENGTH_LONG);
-                        toast.show();
+                        final ColorPicker colorPicker = new ColorPicker(getActivity());
+                        colorPicker.show();
+                        Button okColor = (Button) colorPicker.findViewById(R.id.okColorButton);
+                        okColor.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                colorPicker.dismiss();
+                            }
+                        });
                     }
                 });
             }
