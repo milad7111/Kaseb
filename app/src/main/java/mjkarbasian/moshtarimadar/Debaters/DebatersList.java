@@ -1,4 +1,4 @@
-package mjkarbasian.moshtarimadar;
+package mjkarbasian.moshtarimadar.Debaters;
 
 import android.content.Intent;
 import android.database.Cursor;
@@ -15,7 +15,9 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import mjkarbasian.moshtarimadar.Customers.DetailCustomer;
 import mjkarbasian.moshtarimadar.Data.KasebContract;
+import mjkarbasian.moshtarimadar.R;
 import mjkarbasian.moshtarimadar.adapters.DebaterAdapter;
 
 /**

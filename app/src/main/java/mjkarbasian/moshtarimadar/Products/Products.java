@@ -1,8 +1,9 @@
-package mjkarbasian.moshtarimadar;
+package mjkarbasian.moshtarimadar.Products;
 
 import android.app.SearchManager;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
@@ -11,13 +12,17 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
-public class Costs extends DrawerActivity {
+import mjkarbasian.moshtarimadar.CostSaleProductList;
+import mjkarbasian.moshtarimadar.DrawerActivity;
+import mjkarbasian.moshtarimadar.R;
+
+public class Products extends DrawerActivity {
 
     Fragment costsSaleProductFragment = new CostSaleProductList();
-    Bundle costsBundle = new Bundle();
+    Bundle productsBundle = new Bundle();
+    Fragment productInsert = new ProductInsert();
 
     android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
-    Fragment costInsert = new CostInsert();
     private String mQuery;
 
     @Override
@@ -31,12 +36,13 @@ public class Costs extends DrawerActivity {
         super.onCreate(savedInstanceState);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setDefaultKeyMode(DEFAULT_KEYS_SEARCH_LOCAL);
 
 
-        costsBundle.putString("witchActivity", "cost");
-        costsSaleProductFragment.setArguments(costsBundle);
+        productsBundle.putString("witchActivity", "product");
+        costsSaleProductFragment.setArguments(productsBundle);
 
         Intent intent = getIntent();
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) handleIntent(intent);
@@ -64,15 +70,16 @@ public class Costs extends DrawerActivity {
 
     public void fab_cost_sale_product(View v) {
         android.support.v4.app.FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.container, costInsert);
+        fragmentTransaction.replace(R.id.container, productInsert);
         fragmentTransaction.addToBackStack(null);
         int callBackStack = fragmentTransaction.commit();
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
+
         // Inflate the menu; this adds items to the action bar if it is present.
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_costs, menu);
+        inflater.inflate(R.menu.menu_products, menu);
 
         // Associate searchable configuration with the SearchView
         SearchManager searchManager =
@@ -107,8 +114,8 @@ public class Costs extends DrawerActivity {
             case R.id.menu_sort_code:
                 sortFragment.getSortOrder(R.id.menu_sort_code);
                 break;
-            case R.id.menu_sort_date:
-                sortFragment.getSortOrder(R.id.menu_sort_date);
+            case R.id.menu_sort_name:
+                sortFragment.getSortOrder(R.id.menu_sort_name);
                 break;
             default:
                 return super.onOptionsItemSelected(item);

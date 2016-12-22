@@ -9,7 +9,7 @@ import android.widget.Toast;
 
 import java.io.File;
 
-import mjkarbasian.moshtarimadar.Customers;
+import mjkarbasian.moshtarimadar.Customers.Customers;
 
 /**
  * Created by family on 7/28/2016.

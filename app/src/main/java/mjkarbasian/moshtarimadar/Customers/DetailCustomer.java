@@ -1,4 +1,4 @@
-package mjkarbasian.moshtarimadar;
+package mjkarbasian.moshtarimadar.Customers;
 
 import android.content.Intent;
 import android.database.Cursor;
@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import mjkarbasian.moshtarimadar.Data.KasebContract;
+import mjkarbasian.moshtarimadar.R;
 import mjkarbasian.moshtarimadar.adapters.DetailCustomerAdapter;
 import mjkarbasian.moshtarimadar.helper.Utility;
 

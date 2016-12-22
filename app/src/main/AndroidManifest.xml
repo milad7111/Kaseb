@@ -21,16 +21,16 @@
             android:theme="@style/AppTheme.NoActionBar" />
 
         <activity
-            android:name=".DetailSaleInsert"
+            android:name=".Sales.DetailSaleInsert"
             android:label="@string/title_activity_detail_sale"
             android:theme="@style/AppTheme.NoActionBar" >
         <meta-data
             android:name="android.support.PARENT_ACTIVITY"
-            android:value="mjkarbasian.moshtarimadar.Customers" />
+            android:value=".Customers.Customers" />
         </activity>
 
         <activity
-            android:name=".Customers"
+            android:name=".Customers.Customers"
             android:label="@string/title_customer"
             android:theme="@style/AppTheme.NoActionBar"
             android:launchMode="singleTop"
@@ -47,7 +47,7 @@
         </activity>
 
         <activity
-            android:name=".Debaters"
+            android:name=".Debaters.Debaters"
             android:label="@string/title_debator"
             android:theme="@style/AppTheme.NoActionBar">
 
@@ -57,9 +57,9 @@
         </activity>
 
         <activity
-            android:name=".Sales"
+            android:name=".Sales.Sales"
             android:label="@string/title_activity_sales"
-            android:parentActivityName=".Customers"
+            android:parentActivityName=".Customers.Customers"
             android:theme="@style/AppTheme.NoActionBar"
             android:launchMode="singleTop"
             >
@@ -68,7 +68,7 @@
             </intent-filter>
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="mjkarbasian.moshtarimadar.Customers" />
+                android:value=".Customers.Customers" />
 
             <meta-data
                 android:name="android.app.searchable"
@@ -76,7 +76,7 @@
         </activity>
 
         <activity
-            android:name=".Costs"
+            android:name=".Costs.Costs"
             android:label="@string/title_activity_costs"
             android:theme="@style/AppTheme.NoActionBar"
             android:launchMode="singleTop">
@@ -85,7 +85,7 @@
             </intent-filter>
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="mjkarbasian.moshtarimadar.Customers" />
+                android:value=".Customers.Customers" />
 
             <meta-data
                 android:name="android.app.searchable"
@@ -93,9 +93,9 @@
         </activity>
 
         <activity
-            android:name=".Products"
+            android:name=".Products.Products"
             android:label="@string/title_activity_products"
-            android:parentActivityName=".Customers"
+            android:parentActivityName=".Customers.Customers"
             android:theme="@style/AppTheme.NoActionBar"
             android:launchMode="singleTop">
             <intent-filter>
@@ -103,7 +103,7 @@
             </intent-filter>
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="mjkarbasian.moshtarimadar.Customers" />
+                android:value=".Customers.Customers" />
 
             <meta-data
                 android:name="android.app.searchable"
@@ -111,12 +111,12 @@
         </activity>
 
         <activity
-            android:name=".DetailCustomer"
+            android:name=".Customers.DetailCustomer"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
 
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="mjkarbasian.moshtarimadar.Customers" />
+                android:value=".Customers.Customers" />
         </activity>
 
         <activity android:name=".helper.GalleryUtil" />
@@ -124,13 +124,13 @@
         <activity android:name=".helper.ImageSelector" />
 
         <activity
-            android:name=".DetailSale"
+            android:name=".Sales.DetailSale"
             android:label="@string/title_activity_detail_sale"
-            android:parentActivityName=".Sales"
+            android:parentActivityName=".Sales.Sales"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="mjkarbasian.moshtarimadar.Sales" />
+                android:value=".Sales.Sales" />
         </activity>
 
         <!--<activity-->
@@ -140,7 +140,7 @@
         <!--android:theme="@style/AppTheme.NoActionBar">-->
         <!--<meta-data-->
         <!--android:name="android.support.PARENT_ACTIVITY"-->
-        <!--android:value="mjkarbasian.moshtarimadar.Products" />-->
+        <!--android:value="mjkarbasian.moshtarimadar.Products.Products" />-->
         <!--</activity>-->
 
         <provider
@@ -150,7 +150,7 @@
             android:exported="true"
             android:permission="com.myApp.LICENSE_TO_KILL"></provider>
         <activity
-            android:name=".MySetting"
+            android:name=".Setting.MySetting"
             android:label="@string/title_activity_my_setting"
             android:theme="@style/AppTheme.NoActionBar"></activity>
 

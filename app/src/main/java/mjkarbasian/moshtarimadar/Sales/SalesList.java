@@ -1,4 +1,4 @@
-package mjkarbasian.moshtarimadar;
+package mjkarbasian.moshtarimadar.Sales;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,6 +12,7 @@ import android.widget.ListView;
 
 import java.text.ParseException;
 
+import mjkarbasian.moshtarimadar.R;
 import mjkarbasian.moshtarimadar.adapters.SaleAdapter;
 import mjkarbasian.moshtarimadar.helper.Utility;
 

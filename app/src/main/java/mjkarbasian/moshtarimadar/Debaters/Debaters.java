@@ -1,4 +1,4 @@
-package mjkarbasian.moshtarimadar;
+package mjkarbasian.moshtarimadar.Debaters;
 
 import android.app.SearchManager;
 import android.content.Intent;
@@ -10,6 +10,9 @@ import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
+
+import mjkarbasian.moshtarimadar.DrawerActivity;
+import mjkarbasian.moshtarimadar.R;
 
 public class Debaters extends DrawerActivity {
 

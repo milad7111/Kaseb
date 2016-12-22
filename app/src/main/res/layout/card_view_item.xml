@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".Debaters">
+    tools:context=".Debaters.Debaters">
 <LinearLayout
     android:id="@+id/debator_section"
     android:layout_height="wrap_content"
@@ -15,7 +15,7 @@
     android:layout_marginTop="@dimen/activity_vertical_margin"
     android:padding="2dp"
     android:orientation="horizontal"
-    android:clickable="true"
+    android:clickable="false"
     android:background="?attr/selectableItemBackground"
     >
     <ImageView

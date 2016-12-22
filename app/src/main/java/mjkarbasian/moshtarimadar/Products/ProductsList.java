@@ -1,4 +1,4 @@
-package mjkarbasian.moshtarimadar;
+package mjkarbasian.moshtarimadar.Products;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import mjkarbasian.moshtarimadar.R;
 import mjkarbasian.moshtarimadar.adapters.ProductAdapter;
 import mjkarbasian.moshtarimadar.helper.Samples;
 

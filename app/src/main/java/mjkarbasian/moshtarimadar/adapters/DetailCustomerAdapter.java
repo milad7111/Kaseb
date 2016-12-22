@@ -14,9 +14,9 @@
 //import android.widget.TextView;
 //
 //import mjkarbasian.moshtarimadar.Data.KasebContract;
-//import mjkarbasian.moshtarimadar.DetailCustomerBill;
-//import mjkarbasian.moshtarimadar.DetailCustomerDash;
-//import mjkarbasian.moshtarimadar.DetailCustomerInfo;
+//import mjkarbasian.moshtarimadar.Customers.DetailCustomerBill;
+//import mjkarbasian.moshtarimadar.Customers.DetailCustomerDash;
+//import mjkarbasian.moshtarimadar.Customers.DetailCustomerInfo;
 //import mjkarbasian.moshtarimadar.R;
 
 //public class DetailCustomerAdapter extends CursorAdapter {
@@ -103,9 +103,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
-import mjkarbasian.moshtarimadar.DetailCustomerBill;
-import mjkarbasian.moshtarimadar.DetailCustomerDash;
-import mjkarbasian.moshtarimadar.DetailCustomerInfo;
+import mjkarbasian.moshtarimadar.Customers.DetailCustomerBill;
+import mjkarbasian.moshtarimadar.Customers.DetailCustomerDash;
+import mjkarbasian.moshtarimadar.Customers.DetailCustomerInfo;
 
 public class DetailCustomerAdapter extends FragmentStatePagerAdapter {
     int mNumOfTabs;

@@ -1,4 +1,4 @@
-package mjkarbasian.moshtarimadar;
+package mjkarbasian.moshtarimadar.Customers;
 
 import android.database.Cursor;
 import android.graphics.Color;
@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import mjkarbasian.moshtarimadar.Data.KasebContract;
+import mjkarbasian.moshtarimadar.R;
 import mjkarbasian.moshtarimadar.helper.Utility;
 
 /**

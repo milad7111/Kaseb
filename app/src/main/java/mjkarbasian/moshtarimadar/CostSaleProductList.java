@@ -23,6 +23,8 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import mjkarbasian.moshtarimadar.Data.KasebContract;
+import mjkarbasian.moshtarimadar.Products.DetailProducts;
+import mjkarbasian.moshtarimadar.Sales.DetailSaleInsert;
 import mjkarbasian.moshtarimadar.adapters.CostSaleProductAdapter;
 
 /**

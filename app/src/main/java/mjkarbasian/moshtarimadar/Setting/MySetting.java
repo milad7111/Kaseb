@@ -1,7 +1,10 @@
-package mjkarbasian.moshtarimadar;
+package mjkarbasian.moshtarimadar.Setting;
 
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+
+import mjkarbasian.moshtarimadar.DrawerActivity;
+import mjkarbasian.moshtarimadar.R;
 
 public class MySetting extends DrawerActivity {
     android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();

@@ -1,4 +1,4 @@
-package mjkarbasian.moshtarimadar;
+package mjkarbasian.moshtarimadar.Sales;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,6 +16,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import mjkarbasian.moshtarimadar.R;
 import mjkarbasian.moshtarimadar.adapters.DetailSaleItems;
 import mjkarbasian.moshtarimadar.adapters.DetailSalePayment;
 import mjkarbasian.moshtarimadar.adapters.DetailSaleTax;

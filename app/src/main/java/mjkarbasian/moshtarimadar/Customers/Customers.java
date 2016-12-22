@@ -1,4 +1,4 @@
-package mjkarbasian.moshtarimadar;
+package mjkarbasian.moshtarimadar.Customers;
 
 import android.app.Activity;
 import android.app.SearchManager;
@@ -19,6 +19,8 @@ import android.widget.Toast;
 
 import java.io.File;
 
+import mjkarbasian.moshtarimadar.DrawerActivity;
+import mjkarbasian.moshtarimadar.R;
 import mjkarbasian.moshtarimadar.helper.GalleryUtil;
 import mjkarbasian.moshtarimadar.helper.Samples;
 import mjkarbasian.moshtarimadar.helper.Utility;

@@ -1,4 +1,4 @@
-package mjkarbasian.moshtarimadar;
+package mjkarbasian.moshtarimadar.Sales;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import mjkarbasian.moshtarimadar.Data.KasebContract;
+import mjkarbasian.moshtarimadar.R;
 import mjkarbasian.moshtarimadar.adapters.CostSaleProductAdapter;
 import mjkarbasian.moshtarimadar.adapters.CustomerAdapter;
 import mjkarbasian.moshtarimadar.adapters.PaymentAdapter;

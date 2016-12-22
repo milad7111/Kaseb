@@ -1,4 +1,4 @@
-package mjkarbasian.moshtarimadar;
+package mjkarbasian.moshtarimadar.Customers;
 
 import android.database.Cursor;
 import android.os.Bundle;
@@ -14,7 +14,9 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import mjkarbasian.moshtarimadar.Customers.CustomersLists;
 import mjkarbasian.moshtarimadar.Data.KasebContract;
+import mjkarbasian.moshtarimadar.R;
 import mjkarbasian.moshtarimadar.adapters.CustomerBillAdapter;
 
 /**
