@@ -12,6 +12,13 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import mjkarbasian.moshtarimadar.Costs.Costs;
+import mjkarbasian.moshtarimadar.Customers.Customers;
+import mjkarbasian.moshtarimadar.Debaters.Debaters;
+import mjkarbasian.moshtarimadar.Products.Products;
+import mjkarbasian.moshtarimadar.Sales.Sales;
+import mjkarbasian.moshtarimadar.Setting.MySetting;
+
 public class DrawerActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     DrawerLayout mDrawer;
@@ -91,7 +98,7 @@ public class DrawerActivity extends AppCompatActivity
             intent = new Intent(this, Customers.class);
             startActivity(intent);
         } else if (id == R.id.nav_debtors) {
-            intent = new Intent(this, Debators.class);
+            intent = new Intent(this, Debaters.class);
             startActivity(intent);
 
         } else if (id == R.id.nav_sales) {

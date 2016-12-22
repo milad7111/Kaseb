@@ -23,6 +23,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import mjkarbasian.moshtarimadar.Data.KasebContract;
+import mjkarbasian.moshtarimadar.Products.DetailProducts;
 import mjkarbasian.moshtarimadar.adapters.CostSaleProductAdapter;
 
 /**
@@ -125,7 +126,8 @@ public class CostSaleProductList extends Fragment implements LoaderManager.Loade
                             productHistoryBundle.putString("productId", mCursor.getString(mCursor.getColumnIndex(KasebContract.Products._ID)));
                             productHistory.setArguments(productHistoryBundle);
                             fragmentManager = getActivity().getSupportFragmentManager();
-                            fragmentManager.beginTransaction().replace(R.id.container, productHistory).commit();
+                            fragmentManager.beginTransaction().addToBackStack(null).replace(R.id.container, productHistory).commit();
+
                         }
                         mCursor.close();
                         break;

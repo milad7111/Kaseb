@@ -6,15 +6,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="mjkarbasian.moshtarimadar.Debators">
+    tools:context=".Debaters.Debaters">
 
 <ListView
-    android:id="@+id/list_view_debators"
+    android:id="@+id/list_view_debater"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginTop="4dp"
     android:divider="@null"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    ></ListView>
+    />
 
 </android.support.design.widget.CoordinatorLayout>

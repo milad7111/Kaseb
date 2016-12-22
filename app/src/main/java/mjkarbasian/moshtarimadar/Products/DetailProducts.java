@@ -1,4 +1,4 @@
-package mjkarbasian.moshtarimadar;
+package mjkarbasian.moshtarimadar.Products;
 
 import android.app.Dialog;
 import android.content.ContentValues;
@@ -26,6 +26,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import mjkarbasian.moshtarimadar.Data.KasebContract;
+import mjkarbasian.moshtarimadar.R;
 import mjkarbasian.moshtarimadar.adapters.DetailProductAdapter;
 import mjkarbasian.moshtarimadar.helper.Utility;
 

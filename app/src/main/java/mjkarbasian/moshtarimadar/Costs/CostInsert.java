@@ -1,4 +1,4 @@
-package mjkarbasian.moshtarimadar;
+package mjkarbasian.moshtarimadar.Costs;
 
 import android.content.ContentValues;
 import android.database.Cursor;
@@ -16,6 +16,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import mjkarbasian.moshtarimadar.Data.KasebContract;
+import mjkarbasian.moshtarimadar.R;
 import mjkarbasian.moshtarimadar.adapters.TypesSettingAdapter;
 import mjkarbasian.moshtarimadar.helper.Utility;
 

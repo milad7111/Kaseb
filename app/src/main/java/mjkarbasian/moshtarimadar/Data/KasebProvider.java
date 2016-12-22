@@ -597,12 +597,12 @@ public class KasebProvider extends ContentProvider {
             //region 29 DETAIL_SALE_BY_IS_BALANCED
             case DETAIL_SALE_BY_IS_BALANCED: {//issue#42
                 String isBalancedId = Utility.getTheLastPathUri(uri);
-                retCursor = mOpenHelper.getReadableDatabase().query(
-                        KasebContract.DetailSale.TABLE_NAME,
+                retCursor = sDetailSaleBySaleQueryBuilder.query(
+                        mOpenHelper.getReadableDatabase(),
                         projection,
                         KasebContract.DetailSale.COLUMN_IS_BALANCED + " = ?",
                         new String[]{isBalancedId},
-                        null,
+                        KasebContract.Sales.COLUMN_CUSTOMER_ID,
                         null,
                         sortOrder
                 );

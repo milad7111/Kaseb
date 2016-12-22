@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="mjkarbasian.moshtarimadar.Debators">
+    tools:context=".Debaters.Debaters">
 <LinearLayout
     android:id="@+id/debator_section"
     android:layout_height="wrap_content"
@@ -15,7 +15,7 @@
     android:layout_marginTop="@dimen/activity_vertical_margin"
     android:padding="2dp"
     android:orientation="horizontal"
-    android:clickable="true"
+    android:clickable="false"
     android:background="?attr/selectableItemBackground"
     >
     <ImageView
@@ -54,86 +54,8 @@
         />
 
 </LinearLayout>
-<TableLayout
-    android:id="@+id/table_balance_debators"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:gravity="center"
-    android:layout_marginTop="@dimen/activity_vertical_Large_margin"
-    android:layout_marginRight="8dp"
-    android:layout_marginEnd="8dp"
-    android:divider="@drawable/divider_list"
-    android:showDividers="middle"
-    >
-    <TableRow
-        android:padding="3dp"
-        android:layout_height="wrap_content"
-        android:layout_width="fill_parent">
-        <TextView
-            android:id="@+id/column_title_invoice_code"
-            android:text="@string/column_title_Bill_code"
-            style="@style/debator_table_header_text"
-            android:layout_weight="1"
-            ></TextView>
-        <TextView
-            android:id="@+id/column_title_settlement"
-            android:text="@string/column_title_day_of_maturity"
-            style="@style/debator_table_header_text"
-            android:layout_weight="2"/>
-        <TextView
-            android:id="@+id/column_title_account_ballance"
-            android:text="@string/column_title_account_balance"
-            style="@style/debator_table_header_text"
-            android:layout_weight="2"/>
-    </TableRow>
-    <!--<TableRow-->
-        <!--android:padding="3dp"-->
-        <!--android:layout_marginTop="4dp"-->
-        <!-->-->
-        <!--<TextView-->
-            <!--android:id="@+id/code_1_invoice"-->
-            <!--style="@style/debator_table_cell_text"-->
-            <!--android:layout_weight="1"-->
-            <!--android:text="@string/sample_invoice_code"/>-->
 
-        <!--<TextView-->
-            <!--android:id="@+id/due_date_1_day"-->
-            <!--style="@style/debator_table_cell_text"-->
-            <!--android:layout_weight="1"-->
-            <!--android:text="@string/sample_due_date_1_day"/>-->
-
-        <!--<TextView-->
-            <!--android:id="@+id/balance_1_ammount"-->
-            <!--style="@style/debator_table_cell_text"-->
-            <!--android:layout_weight="2"-->
-            <!--android:text="@string/sample_invoice_ballance"/>-->
-    <!--</TableRow>-->
-    <!--<TableRow-->
-        <!--android:padding="3dp"-->
-        <!--android:layout_marginTop="4dp"-->
-        <!-->-->
-        <!--<TextView-->
-            <!--android:id="@+id/code_2_invoice"-->
-            <!--style="@style/debator_table_cell_text"-->
-            <!--android:layout_weight="1"-->
-            <!--android:text="@string/sample_2_invoice_code"/>-->
-
-        <!--<TextView-->
-            <!--android:id="@+id/due_date_2_day"-->
-            <!--style="@style/debator_table_cell_text"-->
-            <!--android:layout_weight="1"-->
-            <!--android:text="@string/sample_due_date_2_day"/>-->
-
-        <!--<TextView-->
-            <!--android:id="@+id/balance_2_ammount"-->
-            <!--style="@style/debator_table_cell_text"-->
-            <!--android:layout_weight="2"-->
-            <!--android:text="@string/sample_invoice_2_ballance"/>-->
-    <!--</TableRow>-->
-
-</TableLayout>
-
-<View
+    <View
     android:layout_width="fill_parent"
     android:layout_height="2px"
     android:layout_marginTop="@dimen/activity_vertical_margin"

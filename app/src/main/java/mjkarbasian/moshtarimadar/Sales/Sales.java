@@ -1,4 +1,4 @@
-package mjkarbasian.moshtarimadar;
+package mjkarbasian.moshtarimadar.Sales;
 
 import android.app.SearchManager;
 import android.content.Intent;
@@ -11,20 +11,17 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
-public class Costs extends DrawerActivity {
+import mjkarbasian.moshtarimadar.CostSaleProductList;
+import mjkarbasian.moshtarimadar.DrawerActivity;
+import mjkarbasian.moshtarimadar.R;
+
+public class Sales extends DrawerActivity {
 
     Fragment costsSaleProductFragment = new CostSaleProductList();
-    Bundle costsBundle = new Bundle();
+    Bundle salesBundle = new Bundle();
 
     android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
-    Fragment costInsert = new CostInsert();
     private String mQuery;
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        this.finish();
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,13 +32,19 @@ public class Costs extends DrawerActivity {
         setDefaultKeyMode(DEFAULT_KEYS_SEARCH_LOCAL);
 
 
-        costsBundle.putString("witchActivity", "cost");
-        costsSaleProductFragment.setArguments(costsBundle);
+        salesBundle.putString("witchActivity", "sale");
+        costsSaleProductFragment.setArguments(salesBundle);
 
         Intent intent = getIntent();
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) handleIntent(intent);
         else
             fragmentManager.beginTransaction().replace(R.id.container, costsSaleProductFragment, "CostSaleProductList").commit();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        this.finish();
     }
 
     @Override
@@ -63,16 +66,16 @@ public class Costs extends DrawerActivity {
     }
 
     public void fab_cost_sale_product(View v) {
-        android.support.v4.app.FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.container, costInsert);
-        fragmentTransaction.addToBackStack(null);
-        int callBackStack = fragmentTransaction.commit();
+        Intent intent = null;
+        intent = new Intent(getBaseContext(), DetailSaleInsert.class);
+        startActivity(intent);
     }
 
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_costs, menu);
+        inflater.inflate(R.menu.menu_sales, menu);
 
         // Associate searchable configuration with the SearchView
         SearchManager searchManager =
@@ -115,4 +118,5 @@ public class Costs extends DrawerActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
 }

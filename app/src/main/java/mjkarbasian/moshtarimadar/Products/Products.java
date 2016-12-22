@@ -1,4 +1,4 @@
-package mjkarbasian.moshtarimadar;
+package mjkarbasian.moshtarimadar.Products;
 
 import android.app.SearchManager;
 import android.content.Intent;
@@ -11,6 +11,10 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+
+import mjkarbasian.moshtarimadar.CostSaleProductList;
+import mjkarbasian.moshtarimadar.DrawerActivity;
+import mjkarbasian.moshtarimadar.R;
 
 public class Products extends DrawerActivity {
 
@@ -35,7 +39,6 @@ public class Products extends DrawerActivity {
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setDefaultKeyMode(DEFAULT_KEYS_SEARCH_LOCAL);
-
 
         productsBundle.putString("witchActivity", "product");
         costsSaleProductFragment.setArguments(productsBundle);

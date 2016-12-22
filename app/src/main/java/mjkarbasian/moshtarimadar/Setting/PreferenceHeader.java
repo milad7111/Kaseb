@@ -1,4 +1,4 @@
-package mjkarbasian.moshtarimadar;
+package mjkarbasian.moshtarimadar.Setting;
 
 import android.app.Activity;
 import android.content.ContentValues;
@@ -29,6 +29,7 @@ import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 
 import mjkarbasian.moshtarimadar.Data.KasebContract;
+import mjkarbasian.moshtarimadar.R;
 import mjkarbasian.moshtarimadar.adapters.HeaderAdapter;
 
 /**

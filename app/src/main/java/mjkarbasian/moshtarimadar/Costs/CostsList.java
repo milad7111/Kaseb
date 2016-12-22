@@ -1,4 +1,4 @@
-package mjkarbasian.moshtarimadar;
+package mjkarbasian.moshtarimadar.Costs;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -10,6 +10,7 @@ import android.widget.ListView;
 
 import java.text.ParseException;
 
+import mjkarbasian.moshtarimadar.R;
 import mjkarbasian.moshtarimadar.adapters.CostAdapter;
 import mjkarbasian.moshtarimadar.helper.Utility;
 
