@@ -65,35 +65,6 @@ public class DetailCustomer extends AppCompatActivity {
             }
         }
 
-//        ImageView customerAvatar = (ImageView) findViewById(R.id.image_toolbar);
-
-//        if (Samples.customerAvatar.size() == 0) {
-//            customerAvatar.setImageResource(R.drawable.account);
-//        } else {
-//            if (!(Samples.customerAvatar.size() <= position)) {
-//                customerAvatar.setImageURI(Samples.customerAvatar.get(position));
-//            } else {
-//                customerAvatar.setImageResource(R.drawable.account);
-//            }
-//        }
-
-//        if (salesCode.size() == 0) {
-//
-//            setSalesCode();
-//            setSaleDueDate();
-//            setSalesCustomer(this);
-//            setSalesAmount();
-//            setSaleProductList();
-//            try {
-//                setSalePaymentList(this);
-//            } catch (ParseException e) {
-//                e.printStackTrace();
-//            }
-//            setSaleOffTaxList(this);
-//            setSaleFinalAmount(this);
-//            setSale();
-//            setSaleSummary();
-//        }
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         tabLayout.addTab(tabLayout.newTab().setText(getResources().getString(R.string.customer_tab_info)));

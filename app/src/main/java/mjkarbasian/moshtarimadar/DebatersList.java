@@ -59,9 +59,8 @@ public class DebatersList extends Fragment implements LoaderManager.LoaderCallba
                 Cursor cursor = (Cursor) parent.getItemAtPosition(position);
                 if (cursor != null) {
                     Intent intent = new Intent(getActivity(), DetailCustomer.class)
-                            .setData(KasebContract.Customers.buildCustomerUri(
-                                    Long.parseLong(cursor.getString(cursor.getColumnIndex(KasebContract.Customers._ID)))
-                            ));
+                            .setData(KasebContract.Customers.buildCustomerUri(cursor.
+                                    getLong(cursor.getColumnIndex(KasebContract.Sales.TABLE_NAME + "." + KasebContract.Sales.COLUMN_CUSTOMER_ID))));
                     startActivity(intent);
                 }
             }
