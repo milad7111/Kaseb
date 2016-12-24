@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import mjkarbasian.moshtarimadar.Data.KasebContract;
 import mjkarbasian.moshtarimadar.R;
+import mjkarbasian.moshtarimadar.helper.Utility;
 
 
 /**
@@ -19,10 +20,9 @@ import mjkarbasian.moshtarimadar.R;
  */
 public class CustomerAdapter extends CursorAdapter {
 
-    private LayoutInflater cursorInflater;
     String name;
     String stateId;
-    String amount;
+    private LayoutInflater cursorInflater;
 
     public CustomerAdapter(Context context, Cursor c, int flags) {
         super(context, c, flags);
@@ -44,7 +44,36 @@ public class CustomerAdapter extends CursorAdapter {
         stateId = cursor.getString(cursor.getColumnIndex(KasebContract.Customers.COLUMN_STATE_ID));
         name = cursor.getString(cursor.getColumnIndex(KasebContract.Customers.COLUMN_FIRST_NAME)) + "   " +
                 cursor.getString(cursor.getColumnIndex(KasebContract.Customers.COLUMN_LAST_NAME));
-        amount = "120000";
+
+        Cursor mCursor = context.getContentResolver().query(
+                KasebContract.Sales.customerSales(
+                        cursor.getLong(cursor.getColumnIndex(KasebContract.Customers._ID))),
+                new String[]{
+                        KasebContract.Sales._ID},
+                null,
+                null,
+                null);
+
+        Long totalDue = 0l;
+        if (mCursor != null)
+            if (mCursor.moveToFirst())
+                for (int i = 0; i < mCursor.getCount(); i++) {
+                    Cursor mCursor1 = context.getContentResolver().query(
+                            KasebContract.DetailSale.saleDetailSale(
+                                    mCursor.getLong(cursor.getColumnIndex(KasebContract.Sales._ID))),
+                            new String[]{
+                                    KasebContract.DetailSale._ID,
+                                    KasebContract.DetailSale.COLUMN_TOTAL_DUE},
+                            null,
+                            null,
+                            null);
+
+                    if (mCursor1 != null)
+                        if (mCursor1.moveToFirst())
+                            totalDue += mCursor1.getLong(mCursor1.getColumnIndex(KasebContract.DetailSale.COLUMN_TOTAL_DUE));
+
+                    mCursor.moveToNext();
+                }
 
         switch (stateId) {
             case "1": {
@@ -67,6 +96,8 @@ public class CustomerAdapter extends CursorAdapter {
 //        imageViewState.setColorFilter(ContextCompat.getColor(context, R.color.cardview_light_background));
 
         textViewName.setText(name);
-        textViewAmount.setText(amount);
+        textViewAmount.setText(Utility.formatPurchase(
+                context,
+                Utility.DecimalSeperation(context, Long.valueOf(String.format("%.0f", (float) totalDue)))));
     }
 }

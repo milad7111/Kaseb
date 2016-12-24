@@ -1,5 +1,6 @@
 package mjkarbasian.moshtarimadar;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -12,7 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import mjkarbasian.moshtarimadar.Data.KasebContract;
 import mjkarbasian.moshtarimadar.adapters.CustomerBillAdapter;
@@ -22,9 +22,8 @@ import mjkarbasian.moshtarimadar.adapters.CustomerBillAdapter;
  */
 public class DetailCustomerBill extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
-    private final String LOG_TAG = CustomersLists.class.getSimpleName();
     final static int FRAGMENT_CUSTOMER_BILL_LOADER = 4;
-
+    private final String LOG_TAG = CustomersLists.class.getSimpleName();
     CustomerBillAdapter mCustomerAdapter = null;
     ListView mListView;
     String[] mProjection;
@@ -67,14 +66,34 @@ public class DetailCustomerBill extends Fragment implements LoaderManager.Loader
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Cursor cursor = (Cursor) parent.getItemAtPosition(position);
-                if (cursor != null) {
-                    Toast.makeText(getActivity(), "go to this factor", Toast.LENGTH_SHORT).show();
-//                    Intent intent = new Intent(getActivity(), DetailCustomer.class)
-//                            .setData(KasebContract.Customers.buildCustomerUri(
-//                                    Long.parseLong(cursor.getString(cursor.getColumnIndex(KasebContract.Customers._ID)))
-//                            ));
-//                    startActivity(intent);
+                Cursor mCursor = (Cursor) parent.getItemAtPosition(position);
+                if (mCursor != null) {
+                    Intent detailSale;
+                    String saleCode = mCursor.getString(mCursor.getColumnIndex(KasebContract.Sales.COLUMN_SALE_CODE));
+                    String saleId = null;
+                    String customerId = null;
+
+                    Cursor mCursor1 = getActivity().getContentResolver().query(
+                            KasebContract.Sales.CONTENT_URI,
+                            new String[]{
+                                    KasebContract.Sales._ID,
+                                    KasebContract.Sales.COLUMN_CUSTOMER_ID},
+                            KasebContract.Sales.COLUMN_SALE_CODE + " = ?",
+                            new String[]{saleCode},
+                            null);
+
+                    if (mCursor1 != null)
+                        if (mCursor1.moveToFirst()) {
+                            saleId = mCursor1.getString(mCursor1.getColumnIndex(KasebContract.Sales._ID));
+                            customerId = mCursor1.getString(mCursor1.getColumnIndex(KasebContract.Sales.COLUMN_CUSTOMER_ID));
+                        }
+
+                    detailSale = new Intent(getActivity(), DetailSaleView.class);
+                    detailSale.putExtra("forViewAndUpdateSales", true);
+                    detailSale.putExtra("saleId", saleId);
+                    detailSale.putExtra("saleCode", saleCode);
+                    detailSale.putExtra("customerId", customerId);
+                    startActivity(detailSale);
                 }
             }
         });

@@ -34,16 +34,16 @@ public class ProductsList extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        mProductAdapter = new ProductAdapter(getActivity());
+        mProductAdapter = new ProductAdapter(getActivity(), null);
         View rootView = inflater.inflate(R.layout.fragment_products, container, false);
-        mListView = (ListView)rootView.findViewById(R.id.list_view_products);
+        mListView = (ListView) rootView.findViewById(R.id.list_view_products);
         mListView.setAdapter(mProductAdapter);
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(getActivity(),DetailProducts.class)
-                        .putExtra("productCode",Samples.products.get(1).get(position))
-                        .putExtra("position",position);
+                Intent intent = new Intent(getActivity(), DetailProducts.class)
+                        .putExtra("productCode", Samples.products.get(1).get(position))
+                        .putExtra("position", position);
                 startActivity(intent);
             }
         });

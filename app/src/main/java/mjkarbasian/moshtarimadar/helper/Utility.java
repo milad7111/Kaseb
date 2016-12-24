@@ -15,9 +15,11 @@ import android.widget.ImageView;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Map;
 
 import io.github.meness.roozh.Roozh;
 import io.github.meness.roozh.RoozhLocale;
@@ -71,6 +73,22 @@ import static mjkarbasian.moshtarimadar.helper.Samples.setSalesCustomer;
 public class Utility {
 
     private static final String LOG_TAG = Utility.class.getSimpleName();
+
+    public static int indexOfRowsInMap(ArrayList<Map<String, String>> list, String key, String value) {
+        Map<String, String> mProductsRowMapSample;
+        for (int i = 0; i < list.size(); i++) {
+            mProductsRowMapSample = list.get(i);
+            if (mProductsRowMapSample.get("id").equals(value)) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    public static Map<String, String> setValueWithIndexInKeyOfMapRow(Map<String, String> map, String key, String value) {
+        map.put(key, value);
+        return map;
+    }
 
     public static String makePlaceholders(int len) {
         StringBuilder sb = new StringBuilder(len * 2 - 1);
@@ -580,7 +598,7 @@ public class Utility {
         int pDay = pCalendar.getDayOfMonth();
         String pDate = Integer.toString(pYear) + "/" + Integer.toString(pMonth) + "/" + Integer.toString(pDay);
         if (!getLocale(context).equals("IR")) {
-           return formatDate(calendar);
+            return formatDate(calendar);
         } else {
             return pDate;
         }

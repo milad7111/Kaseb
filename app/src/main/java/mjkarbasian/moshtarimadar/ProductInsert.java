@@ -32,8 +32,8 @@ public class ProductInsert extends Fragment {
     EditText buyDate;
     ContentValues productValues = new ContentValues();
     ContentValues productHistoryValues = new ContentValues();
-    private Uri insertUri;
     View rootView;
+    private Uri insertUri;
 
     public ProductInsert() {
         setHasOptionsMenu(true);

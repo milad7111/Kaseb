@@ -3,7 +3,6 @@ package mjkarbasian.moshtarimadar;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
@@ -41,9 +40,6 @@ public class CustomersLists extends Fragment implements LoaderManager.LoaderCall
     }
 
     public void onCreate(Bundle savedInstanceState) {
-
-        FloatingActionButton fab = (FloatingActionButton) getActivity().findViewById(R.id.fab_customers);
-
         mProjection = new String[]{
                 KasebContract.Customers._ID,
                 KasebContract.Customers.COLUMN_FIRST_NAME,

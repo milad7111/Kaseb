@@ -61,7 +61,7 @@ public class TaxAdapter extends BaseAdapter {
                                 mTaxDetailsListHashMap.get(position).get("amount"))));
 
         percentText.setText(
-                mTaxDetailsListHashMap.get(position).get("percent"));
+                mTaxDetailsListHashMap.get(position).get("percent") + " %");
 
         typeText.setText(
                 mTaxDetailsListHashMap.get(position).get("type"));

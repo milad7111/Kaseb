@@ -92,15 +92,12 @@ public class DetailCustomerDash extends Fragment {
 
             DetailSaleCursor.moveToFirst();
             for (int i = 0; i < DetailSaleCursor.getCount(); i++) {
-                totalDueCustomer += Long.parseLong(
-                        DetailSaleCursor.getString(
-                                DetailSaleCursor.getColumnIndex(KasebContract.DetailSale.COLUMN_TOTAL_DUE)
-                        ));
+                totalDueCustomer += DetailSaleCursor.getLong(
+                        DetailSaleCursor.getColumnIndex(KasebContract.DetailSale.COLUMN_TOTAL_DUE));
 
-                totalPaidCustomer += Long.parseLong(
-                        DetailSaleCursor.getString(
-                                DetailSaleCursor.getColumnIndex(
-                                        KasebContract.DetailSale.COLUMN_TOTAL_PAID)));
+                totalPaidCustomer += DetailSaleCursor.getLong(
+                        DetailSaleCursor.getColumnIndex(
+                                KasebContract.DetailSale.COLUMN_TOTAL_PAID));
 
                 DetailSaleCursor.moveToNext();
             }

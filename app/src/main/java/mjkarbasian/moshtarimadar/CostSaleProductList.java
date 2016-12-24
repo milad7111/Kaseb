@@ -6,7 +6,6 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.LoaderManager;
@@ -37,8 +36,6 @@ public class CostSaleProductList extends Fragment implements LoaderManager.Loade
     Fragment productHistory = new DetailProducts();
     Bundle productHistoryBundle = new Bundle();
 
-    Intent detailSale;
-
     CostSaleProductAdapter mAdapter = null;
     ListView mListView;
     String[] mProjection;
@@ -53,8 +50,6 @@ public class CostSaleProductList extends Fragment implements LoaderManager.Loade
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        FloatingActionButton fab = (FloatingActionButton) getActivity().findViewById(R.id.fab_cost_sale_product);
-
         switch (getArguments().getString("witchActivity")) {
             case "cost": {
                 mProjection = new String[]{
@@ -110,6 +105,7 @@ public class CostSaleProductList extends Fragment implements LoaderManager.Loade
                     case "sale": {
                         mCursor = (Cursor) parent.getItemAtPosition(position);
                         if (mCursor != null) {
+                            Intent detailSale;
                             detailSale = new Intent(getActivity(), DetailSaleView.class);
                             detailSale.putExtra("forViewAndUpdateSales", true);
                             detailSale.putExtra("saleId", mCursor.getString(mCursor.getColumnIndex(KasebContract.Sales._ID)));

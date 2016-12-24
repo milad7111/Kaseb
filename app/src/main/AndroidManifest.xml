@@ -31,18 +31,17 @@
         <activity
             android:name=".DetailSaleInsert"
             android:label="@string/title_activity_detail_sale"
-            android:theme="@style/AppTheme.NoActionBar" >
-        <meta-data
-            android:name="android.support.PARENT_ACTIVITY"
-            android:value="mjkarbasian.moshtarimadar.Customers" />
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="mjkarbasian.moshtarimadar.Customers" />
         </activity>
 
         <activity
             android:name=".Customers"
             android:label="@string/title_customer"
-            android:theme="@style/AppTheme.NoActionBar"
             android:launchMode="singleTop"
-            >
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.SEARCH" />
@@ -68,10 +67,9 @@
         <activity
             android:name=".Sales"
             android:label="@string/title_activity_sales"
-            android:parentActivityName=".Customers"
-            android:theme="@style/AppTheme.NoActionBar"
             android:launchMode="singleTop"
-            >
+            android:parentActivityName=".Customers"
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
@@ -87,10 +85,10 @@
         <activity
             android:name=".Costs"
             android:label="@string/title_activity_costs"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:launchMode="singleTop">
+            android:launchMode="singleTop"
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
-            <action android:name="android.intent.action.SEARCH" />
+                <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -104,9 +102,9 @@
         <activity
             android:name=".Products"
             android:label="@string/title_activity_products"
+            android:launchMode="singleTop"
             android:parentActivityName=".Customers"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:launchMode="singleTop">
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>

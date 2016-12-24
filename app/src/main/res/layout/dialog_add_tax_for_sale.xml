@@ -9,13 +9,15 @@
         android:id="@+id/add_tax_for_sale_text1"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/hint_tax_amount" />
+        android:hint="@string/hint_tax_amount"
+        android:inputType="numberDecimal" />
 
     <EditText
         android:id="@+id/add_tax_for_sale_text2"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/hint_tax_percent" />
+        android:hint="@string/hint_tax_percent"
+        android:inputType="number|numberDecimal" />
 
     <Spinner
         android:id="@+id/input_tax_type_spinner"
@@ -29,8 +31,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/add_tax_for_sale_text1"
         android:layout_centerHorizontal="true"
+        android:layout_gravity="center_horizontal"
         android:layout_marginTop="51dp"
-        android:text="Save"
-        android:layout_gravity="center_horizontal" />
+        android:text="Save" />
 
 </LinearLayout>
