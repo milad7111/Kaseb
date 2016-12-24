@@ -48,6 +48,7 @@ public class CostInsert extends Fragment {
         costCode = (EditText) rootView.findViewById(R.id.input_cost_code);
         costAmount = (EditText) rootView.findViewById(R.id.input_cost_amount);
         costDate = (EditText) rootView.findViewById(R.id.input_cost_date);
+        costDate.setText(Utility.preInsertDate(getActivity()));
         costDescription = (EditText) rootView.findViewById(R.id.input_cost_description);
 
         Cursor cursor = getContext().getContentResolver().query(KasebContract.CostTypes.CONTENT_URI
@@ -80,7 +81,7 @@ public class CostInsert extends Fragment {
                 costValues.put(KasebContract.Costs.COLUMN_AMOUNT, costAmount.getText().toString());
                 costValues.put(KasebContract.Costs.COLUMN_DATE, costDate.getText().toString());
                 costValues.put(KasebContract.Costs.COLUMN_DESCRIPTION, costDescription.getText().toString());
-                costValues.put(KasebContract.Costs.COLUMN_COST_TYPE_ID, costType.getSelectedItemPosition());
+                costValues.put(KasebContract.Costs.COLUMN_COST_TYPE_ID, costType.getSelectedItemPosition()+1);
                 insertUri = getActivity().getContentResolver().insert(
                         KasebContract.Costs.CONTENT_URI,
                         costValues
