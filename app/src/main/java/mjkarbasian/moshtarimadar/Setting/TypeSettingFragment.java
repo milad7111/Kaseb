@@ -1,6 +1,7 @@
 package mjkarbasian.moshtarimadar.Setting;
 
 import android.app.Dialog;
+import android.content.ContentValues;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -17,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 
@@ -42,6 +44,9 @@ public class TypeSettingFragment extends Fragment implements LoaderManager.Loade
     String mColumnName;
     final static String COST_TYPE_CLASS_NAME = KasebContract.CostTypes.class.getSimpleName();
     final static int FRAGMENT_TYPE_LOADER = 0;
+    int mColor;
+    String mType;
+    Uri mCursoruri;
 
     public TypeSettingFragment() {
         super();
@@ -94,6 +99,7 @@ public class TypeSettingFragment extends Fragment implements LoaderManager.Loade
         if (typeInsert != null) {
             typeInsert.show();
             Button dialogButton = (Button) typeInsert.findViewById(R.id.button_add_type_setting);
+            final EditText typeTitle = (EditText) typeInsert.findViewById(R.id.add_types_setting_name);
             if(mColumnName.equals(State.COLUMN_STATE_POINTER)){
                 ImageView starImage = (ImageView)typeInsert.findViewById(R.id.dialog_state_color_selection);
                 starImage.setOnClickListener(new View.OnClickListener() {
@@ -105,6 +111,7 @@ public class TypeSettingFragment extends Fragment implements LoaderManager.Loade
                         okColor.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
+                                mColor = colorPicker.getColor();
                                 colorPicker.dismiss();
                             }
                         });
@@ -115,11 +122,21 @@ public class TypeSettingFragment extends Fragment implements LoaderManager.Loade
             dialogButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    mType = typeTitle.getText().toString();
+                    Uri insertUri = insertData();
                     finalTypeInsert.dismiss();
                 }
             });
         } else Log.d(LOG_TAG, " Insert Dialog is null..! ");
         return super.onOptionsItemSelected(item);
+    }
+
+    private Uri insertData() {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(mColumnName,mType);
+        if(mColumnName.equals(State.COLUMN_STATE_COLOR)) contentValues.put(State.COLUMN_STATE_COLOR,mColor);
+        Uri insertUri = getContext().getContentResolver().insert(mCursoruri,contentValues);
+        return insertUri;
     }
 
     @Override
@@ -171,7 +188,7 @@ public class TypeSettingFragment extends Fragment implements LoaderManager.Loade
             default:
                 new UnsupportedOperationException("Setting Not Match..!");
         }
-
+        mCursoruri = cursorUri;
         String[] mProjection = {_idColumn, mColumnName};
         return new CursorLoader(getActivity(), cursorUri, mProjection, null, null, null);
     }

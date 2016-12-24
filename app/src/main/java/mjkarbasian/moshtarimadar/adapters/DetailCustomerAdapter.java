@@ -21,7 +21,7 @@
 
 //public class DetailCustomerAdapter extends CursorAdapter {
 //
-//    private LayoutInflater cursorInflater;
+//    private LayoutInflater mInflater;
 //    String name;
 //    String stateId;
 //    String statePointer;
@@ -30,13 +30,13 @@
 //
 //    public DetailCustomerAdapter(Context context, Cursor c, int flags) {
 //        super(context, c, flags);
-//        cursorInflater = (LayoutInflater) context.getSystemService(
+//        mInflater = (LayoutInflater) context.getSystemService(
 //                Context.LAYOUT_INFLATER_SERVICE);
 //    }
 
 //    @Override
 //    public View newView(Context context, Cursor cursor, ViewGroup parent) {
-//        return cursorInflater.inflate(R.layout.list_item_cost_sale_product, parent, false);
+//        return mInflater.inflate(R.layout.list_item_cost_sale_product, parent, false);
 //    }
 
 //    @Override
