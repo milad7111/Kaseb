@@ -1,7 +1,6 @@
 package mjkarbasian.moshtarimadar.Customers;
 
 import android.database.Cursor;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -42,7 +41,7 @@ public class DetailCustomerDash extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.customer_dash, container, false);
 
-        ImageView customerMembership = (ImageView) view.findViewById(R.id.customer_dash_membership);
+        ImageView imageViewState = (ImageView) view.findViewById(R.id.customer_dash_membership);
         TextView customerPurchase = (TextView) view.findViewById(R.id.customer_dash_total_purchase);
         TextView customerBalance = (TextView) view.findViewById(R.id.customer_dash_total_balance);
         TextView customerNumberPurchase = (TextView) view.findViewById(R.id.customer_dash_number_purchase);
@@ -148,24 +147,15 @@ public class DetailCustomerDash extends Fragment {
         customerCursor.moveToFirst();
         stateId = customerCursor.getString(customerCursor.getColumnIndex(KasebContract.Customers.COLUMN_STATE_ID));
 
-        switch (stateId) {
-            case "1": {
-                customerMembership.setColorFilter(Color.rgb(255, 223, 0));
-                break;
-            }
-            case "2": {
-                customerMembership.setColorFilter(Color.rgb(192, 192, 192));
-                break;
-            }
-            case "3": {
-                customerMembership.setColorFilter(Color.rgb(205, 127, 50));
-                break;
-            }
-            default:
-                break;
-        }
+        String selection = KasebContract.State._ID + " = ?";
+        String[] selecArg = new String[]{String.valueOf(customerCursor.getInt(customerCursor.getColumnIndex(KasebContract.State._ID)))};
+        Cursor colorCursor = getContext().getContentResolver().query(KasebContract.State.CONTENT_URI,
+                new String[]{KasebContract.State._ID ,KasebContract.State.COLUMN_STATE_COLOR},selection,selecArg,null);
+        if(colorCursor.moveToFirst())
+            imageViewState.setColorFilter(colorCursor.getInt(colorCursor.getColumnIndex(KasebContract.State.COLUMN_STATE_COLOR)));
         //endregion
-
+        colorCursor.close();
+        customerCursor.close();
         return view;
     }
 }

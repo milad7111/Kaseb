@@ -2,7 +2,6 @@ package mjkarbasian.moshtarimadar.adapters;
 
 import android.content.Context;
 import android.database.Cursor;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,27 +39,17 @@ public class CustomerAdapter extends CursorAdapter {
         TextView textViewAmount = (TextView) view.findViewById(R.id.item_list_purchase_amount);
         ImageView imageViewState = (ImageView) view.findViewById(R.id.item_list_customer_state);
 
+        String selection = KasebContract.State._ID + " = ?";
+        String[] selecArg = new String[]{String.valueOf(cursor.getInt(cursor.getColumnIndex(KasebContract.State._ID)))};
+        Cursor colorCursor = context.getContentResolver().query(KasebContract.State.CONTENT_URI,
+                new String[]{KasebContract.State._ID ,KasebContract.State.COLUMN_STATE_COLOR},selection,selecArg,null);
+        if(colorCursor.moveToFirst())
+        imageViewState.setColorFilter(colorCursor.getInt(colorCursor.getColumnIndex(KasebContract.State.COLUMN_STATE_COLOR)));
+
         stateId = cursor.getString(cursor.getColumnIndex(KasebContract.Customers.COLUMN_STATE_ID));
         name = cursor.getString(cursor.getColumnIndex(KasebContract.Customers.COLUMN_FIRST_NAME)) + "   " +
                 cursor.getString(cursor.getColumnIndex(KasebContract.Customers.COLUMN_LAST_NAME));
         amount = "120000";
-
-        switch (stateId) {
-            case "1": {
-                imageViewState.setColorFilter(Color.rgb(255, 223, 0));
-                break;
-            }
-            case "2": {
-                imageViewState.setColorFilter(Color.rgb(192, 192, 192));
-                break;
-            }
-            case "3": {
-                imageViewState.setColorFilter(Color.rgb(205, 127, 50));
-                break;
-            }
-            default:
-                break;
-        }
         textViewName.setText(name);
         textViewAmount.setText(amount);
     }
