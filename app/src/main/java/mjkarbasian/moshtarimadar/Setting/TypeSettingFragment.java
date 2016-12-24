@@ -101,7 +101,7 @@ public class TypeSettingFragment extends Fragment implements LoaderManager.Loade
             Button dialogButton = (Button) typeInsert.findViewById(R.id.button_add_type_setting);
             final EditText typeTitle = (EditText) typeInsert.findViewById(R.id.add_types_setting_name);
             if(mColumnName.equals(State.COLUMN_STATE_POINTER)){
-                ImageView starImage = (ImageView)typeInsert.findViewById(R.id.dialog_state_color_selection);
+                final ImageView starImage = (ImageView)typeInsert.findViewById(R.id.dialog_state_color_selection);
                 starImage.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -112,6 +112,7 @@ public class TypeSettingFragment extends Fragment implements LoaderManager.Loade
                             @Override
                             public void onClick(View v) {
                                 mColor = colorPicker.getColor();
+                                starImage.setColorFilter(mColor);
                                 colorPicker.dismiss();
                             }
                         });
@@ -134,7 +135,7 @@ public class TypeSettingFragment extends Fragment implements LoaderManager.Loade
     private Uri insertData() {
         ContentValues contentValues = new ContentValues();
         contentValues.put(mColumnName,mType);
-        if(mColumnName.equals(State.COLUMN_STATE_COLOR)) contentValues.put(State.COLUMN_STATE_COLOR,mColor);
+        if(mColumnName.equals(State.COLUMN_STATE_POINTER)) contentValues.put(State.COLUMN_STATE_COLOR,mColor);
         Uri insertUri = getContext().getContentResolver().insert(mCursoruri,contentValues);
         return insertUri;
     }
