@@ -1,7 +1,9 @@
 package mjkarbasian.moshtarimadar.Customers;
 
+import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -26,6 +28,8 @@ public class DetailCustomer extends AppCompatActivity {
     String[] mProjection;
     String nameCustomer;
     String familyCustomer;
+    int mCustomerId;
+    int mStateId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,8 +62,10 @@ public class DetailCustomer extends AppCompatActivity {
 
         if (customerCursor != null) {
             if (customerCursor.moveToFirst()) {
+                mCustomerId = customerCursor.getInt(customerCursor.getColumnIndex(KasebContract.Customers._ID));
                 nameCustomer = customerCursor.getString(customerCursor.getColumnIndex(KasebContract.Customers.COLUMN_FIRST_NAME));
                 familyCustomer = customerCursor.getString(customerCursor.getColumnIndex(KasebContract.Customers.COLUMN_LAST_NAME));
+                mStateId = customerCursor.getInt(customerCursor.getColumnIndex(KasebContract.Customers.COLUMN_STATE_ID));
 
                 ((CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar_layout))
                         .setTitle(nameCustomer + "  " + familyCustomer);
@@ -92,6 +98,7 @@ public class DetailCustomer extends AppCompatActivity {
             public void onTabReselected(TabLayout.Tab tab) {
             }
         });
+        customerCursor.close();
     }
 
     @Override
@@ -110,6 +117,17 @@ public class DetailCustomer extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        // make update for membership selection
+        Uri uri = KasebContract.Customers.CONTENT_URI;
+        ContentValues contentValues = new ContentValues();
+        String key = KasebContract.Customers.COLUMN_STATE_ID;
+        int value = 0;
+        String selection = KasebContract.State.COLUMN_STATE_COLOR+ " = ? ";
+        String[] selectArg;
+        Cursor cursor ;
+        String updateSelect = KasebContract.Customers._ID + " = ?";
+        String[] updSelArg = new String[]{String.valueOf(mCustomerId)};
+        int updatedRow;
         switch (item.getItemId()) {
             // Respond to the action bar's Up/Home button
             case android.R.id.home:
@@ -119,16 +137,42 @@ public class DetailCustomer extends AppCompatActivity {
                 Toast.makeText(this, getApplicationContext().getResources().getString(R.string.edit_action_description), Toast.LENGTH_LONG).show();
                 break;
             case R.id.gold_member:
-//                Samples.customerMembership[customerPosiotion] = 1;
+                selectArg = new String[]{String.valueOf(Color.rgb(255, 215, 0))};
+                cursor =  this.getContentResolver().query(KasebContract.State.buildStateUri(mStateId),
+                      new String[]{KasebContract.State._ID,KasebContract.State.COLUMN_STATE_COLOR},selection,
+                        selectArg,null);
+                if(cursor.moveToFirst()) value = cursor.getInt(cursor.getColumnIndex(KasebContract.State._ID));
+                contentValues.put(key,value);
+                updatedRow = this.getContentResolver().update(uri,contentValues,updateSelect,updSelArg);
                 break;
             case R.id.silver_member:
-//                Samples.customerMembership[customerPosiotion] = 2;
+                selectArg = new String[]{String.valueOf(Color.rgb(192,192,192))};
+                cursor =  this.getContentResolver().query(KasebContract.State.buildStateUri(mStateId),
+                        new String[]{KasebContract.State._ID,KasebContract.State.COLUMN_STATE_COLOR},selection,
+                        selectArg,null);
+                if(cursor.moveToFirst()) value = cursor.getInt(cursor.getColumnIndex(KasebContract.State._ID));
+                contentValues.put(key,value);
+                updatedRow = this.getContentResolver().update(uri,contentValues,updateSelect,updSelArg);
                 break;
             case R.id.bronze_member:
-//                Samples.customerMembership[customerPosiotion] = 3;
+                selectArg = new String[]{String.valueOf(Color.rgb(218,165,32))};
+                cursor =  this.getContentResolver().query(KasebContract.State.buildStateUri(mStateId),
+                        new String[]{KasebContract.State._ID,KasebContract.State.COLUMN_STATE_COLOR},selection,
+                        selectArg,null);
+                if(cursor.moveToFirst()) value = cursor.getInt(cursor.getColumnIndex(KasebContract.State._ID));
+                contentValues.put(key,value);
+                updatedRow = this.getContentResolver().update(uri,contentValues,updateSelect,updSelArg);
                 break;
             case R.id.non_member:
-//                Samples.customerMembership[customerPosiotion] = 4;
+                selectArg = new String[]{String.valueOf(Color.rgb(176,224,230))};
+                cursor =  this.getContentResolver().query(KasebContract.State.buildStateUri(mStateId),
+                        new String[]{KasebContract.State._ID,KasebContract.State.COLUMN_STATE_COLOR},selection,
+                        selectArg,null);
+                if(cursor.moveToFirst()) value = cursor.getInt(cursor.getColumnIndex(KasebContract.State._ID));
+                contentValues.put(key,value);
+                updatedRow = this.getContentResolver().update(uri,contentValues,updateSelect,updSelArg);
+                break;
+            default:
                 return true;
         }
         return super.onOptionsItemSelected(item);
