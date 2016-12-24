@@ -150,4 +150,6 @@ public class CardViewProducts extends Fragment {
         else if (activity.equals("view"))
             ((DetailSaleView) getActivity()).setValuesOfFactor();
     }
+
+
 }

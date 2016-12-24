@@ -73,6 +73,7 @@
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
+
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="mjkarbasian.moshtarimadar.Customers" />
@@ -90,6 +91,7 @@
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
+
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="mjkarbasian.moshtarimadar.Customers" />
@@ -108,6 +110,7 @@
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
+
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="mjkarbasian.moshtarimadar.Customers" />
@@ -139,16 +142,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="mjkarbasian.moshtarimadar.Sales" />
         </activity>
-
-        <!--<activity-->
-        <!--android:name=".Deta"-->
-        <!--android:label="@string/title_activity_detail_products"-->
-        <!--android:parentActivityName=".Products"-->
-        <!--android:theme="@style/AppTheme.NoActionBar">-->
-        <!--<meta-data-->
-        <!--android:name="android.support.PARENT_ACTIVITY"-->
-        <!--android:value="mjkarbasian.moshtarimadar.Products" />-->
-        <!--</activity>-->
 
         <provider
             android:name=".Data.KasebProvider"

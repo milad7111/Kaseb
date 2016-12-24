@@ -120,7 +120,7 @@ public class DetailSaleView extends AppCompatActivity {
 
     ListView mListView;
     ListView modeList;
-    ListView mProducyListView;
+    ListView mProductListView;
     ListView mPaymentListView;
     ListView mTaxListView;
 
@@ -175,6 +175,10 @@ public class DetailSaleView extends AppCompatActivity {
         mCardViewPayments.setArguments(bundleCardViewFragments);
         mCardViewTaxes.setArguments(bundleCardViewFragments);
 
+//        CardView g = (CardView) findViewById(R.id.card_detail_sale_insert_items_list);
+//        mProductListView.getLayoutParams().height;
+//        FrameLayout k = (FrameLayout) findViewById(R.id.list_i)
+
         frm.beginTransaction().replace(R.id.my_container_1, mCardViewProducts, "Frag_CardViewProducts_tag").commit();
         frm.beginTransaction().replace(R.id.my_container_2, mCardViewPayments, "Frag_CardViewPayments_tag").commit();
         frm.beginTransaction().replace(R.id.my_container_3, mCardViewTaxes, "Frag_CardViewTaxes_tag").commit();
@@ -183,7 +187,7 @@ public class DetailSaleView extends AppCompatActivity {
         //region Get SaleId
         whichSaleId = Long.parseLong(getIntent().getExtras().get("saleId").toString());
         saleCode.setText(getIntent().getExtras().get("saleCode").toString());
-        customerId = getIntent().getExtras().getLong("customerId");
+        customerId = Long.valueOf(getIntent().getExtras().get("customerId").toString());
         //endregion Get SaleId
 
         //region Get DetailSaleId
@@ -216,7 +220,7 @@ public class DetailSaleView extends AppCompatActivity {
         fabPayments = (FloatingActionButton) findViewById(R.id.fab_fragment_card_view_payments);
         fabTaxes = (FloatingActionButton) findViewById(R.id.fab_fragment_card_view_taxes);
 
-        mProducyListView = (ListView) findViewById(R.id.list_view_fragment_card_view_products);
+        mProductListView = (ListView) findViewById(R.id.list_view_fragment_card_view_products);
         mPaymentListView = (ListView) findViewById(R.id.list_view_fragment_card_view_payments);
         mTaxListView = (ListView) findViewById(R.id.list_view_fragment_card_view_taxes);
         //endregion Initialize Some Views
@@ -227,7 +231,7 @@ public class DetailSaleView extends AppCompatActivity {
 
         addCustomerLayout.setEnabled(false);
 
-        mProducyListView.setEnabled(false);
+        mProductListView.setEnabled(false);
         mPaymentListView.setEnabled(false);
         mTaxListView.setEnabled(false);
 
@@ -631,7 +635,7 @@ public class DetailSaleView extends AppCompatActivity {
                 saleCode.setEnabled(true);
                 saleDate.setEnabled(true);
 
-                mProducyListView.setEnabled(true);
+                mProductListView.setEnabled(true);
                 mPaymentListView.setEnabled(true);
                 mTaxListView.setEnabled(true);
 
@@ -883,13 +887,7 @@ public class DetailSaleView extends AppCompatActivity {
 
                 mPaymentListMap.add(paymentMapRow);
                 mCardViewPayments.getPaymentAdapter(mPaymentListMap);
-//                                        int c = paymentMethodRowListView.getCount();
-//
-//                                        int i = paymentMethodRowListView.getLayoutParams().height;
-//                                        paymentMethodRowListView.setLayoutParams(
-//                                                new LinearLayout.LayoutParams(
-//                                                        LinearLayout.LayoutParams.MATCH_PARENT,
-//                                                        c * 85));
+
                 dialog.dismiss();
             }
         });
