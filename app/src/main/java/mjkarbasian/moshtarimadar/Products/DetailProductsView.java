@@ -11,8 +11,9 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import mjkarbasian.moshtarimadar.R;
+import mjkarbasian.moshtarimadar.Helpers.Samples;
 import mjkarbasian.moshtarimadar.Helpers.Utility;
+import mjkarbasian.moshtarimadar.R;
 
 /**
  * A placeholder fragment containing a simple view.

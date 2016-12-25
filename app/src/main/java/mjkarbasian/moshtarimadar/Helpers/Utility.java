@@ -163,24 +163,6 @@ public class Utility {
         return formattedDate;
     }
 
-    public static String JalaliDatePicker(String date) {
-        Calendar calendar = Calendar.getInstance();
-        SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd");
-        int year = 0;
-        int month = 0;
-        int day = 0;
-        try {
-            Date dateDate = df.parse(date);
-            year = dateDate.getYear() + 1900;
-            month = dateDate.getMonth();
-            day = dateDate.getDay();
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        String jalaliDate = JalaliCalendar.gregorianToJalali(new JalaliCalendar.YearMonthDate(year, month, day)).toString();
-
-        return jalaliDate;
-    }
 
     public static String getLocale(Context context) {
 
