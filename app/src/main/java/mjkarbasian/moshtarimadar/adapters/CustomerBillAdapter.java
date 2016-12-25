@@ -10,19 +10,20 @@ import android.widget.TextView;
 
 import mjkarbasian.moshtarimadar.Data.KasebContract;
 import mjkarbasian.moshtarimadar.R;
+import mjkarbasian.moshtarimadar.helper.Utility;
 
 /**
  * Created by family on 7/30/2016.
  */
 public class CustomerBillAdapter extends CursorAdapter {
     Context mContext;
-    private LayoutInflater cursorInflater;
     String saleId;
     String[] mProjection;
     String saleCode;
     String dueDate;
-    String totalDue;
+    Long totalDue;
     Cursor mCursor;
+    private LayoutInflater cursorInflater;
 
     public CustomerBillAdapter(Context context, Cursor c, int flags) {
         super(context, c, flags);
@@ -59,14 +60,16 @@ public class CustomerBillAdapter extends CursorAdapter {
         if (mCursor != null) {
             if (mCursor.moveToFirst()) {
                 dueDate = mCursor.getString(mCursor.getColumnIndex(KasebContract.DetailSale.COLUMN_DATE));
-                totalDue = mCursor.getString(mCursor.getColumnIndex(KasebContract.DetailSale.COLUMN_TOTAL_DUE));
+                totalDue = mCursor.getLong(mCursor.getColumnIndex(KasebContract.DetailSale.COLUMN_TOTAL_DUE));
             }
         }
 
         mCursor.close();
 
         textViewDate.setText(dueDate);
-        textViewPurchaseAmount.setText(totalDue);
+        textViewPurchaseAmount.setText(Utility.formatPurchase(
+                context,
+                Utility.DecimalSeperation(context, Long.valueOf(String.format("%.0f", (float) totalDue)))));
         textViewSaleCode.setText(saleCode);
     }
 }

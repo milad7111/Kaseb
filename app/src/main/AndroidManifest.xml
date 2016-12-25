@@ -44,9 +44,8 @@
         <activity
             android:name=".Customers.Customers"
             android:label="@string/title_customer"
-            android:theme="@style/AppTheme.NoActionBar"
             android:launchMode="singleTop"
-            >
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.SEARCH" />
@@ -73,15 +72,13 @@
             android:label="@string/title_activity_sales"
             android:parentActivityName=".Customers.Customers"
             android:theme="@style/AppTheme.NoActionBar"
-            android:launchMode="singleTop"
-            >
+            android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Customers.Customers" />
-
             <meta-data
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable" />
@@ -90,11 +87,12 @@
         <activity
             android:name=".Costs.Costs"
             android:label="@string/title_activity_costs"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:launchMode="singleTop">
+            android:launchMode="singleTop"
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
-            <action android:name="android.intent.action.SEARCH" />
+                <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
+
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Customers.Customers" />
@@ -113,6 +111,7 @@
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
+
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Customers.Customers" />
@@ -134,17 +133,6 @@
         <activity android:name=".helper.GalleryUtil" />
 
         <activity android:name=".helper.ImageSelector" />
-
-        <activity
-            android:name=".Sales.DetailSale"
-            android:label="@string/title_activity_detail_sale"
-            android:parentActivityName=".Sales.Sales"
-            android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="mjkarbasian.moshtarimadar.Sales.Sales" />
-
-        </activity>
 
         <provider
             android:name=".Data.KasebProvider"

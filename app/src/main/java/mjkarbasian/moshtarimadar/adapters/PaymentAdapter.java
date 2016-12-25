@@ -7,95 +7,65 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 import mjkarbasian.moshtarimadar.R;
-import mjkarbasian.moshtarimadar.helper.PaymentListModel;
+import mjkarbasian.moshtarimadar.helper.Utility;
 
 /**
- * Created by family on 7/12/2016.
+ * Created by Unique on 23/12/2016.
  */
-public class PaymentAdapter extends BaseAdapter implements View.OnClickListener {
-
+public class PaymentAdapter extends BaseAdapter {
     private static LayoutInflater inflater = null;
-    PaymentListModel tempValues = null;
-    private Context mContext;
-    private ArrayList data;
+    List<Map<String, String>> mPaymentDetailsListHashMap;
+    Context mContext;
 
-    public PaymentAdapter(Context context, ArrayList d) {
+    public PaymentAdapter(Context context, List<Map<String, String>> paymentDetailsListHashMap) {
+        super();
         mContext = context;
-        data = d;
-
-        inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        mPaymentDetailsListHashMap = paymentDetailsListHashMap;
+        inflater = (LayoutInflater) context.
+                getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
+    @Override
     public int getCount() {
-        if (data.size() <= 0)
-            return 1;
-        return data.size();
+        return (mPaymentDetailsListHashMap != null ? mPaymentDetailsListHashMap.size() : 0);
     }
 
+    @Override
     public Object getItem(int position) {
-        return position;
+        return mPaymentDetailsListHashMap.get(position);
     }
 
+    @Override
     public long getItemId(int position) {
         return position;
     }
 
-    public View getView(int position, View convertView, ViewGroup parent) {
-        View vi = convertView;
-        ViewHolder holder;
-
-        if (convertView == null) {
-            vi = inflater.inflate(R.layout.list_item_payment_for_sale, null);
-
-            holder = new ViewHolder();
-            holder.paymentAmount = (TextView) vi.findViewById(R.id.payment_list_for_sale_amount);
-            holder.paymentDueDate = (TextView) vi.findViewById(R.id.payment_list_for_sale_due_date);
-            holder.paymentMethod = (TextView) vi.findViewById(R.id.payment_list_for_sale_payment_method);
-
-            vi.setTag(holder);
-        } else
-            holder = (ViewHolder) vi.getTag();
-
-        if (data.size() <= 0) {
-            holder.paymentAmount.setText("No Data");
-
-        } else {
-            tempValues = null;
-            tempValues = (PaymentListModel) data.get(position);
-
-            holder.paymentAmount.setText(tempValues.getPaymentAmount().toString());
-            holder.paymentDueDate.setText(tempValues.getPaymentDueDate());
-            holder.paymentMethod.setText(tempValues.getPaymentMethod());
-
-            vi.setOnClickListener(new OnItemClickListener(position));
-        }
-
-        return vi;
-    }
-
     @Override
-    public void onClick(View v) {
-    }
-
-    public static class ViewHolder {
-        public TextView paymentAmount;
-        public TextView paymentDueDate;
-        public TextView paymentMethod;
-    }
-
-    private class OnItemClickListener implements View.OnClickListener {
-        private int mPosition;
-
-        OnItemClickListener(int position) {
-            mPosition = position;
+    public View getView(int position, View convertView, ViewGroup parent) {
+        View view = convertView;
+        if (convertView == null) {
+            view = inflater.inflate(R.layout.list_item_payment_for_sale, null);
         }
 
-        @Override
-        public void onClick(View arg0) {
-//            Toast.makeText(mContext, mPosition + "", Toast.LENGTH_SHORT).show();
-        }
+        TextView amountText = (TextView) view.findViewById(R.id.payment_list_for_sale_amount);
+        TextView duedateText = (TextView) view.findViewById(R.id.payment_list_for_sale_due_date);
+        TextView typeText = (TextView) view.findViewById(R.id.payment_list_for_sale_payment_method);
+
+        amountText.setText(
+                Utility.doubleFormatter(
+                        Long.parseLong(
+                                mPaymentDetailsListHashMap.get(position).get("amount"))));
+
+        duedateText.setText(
+                mPaymentDetailsListHashMap.get(position).get("duedate"));
+
+        typeText.setText(
+                mPaymentDetailsListHashMap.get(position).get("type"));
+
+        return view;
     }
 }

@@ -6,97 +6,66 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 import mjkarbasian.moshtarimadar.R;
-import mjkarbasian.moshtarimadar.helper.TaxListModel;
+import mjkarbasian.moshtarimadar.helper.Utility;
 
 /**
- * Created by family on 7/12/2016.
+ * Created by Unique on 23/12/2016.
  */
-public class TaxAdapter extends BaseAdapter implements View.OnClickListener {
-
+public class TaxAdapter extends BaseAdapter {
     private static LayoutInflater inflater = null;
-    TaxListModel tempValues = null;
-    private Context mContext;
-    private ArrayList data;
+    List<Map<String, String>> mTaxDetailsListHashMap;
+    Context mContext;
 
-    public TaxAdapter(Context context, ArrayList d) {
-
+    public TaxAdapter(Context context, List<Map<String, String>> taxDetailsListHashMap) {
+        super();
         mContext = context;
-        data = d;
-
-        inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        mTaxDetailsListHashMap = taxDetailsListHashMap;
+        inflater = (LayoutInflater) context.
+                getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
+    @Override
     public int getCount() {
-        if (data.size() <= 0)
-            return 1;
-        return data.size();
+        return (mTaxDetailsListHashMap != null ? mTaxDetailsListHashMap.size() : 0);
     }
 
+    @Override
     public Object getItem(int position) {
-        return position;
+        return mTaxDetailsListHashMap.get(position);
     }
 
+    @Override
     public long getItemId(int position) {
         return position;
     }
 
-    public View getView(int position, View convertView, ViewGroup parent) {
-        View vi = convertView;
-        ViewHolder holder;
-
-        if (convertView == null) {
-            vi = inflater.inflate(R.layout.list_item_tax_for_sale, null);
-
-            holder = new ViewHolder();
-            holder.taxAmount = (TextView) vi.findViewById(R.id.tax_list_for_sale_amount);
-            holder.taxPercent = (TextView) vi.findViewById(R.id.tax_list_for_sale_tax_percent);
-            holder.taxType = (TextView) vi.findViewById(R.id.tax_list_for_sale_tax_type);
-
-            vi.setTag(holder);
-        } else
-            holder = (ViewHolder) vi.getTag();
-
-        if (data.size() <= 0) {
-            holder.taxAmount.setText("No Data");
-
-        } else {
-            tempValues = null;
-            tempValues = (TaxListModel) data.get(position);
-
-            holder.taxAmount.setText(tempValues.getTaxAmount().toString());
-            holder.taxPercent.setText(tempValues.getTaxPercent());
-            holder.taxType.setText(tempValues.getTaxType());
-
-            vi.setOnClickListener(new OnItemClickListener(position));
-        }
-        return vi;
-    }
-
     @Override
-    public void onClick(View v) {
-        Toast.makeText(mContext, "What ...?", Toast.LENGTH_SHORT).show();
-    }
-
-    public static class ViewHolder {
-        public TextView taxAmount;
-        public TextView taxPercent;
-        public TextView taxType;
-    }
-
-    private class OnItemClickListener implements View.OnClickListener {
-        private int mPosition;
-
-        OnItemClickListener(int position) {
-            mPosition = position;
+    public View getView(int position, View convertView, ViewGroup parent) {
+        View view = convertView;
+        if (convertView == null) {
+            view = inflater.inflate(R.layout.list_item_tax_for_sale, null);
         }
 
-        @Override
-        public void onClick(View arg0) {
-        }
+        TextView amountText = (TextView) view.findViewById(R.id.tax_list_for_sale_amount);
+        TextView percentText = (TextView) view.findViewById(R.id.tax_list_for_sale_tax_percent);
+        TextView typeText = (TextView) view.findViewById(R.id.tax_list_for_sale_tax_type);
+
+        amountText.setText(
+                Utility.doubleFormatter(
+                        Long.parseLong(
+                                mTaxDetailsListHashMap.get(position).get("amount"))));
+
+        percentText.setText(
+                mTaxDetailsListHashMap.get(position).get("percent") + " %");
+
+        typeText.setText(
+                mTaxDetailsListHashMap.get(position).get("type"));
+
+        return view;
     }
 }

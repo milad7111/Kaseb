@@ -38,7 +38,6 @@ public class Costs extends DrawerActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setDefaultKeyMode(DEFAULT_KEYS_SEARCH_LOCAL);
 
-
         costsBundle.putString("witchActivity", "cost");
         costsSaleProductFragment.setArguments(costsBundle);
 

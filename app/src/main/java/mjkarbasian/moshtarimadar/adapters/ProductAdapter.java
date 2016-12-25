@@ -7,31 +7,36 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import mjkarbasian.moshtarimadar.R;
-import mjkarbasian.moshtarimadar.helper.Samples;
-import mjkarbasian.moshtarimadar.helper.Utility;
+import java.util.List;
+import java.util.Map;
 
-import static mjkarbasian.moshtarimadar.helper.Samples.productCode;
+import mjkarbasian.moshtarimadar.R;
+import mjkarbasian.moshtarimadar.helper.Utility;
 
 /**
  * Created by family on 7/21/2016.
  */
 public class ProductAdapter extends BaseAdapter {
+    private static LayoutInflater inflater = null;
+    List<Map<String, String>> mProductDetailsListHashMap;
     Context mContext;
 
-    public ProductAdapter(Context context) {
+    public ProductAdapter(Context context, List<Map<String, String>> productDetailsListHashMap) {
         super();
         mContext = context;
+        mProductDetailsListHashMap = productDetailsListHashMap;
+        inflater = (LayoutInflater) context.
+                getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     @Override
     public int getCount() {
-        return productCode.size();
+        return (mProductDetailsListHashMap != null ? mProductDetailsListHashMap.size() : 0);
     }
 
     @Override
     public Object getItem(int position) {
-        return productCode.get(position);
+        return mProductDetailsListHashMap.get(position);
     }
 
     @Override
@@ -41,29 +46,35 @@ public class ProductAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = convertView;
         if (convertView == null) {
-            view = inflater.inflate(R.layout.list_item_products, null);
+            view = inflater.inflate(R.layout.list_item_products_in_card_view_sales, null);
         }
+
         TextView nameText = (TextView) view.findViewById(R.id.item_list_product_name);
-        TextView codeText = (TextView) view.findViewById(R.id.item_list_product_code);
-        TextView dateText = (TextView) view.findViewById(R.id.item_list_product_date);
         TextView priceText = (TextView) view.findViewById(R.id.item_list_product_price);
+        TextView quantityText = (TextView) view.findViewById(R.id.item_list_product_quantity);
+        TextView totalCostText = (TextView) view.findViewById(R.id.item_list_product_total_cost);
 
-        nameText.setText(Samples.productName.get(position));
-        codeText.setText(Utility.doubleFormatter(Integer.parseInt(Samples.productCode.get(position))));
-        if (!(Utility.getLocale(mContext).equals("IR"))) {
-            dateText.setText(Samples.productDate.get(position));
+        nameText.setText(
+                mProductDetailsListHashMap.get(position).get("name"));
 
-        } else {
-            dateText.setText(Utility.JalaliDatePicker(Samples.productDate.get(position)));
-        }
         priceText.setText(
-                Utility.formatPurchase(
-                        mContext, Utility.DecimalSeperation(
-                                mContext, Integer.parseInt(
-                                        Samples.productPrice.get(position)))));
+                Utility.doubleFormatter(
+                        Long.parseLong(
+                                mProductDetailsListHashMap.get(position).get("price"))));
+
+        quantityText.setText(
+                mProductDetailsListHashMap.get(position).get("quantity"));
+
+        totalCostText.setText(
+                Utility.doubleFormatter(
+                        Long.parseLong(String.valueOf(
+                                Long.parseLong(
+                                        mProductDetailsListHashMap.get(position).get("price"))
+                                        * Long.parseLong(
+                                        mProductDetailsListHashMap.get(position).get("quantity"))))));
+
         return view;
     }
 }

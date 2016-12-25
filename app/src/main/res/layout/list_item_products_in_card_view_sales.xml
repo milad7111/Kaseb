@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="72dp"
+    android:paddingEnd="4dp"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="4dp"
+    android:paddingStart="@dimen/activity_horizontal_margin">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="72dp"
+            android:layout_weight="1.5"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/item_list_product_name"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginLeft="@dimen/item_horizontal_margin"
+                android:layout_marginStart="@dimen/item_horizontal_margin"
+                android:layout_weight="1"
+                android:fontFamily="sans-serif-condensed"
+                android:gravity="left"
+                android:text="@string/sample_product_name"
+                android:textAppearance="?android:textAppearanceMedium"
+                android:textColor="@color/cardview_dark_background" />
+
+            <TextView
+                android:id="@+id/item_list_product_total_cost"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginLeft="@dimen/item_horizontal_margin"
+                android:layout_marginStart="@dimen/item_horizontal_margin"
+                android:layout_weight="1"
+                android:gravity="left"
+                android:text="@string/sample_2_invoice_code"
+                android:textAppearance="?android:textAppearanceMedium"
+                android:textColor="@color/colorPrimary" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="72dp"
+            android:layout_weight="1.5"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/item_list_product_quantity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/item_horizontal_margin"
+                android:layout_marginStart="@dimen/item_horizontal_margin"
+                android:layout_weight="1"
+                android:gravity="left"
+                android:text="25"
+                android:textAppearance="?android:textAppearanceLarge" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="72dp"
+            android:layout_weight="1.5"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/item_list_product_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/activity_horizontal_margin"
+                android:layout_marginLeft="@dimen/item_horizontal_margin"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:layout_marginStart="@dimen/item_horizontal_margin"
+                android:layout_weight="0.46"
+                android:fontFamily="sans-serif-condensed"
+                android:gravity="left|end"
+                android:text="@string/sample_text_purchase_of_customer_amount"
+                android:textAppearance="?android:textAppearanceLarge" />
+        </LinearLayout>
+    </LinearLayout>
+</FrameLayout>
