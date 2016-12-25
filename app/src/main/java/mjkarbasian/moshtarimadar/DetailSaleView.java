@@ -7,7 +7,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -20,6 +19,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
@@ -50,6 +50,7 @@ public class DetailSaleView extends AppCompatActivity {
     Dialog dialog;
     LinearLayout addCustomerLayout;
     int mNumberOfChooseProduct = 0;
+    Button dialogButton;
 
     CardViewProducts mCardViewProducts;
     CardViewPayments mCardViewPayments;
@@ -93,11 +94,9 @@ public class DetailSaleView extends AppCompatActivity {
     Cursor mCursor2;
     Cursor mCursorInitialize;
 
-    FloatingActionButton fabProducts;
-    FloatingActionButton fabPayments;
-    FloatingActionButton fabTaxes;
-
-    Button dialogButton;
+    ImageButton imageButtonProducts;
+    ImageButton imageButtonPayments;
+    ImageButton imageButtonTaxes;
 
     Spinner paymentMethod;
     Spinner taxTypes;
@@ -175,10 +174,6 @@ public class DetailSaleView extends AppCompatActivity {
         mCardViewPayments.setArguments(bundleCardViewFragments);
         mCardViewTaxes.setArguments(bundleCardViewFragments);
 
-//        CardView g = (CardView) findViewById(R.id.card_detail_sale_insert_items_list);
-//        mProductListView.getLayoutParams().height;
-//        FrameLayout k = (FrameLayout) findViewById(R.id.list_i)
-
         frm.beginTransaction().replace(R.id.my_container_1, mCardViewProducts, "Frag_CardViewProducts_tag").commit();
         frm.beginTransaction().replace(R.id.my_container_2, mCardViewPayments, "Frag_CardViewPayments_tag").commit();
         frm.beginTransaction().replace(R.id.my_container_3, mCardViewTaxes, "Frag_CardViewTaxes_tag").commit();
@@ -216,9 +211,9 @@ public class DetailSaleView extends AppCompatActivity {
         super.onStart();
 
         //region Initialize Some Views
-        fabProducts = (FloatingActionButton) findViewById(R.id.fab_fragment_card_view_products);
-        fabPayments = (FloatingActionButton) findViewById(R.id.fab_fragment_card_view_payments);
-        fabTaxes = (FloatingActionButton) findViewById(R.id.fab_fragment_card_view_taxes);
+        imageButtonProducts = (ImageButton) findViewById(R.id.content_detail_sale_insert_add_product_image_button);
+        imageButtonPayments = (ImageButton) findViewById(R.id.content_detail_sale_insert_add_payment_image_button);
+        imageButtonTaxes = (ImageButton) findViewById(R.id.content_detail_sale_insert_add_taxDiscount_image_button);
 
         mProductListView = (ListView) findViewById(R.id.list_view_fragment_card_view_products);
         mPaymentListView = (ListView) findViewById(R.id.list_view_fragment_card_view_payments);
@@ -235,9 +230,9 @@ public class DetailSaleView extends AppCompatActivity {
         mPaymentListView.setEnabled(false);
         mTaxListView.setEnabled(false);
 
-        fabProducts.hide();
-        fabPayments.hide();
-        fabTaxes.hide();
+        imageButtonProducts.setEnabled(false);
+        imageButtonPayments.setEnabled(false);
+        imageButtonTaxes.setEnabled(false);
         //endregion Disable Views
 
         //region Get Products
@@ -463,6 +458,10 @@ public class DetailSaleView extends AppCompatActivity {
                 mCardViewTaxes.getTaxAdapter(mTaxListMap);
             }
         //endregion Get Taxes
+
+        Utility.setHeightOfListView(mProductListView);
+        Utility.setHeightOfListView(mProductListView);
+        Utility.setHeightOfListView(mProductListView);
     }
 
     @Override
@@ -639,9 +638,9 @@ public class DetailSaleView extends AppCompatActivity {
                 mPaymentListView.setEnabled(true);
                 mTaxListView.setEnabled(true);
 
-                fabProducts.show();
-                fabPayments.show();
-                fabTaxes.show();
+                imageButtonProducts.setEnabled(true);
+                imageButtonPayments.setEnabled(true);
+                imageButtonTaxes.setEnabled(true);
 
                 return true;
         }
@@ -895,7 +894,7 @@ public class DetailSaleView extends AppCompatActivity {
         dialog.show();
     }
 
-    public void fab_detail_sale_add_tax(View v) {
+    public void fab_detail_sale_add_taxDiscount(View v) {
         dialog = Utility.dialogBuilder(DetailSaleView.this
                 , R.layout.dialog_add_tax_for_sale
                 , R.string.fab_add_tax);
@@ -917,6 +916,7 @@ public class DetailSaleView extends AppCompatActivity {
                     if (percent > 100)
                         taxPercent.setText("100");
                 } catch (Exception e) {
+                    taxAmount.setText("");
                 }
             }
 
@@ -926,17 +926,15 @@ public class DetailSaleView extends AppCompatActivity {
                     Float percent = Float.valueOf(taxPercent.getText().toString());
                     taxAmount.setText(String.format("%.0f", Float.valueOf(percent * sTotalAmount / 100)));
                 } catch (Exception e) {
+                    taxAmount.setText("");
                 }
             }
         });
 
         taxTypes = (Spinner) dialog.findViewById(R.id.input_tax_type_spinner);
-        mCursor2 = getContentResolver()
-
-                .
-
-                        query(KasebContract.TaxTypes.CONTENT_URI
-                                , null, null, null, null);
+        mCursor2 = getContentResolver().
+                query(KasebContract.TaxTypes.CONTENT_URI
+                        , null, null, null, null);
 
         cursorAdapter = new TypesSettingAdapter(mContext,
                 mCursor2,
@@ -944,28 +942,27 @@ public class DetailSaleView extends AppCompatActivity {
                 KasebContract.TaxTypes.COLUMN_TAX_TYPE_POINTER);
         taxTypes.setAdapter(cursorAdapter);
 
-        taxTypes.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
+        taxTypes.setOnItemSelectedListener(
+                new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+                        Cursor mCursor5 = (Cursor) taxTypes.getSelectedItem();
 
-        {
-            @Override
-            public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-                Cursor mCursor5 = (Cursor) taxTypes.getSelectedItem();
+                        taxMapRow.put("id", mCursor5.getString(
+                                mCursor5.getColumnIndex(KasebContract.TaxTypes._ID)).toString());
 
-                taxMapRow.put("id", mCursor5.getString(
-                        mCursor5.getColumnIndex(KasebContract.TaxTypes._ID)).toString());
+                        taxMapRow.put("type", mCursor5.getString(
+                                mCursor5.getColumnIndex(KasebContract.TaxTypes.COLUMN_TAX_TYPE_POINTER)).toString());
+                    }
 
-                taxMapRow.put("type", mCursor5.getString(
-                        mCursor5.getColumnIndex(KasebContract.TaxTypes.COLUMN_TAX_TYPE_POINTER)).toString());
-            }
+                    @Override
+                    public void onNothingSelected(AdapterView<?> arg0) {
+                    }
 
-            @Override
-            public void onNothingSelected(AdapterView<?> arg0) {
-            }
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    }
 
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            }
-
-        });
+                });
 
         dialogButton = (Button) dialog.findViewById(R.id.add_tax_for_sale_button1);
         dialogButton.setOnClickListener(new View.OnClickListener() {
@@ -974,8 +971,22 @@ public class DetailSaleView extends AppCompatActivity {
                 taxMapRow.put("amount", taxAmount.getText().toString());
                 taxMapRow.put("percent", taxPercent.getText().toString());
 
-                mTaxListMap.add(taxMapRow);
-                mCardViewTaxes.getTaxAdapter(mTaxListMap);
+                try {
+                    Float amount = Float.valueOf(taxAmount.getText().toString());
+
+                    if (amount > sTotalAmount) {
+                        Toast.makeText(DetailSaleView.this, "Choose Amount Less Than Total Amount", Toast.LENGTH_SHORT).show();
+                        return;
+                    } else if (taxPercent.getText().toString().length() == 0)
+                        taxMapRow.put("percent", String.valueOf(100 * amount / sTotalAmount));
+
+                    mTaxListMap.add(taxMapRow);
+                    mCardViewTaxes.getTaxAdapter(mTaxListMap);
+                    dialog.dismiss();
+
+                } catch (Exception e) {
+                    taxPercent.setText("");
+                }
 
                 dialog.dismiss();
             }

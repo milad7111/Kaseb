@@ -10,12 +10,13 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:hint="@string/hint_tax_amount"
-        android:inputType="numberDecimal" />
+        android:inputType="number|numberDecimal" />
 
     <EditText
         android:id="@+id/add_tax_for_sale_text2"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:allowUndo="false"
         android:hint="@string/hint_tax_percent"
         android:inputType="number|numberDecimal" />
 

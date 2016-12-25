@@ -11,6 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 
 import java.text.DecimalFormat;
 import java.text.ParseException;
@@ -73,6 +75,27 @@ import static mjkarbasian.moshtarimadar.helper.Samples.setSalesCustomer;
 public class Utility {
 
     private static final String LOG_TAG = Utility.class.getSimpleName();
+
+    public static void setHeightOfListView(ListView mListView) {
+        ListAdapter adapter = mListView.getAdapter();
+
+        if (adapter == null) {
+            return;
+        }
+
+        ViewGroup vg = mListView;
+        int totalHeight = 0;
+        for (int i = 0; i < adapter.getCount(); i++) {
+            View listItem = adapter.getView(i, null, vg);
+            listItem.measure(0, 0);
+            totalHeight += listItem.getMeasuredHeight();
+        }
+
+        ViewGroup.LayoutParams par = mListView.getLayoutParams();
+        par.height = totalHeight + (mListView.getDividerHeight() * (adapter.getCount() - 1));
+        mListView.setLayoutParams(par);
+        mListView.requestLayout();
+    }
 
     public static int indexOfRowsInMap(ArrayList<Map<String, String>> list, String key, String value) {
         Map<String, String> mProductsRowMapSample;

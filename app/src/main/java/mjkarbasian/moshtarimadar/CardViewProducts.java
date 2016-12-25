@@ -1,6 +1,8 @@
 package mjkarbasian.moshtarimadar;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -26,6 +28,8 @@ public class CardViewProducts extends Fragment {
     ArrayList<Map<String, String>> mProductListHashMap;
     View view;
     String activity;
+    String _id;
+    String _nameOfProduct;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -41,28 +45,9 @@ public class CardViewProducts extends Fragment {
         productListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Map<String, String> cursor = (Map<String, String>) parent.getItemAtPosition(position);
-                if (cursor != null) {
-                    String _id = cursor.get("id");
-                    mProductListHashMap.remove(Utility.indexOfRowsInMap(mProductListHashMap, "id", _id));
-                    productListView.setAdapter(mChosenProductAdapter);
-
-                    if (activity.equals("insert"))
-                        ((DetailSaleInsert) getActivity()).setValuesOfFactor();
-                    else if (activity.equals("view"))
-                        ((DetailSaleView) getActivity()).setValuesOfFactor();
-                }
-            }
-        });
-        //endregion ProductListView OnItemClickListener
-
-        //region ProductListView OnItemLongClickListener
-        productListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 final Map<String, String> cursor = (Map<String, String>) parent.getItemAtPosition(position);
                 if (cursor != null) {
-                    String _id = cursor.get("id");
+                    _id = cursor.get("id");
 
                     final int index = Utility.indexOfRowsInMap(mProductListHashMap, "id", _id);
 
@@ -94,6 +79,10 @@ public class CardViewProducts extends Fragment {
                             String activity = getArguments().getString("activity").toString();
                             if (activity.equals("insert"))
                                 ((DetailSaleInsert) getActivity()).setValuesOfFactor();
+                            else if (activity.equals("view"))
+                                ((DetailSaleView) getActivity()).setValuesOfFactor();
+
+                            Utility.setHeightOfListView(productListView);
 
                             howManyOfThatForEdit.dismiss();
                         }
@@ -112,6 +101,45 @@ public class CardViewProducts extends Fragment {
                     howManyOfThatForEdit.show();
                     //endregion Show Dialog To Edit Number Of Product
                 }
+            }
+        });
+        //endregion ProductListView OnItemClickListener
+
+        //region ProductListView OnItemLongClickListener
+        productListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(final AdapterView<?> parent, View view, final int position, long id) {
+                Map<String, String> cursor = (Map<String, String>) parent.getItemAtPosition(position);
+
+                if (cursor != null) {
+                    _id = cursor.get("id");
+                    _nameOfProduct = cursor.get("name");
+
+                    new AlertDialog.Builder(getActivity())
+                            .setTitle("Confirmation ...")
+                            .setMessage("Do You Really Want to Delete This PRODUCT?\n\nProduct Name : " + _nameOfProduct)
+                            .setIcon(android.R.drawable.ic_dialog_alert)
+                            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+
+                                public void onClick(DialogInterface dialog, int whichButton) {
+                                    mProductListHashMap.remove(Utility.indexOfRowsInMap(mProductListHashMap, "id", _id));
+                                    productListView.setAdapter(mChosenProductAdapter);
+
+                                    if (activity.equals("insert"))
+                                        ((DetailSaleInsert) getActivity()).setValuesOfFactor();
+                                    else if (activity.equals("view"))
+                                        ((DetailSaleView) getActivity()).setValuesOfFactor();
+
+                                    Utility.setHeightOfListView(productListView);
+                                }
+                            })
+                            .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+
+                                public void onClick(DialogInterface dialog, int whichButton) {
+                                }
+                            }).show();
+                }
+
                 return true;
             }
         });
@@ -119,25 +147,6 @@ public class CardViewProducts extends Fragment {
 
         mProductListHashMap = null;
         return view;
-    }
-
-    public void getChosenProductAdapterForView(ArrayList<Map<String, String>> list) {
-        mProductListHashMap = list;
-
-        if (activity.equals("insert"))
-            ((DetailSaleInsert) getActivity()).setValuesOfFactor();
-        else if (activity.equals("view"))
-            ((DetailSaleView) getActivity()).setValuesOfFactor();
-    }
-
-    public void getChosenProductAdapterForInsert(ArrayList<Map<String, String>> list) {
-        mProductListHashMap = list;
-        productListView.setAdapter(mChosenProductAdapter);
-
-        if (activity.equals("insert"))
-            ((DetailSaleInsert) getActivity()).setValuesOfFactor();
-        else if (activity.equals("view"))
-            ((DetailSaleView) getActivity()).setValuesOfFactor();
     }
 
     public void getChosenProductAdapter(ArrayList<Map<String, String>> list) {
@@ -149,7 +158,7 @@ public class CardViewProducts extends Fragment {
             ((DetailSaleInsert) getActivity()).setValuesOfFactor();
         else if (activity.equals("view"))
             ((DetailSaleView) getActivity()).setValuesOfFactor();
+
+        Utility.setHeightOfListView(productListView);
     }
-
-
 }

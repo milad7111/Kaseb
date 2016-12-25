@@ -317,4 +317,13 @@
     <string name="fab_edit_payment">Edit Payment</string>
     <string name="fab_edit_tax">Edit Tax</string>
     <string name="edit">edit</string>
+    <string name="detail_sales_products_items_name">Product Name</string>
+    <string name="detail_sales_products_items_quantity">Quantity</string>
+    <string name="detail_sales_products_items_price">Price</string>
+    <string name="detail_sales_payment_amount">Amount</string>
+    <string name="detail_sales_payment_due_date">Due Date</string>
+    <string name="detail_sales_payment_type">Type</string>
+    <string name="detail_sales_taxDiscount_amount">Amount</string>
+    <string name="detail_sales_taxDiscount_percent">Percent</string>
+    <string name="detail_sales_taxDiscount_type">Type</string>
 </resources>

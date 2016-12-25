@@ -98,6 +98,7 @@
             android:nestedScrollingEnabled="true">
 
             <LinearLayout
+                android:id="@+id/card_view_products_linear_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
@@ -112,6 +113,57 @@
                     android:textAppearance="?android:textAppearanceMedium"
                     android:textColor="@color/colorWhite" />
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:background="#2c96e2"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center_horizontal"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:padding="4dp"
+                            android:text="@string/detail_sales_products_items_name"
+                            android:textAppearance="?android:textAppearanceMedium"
+                            android:textColor="@color/colorWhite" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:padding="4dp"
+                            android:text="@string/detail_sales_products_items_quantity"
+                            android:textAppearance="?android:textAppearanceMedium"
+                            android:textColor="@color/colorWhite" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:padding="4dp"
+                            android:text="@string/detail_sales_products_items_price"
+                            android:textAppearance="?android:textAppearanceMedium"
+                            android:textColor="@color/colorWhite" />
+
+                        <ImageButton
+                            android:id="@+id/content_detail_sale_insert_add_product_image_button"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:background="#2c96e2"
+                            android:gravity="center"
+                            android:onClick="fab_detail_sale_add_product"
+                            android:padding="4dp"
+                            android:src="@drawable/plus" />
+
+                    </LinearLayout>
+                </LinearLayout>
 
                 <FrameLayout
                     android:id="@+id/my_container_1"
@@ -149,6 +201,58 @@
                     android:textAppearance="?android:textAppearanceMedium"
                     android:textColor="@color/colorWhite" />
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:background="#2c96e2"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center_horizontal"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:padding="4dp"
+                            android:text="@string/detail_sales_payment_amount"
+                            android:textAppearance="?android:textAppearanceMedium"
+                            android:textColor="@color/colorWhite" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:padding="4dp"
+                            android:text="@string/detail_sales_payment_due_date"
+                            android:textAppearance="?android:textAppearanceMedium"
+                            android:textColor="@color/colorWhite" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:padding="4dp"
+                            android:text="@string/detail_sales_payment_type"
+                            android:textAppearance="?android:textAppearanceMedium"
+                            android:textColor="@color/colorWhite" />
+
+                        <ImageButton
+                            android:id="@+id/content_detail_sale_insert_add_payment_image_button"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:background="#2c96e2"
+                            android:gravity="center"
+                            android:onClick="fab_detail_sale_add_payment"
+                            android:padding="4dp"
+                            android:src="@drawable/plus" />
+
+                    </LinearLayout>
+                </LinearLayout>
+
                 <FrameLayout
                     android:id="@+id/my_container_2"
                     android:layout_width="fill_parent"
@@ -184,6 +288,58 @@
                     android:text="@string/detail_sales_taxDiscount_header"
                     android:textAppearance="?android:textAppearanceMedium"
                     android:textColor="@color/colorWhite" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:background="#2c96e2"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center_horizontal"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:padding="4dp"
+                            android:text="@string/detail_sales_taxDiscount_amount"
+                            android:textAppearance="?android:textAppearanceMedium"
+                            android:textColor="@color/colorWhite" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:padding="4dp"
+                            android:text="@string/detail_sales_taxDiscount_percent"
+                            android:textAppearance="?android:textAppearanceMedium"
+                            android:textColor="@color/colorWhite" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:padding="4dp"
+                            android:text="@string/detail_sales_taxDiscount_type"
+                            android:textAppearance="?android:textAppearanceMedium"
+                            android:textColor="@color/colorWhite" />
+
+                        <ImageButton
+                            android:id="@+id/content_detail_sale_insert_add_taxDiscount_image_button"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:background="#2c96e2"
+                            android:gravity="center"
+                            android:onClick="fab_detail_sale_add_taxDiscount"
+                            android:padding="4dp"
+                            android:src="@drawable/plus" />
+
+                    </LinearLayout>
+                </LinearLayout>
 
                 <FrameLayout
                     android:id="@+id/my_container_3"

@@ -8,7 +8,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -51,6 +50,7 @@ public class DetailSaleInsert extends AppCompatActivity {
     Uri insertUri;
     String mWhereStatement;
     int mNumberOfChooseProduct = 0;
+    Button dialogButton;
 
     CardViewProducts mCardViewProducts;
     CardViewPayments mCardViewPayments;
@@ -85,12 +85,6 @@ public class DetailSaleInsert extends AppCompatActivity {
 
     Cursor mCursor1;
     Cursor mCursor2;
-
-    FloatingActionButton fabProducts;
-    FloatingActionButton fabPayments;
-    FloatingActionButton fabTaxes;
-
-    Button dialogButton;
 
     Spinner paymentMethod;
     Spinner taxTypes;
@@ -153,10 +147,6 @@ public class DetailSaleInsert extends AppCompatActivity {
 
         bundleCardViewFragments = new Bundle();
         bundleCardViewFragments.putString("activity", "insert");
-
-        fabProducts = (FloatingActionButton) findViewById(R.id.fab_fragment_card_view_products);
-        fabPayments = (FloatingActionButton) findViewById(R.id.fab_fragment_card_view_payments);
-        fabTaxes = (FloatingActionButton) findViewById(R.id.fab_fragment_card_view_taxes);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -571,7 +561,7 @@ public class DetailSaleInsert extends AppCompatActivity {
         dialog.show();
     }
 
-    public void fab_detail_sale_add_tax(View v) {
+    public void fab_detail_sale_add_taxDiscount(View v) {
         dialog = Utility.dialogBuilder(DetailSaleInsert.this
                 , R.layout.dialog_add_tax_for_sale
                 , R.string.fab_add_tax);
@@ -593,6 +583,7 @@ public class DetailSaleInsert extends AppCompatActivity {
                     if (percent > 100)
                         taxPercent.setText("100");
                 } catch (Exception e) {
+                    taxAmount.setText("");
                 }
             }
 
@@ -602,6 +593,7 @@ public class DetailSaleInsert extends AppCompatActivity {
                     Float percent = Float.valueOf(taxPercent.getText().toString());
                     taxAmount.setText(String.format("%.0f", Float.valueOf(percent * sTotalAmount / 100)));
                 } catch (Exception e) {
+                    taxAmount.setText("");
                 }
             }
         });
@@ -638,18 +630,32 @@ public class DetailSaleInsert extends AppCompatActivity {
         });
 
         dialogButton = (Button) dialog.findViewById(R.id.add_tax_for_sale_button1);
-        dialogButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                taxMapRow.put("amount", taxAmount.getText().toString());
-                taxMapRow.put("percent", taxPercent.getText().toString());
+        dialogButton.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        taxMapRow.put("amount", taxAmount.getText().toString());
+                        taxMapRow.put("percent", taxPercent.getText().toString());
 
-                mTaxListMap.add(taxMapRow);
-                mCardViewTaxes.getTaxAdapter(mTaxListMap);
+                        try {
+                            Float amount = Float.valueOf(taxAmount.getText().toString());
 
-                dialog.dismiss();
-            }
-        });
+                            if (amount > sTotalAmount) {
+                                Toast.makeText(DetailSaleInsert.this, "Choose Amount Less Than Total Amount", Toast.LENGTH_SHORT).show();
+                                return;
+                            } else if (taxPercent.getText().toString().length() == 0)
+                                taxMapRow.put("percent", String.valueOf(100 * amount / sTotalAmount));
+
+                            mTaxListMap.add(taxMapRow);
+                            mCardViewTaxes.getTaxAdapter(mTaxListMap);
+                            dialog.dismiss();
+
+                        } catch (Exception e) {
+                            taxPercent.setText("");
+                        }
+                    }
+                }
+        );
 
         dialog.show();
     }

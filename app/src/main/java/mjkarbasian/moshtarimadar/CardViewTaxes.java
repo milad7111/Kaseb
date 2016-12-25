@@ -1,5 +1,7 @@
 package mjkarbasian.moshtarimadar;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -23,6 +25,8 @@ public class CardViewTaxes extends Fragment {
     ArrayList<Map<String, String>> mTaxListHashMap;
     View view;
     String activity;
+    String _id;
+    String _amount;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -38,44 +42,50 @@ public class CardViewTaxes extends Fragment {
         taxListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Map<String, String> cursor = (Map<String, String>) parent.getItemAtPosition(position);
-                if (cursor != null) {
-                    String _id = cursor.get("id");
-                    mTaxListHashMap.remove(Utility.indexOfRowsInMap(mTaxListHashMap, "id", _id));
-                    taxListView.setAdapter(mTaxAdapter);
-
-                    if (activity.equals("insert"))
-                        ((DetailSaleInsert) getActivity()).setValuesOfFactor();
-                    else if (activity.equals("view"))
-                        ((DetailSaleView) getActivity()).setValuesOfFactor();
-                }
             }
         });
         //endregion TaxListView OnItemClickListener
 
         //region TaxListView OnItemLongClickListener
+        taxListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                Map<String, String> cursor = (Map<String, String>) parent.getItemAtPosition(position);
+                if (cursor != null) {
+                    _id = cursor.get("id");
+                    _amount = cursor.get("amount");
+
+                    new AlertDialog.Builder(getActivity())
+                            .setTitle("Confirmation ...")
+                            .setMessage("Do You Really Want to Delete This TAX?\n\nTax Amount : " + _amount)
+                            .setIcon(android.R.drawable.ic_dialog_alert)
+                            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+
+                                public void onClick(DialogInterface dialog, int whichButton) {
+                                    mTaxListHashMap.remove(Utility.indexOfRowsInMap(mTaxListHashMap, "id", _id));
+                                    taxListView.setAdapter(mTaxAdapter);
+
+                                    if (activity.equals("insert"))
+                                        ((DetailSaleInsert) getActivity()).setValuesOfFactor();
+                                    else if (activity.equals("view"))
+                                        ((DetailSaleView) getActivity()).setValuesOfFactor();
+
+                                    Utility.setHeightOfListView(taxListView);
+                                }
+                            })
+                            .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+
+                                public void onClick(DialogInterface dialog, int whichButton) {
+                                }
+                            }).show();
+                }
+
+                return true;
+            }
+        });
         //endregion TaxListView OnItemLongClickListener
 
         return view;
-    }
-
-    public void getTaxAdapterForView(ArrayList<Map<String, String>> list) {
-        mTaxListHashMap = list;
-
-        if (activity.equals("insert"))
-            ((DetailSaleInsert) getActivity()).setValuesOfFactor();
-        else if (activity.equals("view"))
-            ((DetailSaleView) getActivity()).setValuesOfFactor();
-    }
-
-    public void getTaxAdapterForInsert(ArrayList<Map<String, String>> list) {
-        mTaxListHashMap = list;
-        taxListView.setAdapter(mTaxAdapter);
-
-        if (activity.equals("insert"))
-            ((DetailSaleInsert) getActivity()).setValuesOfFactor();
-        else if (activity.equals("view"))
-            ((DetailSaleView) getActivity()).setValuesOfFactor();
     }
 
     public void getTaxAdapter(ArrayList<Map<String, String>> list) {
@@ -87,5 +97,7 @@ public class CardViewTaxes extends Fragment {
             ((DetailSaleInsert) getActivity()).setValuesOfFactor();
         else if (activity.equals("view"))
             ((DetailSaleView) getActivity()).setValuesOfFactor();
+
+        Utility.setHeightOfListView(taxListView);
     }
 }
