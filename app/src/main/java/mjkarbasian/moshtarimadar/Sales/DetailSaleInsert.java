@@ -29,17 +29,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import mjkarbasian.moshtarimadar.CardViewPayments;
-import mjkarbasian.moshtarimadar.CardViewProducts;
-import mjkarbasian.moshtarimadar.CardViewTaxes;
 import mjkarbasian.moshtarimadar.Data.KasebContract;
 import mjkarbasian.moshtarimadar.Data.KasebDbHelper;
 import mjkarbasian.moshtarimadar.Data.KasebProvider;
 import mjkarbasian.moshtarimadar.R;
-import mjkarbasian.moshtarimadar.adapters.CostSaleProductAdapter;
-import mjkarbasian.moshtarimadar.adapters.CustomerAdapter;
-import mjkarbasian.moshtarimadar.adapters.TypesSettingAdapter;
-import mjkarbasian.moshtarimadar.helper.Utility;
+import mjkarbasian.moshtarimadar.Adapters.CostSaleProductAdapter;
+import mjkarbasian.moshtarimadar.Adapters.CustomerAdapter;
+import mjkarbasian.moshtarimadar.Adapters.TypesSettingAdapter;
+import mjkarbasian.moshtarimadar.Helpers.Utility;
 
 public class DetailSaleInsert extends AppCompatActivity {
 

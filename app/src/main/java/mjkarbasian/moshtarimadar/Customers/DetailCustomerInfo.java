@@ -13,7 +13,6 @@ import android.widget.TextView;
 
 import mjkarbasian.moshtarimadar.Data.KasebContract;
 import mjkarbasian.moshtarimadar.R;
-import mjkarbasian.moshtarimadar.helper.Utility;
 
 /**
  * Created by family on 7/27/2016.

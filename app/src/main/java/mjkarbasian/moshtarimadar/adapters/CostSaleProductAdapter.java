@@ -1,4 +1,4 @@
-package mjkarbasian.moshtarimadar.adapters;
+package mjkarbasian.moshtarimadar.Adapters;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import mjkarbasian.moshtarimadar.Data.KasebContract;
 import mjkarbasian.moshtarimadar.R;
-import mjkarbasian.moshtarimadar.helper.Utility;
+import mjkarbasian.moshtarimadar.Helpers.Utility;
 
 /**
  * Created by Unique on 11/11/2016.

@@ -1,4 +1,4 @@
-package mjkarbasian.moshtarimadar.helper;
+package mjkarbasian.moshtarimadar.Helpers;
 
 import android.app.Activity;
 import android.content.ActivityNotFoundException;

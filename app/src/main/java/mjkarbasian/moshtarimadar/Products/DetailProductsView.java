@@ -12,9 +12,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import mjkarbasian.moshtarimadar.R;
-import mjkarbasian.moshtarimadar.adapters.DetailProductAdapter;
-import mjkarbasian.moshtarimadar.helper.Samples;
-import mjkarbasian.moshtarimadar.helper.Utility;
+import mjkarbasian.moshtarimadar.Helpers.Utility;
 
 /**
  * A placeholder fragment containing a simple view.

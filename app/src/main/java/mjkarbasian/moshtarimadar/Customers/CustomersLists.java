@@ -19,7 +19,7 @@ import android.widget.ListView;
 
 import mjkarbasian.moshtarimadar.Data.KasebContract;
 import mjkarbasian.moshtarimadar.R;
-import mjkarbasian.moshtarimadar.adapters.CustomerAdapter;
+import mjkarbasian.moshtarimadar.Adapters.CustomerAdapter;
 
 /**
  * A placeholder fragment containing a simple view.

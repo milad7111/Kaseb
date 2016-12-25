@@ -27,8 +27,8 @@ import android.widget.Toast;
 
 import mjkarbasian.moshtarimadar.Data.KasebContract;
 import mjkarbasian.moshtarimadar.R;
-import mjkarbasian.moshtarimadar.adapters.DetailProductAdapter;
-import mjkarbasian.moshtarimadar.helper.Utility;
+import mjkarbasian.moshtarimadar.Adapters.DetailProductAdapter;
+import mjkarbasian.moshtarimadar.Helpers.Utility;
 
 public class DetailProducts extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 

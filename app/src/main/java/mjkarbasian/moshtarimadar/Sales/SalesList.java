@@ -12,11 +12,10 @@ import android.widget.ListView;
 import java.text.ParseException;
 
 import mjkarbasian.moshtarimadar.R;
-import mjkarbasian.moshtarimadar.adapters.SaleAdapter;
-import mjkarbasian.moshtarimadar.helper.Utility;
+import mjkarbasian.moshtarimadar.Helpers.Utility;
 
-import static mjkarbasian.moshtarimadar.helper.Samples.sales;
-import static mjkarbasian.moshtarimadar.helper.Samples.salesDue;
+import static mjkarbasian.moshtarimadar.Helpers.Samples.sales;
+import static mjkarbasian.moshtarimadar.Helpers.Samples.salesDue;
 
 
 /**

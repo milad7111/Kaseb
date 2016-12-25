@@ -1,4 +1,4 @@
-package mjkarbasian.moshtarimadar;
+package mjkarbasian.moshtarimadar.Sales;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -13,16 +13,17 @@ import android.widget.ListView;
 import java.util.ArrayList;
 import java.util.Map;
 
-import mjkarbasian.moshtarimadar.adapters.PaymentAdapter;
-import mjkarbasian.moshtarimadar.helper.Utility;
+import mjkarbasian.moshtarimadar.R;
+import mjkarbasian.moshtarimadar.Adapters.TaxAdapter;
+import mjkarbasian.moshtarimadar.Helpers.Utility;
 
 /**
  * Created by Unique on 20/12/2016.
  */
-public class CardViewPayments extends Fragment {
-    ListView paymentListView;
-    PaymentAdapter mPaymentAdapter;
-    ArrayList<Map<String, String>> mPaymentListHashMap;
+public class CardViewTaxes extends Fragment {
+    ListView taxListView;
+    TaxAdapter mTaxAdapter;
+    ArrayList<Map<String, String>> mTaxListHashMap;
     View view;
     String activity;
     String _id;
@@ -31,23 +32,23 @@ public class CardViewPayments extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        view = inflater.inflate(R.layout.fragment_card_view_payments, container, false);
+        view = inflater.inflate(R.layout.fragment_card_view_taxes, container, false);
         activity = getArguments().getString("activity").toString();
 
-        mPaymentAdapter = new PaymentAdapter(getActivity(), mPaymentListHashMap);
-        paymentListView = (ListView) view.findViewById(R.id.list_view_fragment_card_view_payments);
-        paymentListView.setAdapter(mPaymentAdapter);
+        mTaxAdapter = new TaxAdapter(getActivity(), mTaxListHashMap);
+        taxListView = (ListView) view.findViewById(R.id.list_view_fragment_card_view_taxes);
+        taxListView.setAdapter(mTaxAdapter);
 
-        //region PaymentListView OnItemClickListener
-        paymentListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        //region TaxListView OnItemClickListener
+        taxListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             }
         });
-        //endregion PaymentListView OnItemClickListener
+        //endregion TaxListView OnItemClickListener
 
-        //region PaymentListView OnItemLongClickListener
-        paymentListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+        //region TaxListView OnItemLongClickListener
+        taxListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 Map<String, String> cursor = (Map<String, String>) parent.getItemAtPosition(position);
@@ -57,20 +58,20 @@ public class CardViewPayments extends Fragment {
 
                     new AlertDialog.Builder(getActivity())
                             .setTitle("Confirmation ...")
-                            .setMessage("Do You Really Want to Delete This PAYMENT?\n\nPayment Amount : " + _amount)
+                            .setMessage("Do You Really Want to Delete This TAX?\n\nTax Amount : " + _amount)
                             .setIcon(android.R.drawable.ic_dialog_alert)
                             .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
 
                                 public void onClick(DialogInterface dialog, int whichButton) {
-                                    mPaymentListHashMap.remove(Utility.indexOfRowsInMap(mPaymentListHashMap, "id", _id));
-                                    paymentListView.setAdapter(mPaymentAdapter);
+                                    mTaxListHashMap.remove(Utility.indexOfRowsInMap(mTaxListHashMap, "id", _id));
+                                    taxListView.setAdapter(mTaxAdapter);
 
                                     if (activity.equals("insert"))
                                         ((DetailSaleInsert) getActivity()).setValuesOfFactor();
                                     else if (activity.equals("view"))
                                         ((DetailSaleView) getActivity()).setValuesOfFactor();
 
-                                    Utility.setHeightOfListView(paymentListView);
+                                    Utility.setHeightOfListView(taxListView);
                                 }
                             })
                             .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
@@ -83,21 +84,21 @@ public class CardViewPayments extends Fragment {
                 return true;
             }
         });
-        //endregion PaymentListView OnItemLongClickListener
+        //endregion TaxListView OnItemLongClickListener
 
         return view;
     }
 
-    public void getPaymentAdapter(ArrayList<Map<String, String>> list) {
-        mPaymentListHashMap = list;
-        mPaymentAdapter = new PaymentAdapter(getActivity(), mPaymentListHashMap);
-        paymentListView.setAdapter(mPaymentAdapter);
+    public void getTaxAdapter(ArrayList<Map<String, String>> list) {
+        mTaxListHashMap = list;
+        mTaxAdapter = new TaxAdapter(getActivity(), mTaxListHashMap);
+        taxListView.setAdapter(mTaxAdapter);
 
         if (activity.equals("insert"))
             ((DetailSaleInsert) getActivity()).setValuesOfFactor();
         else if (activity.equals("view"))
             ((DetailSaleView) getActivity()).setValuesOfFactor();
 
-        Utility.setHeightOfListView(paymentListView);
+        Utility.setHeightOfListView(taxListView);
     }
 }

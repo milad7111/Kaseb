@@ -30,7 +30,7 @@ import java.util.ArrayList;
 
 import mjkarbasian.moshtarimadar.Data.KasebContract;
 import mjkarbasian.moshtarimadar.R;
-import mjkarbasian.moshtarimadar.adapters.HeaderAdapter;
+import mjkarbasian.moshtarimadar.Adapters.HeaderAdapter;
 
 /**
  * Created by family on 11/3/2016.

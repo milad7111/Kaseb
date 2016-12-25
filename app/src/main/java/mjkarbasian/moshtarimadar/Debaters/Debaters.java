@@ -11,7 +11,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 
-import mjkarbasian.moshtarimadar.DrawerActivity;
+import mjkarbasian.moshtarimadar.Others.DrawerActivity;
 import mjkarbasian.moshtarimadar.R;
 
 public class Debaters extends DrawerActivity {

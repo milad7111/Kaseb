@@ -3,7 +3,7 @@ package mjkarbasian.moshtarimadar.Setting;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 
-import mjkarbasian.moshtarimadar.DrawerActivity;
+import mjkarbasian.moshtarimadar.Others.DrawerActivity;
 import mjkarbasian.moshtarimadar.R;
 
 public class MySetting extends DrawerActivity {

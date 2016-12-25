@@ -16,13 +16,13 @@
         android:supportsRtl="true"
 
         <activity
-            android:name=".DrawerActivity"
+            android:name=".Others.DrawerActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" />
 
         <activity
 
-            android:name=".DetailSaleView"
+            android:name=".Sales.DetailSaleView"
             android:label="@string/app_name"
             android:parentActivityName=".Sales.Sales"
             android:theme="@style/AppTheme.NoActionBar" >
@@ -130,9 +130,9 @@
                 android:value=".Customers.Customers" />
         </activity>
 
-        <activity android:name=".helper.GalleryUtil" />
+        <activity android:name=".Helpers.GalleryUtil" />
 
-        <activity android:name=".helper.ImageSelector" />
+        <activity android:name=".Helpers.ImageSelector" />
 
         <provider
             android:name=".Data.KasebProvider"

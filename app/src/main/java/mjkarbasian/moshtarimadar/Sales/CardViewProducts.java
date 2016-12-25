@@ -1,4 +1,4 @@
-package mjkarbasian.moshtarimadar;
+package mjkarbasian.moshtarimadar.Sales;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -16,8 +16,8 @@ import android.widget.ListView;
 import java.util.ArrayList;
 import java.util.Map;
 
-import mjkarbasian.moshtarimadar.adapters.ProductAdapter;
-import mjkarbasian.moshtarimadar.helper.Utility;
+import mjkarbasian.moshtarimadar.R;
+import mjkarbasian.moshtarimadar.Helpers.Utility;
 
 /**
  * Created by Unique on 20/12/2016.

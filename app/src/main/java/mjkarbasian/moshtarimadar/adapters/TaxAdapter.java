@@ -1,4 +1,4 @@
-package mjkarbasian.moshtarimadar.adapters;
+package mjkarbasian.moshtarimadar.Adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 import mjkarbasian.moshtarimadar.R;
-import mjkarbasian.moshtarimadar.helper.Utility;
+import mjkarbasian.moshtarimadar.Helpers.Utility;
 
 /**
  * Created by Unique on 23/12/2016.

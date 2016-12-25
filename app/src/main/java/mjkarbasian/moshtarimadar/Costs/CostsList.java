@@ -11,17 +11,16 @@ import android.widget.ListView;
 import java.text.ParseException;
 
 import mjkarbasian.moshtarimadar.R;
-import mjkarbasian.moshtarimadar.adapters.CostAdapter;
-import mjkarbasian.moshtarimadar.helper.Utility;
+import mjkarbasian.moshtarimadar.Helpers.Utility;
 
-import static mjkarbasian.moshtarimadar.helper.Samples.costs;
-import static mjkarbasian.moshtarimadar.helper.Samples.costsCode;
-import static mjkarbasian.moshtarimadar.helper.Samples.costsDue;
-import static mjkarbasian.moshtarimadar.helper.Samples.setCost;
-import static mjkarbasian.moshtarimadar.helper.Samples.setCostAmount;
-import static mjkarbasian.moshtarimadar.helper.Samples.setCostCode;
-import static mjkarbasian.moshtarimadar.helper.Samples.setCostDue;
-import static mjkarbasian.moshtarimadar.helper.Samples.setCostNames;
+import static mjkarbasian.moshtarimadar.Helpers.Samples.costs;
+import static mjkarbasian.moshtarimadar.Helpers.Samples.costsCode;
+import static mjkarbasian.moshtarimadar.Helpers.Samples.costsDue;
+import static mjkarbasian.moshtarimadar.Helpers.Samples.setCost;
+import static mjkarbasian.moshtarimadar.Helpers.Samples.setCostAmount;
+import static mjkarbasian.moshtarimadar.Helpers.Samples.setCostCode;
+import static mjkarbasian.moshtarimadar.Helpers.Samples.setCostDue;
+import static mjkarbasian.moshtarimadar.Helpers.Samples.setCostNames;
 
 /**
  * A placeholder fragment containing a simple view.
