@@ -148,7 +148,7 @@ public class DetailCustomerDash extends Fragment {
         stateId = customerCursor.getString(customerCursor.getColumnIndex(KasebContract.Customers.COLUMN_STATE_ID));
 
         String selection = KasebContract.State._ID + " = ?";
-        String[] selecArg = new String[]{String.valueOf(customerCursor.getInt(customerCursor.getColumnIndex(KasebContract.State._ID)))};
+        String[] selecArg = new String[]{String.valueOf(customerCursor.getInt(customerCursor.getColumnIndex(KasebContract.Customers.COLUMN_STATE_ID)))};
         Cursor colorCursor = getContext().getContentResolver().query(KasebContract.State.CONTENT_URI,
                 new String[]{KasebContract.State._ID ,KasebContract.State.COLUMN_STATE_COLOR},selection,selecArg,null);
         if(colorCursor.moveToFirst())

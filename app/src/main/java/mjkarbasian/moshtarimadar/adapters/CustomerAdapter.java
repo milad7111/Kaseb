@@ -40,7 +40,7 @@ public class CustomerAdapter extends CursorAdapter {
         ImageView imageViewState = (ImageView) view.findViewById(R.id.item_list_customer_state);
 
         String selection = KasebContract.State._ID + " = ?";
-        String[] selecArg = new String[]{String.valueOf(cursor.getInt(cursor.getColumnIndex(KasebContract.State._ID)))};
+        String[] selecArg = new String[]{String.valueOf(cursor.getInt(cursor.getColumnIndex(KasebContract.Customers.COLUMN_STATE_ID)))};
         Cursor colorCursor = context.getContentResolver().query(KasebContract.State.CONTENT_URI,
                 new String[]{KasebContract.State._ID ,KasebContract.State.COLUMN_STATE_COLOR},selection,selecArg,null);
         if(colorCursor.moveToFirst())

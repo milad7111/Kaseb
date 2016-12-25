@@ -138,34 +138,34 @@ public class DetailCustomer extends AppCompatActivity {
                 break;
             case R.id.gold_member:
                 selectArg = new String[]{String.valueOf(Color.rgb(255, 215, 0))};
-                cursor =  this.getContentResolver().query(KasebContract.State.buildStateUri(mStateId),
+                cursor =  getContentResolver().query(KasebContract.State.CONTENT_URI,
                       new String[]{KasebContract.State._ID,KasebContract.State.COLUMN_STATE_COLOR},selection,
                         selectArg,null);
                 if(cursor.moveToFirst()) value = cursor.getInt(cursor.getColumnIndex(KasebContract.State._ID));
                 contentValues.put(key,value);
-                updatedRow = this.getContentResolver().update(uri,contentValues,updateSelect,updSelArg);
+                updatedRow = getContentResolver().update(uri,contentValues,updateSelect,updSelArg);
                 break;
             case R.id.silver_member:
                 selectArg = new String[]{String.valueOf(Color.rgb(192,192,192))};
-                cursor =  this.getContentResolver().query(KasebContract.State.buildStateUri(mStateId),
+                cursor = getContentResolver().query(KasebContract.State.CONTENT_URI,
                         new String[]{KasebContract.State._ID,KasebContract.State.COLUMN_STATE_COLOR},selection,
                         selectArg,null);
                 if(cursor.moveToFirst()) value = cursor.getInt(cursor.getColumnIndex(KasebContract.State._ID));
                 contentValues.put(key,value);
-                updatedRow = this.getContentResolver().update(uri,contentValues,updateSelect,updSelArg);
+                updatedRow = getContentResolver().update(uri,contentValues,updateSelect,updSelArg);
                 break;
             case R.id.bronze_member:
                 selectArg = new String[]{String.valueOf(Color.rgb(218,165,32))};
-                cursor =  this.getContentResolver().query(KasebContract.State.buildStateUri(mStateId),
+                cursor = getContentResolver().query(KasebContract.State.CONTENT_URI,
                         new String[]{KasebContract.State._ID,KasebContract.State.COLUMN_STATE_COLOR},selection,
                         selectArg,null);
                 if(cursor.moveToFirst()) value = cursor.getInt(cursor.getColumnIndex(KasebContract.State._ID));
                 contentValues.put(key,value);
-                updatedRow = this.getContentResolver().update(uri,contentValues,updateSelect,updSelArg);
+                updatedRow = getContentResolver().update(uri,contentValues,updateSelect,updSelArg);
                 break;
             case R.id.non_member:
                 selectArg = new String[]{String.valueOf(Color.rgb(176,224,230))};
-                cursor =  this.getContentResolver().query(KasebContract.State.buildStateUri(mStateId),
+                cursor =  getContentResolver().query(KasebContract.State.CONTENT_URI,
                         new String[]{KasebContract.State._ID,KasebContract.State.COLUMN_STATE_COLOR},selection,
                         selectArg,null);
                 if(cursor.moveToFirst()) value = cursor.getInt(cursor.getColumnIndex(KasebContract.State._ID));

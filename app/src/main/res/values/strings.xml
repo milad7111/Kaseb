@@ -85,7 +85,7 @@
     <string name="gold_member">Gold Member</string>
     <string name="silver_memer">Silver Member</string>
     <string name="bronze_member">Bronze Member</string>
-    <string name="non_member">no member</string>
+    <string name="non_member">In Start</string>
     <string name="title_activity_detail_sale">DetailSale</string>
     <string name="detail_sales_products_items_header">Items list</string>
     <string name="detail_sales_info_header">Info</string>
