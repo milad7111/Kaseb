@@ -18,7 +18,7 @@ import android.widget.ListView;
 import mjkarbasian.moshtarimadar.Customers.DetailCustomer;
 import mjkarbasian.moshtarimadar.Data.KasebContract;
 import mjkarbasian.moshtarimadar.R;
-import mjkarbasian.moshtarimadar.adapters.DebaterAdapter;
+import mjkarbasian.moshtarimadar.Adapters.DebaterAdapter;
 
 /**
  * Created by family on 12/19/2016.

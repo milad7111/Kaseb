@@ -1,4 +1,4 @@
-package mjkarbasian.moshtarimadar;
+package mjkarbasian.moshtarimadar.Sales;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -33,10 +33,11 @@ import java.util.Map;
 import mjkarbasian.moshtarimadar.Data.KasebContract;
 import mjkarbasian.moshtarimadar.Data.KasebDbHelper;
 import mjkarbasian.moshtarimadar.Data.KasebProvider;
-import mjkarbasian.moshtarimadar.adapters.CostSaleProductAdapter;
-import mjkarbasian.moshtarimadar.adapters.CustomerAdapter;
-import mjkarbasian.moshtarimadar.adapters.TypesSettingAdapter;
-import mjkarbasian.moshtarimadar.helper.Utility;
+import mjkarbasian.moshtarimadar.R;
+import mjkarbasian.moshtarimadar.Adapters.CostSaleProductAdapter;
+import mjkarbasian.moshtarimadar.Adapters.CustomerAdapter;
+import mjkarbasian.moshtarimadar.Adapters.TypesSettingAdapter;
+import mjkarbasian.moshtarimadar.Helpers.Utility;
 
 public class DetailSaleView extends AppCompatActivity {
 

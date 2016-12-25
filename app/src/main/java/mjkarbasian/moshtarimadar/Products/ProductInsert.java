@@ -16,7 +16,7 @@ import android.widget.Toast;
 import mjkarbasian.moshtarimadar.Costs.CostInsert;
 import mjkarbasian.moshtarimadar.Data.KasebContract;
 import mjkarbasian.moshtarimadar.R;
-import mjkarbasian.moshtarimadar.helper.Utility;
+import mjkarbasian.moshtarimadar.Helpers.Utility;
 
 /**
  * Created by Unique on 10/25/2016.

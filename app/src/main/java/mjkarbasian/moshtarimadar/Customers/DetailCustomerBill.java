@@ -14,10 +14,10 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import mjkarbasian.moshtarimadar.Customers.CustomersLists;
+import mjkarbasian.moshtarimadar.Adapters.CustomerBillAdapter;
 import mjkarbasian.moshtarimadar.Data.KasebContract;
 import mjkarbasian.moshtarimadar.R;
-import mjkarbasian.moshtarimadar.adapters.CustomerBillAdapter;
+import mjkarbasian.moshtarimadar.Sales.DetailSaleView;
 
 /**
  * Created by family on 7/27/2016.

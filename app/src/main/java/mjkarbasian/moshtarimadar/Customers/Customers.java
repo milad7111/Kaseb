@@ -19,11 +19,11 @@ import android.widget.Toast;
 
 import java.io.File;
 
-import mjkarbasian.moshtarimadar.DrawerActivity;
+import mjkarbasian.moshtarimadar.Helpers.GalleryUtil;
+import mjkarbasian.moshtarimadar.Helpers.Samples;
+import mjkarbasian.moshtarimadar.Helpers.Utility;
+import mjkarbasian.moshtarimadar.Others.DrawerActivity;
 import mjkarbasian.moshtarimadar.R;
-import mjkarbasian.moshtarimadar.helper.GalleryUtil;
-import mjkarbasian.moshtarimadar.helper.Samples;
-import mjkarbasian.moshtarimadar.helper.Utility;
 
 public class Customers extends DrawerActivity {
 

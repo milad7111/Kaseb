@@ -19,8 +19,8 @@ import android.widget.Toast;
 
 import mjkarbasian.moshtarimadar.Data.KasebContract;
 import mjkarbasian.moshtarimadar.R;
-import mjkarbasian.moshtarimadar.adapters.DetailCustomerAdapter;
-import mjkarbasian.moshtarimadar.helper.Utility;
+import mjkarbasian.moshtarimadar.Adapters.DetailCustomerAdapter;
+import mjkarbasian.moshtarimadar.Helpers.Utility;
 
 public class DetailCustomer extends AppCompatActivity {
     Toolbar mToolbar;

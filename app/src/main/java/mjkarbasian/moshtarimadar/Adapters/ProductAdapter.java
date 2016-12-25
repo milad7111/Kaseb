@@ -1,4 +1,4 @@
-package mjkarbasian.moshtarimadar.adapters;
+package mjkarbasian.moshtarimadar.Adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 import mjkarbasian.moshtarimadar.R;
-import mjkarbasian.moshtarimadar.helper.Utility;
+import mjkarbasian.moshtarimadar.Helpers.Utility;
 
 /**
  * Created by family on 7/21/2016.
@@ -19,11 +19,9 @@ import mjkarbasian.moshtarimadar.helper.Utility;
 public class ProductAdapter extends BaseAdapter {
     private static LayoutInflater inflater = null;
     List<Map<String, String>> mProductDetailsListHashMap;
-    Context mContext;
 
     public ProductAdapter(Context context, List<Map<String, String>> productDetailsListHashMap) {
         super();
-        mContext = context;
         mProductDetailsListHashMap = productDetailsListHashMap;
         inflater = (LayoutInflater) context.
                 getSystemService(Context.LAYOUT_INFLATER_SERVICE);

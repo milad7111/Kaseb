@@ -1,4 +1,4 @@
-package mjkarbasian.moshtarimadar;
+package mjkarbasian.moshtarimadar.Others;
 
 
 import android.content.Intent;
@@ -23,7 +23,9 @@ import android.widget.ListView;
 
 import mjkarbasian.moshtarimadar.Data.KasebContract;
 import mjkarbasian.moshtarimadar.Products.DetailProducts;
-import mjkarbasian.moshtarimadar.adapters.CostSaleProductAdapter;
+import mjkarbasian.moshtarimadar.R;
+import mjkarbasian.moshtarimadar.Sales.DetailSaleView;
+import mjkarbasian.moshtarimadar.Adapters.CostSaleProductAdapter;
 
 /**
  * Created by Unique on 10/11/2016.

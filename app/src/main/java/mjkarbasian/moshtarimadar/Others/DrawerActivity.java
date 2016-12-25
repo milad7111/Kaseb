@@ -1,4 +1,4 @@
-package mjkarbasian.moshtarimadar;
+package mjkarbasian.moshtarimadar.Others;
 
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -16,6 +16,7 @@ import mjkarbasian.moshtarimadar.Costs.Costs;
 import mjkarbasian.moshtarimadar.Customers.Customers;
 import mjkarbasian.moshtarimadar.Debaters.Debaters;
 import mjkarbasian.moshtarimadar.Products.Products;
+import mjkarbasian.moshtarimadar.R;
 import mjkarbasian.moshtarimadar.Sales.Sales;
 import mjkarbasian.moshtarimadar.Setting.MySetting;
 

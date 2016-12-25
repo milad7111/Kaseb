@@ -1,4 +1,4 @@
-package mjkarbasian.moshtarimadar.adapters;
+package mjkarbasian.moshtarimadar.Adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;

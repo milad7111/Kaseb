@@ -11,12 +11,7 @@ import android.net.Uri;
 import android.test.AndroidTestCase;
 import android.util.Log;
 
-import java.util.Date;
-
 import mjkarbasian.moshtarimadar.Tool.TestUtilities;
-import mjkarbasian.moshtarimadar.adapters.DetailSalePayment;
-import mjkarbasian.moshtarimadar.adapters.DetailSaleTax;
-import mjkarbasian.moshtarimadar.helper.Utility;
 
 import static mjkarbasian.moshtarimadar.Data.KasebContract.*;
 
