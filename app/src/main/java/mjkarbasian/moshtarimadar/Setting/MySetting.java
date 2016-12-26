@@ -21,6 +21,5 @@ public class MySetting extends DrawerActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        this.finish();
     }
 }
