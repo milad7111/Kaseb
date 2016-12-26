@@ -25,6 +25,29 @@
         android:layout_height="wrap_content"
         android:spinnerMode="dropdown" />
 
+    <LinearLayout
+        android:id="@+id/dialog_add_payment_is_passed_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:visibility="invisible">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/dialog_add_payment_is_pass"
+            android:textAppearance="?android:textAppearanceLarge" />
+
+        <CheckBox
+            android:id="@+id/dialog_add_payment_is_passed_check_box"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+    </LinearLayout>
+
     <Button
         android:id="@+id/add_payment_for_sale_button1"
         android:layout_width="wrap_content"
