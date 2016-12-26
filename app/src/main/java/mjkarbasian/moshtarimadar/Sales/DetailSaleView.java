@@ -330,7 +330,8 @@ public class DetailSaleView extends AppCompatActivity {
                 KasebContract.DetailSalePayments._ID,
                 KasebContract.DetailSalePayments.COLUMN_AMOUNT,
                 KasebContract.DetailSalePayments.COLUMN_DUE_DATE,
-                KasebContract.DetailSalePayments.COLUMN_PAYMENT_METHOD_ID};
+                KasebContract.DetailSalePayments.COLUMN_PAYMENT_METHOD_ID,
+                KasebContract.DetailSalePayments.COLUMN_IS_PASS};
 
         mCursorInitialize = getContentResolver().query(
                 KasebContract.DetailSalePayments.paymentOfDetailSale(whichDetailSaleId),
@@ -377,6 +378,10 @@ public class DetailSaleView extends AppCompatActivity {
                             mCursorInitialize.getString(
                                     mCursorInitialize.getColumnIndex(
                                             KasebContract.DetailSalePayments.COLUMN_DUE_DATE))));
+                    mPaymentsRowMap.put("isPass", String.valueOf((
+                            mCursorInitialize.getString(
+                                    mCursorInitialize.getColumnIndex(
+                                            KasebContract.DetailSalePayments.COLUMN_IS_PASS)).equals("1")) ? true : false));
 
                     mPaymentListMap.add(mPaymentsRowMap);
                     mCursorInitialize.moveToNext();

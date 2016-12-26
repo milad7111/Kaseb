@@ -5,13 +5,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 import java.util.List;
 import java.util.Map;
 
-import mjkarbasian.moshtarimadar.R;
 import mjkarbasian.moshtarimadar.Helpers.Utility;
+import mjkarbasian.moshtarimadar.R;
 
 /**
  * Created by Unique on 23/12/2016.
@@ -54,6 +55,7 @@ public class PaymentAdapter extends BaseAdapter {
         TextView amountText = (TextView) view.findViewById(R.id.payment_list_for_sale_amount);
         TextView duedateText = (TextView) view.findViewById(R.id.payment_list_for_sale_due_date);
         TextView typeText = (TextView) view.findViewById(R.id.payment_list_for_sale_payment_method);
+        CheckBox isPass = (CheckBox) view.findViewById(R.id.payment_list_for_sale_is_passed_check_box);
 
         amountText.setText(
                 Utility.doubleFormatter(
@@ -65,7 +67,10 @@ public class PaymentAdapter extends BaseAdapter {
 
         typeText.setText(
                 mPaymentDetailsListHashMap.get(position).get("type"));
-
+        if(mPaymentDetailsListHashMap.get(position).get("type").equals("Cheque"))
+        {    isPass.setVisibility(View.VISIBLE);
+             isPass.setChecked(Boolean.parseBoolean(mPaymentDetailsListHashMap.get(position).get("isPass")));
+        }
         return view;
     }
 }
