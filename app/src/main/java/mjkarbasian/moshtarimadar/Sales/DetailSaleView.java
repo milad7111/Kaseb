@@ -30,14 +30,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import mjkarbasian.moshtarimadar.Data.KasebContract;
-import mjkarbasian.moshtarimadar.Data.KasebDbHelper;
-import mjkarbasian.moshtarimadar.Data.KasebProvider;
-import mjkarbasian.moshtarimadar.R;
 import mjkarbasian.moshtarimadar.Adapters.CostSaleProductAdapter;
 import mjkarbasian.moshtarimadar.Adapters.CustomerAdapter;
 import mjkarbasian.moshtarimadar.Adapters.TypesSettingAdapter;
+import mjkarbasian.moshtarimadar.Data.KasebContract;
+import mjkarbasian.moshtarimadar.Data.KasebDbHelper;
+import mjkarbasian.moshtarimadar.Data.KasebProvider;
 import mjkarbasian.moshtarimadar.Helpers.Utility;
+import mjkarbasian.moshtarimadar.R;
 
 public class DetailSaleView extends AppCompatActivity {
 
@@ -844,6 +844,7 @@ public class DetailSaleView extends AppCompatActivity {
 
         paymentAmount = (EditText) dialog.findViewById(R.id.add_payment_for_sale_text1);
         paymentDueDate = (EditText) dialog.findViewById(R.id.input_buy_date);
+        paymentDueDate.setText(Utility.preInsertDate(mContext));
 
         paymentMethod = (Spinner) dialog.findViewById(R.id.input_payment_method_spinner);
         mCursor1 = getContentResolver().query(KasebContract.PaymentMethods.CONTENT_URI
@@ -868,6 +869,10 @@ public class DetailSaleView extends AppCompatActivity {
 
                         paymentMapRow.put("type", mCursor3.getString(
                                 mCursor3.getColumnIndex(KasebContract.PaymentMethods.COLUMN_PAYMENT_METHOD_POINTER)).toString());
+                        if (mCursor3.getString(mCursor3.getColumnIndex(KasebContract.PaymentMethods.COLUMN_PAYMENT_METHOD_POINTER)).equals("Cheque")) {
+                            LinearLayout isPassed = (LinearLayout) dialog.findViewById(R.id.dialog_add_payment_is_passed_view);
+                            isPassed.setVisibility(View.VISIBLE);
+                        }
                     }
 
                     @Override
