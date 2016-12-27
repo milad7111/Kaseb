@@ -7,6 +7,7 @@ import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -32,6 +33,8 @@ import android.widget.Toast;
 import mjkarbasian.moshtarimadar.Adapters.CostSaleProductAdapter;
 import mjkarbasian.moshtarimadar.Adapters.TypesSettingAdapter;
 import mjkarbasian.moshtarimadar.Data.KasebContract;
+import mjkarbasian.moshtarimadar.Data.KasebDbHelper;
+import mjkarbasian.moshtarimadar.Data.KasebProvider;
 import mjkarbasian.moshtarimadar.Helpers.Utility;
 import mjkarbasian.moshtarimadar.Products.DetailProducts;
 import mjkarbasian.moshtarimadar.R;
@@ -49,6 +52,9 @@ public class CostSaleProductList extends Fragment implements LoaderManager.Loade
 
     Fragment productHistory = new DetailProducts();
     Bundle productHistoryBundle = new Bundle();
+
+    KasebDbHelper mOpenHelper;
+    SQLiteDatabase mDb;
 
     CostSaleProductAdapter mAdapter = null;
     ListView mListView;
@@ -99,6 +105,9 @@ public class CostSaleProductList extends Fragment implements LoaderManager.Loade
                         null,
                         KasebContract.Products.COLUMN_PRODUCT_NAME,
                         KasebContract.Products.COLUMN_PRODUCT_CODE};
+
+                mOpenHelper = KasebProvider.mOpenHelper;
+                mDb = mOpenHelper.getWritableDatabase();
                 break;
             }
             default:
@@ -148,7 +157,8 @@ public class CostSaleProductList extends Fragment implements LoaderManager.Loade
                             costDescription.setText(mCursor.getString(mCursor.getColumnIndex(KasebContract.Costs.COLUMN_DESCRIPTION)));
                             String costTypeid = mCursor.getString(mCursor.getColumnIndex(KasebContract.Costs.COLUMN_COST_TYPE_ID));
 
-                            Cursor mCursor1 = getContext().getContentResolver().query(KasebContract.CostTypes.CONTENT_URI,
+                            Cursor mCursor1 = getContext().getContentResolver().query(
+                                    KasebContract.CostTypes.CONTENT_URI,
                                     new String[]{
                                             KasebContract.CostTypes._ID,
                                             KasebContract.CostTypes.COLUMN_COST_TYPE_POINTER},
@@ -233,8 +243,8 @@ public class CostSaleProductList extends Fragment implements LoaderManager.Loade
 
                             dialog.show();
                         }
-                        break;
                         //endregion Cost
+                        break;
                     }
                     case "sale": {
                         //region Sale
@@ -259,9 +269,7 @@ public class CostSaleProductList extends Fragment implements LoaderManager.Loade
                             productHistory.setArguments(productHistoryBundle);
                             fragmentManager = getActivity().getSupportFragmentManager();
                             fragmentManager.beginTransaction().addToBackStack(null).replace(R.id.container, productHistory).commit();
-
                         }
-                        mCursor.close();
                         //endregion Product
                         break;
                     }
@@ -304,8 +312,8 @@ public class CostSaleProductList extends Fragment implements LoaderManager.Loade
                                         }
                                     }).show();
                         }
-                        break;
                         //endregion Cost
+                        break;
                     }
                     case "sale": {
                         //region Sale
@@ -344,6 +352,61 @@ public class CostSaleProductList extends Fragment implements LoaderManager.Loade
                     }
                     case "product": {
                         //region Product
+                        mCursor = (Cursor) parent.getItemAtPosition(position);
+                        if (mCursor != null) {
+                            long productId = mCursor.getLong(mCursor.getColumnIndex(KasebContract.Products._ID));
+
+                            int numberUseOfThisProduct = getContext().getContentResolver().query(
+                                    KasebContract.DetailSaleProducts.uriDetailSaleProductsWithProductId(productId),
+                                    new String[]{
+                                            KasebContract.DetailSaleProducts._ID},
+                                    null, null, null).getCount();
+
+                            if (numberUseOfThisProduct > 0)
+                                Toast.makeText(getContext(),
+                                        "This Product Is INUSE In "
+                                                + numberUseOfThisProduct
+                                                + " Factor(s)!", Toast.LENGTH_LONG).show();
+                            else {
+                                new AlertDialog.Builder(getActivity())
+                                        .setTitle("Confirmation ...")
+                                        .setMessage("Do You Really Want to Delete This PRODUCT?\n\nProduct Name : " +
+                                                mCursor.getString(mCursor.getColumnIndex(KasebContract.Products.COLUMN_PRODUCT_NAME)))
+                                        .setIcon(android.R.drawable.ic_dialog_alert)
+                                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int whichButton) {
+
+                                                mDb.beginTransaction();
+                                                try {
+                                                    getActivity().getContentResolver().delete(
+                                                            KasebContract.ProductHistory.CONTENT_URI,
+                                                            KasebContract.ProductHistory.COLUMN_PRODUCT_ID + " = ? ",
+                                                            new String[]{mCursor.getString(mCursor.getColumnIndex(KasebContract.Products._ID))}
+                                                    );
+
+                                                    getActivity().getContentResolver().delete(
+                                                            KasebContract.Products.CONTENT_URI,
+                                                            KasebContract.Products._ID + " = ? ",
+                                                            new String[]{mCursor.getString(mCursor.getColumnIndex(KasebContract.Products._ID))}
+                                                    );
+
+                                                    mDb.setTransactionSuccessful();
+                                                    mDb.endTransaction();
+                                                } catch (Exception e) {
+                                                    mDb.endTransaction();
+                                                }
+                                                //just a message to show everything are under control
+                                                Toast.makeText(getContext(),
+                                                        getContext().getResources().getString(R.string.msg_delete_succeed), Toast.LENGTH_LONG).show();
+                                            }
+                                        })
+                                        .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int whichButton) {
+                                            }
+                                        }).show();
+                            }
+
+                        }
                         //endregion Product
                         break;
                     }
