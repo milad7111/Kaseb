@@ -246,7 +246,7 @@ public class DetailSaleView extends AppCompatActivity {
                 KasebContract.DetailSaleProducts.COLUMN_AMOUNT};
 
         mCursorInitialize = getContentResolver().query(
-                KasebContract.DetailSaleProducts.productsOfDetailSale(whichDetailSaleId),
+                KasebContract.DetailSaleProducts.uriDetailSaleProductsWithDetailSaleId(whichDetailSaleId),
                 mProjectionInitialize,
                 null,
                 null,

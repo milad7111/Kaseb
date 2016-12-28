@@ -58,6 +58,7 @@ public class KasebProvider extends ContentProvider {
     public static final int DETAIL_SALE_TAXES_BY_TAX_TYPE = 309;
     public static final int PRODUCT_HISTORY_BY_PRODUCT_ID = 310;
     public static final int COSTS_BY_TYPE = 311;
+    public static final int DETAIL_SALE_PRODUCT_BY_PRODUCT_ID = 312;
     final static String LOG_TAG = KasebProvider.class.getSimpleName();
     private static final UriMatcher sUriMatcher = buildUriMatcher();
     private static final SQLiteQueryBuilder sSalesByCustomerQueryBuilder;
@@ -144,6 +145,7 @@ public class KasebProvider extends ContentProvider {
         uriMatcher.addURI(authority, KasebContract.PATH_DETAIL_SALE_TAXES + "/detail_sale_id/*", DETAIL_SALE_TAXES_BY_DETAIL_SALE_ID);
         uriMatcher.addURI(authority, KasebContract.PATH_DETAIL_SALE_TAXES + "/tax_type_id/*", DETAIL_SALE_TAXES_BY_TAX_TYPE);
         uriMatcher.addURI(authority, KasebContract.PATH_PRODUCT_HISTORY + "/product_id/*", PRODUCT_HISTORY_BY_PRODUCT_ID);
+        uriMatcher.addURI(authority, KasebContract.PATH_DETAIL_SALE_PRODUCTS + "/product_id/*", DETAIL_SALE_PRODUCT_BY_PRODUCT_ID);
         uriMatcher.addURI(authority, KasebContract.PATH_COSTS + "/cost_type_id/*", COSTS_BY_TYPE);
         return uriMatcher;
     }
@@ -740,6 +742,23 @@ public class KasebProvider extends ContentProvider {
             }
             //endregion
 
+            //region 38 DETAIL_SALE_PRODUCT_BY_PRODUCT_ID
+            case DETAIL_SALE_PRODUCT_BY_PRODUCT_ID: {
+                String productId = Utility.getTheLastPathUri(uri);
+                retCursor = mOpenHelper.getReadableDatabase().query(
+                        KasebContract.DetailSaleProducts.TABLE_NAME,
+                        projection,
+                        dataSetSelectionMaker(KasebContract.DetailSaleProducts.TABLE_NAME,
+                                KasebContract.DetailSaleProducts.COLUMN_PRODUCT_ID),
+                        new String[]{productId},
+                        null,
+                        null,
+                        sortOrder
+                );
+                break;
+            }
+            //endregion
+
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
         }
@@ -829,6 +848,8 @@ public class KasebProvider extends ContentProvider {
                 return KasebContract.DetailSaleTaxes.CONTENT_TYPE;
             case DETAIL_SALE_TAXES_BY_TAX_TYPE:
                 return KasebContract.DetailSaleTaxes.CONTENT_TYPE;
+            case DETAIL_SALE_PRODUCT_BY_PRODUCT_ID:
+                return KasebContract.DetailSaleProducts.CONTENT_TYPE;
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
         }

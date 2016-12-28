@@ -13,15 +13,29 @@ import android.util.Log;
 
 import mjkarbasian.moshtarimadar.Tool.TestUtilities;
 
-import static mjkarbasian.moshtarimadar.Data.KasebContract.*;
+import static mjkarbasian.moshtarimadar.Data.KasebContract.CONTENT_AUTHORITY;
+import static mjkarbasian.moshtarimadar.Data.KasebContract.CostTypes;
+import static mjkarbasian.moshtarimadar.Data.KasebContract.Costs;
+import static mjkarbasian.moshtarimadar.Data.KasebContract.Customers;
+import static mjkarbasian.moshtarimadar.Data.KasebContract.DetailSale;
+import static mjkarbasian.moshtarimadar.Data.KasebContract.DetailSalePayments;
+import static mjkarbasian.moshtarimadar.Data.KasebContract.DetailSaleProducts;
+import static mjkarbasian.moshtarimadar.Data.KasebContract.DetailSaleTaxes;
+import static mjkarbasian.moshtarimadar.Data.KasebContract.PaymentMethods;
+import static mjkarbasian.moshtarimadar.Data.KasebContract.ProductHistory;
+import static mjkarbasian.moshtarimadar.Data.KasebContract.Products;
+import static mjkarbasian.moshtarimadar.Data.KasebContract.Sales;
+import static mjkarbasian.moshtarimadar.Data.KasebContract.State;
+import static mjkarbasian.moshtarimadar.Data.KasebContract.TaxTypes;
 
 /**
  * Created by Unique on 10/13/2016.
  */
 public class  TestKasebProvider extends AndroidTestCase {
 
-    public static long sample_number = 100;
     final static String LOG_TAG = TestKasebProvider.class.getSimpleName();
+    static private final int BULK_INSERT_RECORDS_TO_INSERT = 10;
+    public static long sample_number = 100;
     KasebProvider ojectKasebProvider = new KasebProvider();
 
     // Since we want each test to start with a clean slate, run deleteAllRecords
@@ -846,7 +860,7 @@ public class  TestKasebProvider extends AndroidTestCase {
 
         // A cursor is your primary interface to the query results.
         Cursor detailSaleProductswithDetailSaleIdCursor = mContext.getContentResolver().query(
-                DetailSaleProducts.productsOfDetailSale(newDetailSaleRowId),
+                DetailSaleProducts.uriDetailSaleProductswithDetailSaleID(newDetailSaleRowId),
                 null, // leaving "columns" null just returns all the columns.
                 null, // columns for "where" clause
                 null, // values for "where" clause
@@ -1705,8 +1719,6 @@ public class  TestKasebProvider extends AndroidTestCase {
         detailSaleProductsCursor.close();
         //endregion
     }
-
-    static private final int BULK_INSERT_RECORDS_TO_INSERT = 10;
 
     //region Create ContentValues
     //region 1 State table

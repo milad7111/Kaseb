@@ -137,7 +137,7 @@ public class DetailSaleInsert extends AppCompatActivity {
         nameCustomer = (TextView) findViewById(R.id.detail_sales_info_customer_name);
         familyCustomer = (TextView) findViewById(R.id.detail_sales_info_customer_family);
 
-         saleDate = (EditText) findViewById(R.id.detail_sales_info_sale_date);
+        saleDate = (EditText) findViewById(R.id.detail_sales_info_sale_date);
         saleDate.setText(Utility.preInsertDate(mContext));
 
         totalAmountSummary.setText(
@@ -197,6 +197,7 @@ public class DetailSaleInsert extends AppCompatActivity {
                         getApplicationContext().getResources().getString(R.string.print_your_factor), Toast.LENGTH_LONG).show();
                 break;
             case R.id.save:
+
                 //region CheckValidity
                 //endregion CheckValidity
 
@@ -204,9 +205,6 @@ public class DetailSaleInsert extends AppCompatActivity {
 
                 //region SetValues
                 EditText saleCode = (EditText) findViewById(R.id.detail_sales_info_sale_code);
-                //endregion
-
-                //region Check
                 //endregion
 
                 //region Insert Sale
@@ -223,8 +221,6 @@ public class DetailSaleInsert extends AppCompatActivity {
                 //endregion
 
                 //region Insert DetailSale
-
-
                 detailSaleValues.put(KasebContract.DetailSale.COLUMN_DATE, saleDate.getText().toString());
                 detailSaleValues.put(KasebContract.DetailSale.COLUMN_IS_BALANCED, 0);
                 detailSaleValues.put(KasebContract.DetailSale.COLUMN_ITEMS_NUMBER, mChosenProductListMap.size());

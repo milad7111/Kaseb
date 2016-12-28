@@ -10,9 +10,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import mjkarbasian.moshtarimadar.Data.KasebContract;
-import mjkarbasian.moshtarimadar.R;
 import mjkarbasian.moshtarimadar.Helpers.Utility;
-
+import mjkarbasian.moshtarimadar.R;
 
 /**
  * Created by family on 6/23/2016.
@@ -42,9 +41,9 @@ public class CustomerAdapter extends CursorAdapter {
         String selection = KasebContract.State._ID + " = ?";
         String[] selecArg = new String[]{String.valueOf(cursor.getInt(cursor.getColumnIndex(KasebContract.Customers.COLUMN_STATE_ID)))};
         Cursor colorCursor = context.getContentResolver().query(KasebContract.State.CONTENT_URI,
-                new String[]{KasebContract.State._ID ,KasebContract.State.COLUMN_STATE_COLOR},selection,selecArg,null);
-        if(colorCursor.moveToFirst())
-        imageViewState.setColorFilter(colorCursor.getInt(colorCursor.getColumnIndex(KasebContract.State.COLUMN_STATE_COLOR)));
+                new String[]{KasebContract.State._ID, KasebContract.State.COLUMN_STATE_COLOR}, selection, selecArg, null);
+        if (colorCursor.moveToFirst())
+            imageViewState.setColorFilter(colorCursor.getInt(colorCursor.getColumnIndex(KasebContract.State.COLUMN_STATE_COLOR)));
 
         stateId = cursor.getString(cursor.getColumnIndex(KasebContract.Customers.COLUMN_STATE_ID));
         name = cursor.getString(cursor.getColumnIndex(KasebContract.Customers.COLUMN_FIRST_NAME)) + "   " +

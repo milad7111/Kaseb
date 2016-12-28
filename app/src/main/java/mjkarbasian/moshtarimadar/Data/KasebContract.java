@@ -248,8 +248,13 @@ public class KasebContract {
         }
 
         //Defining Uri for products of a detailsale cursor_dir: content://AUTHORITY/DetailSaleProducts/detail_sale_id
-        public static Uri productsOfDetailSale(long detailSaleId) {
+        public static Uri uriDetailSaleProductsWithDetailSaleId(long detailSaleId) {
             return CONTENT_URI.buildUpon().appendPath("detail_sale_id").appendPath(String.valueOf(detailSaleId)).build();
+        }
+
+        //Defining Uri for products of a detailsale cursor_dir: content://AUTHORITY/DetailSaleProducts/product_id
+        public static Uri uriDetailSaleProductsWithProductId(long productId) {
+            return CONTENT_URI.buildUpon().appendPath("product_id").appendPath(String.valueOf(productId)).build();
         }
     }
 

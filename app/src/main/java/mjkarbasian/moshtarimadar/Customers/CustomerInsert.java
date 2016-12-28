@@ -15,10 +15,11 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import mjkarbasian.moshtarimadar.Data.KasebContract;
-import mjkarbasian.moshtarimadar.R;
 import mjkarbasian.moshtarimadar.Adapters.TypesSettingAdapter;
+import mjkarbasian.moshtarimadar.Data.KasebContract;
 import mjkarbasian.moshtarimadar.Helpers.Utility;
+import mjkarbasian.moshtarimadar.R;
+
 
 
 /**
@@ -43,7 +44,6 @@ public class CustomerInsert extends Fragment {
     EditText addressCity;
     EditText addressStreet;
     EditText addressPostalCode;
-    //    ImageView imageCustomer;
     View rootView;
     ContentValues customerValues = new ContentValues();
     private Uri insertUri;
@@ -52,32 +52,11 @@ public class CustomerInsert extends Fragment {
         setHasOptionsMenu(true);
     }
 
-//    public void insertImg(int id , Bitmap img ) {
-//
-//
-//        byte[] data = getBitmapAsByteArray(img); // this is a function
-//
-//        imageCustomer.bi.bindLong(1, id);
-//        insertStatement_logo.bindBlob(2, data);
-//
-//        insertStatement_logo.executeInsert();
-//        insertStatement_logo.clearBindings() ;
-//
-//    }
-//
-//    public static byte[] getBitmapAsByteArray(Bitmap bitmap) {
-//        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-//        bitmap.compress(Bitmap.CompressFormat.PNG, 0, outputStream);
-//        return outputStream.toByteArray();
-//    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         rootView = inflater.inflate(R.layout.fragment_customer_insert, container, false);
-
-//        imageCustomer = (ImageView) rootView.findViewById(R.id.input_image_customer);
 
         stateType = (Spinner) rootView.findViewById(R.id.input_state_type_spinner);
         firstName = (EditText) rootView.findViewById(R.id.input_first_name);
@@ -94,7 +73,7 @@ public class CustomerInsert extends Fragment {
         addressCity = (EditText) rootView.findViewById(R.id.input_address_city);
         addressStreet = (EditText) rootView.findViewById(R.id.input_address_street);
         addressPostalCode = (EditText) rootView.findViewById(R.id.input_address_postal_code);
-        birthDay.setText(Utility.preInsertDate(getActivity()));
+
         Cursor cursor = getContext().getContentResolver().query(KasebContract.State.CONTENT_URI
                 , null, null, null, null);
 

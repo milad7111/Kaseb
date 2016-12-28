@@ -15,8 +15,9 @@ import android.widget.Toast;
 
 import mjkarbasian.moshtarimadar.Costs.CostInsert;
 import mjkarbasian.moshtarimadar.Data.KasebContract;
-import mjkarbasian.moshtarimadar.R;
 import mjkarbasian.moshtarimadar.Helpers.Utility;
+import mjkarbasian.moshtarimadar.R;
+
 
 /**
  * Created by Unique on 10/25/2016.
@@ -46,10 +47,6 @@ public class ProductInsert extends Fragment {
                              Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_product_insert, container, false);
 
-
-//        unit = (Spinner) rootView.findViewById(R.id.input_unit_spinner);
-//        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(),
-//                R.array.unit, android.R.layout.simple_spinner_item);
         productName = (EditText) rootView.findViewById(R.id.input_product_name);
         productCode = (EditText) rootView.findViewById(R.id.input_product_code);
         unit = (EditText) rootView.findViewById(R.id.input_product_unit);
@@ -60,8 +57,6 @@ public class ProductInsert extends Fragment {
         salePrice = (EditText) rootView.findViewById(R.id.input_sale_price);
         buyDate = (EditText) rootView.findViewById(R.id.input_buy_date);
         buyDate.setText(Utility.preInsertDate(getActivity()));
-//        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//        unit.setAdapter(adapter);
 
         return rootView;
     }
