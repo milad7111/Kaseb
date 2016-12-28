@@ -106,7 +106,7 @@ public class DetailSaleInsert extends AppCompatActivity {
     EditText paymentDueDate;
     EditText taxAmount;
     EditText taxPercent;
-    CheckBox isPassed;
+    CheckBox isPassCheckBox;
 
     ListView mListView;
     ListView modeList;
@@ -514,7 +514,7 @@ public class DetailSaleInsert extends AppCompatActivity {
         paymentAmount = (EditText) dialog.findViewById(R.id.add_payment_for_sale_text1);
         paymentDueDate = (EditText) dialog.findViewById(R.id.input_buy_date);
         paymentDueDate.setText(Utility.preInsertDate(mContext));
-        isPassed = (CheckBox) dialog.findViewById(R.id.dialog_add_payment_is_passed_check_box);
+        isPassCheckBox = (CheckBox) dialog.findViewById(R.id.dialog_add_payment_is_passed_check_box);
 
         paymentMethod = (Spinner) dialog.findViewById(R.id.input_payment_method_spinner);
         mCursor1 = getContentResolver().query(KasebContract.PaymentMethods.CONTENT_URI
@@ -560,7 +560,7 @@ public class DetailSaleInsert extends AppCompatActivity {
             public void onClick(View v) {
                 paymentMapRow.put("amount", paymentAmount.getText().toString());
                 paymentMapRow.put("duedate", paymentDueDate.getText().toString());
-                paymentMapRow.put("isPass", String.valueOf(isPassed.isChecked()));
+                paymentMapRow.put("isPass", String.valueOf(isPassCheckBox.isChecked()));
                 mPaymentListMap.add(paymentMapRow);
                 mCardViewPayments.getPaymentAdapter(mPaymentListMap);
 

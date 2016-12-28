@@ -8,14 +8,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ListView;
 
 import java.util.ArrayList;
 import java.util.Map;
 
-import mjkarbasian.moshtarimadar.R;
 import mjkarbasian.moshtarimadar.Adapters.PaymentAdapter;
 import mjkarbasian.moshtarimadar.Helpers.Utility;
+import mjkarbasian.moshtarimadar.R;
 
 /**
  * Created by Unique on 20/12/2016.
@@ -42,7 +44,18 @@ public class CardViewPayments extends Fragment {
         //region PaymentListView OnItemClickListener
         paymentListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
+                final CheckBox checkBox = (CheckBox) view.findViewById(R.id.payment_list_for_sale_is_passed_check_box);
+                checkBox.setEnabled(true);
+                checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        Map<String, String> selectedPayment = mPaymentListHashMap.get(position);
+                        selectedPayment.put("isPass", String.valueOf(checkBox.isChecked()));
+                        DetailSaleView dSActivity = (DetailSaleView) getActivity();
+                        dSActivity.setPaymentMap(mPaymentListHashMap);
+                    }
+                });
             }
         });
         //endregion PaymentListView OnItemClickListener

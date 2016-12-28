@@ -1,19 +1,15 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:orientation="horizontal"
     android:layout_marginLeft="@dimen/activity_horizontal_margin"
-    android:layout_marginRight="10dp"
     android:layout_marginStart="@dimen/activity_horizontal_margin">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/payment_list_for_sale_amount"
                 android:layout_width="0dp"
+                android:gravity="center"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:textAppearance="?android:textAppearanceMedium" />
@@ -21,6 +17,7 @@
             <TextView
                 android:id="@+id/payment_list_for_sale_due_date"
                 android:layout_width="0dp"
+                android:gravity="center"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:textAppearance="?android:textAppearanceMedium"
@@ -32,16 +29,17 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:gravity="center"
                 android:textAppearance="?android:textAppearanceMedium"
 
                 />
-
             <CheckBox
                 android:id="@+id/payment_list_for_sale_is_passed_check_box"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
                 android:visibility="invisible" />
     </LinearLayout>
-</FrameLayout>
