@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <EditText
+        android:id="@+id/dialog_edit_cost_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/hint_cost_name" />
+
+    <EditText
+        android:id="@+id/dialog_edit_cost_code"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/hint_cost_code" />
+
+    <EditText
+        android:id="@+id/dialog_edit_cost_amount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/hint_cost_amount"
+        android:inputType="number" />
+
+    <Spinner
+        android:id="@+id/dialog_edit_cost_type_spinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:spinnerMode="dropdown" />
+
+    <EditText
+        android:id="@+id/dialog_edit_cost_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="@string/hint_date_picker"
+        android:inputType="date" />
+
+    <EditText
+        android:id="@+id/dialog_edit_cost_description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="@string/hint_description"
+        android:inputType="textMultiLine" />
+
+    <Button
+        android:id="@+id/dialog_edit_cost_button_update"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="@string/update_button" />
+
+    <Button
+        android:id="@+id/dialog_edit_cost_button_cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="@string/cancel_button" />
+</LinearLayout>

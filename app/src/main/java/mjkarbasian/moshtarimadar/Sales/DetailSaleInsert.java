@@ -29,14 +29,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import mjkarbasian.moshtarimadar.Data.KasebContract;
-import mjkarbasian.moshtarimadar.Data.KasebDbHelper;
-import mjkarbasian.moshtarimadar.Data.KasebProvider;
-import mjkarbasian.moshtarimadar.R;
 import mjkarbasian.moshtarimadar.Adapters.CostSaleProductAdapter;
 import mjkarbasian.moshtarimadar.Adapters.CustomerAdapter;
 import mjkarbasian.moshtarimadar.Adapters.TypesSettingAdapter;
+import mjkarbasian.moshtarimadar.Data.KasebContract;
+import mjkarbasian.moshtarimadar.Data.KasebDbHelper;
+import mjkarbasian.moshtarimadar.Data.KasebProvider;
 import mjkarbasian.moshtarimadar.Helpers.Utility;
+import mjkarbasian.moshtarimadar.R;
 
 public class DetailSaleInsert extends AppCompatActivity {
 
@@ -134,7 +134,7 @@ public class DetailSaleInsert extends AppCompatActivity {
         nameCustomer = (TextView) findViewById(R.id.detail_sales_info_customer_name);
         familyCustomer = (TextView) findViewById(R.id.detail_sales_info_customer_family);
 
-         saleDate = (EditText) findViewById(R.id.detail_sales_info_sale_date);
+        saleDate = (EditText) findViewById(R.id.detail_sales_info_sale_date);
         saleDate.setText(Utility.preInsertDate(mContext));
 
         totalAmountSummary.setText(
@@ -194,6 +194,7 @@ public class DetailSaleInsert extends AppCompatActivity {
                         getApplicationContext().getResources().getString(R.string.print_your_factor), Toast.LENGTH_LONG).show();
                 break;
             case R.id.save:
+
                 //region CheckValidity
                 //endregion CheckValidity
 
@@ -201,9 +202,6 @@ public class DetailSaleInsert extends AppCompatActivity {
 
                 //region SetValues
                 EditText saleCode = (EditText) findViewById(R.id.detail_sales_info_sale_code);
-                //endregion
-
-                //region Check
                 //endregion
 
                 //region Insert Sale
@@ -220,8 +218,6 @@ public class DetailSaleInsert extends AppCompatActivity {
                 //endregion
 
                 //region Insert DetailSale
-
-
                 detailSaleValues.put(KasebContract.DetailSale.COLUMN_DATE, saleDate.getText().toString());
                 detailSaleValues.put(KasebContract.DetailSale.COLUMN_IS_BALANCED, 0);
                 detailSaleValues.put(KasebContract.DetailSale.COLUMN_ITEMS_NUMBER, mChosenProductListMap.size());
@@ -552,13 +548,6 @@ public class DetailSaleInsert extends AppCompatActivity {
 
                 mPaymentListMap.add(paymentMapRow);
                 mCardViewPayments.getPaymentAdapter(mPaymentListMap);
-//                                        int c = paymentMethodRowListView.getCount();
-//
-//                                        int i = paymentMethodRowListView.getLayoutParams().height;
-//                                        paymentMethodRowListView.setLayoutParams(
-//                                                new LinearLayout.LayoutParams(
-//                                                        LinearLayout.LayoutParams.MATCH_PARENT,
-//                                                        c * 85));
                 dialog.dismiss();
             }
         });

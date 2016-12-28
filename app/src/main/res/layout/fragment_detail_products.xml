@@ -56,13 +56,14 @@
                         android:textAppearance="?android:textAppearanceMedium"
                         android:textColor="@color/colorPrimary" />
 
-                    <TextView
+                    <EditText
                         android:id="@+id/detail_product_name"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="center"
-                        android:textAppearance="?android:textAppearanceMedium" />
+                        android:textAppearance="?android:textAppearanceMedium"
+                        android:textColor="@color/colorPrimary" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -80,13 +81,14 @@
                         android:textAppearance="?android:textAppearanceMedium"
                         android:textColor="@color/colorPrimary" />
 
-                    <TextView
+                    <EditText
                         android:id="@+id/detail_product_code"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="center"
-                        android:textAppearance="?android:textAppearanceMedium" />
+                        android:textAppearance="?android:textAppearanceMedium"
+                        android:textColor="@color/colorPrimary" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -104,13 +106,39 @@
                         android:textAppearance="?android:textAppearanceMedium"
                         android:textColor="@color/colorPrimary" />
 
-                    <TextView
+                    <EditText
                         android:id="@+id/detail_product_unit"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="center"
-                        android:textAppearance="?android:textAppearanceMedium" />
+                        android:textAppearance="?android:textAppearanceMedium"
+                        android:textColor="@color/colorPrimary" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="4dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="start|left"
+                        android:text="@string/title_product_description"
+                        android:textAppearance="?android:textAppearanceMedium"
+                        android:textColor="@color/colorPrimary" />
+
+                    <EditText
+                        android:id="@+id/detail_product_description"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:textAppearance="?android:textAppearanceMedium"
+                        android:textColor="@color/colorPrimary" />
                 </LinearLayout>
             </LinearLayout>
         </android.support.v7.widget.CardView>

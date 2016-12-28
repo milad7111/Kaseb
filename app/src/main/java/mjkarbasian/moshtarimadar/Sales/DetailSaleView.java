@@ -30,14 +30,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import mjkarbasian.moshtarimadar.Data.KasebContract;
-import mjkarbasian.moshtarimadar.Data.KasebDbHelper;
-import mjkarbasian.moshtarimadar.Data.KasebProvider;
-import mjkarbasian.moshtarimadar.R;
 import mjkarbasian.moshtarimadar.Adapters.CostSaleProductAdapter;
 import mjkarbasian.moshtarimadar.Adapters.CustomerAdapter;
 import mjkarbasian.moshtarimadar.Adapters.TypesSettingAdapter;
+import mjkarbasian.moshtarimadar.Data.KasebContract;
+import mjkarbasian.moshtarimadar.Data.KasebDbHelper;
+import mjkarbasian.moshtarimadar.Data.KasebProvider;
 import mjkarbasian.moshtarimadar.Helpers.Utility;
+import mjkarbasian.moshtarimadar.R;
 
 public class DetailSaleView extends AppCompatActivity {
 
@@ -244,7 +244,7 @@ public class DetailSaleView extends AppCompatActivity {
                 KasebContract.DetailSaleProducts.COLUMN_AMOUNT};
 
         mCursorInitialize = getContentResolver().query(
-                KasebContract.DetailSaleProducts.productsOfDetailSale(whichDetailSaleId),
+                KasebContract.DetailSaleProducts.uriDetailSaleProductsWithDetailSaleId(whichDetailSaleId),
                 mProjectionInitialize,
                 null,
                 null,
