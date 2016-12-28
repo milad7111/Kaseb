@@ -16,11 +16,6 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <!--<image-->
-                <!--android:id="@+id/input_image_customer"-->
-                <!--android:layout_width="100dp"-->
-                <!--android:layout_height="100dp"></image>-->
-
             <EditText
                 android:id="@+id/input_first_name"
                 android:layout_width="match_parent"
