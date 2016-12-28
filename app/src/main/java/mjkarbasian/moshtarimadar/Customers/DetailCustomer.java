@@ -22,6 +22,7 @@ import mjkarbasian.moshtarimadar.Data.KasebContract;
 import mjkarbasian.moshtarimadar.Helpers.Utility;
 import mjkarbasian.moshtarimadar.R;
 
+
 public class DetailCustomer extends AppCompatActivity {
     Toolbar mToolbar;
 

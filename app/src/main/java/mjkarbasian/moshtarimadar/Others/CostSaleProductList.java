@@ -445,36 +445,6 @@ public class CostSaleProductList extends Fragment implements LoaderManager.Loade
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-//        // Handle action bar item clicks here. The action bar will
-//        // automatically handle clicks on the Home/Up button, so long
-//        // as you specify a parent activity in AndroidManifest.xml.
-//        int id = item.getItemId();
-//        Dialog typeInsert = null;
-//        switch (mColumnName) {
-//            case KasebContract.CostTypes.COLUMN_COST_TYPE_POINTER:
-//                typeInsert = Utility.dialogBuilder(getActivity(), R.layout.dialog_add_type_setting, R.id.title_dialog_add_cost_type);
-//                break;
-//            case KasebContract.PaymentMethods.COLUMN_PAYMENT_METHOD_POINTER:
-//                typeInsert = Utility.dialogBuilder(getActivity(), R.layout.dialog_add_type_setting, R.id.title_dialog_add_payment_methods);
-//                break;
-//            case KasebContract.TaxTypes.COLUMN_TAX_TYPE_POINTER:
-//                typeInsert = Utility.dialogBuilder(getActivity(), R.layout.dialog_add_type_setting, R.id.title_dialog_add_tax_types);
-//                break;
-//            case KasebContract.State.COLUMN_STATE_POINTER:
-//                typeInsert = Utility.dialogBuilder(getActivity(), R.layout.dialog_add_type_setting, R.id.title_dialog_add_state);
-//                break;
-//        }
-//        if (typeInsert != null) {
-//            typeInsert.show();
-//            Button dialogButton = (Button) typeInsert.findViewById(R.id.button_add_type_setting);
-//            final Dialog finalTypeInsert = typeInsert;
-//            dialogButton.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    finalTypeInsert.dismiss();
-//                }
-//            });
-//        } else Log.d(LOG_TAG, " Insert Dialog is null..! ");
         return super.onOptionsItemSelected(item);
     }
 
