@@ -328,12 +328,9 @@
     <string name="detail_sales_taxDiscount_amount">Amount</string>
     <string name="detail_sales_taxDiscount_percent">Percent</string>
     <string name="detail_sales_taxDiscount_type">Type</string>
-<<<<<<< HEAD
     <string name="dialog_add_payment_is_pass">Is Passed?</string>
-=======
     <string name="title_edit_cost">Edit Cost</string>
     <string name="update_button">Update</string>
     <string name="cancel_button">Cancel</string>
     <string name="title_product_description">Description</string>
->>>>>>> 194553cb8ccbecc3affb528b88e9a38d11f24085
 </resources>

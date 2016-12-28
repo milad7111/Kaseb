@@ -860,7 +860,7 @@ public class  TestKasebProvider extends AndroidTestCase {
 
         // A cursor is your primary interface to the query results.
         Cursor detailSaleProductswithDetailSaleIdCursor = mContext.getContentResolver().query(
-                DetailSaleProducts.uriDetailSaleProductswithDetailSaleID(newDetailSaleRowId),
+                DetailSaleProducts.uriDetailSaleProductsWithDetailSaleId(newDetailSaleRowId),
                 null, // leaving "columns" null just returns all the columns.
                 null, // columns for "where" clause
                 null, // values for "where" clause
