@@ -111,7 +111,6 @@ public class CardViewPayments extends Fragment {
             ((DetailSaleInsert) getActivity()).setValuesOfFactor();
         else if (activity.equals("view"))
             ((DetailSaleView) getActivity()).setValuesOfFactor();
-
         Utility.setHeightOfListView(paymentListView);
     }
 }

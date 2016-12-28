@@ -881,11 +881,12 @@ public class DetailSaleView extends AppCompatActivity {
                         paymentMapRow.put("type", mCursor3.getString(
                                 mCursor3.getColumnIndex(KasebContract.PaymentMethods.COLUMN_PAYMENT_METHOD_POINTER)).toString());
                         paymentMapRow.put("isPass", String.valueOf(isPassCheckBox.isChecked()));
-
+                        LinearLayout isPassed = (LinearLayout) dialog.findViewById(R.id.dialog_add_payment_is_passed_view);
                         if (mCursor3.getString(mCursor3.getColumnIndex(KasebContract.PaymentMethods.COLUMN_PAYMENT_METHOD_POINTER)).equals("Cheque")) {
-                            LinearLayout isPassed = (LinearLayout) dialog.findViewById(R.id.dialog_add_payment_is_passed_view);
                             isPassed.setVisibility(View.VISIBLE);
                         }
+                        else
+                            isPassed.setVisibility(View.INVISIBLE);
                     }
 
                     @Override
