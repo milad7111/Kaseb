@@ -1,5 +1,7 @@
 package mjkarbasian.moshtarimadar.Customers;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -16,10 +18,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
+import mjkarbasian.moshtarimadar.Adapters.CustomerAdapter;
 import mjkarbasian.moshtarimadar.Data.KasebContract;
 import mjkarbasian.moshtarimadar.R;
-import mjkarbasian.moshtarimadar.Adapters.CustomerAdapter;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -63,6 +66,7 @@ public class CustomersLists extends Fragment implements LoaderManager.LoaderCall
         mListView = (ListView) rootView.findViewById(R.id.list_view_customers);
         mListView.setAdapter(mCustomerAdapter);
 
+        //region mListView setOnItemClickListener
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -76,6 +80,58 @@ public class CustomersLists extends Fragment implements LoaderManager.LoaderCall
                 }
             }
         });
+        //endregion mListView setOnItemClickListener
+
+        //region mListView setOnItemLongClickListener
+        mListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                final Cursor cursor = (Cursor) parent.getItemAtPosition(position);
+                if (cursor != null) {
+                    final long customerId = cursor.getLong(cursor.getColumnIndex(KasebContract.Customers._ID));
+
+                    int numberUseOfThisCustomer = getContext().getContentResolver().query(
+                            KasebContract.Sales.customerSales(customerId),
+                            new String[]{
+                                    KasebContract.Sales._ID},
+                            null, null, null).getCount();
+
+                    if (numberUseOfThisCustomer > 0)
+                        Toast.makeText(getContext(),
+                                "This Customer Has "
+                                        + numberUseOfThisCustomer
+                                        + " Factor(s)!", Toast.LENGTH_LONG).show();
+                    else {
+                        new AlertDialog.Builder(getActivity())
+                                .setTitle("Confirmation ...")
+                                .setMessage("Do You Really Want to Delete This CUSTOMER?\n\nCustomer Info : " +
+                                        cursor.getString(cursor.getColumnIndex(KasebContract.Customers.COLUMN_FIRST_NAME)) + "  " +
+                                        cursor.getString(cursor.getColumnIndex(KasebContract.Customers.COLUMN_LAST_NAME)))
+                                .setIcon(android.R.drawable.ic_dialog_alert)
+                                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int whichButton) {
+                                        getActivity().getContentResolver().delete(
+                                                KasebContract.Customers.CONTENT_URI,
+                                                KasebContract.Customers._ID + " = ? ",
+                                                new String[]{String.valueOf(customerId)}
+                                        );
+
+                                        //just a message to show everything are under control
+                                        Toast.makeText(getContext(),
+                                                getContext().getResources().getString(R.string.msg_delete_succeed), Toast.LENGTH_LONG).show();
+                                    }
+                                })
+                                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int whichButton) {
+                                    }
+                                }).show();
+                    }
+                }
+                return true;
+            }
+        });
+        //endregion mListView setOnItemLongClickListener
+
         return rootView;
     }
 
