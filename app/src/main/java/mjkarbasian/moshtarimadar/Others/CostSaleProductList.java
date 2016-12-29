@@ -50,7 +50,7 @@ public class CostSaleProductList extends Fragment implements LoaderManager.Loade
     FragmentManager fragmentManager;
     Dialog dialog;
 
-    Fragment productHistory = new DetailProducts();
+    DetailProducts productHistory = new DetailProducts();
     Bundle productHistoryBundle = new Bundle();
 
     KasebDbHelper mOpenHelper;
@@ -268,7 +268,7 @@ public class CostSaleProductList extends Fragment implements LoaderManager.Loade
                             productHistoryBundle.putString("productId", mCursor.getString(mCursor.getColumnIndex(KasebContract.Products._ID)));
                             productHistory.setArguments(productHistoryBundle);
                             fragmentManager = getActivity().getSupportFragmentManager();
-                            fragmentManager.beginTransaction().addToBackStack(null).replace(R.id.container, productHistory).commit();
+                            fragmentManager.beginTransaction().addToBackStack(null).replace(R.id.my_container_4, productHistory).commit();
                         }
                         //endregion Product
                         break;
