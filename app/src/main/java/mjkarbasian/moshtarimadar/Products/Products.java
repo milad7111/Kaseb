@@ -18,7 +18,7 @@ import mjkarbasian.moshtarimadar.R;
 
 public class Products extends DrawerActivity {
 
-    Fragment costsSaleProductFragment = new CostSaleProductList();
+    CostSaleProductList costsSaleProductFragment = new CostSaleProductList();
     Bundle productsBundle = new Bundle();
     Fragment productInsert = new ProductInsert();
 

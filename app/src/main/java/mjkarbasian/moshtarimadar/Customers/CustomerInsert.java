@@ -100,57 +100,55 @@ public class CustomerInsert extends Fragment {
         switch (item.getItemId()) {
             case R.id.save_inputs: {
 
-//                ContentValues testValues = new ContentValues();
-//                testValues.put(KasebContract.State.COLUMN_STATE_POINTER,"Gold");
-//                Uri StateRowId = getActivity().getContentResolver().insert(
-//                        KasebContract.State.CONTENT_URI, testValues);
+                if (CheckForValidity(
+                        firstName.getText().toString(),
+                        lastName.getText().toString(),
+                        phoneMobile.getText().toString()
+                )) {
+                    customerValues.put(KasebContract.Customers.COLUMN_FIRST_NAME, firstName.getText().toString());
+                    customerValues.put(KasebContract.Customers.COLUMN_LAST_NAME, lastName.getText().toString());
+                    customerValues.put(KasebContract.Customers.COLUMN_BIRTHDAY, birthDay.getText().toString());
+                    customerValues.put(KasebContract.Customers.COLUMN_PHONE_MOBILE, phoneMobile.getText().toString());
+                    customerValues.put(KasebContract.Customers.COLUMN_PHONE_WORK, phoneWork.getText().toString());
+                    customerValues.put(KasebContract.Customers.COLUMN_PHONE_HOME, phoneHome.getText().toString());
+                    customerValues.put(KasebContract.Customers.COLUMN_PHONE_FAX, phoneFax.getText().toString());
+                    customerValues.put(KasebContract.Customers.COLUMN_PHONE_OTHER, phoneOther.getText().toString());
+                    customerValues.put(KasebContract.Customers.COLUMN_DESCRIPTION, customerDescription.getText().toString());
+                    customerValues.put(KasebContract.Customers.COLUMN_EMAIL, email.getText().toString());
+                    customerValues.put(KasebContract.Customers.COLUMN_ADDRESS_COUNTRY, addressCountry.getText().toString());
+                    customerValues.put(KasebContract.Customers.COLUMN_ADDRESS_CITY, addressCity.getText().toString());
+                    customerValues.put(KasebContract.Customers.COLUMN_ADDRESS_STREET, addressStreet.getText().toString());
+                    customerValues.put(KasebContract.Customers.COLUMN_ADDRESS_POSTAL_CODE, addressPostalCode.getText().toString());
 
-                customerValues.put(KasebContract.Customers.COLUMN_FIRST_NAME, firstName.getText().toString());
-                customerValues.put(KasebContract.Customers.COLUMN_LAST_NAME, lastName.getText().toString());
-                customerValues.put(KasebContract.Customers.COLUMN_BIRTHDAY, birthDay.getText().toString());
-                customerValues.put(KasebContract.Customers.COLUMN_PHONE_MOBILE, phoneMobile.getText().toString());
-                customerValues.put(KasebContract.Customers.COLUMN_PHONE_WORK, phoneWork.getText().toString());
-                customerValues.put(KasebContract.Customers.COLUMN_PHONE_HOME, phoneHome.getText().toString());
-                customerValues.put(KasebContract.Customers.COLUMN_PHONE_FAX, phoneFax.getText().toString());
-                customerValues.put(KasebContract.Customers.COLUMN_PHONE_OTHER, phoneOther.getText().toString());
-                customerValues.put(KasebContract.Customers.COLUMN_DESCRIPTION, customerDescription.getText().toString());
-                customerValues.put(KasebContract.Customers.COLUMN_EMAIL, email.getText().toString());
-                customerValues.put(KasebContract.Customers.COLUMN_ADDRESS_COUNTRY, addressCountry.getText().toString());
-                customerValues.put(KasebContract.Customers.COLUMN_ADDRESS_CITY, addressCity.getText().toString());
-                customerValues.put(KasebContract.Customers.COLUMN_ADDRESS_STREET, addressStreet.getText().toString());
-                customerValues.put(KasebContract.Customers.COLUMN_ADDRESS_POSTAL_CODE, addressPostalCode.getText().toString());
+                    customerValues.put(KasebContract.Customers.COLUMN_STATE_ID, stateType.getSelectedItemPosition() + 1);
+                    insertUri = getActivity().getContentResolver().insert(
+                            KasebContract.Customers.CONTENT_URI,
+                            customerValues
+                    );
 
-//                Long.parseLong(StateRowId.getLastPathSegment())
+                    //region disabling edit
+                    firstName.setEnabled(false);
+                    lastName.setEnabled(false);
+                    birthDay.setEnabled(false);
+                    phoneMobile.setEnabled(false);
+                    customerDescription.setEnabled(false);
+                    email.setEnabled(false);
+                    phoneWork.setEnabled(false);
+                    phoneHome.setEnabled(false);
+                    phoneOther.setEnabled(false);
+                    phoneFax.setEnabled(false);
+                    addressCountry.setEnabled(false);
+                    addressCity.setEnabled(false);
+                    addressStreet.setEnabled(false);
+                    addressPostalCode.setEnabled(false);
+                    stateType.setEnabled(false);
 
-                customerValues.put(KasebContract.Customers.COLUMN_STATE_ID, stateType.getSelectedItemPosition() + 1);
-                insertUri = getActivity().getContentResolver().insert(
-                        KasebContract.Customers.CONTENT_URI,
-                        customerValues
-                );
+                    //just a message to show everything are under control
+                    Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.msg_insert_succeed),
+                            Toast.LENGTH_LONG).show();
 
-                //region disabling edit
-                firstName.setEnabled(false);
-                lastName.setEnabled(false);
-                birthDay.setEnabled(false);
-                phoneMobile.setEnabled(false);
-                customerDescription.setEnabled(false);
-                email.setEnabled(false);
-                phoneWork.setEnabled(false);
-                phoneHome.setEnabled(false);
-                phoneOther.setEnabled(false);
-                phoneFax.setEnabled(false);
-                addressCountry.setEnabled(false);
-                addressCity.setEnabled(false);
-                addressStreet.setEnabled(false);
-                addressPostalCode.setEnabled(false);
-                stateType.setEnabled(false);
-
-                //just a message to show everything are under control
-                Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.msg_insert_succeed),
-                        Toast.LENGTH_LONG).show();
-
-                checkForValidity();
-                backToLastPage();
+                    backToLastPage();
+                }
 
                 break;
             }
@@ -159,7 +157,33 @@ public class CustomerInsert extends Fragment {
         return super.onOptionsItemSelected(item);
     }
 
-    private void checkForValidity() {
+    // this method check the validation and correct entries. its check fill first and then check the validation rules.
+    private boolean CheckForValidity(String customerFirstName, String customerLastName, String customerPhoneMobile) {
+        if (customerFirstName.equals("") || customerFirstName.equals(null)) {
+            Toast.makeText(getActivity(), "Choose apropriate name for CUSTOMER.", Toast.LENGTH_SHORT).show();
+            return false;
+        } else if (customerLastName.equals("") || customerLastName.equals(null)) {
+            Toast.makeText(getActivity(), "Choose apropriate last name for CUSTOMER.", Toast.LENGTH_SHORT).show();
+            return false;
+        } else if (customerPhoneMobile.equals("") || customerPhoneMobile.equals(null)) {
+            Toast.makeText(getActivity(), "Choose apropriate phone mobile for CUSTOMER.", Toast.LENGTH_SHORT).show();
+            return false;
+        } else {
+            Cursor mCursor = getContext().getContentResolver().query(
+                    KasebContract.Customers.CONTENT_URI,
+                    new String[]{KasebContract.Customers._ID},
+                    KasebContract.Customers.COLUMN_PHONE_MOBILE + " = ? ",
+                    new String[]{customerPhoneMobile},
+                    null);
+
+            if (mCursor != null)
+                if (mCursor.moveToFirst())
+                    if (mCursor.getCount() > 0) {
+                        Toast.makeText(getActivity(), "Choose apropriate (Not Itterative) phone mobile for CUSTOMER.", Toast.LENGTH_SHORT).show();
+                        return false;
+                    }
+            return true;
+        }
     }
 
     private void backToLastPage() {

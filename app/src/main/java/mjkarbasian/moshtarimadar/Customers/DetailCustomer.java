@@ -16,6 +16,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import mjkarbasian.moshtarimadar.Adapters.DetailCustomerAdapter;
 import mjkarbasian.moshtarimadar.Data.KasebContract;
@@ -24,10 +25,13 @@ import mjkarbasian.moshtarimadar.R;
 
 public class DetailCustomer extends AppCompatActivity {
     Toolbar mToolbar;
+    MenuItem saveItem;
+    ContentValues customerValues = new ContentValues();
 
     String[] mProjection;
     String nameCustomer;
     String familyCustomer;
+
     int mCustomerId;
     int mStateId;
 
@@ -113,6 +117,21 @@ public class DetailCustomer extends AppCompatActivity {
             }
         });
         customerCursor.close();
+
+        customerFirstName = (EditText) findViewById(R.id.customer_first_name);
+        customerLastName = (EditText) findViewById(R.id.customer_last_name);
+        customerBirthDay = (EditText) findViewById(R.id.customer_birth_day);
+        customerPhoneMobile = (EditText) findViewById(R.id.customer_phone_mobile);
+        customerDescription = (EditText) findViewById(R.id.customer_description);
+        customerEmail = (EditText) findViewById(R.id.customer_email_txt);
+        customerPhoneWork = (EditText) findViewById(R.id.customer_phone_work);
+        customerPhoneHome = (EditText) findViewById(R.id.customer_phone_home);
+        customerPhoneOther = (EditText) findViewById(R.id.customer_phone_other);
+        customerPhoneFax = (EditText) findViewById(R.id.customer_phone_fax);
+        customerAddressCountry = (EditText) findViewById(R.id.customer_address_country);
+        customerAddressCity = (EditText) findViewById(R.id.customer_address_city);
+        customerAddressStreet = (EditText) findViewById(R.id.customer_address_street);
+        customerAddressPostalCode = (EditText) findViewById(R.id.customer_address_postal_code);
     }
 
     @Override
@@ -126,6 +145,24 @@ public class DetailCustomer extends AppCompatActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_detail_customer, menu);
+        saveItem = (MenuItem) menu.findItem(R.id.item_save_customer);
+        saveItem.setVisible(false);
+
+        customerFirstName = (EditText) findViewById(R.id.customer_first_name);
+        customerLastName = (EditText) findViewById(R.id.customer_last_name);
+        customerBirthDay = (EditText) findViewById(R.id.customer_birth_day);
+        customerPhoneMobile = (EditText) findViewById(R.id.customer_phone_mobile);
+        customerDescription = (EditText) findViewById(R.id.customer_description);
+        customerEmail = (EditText) findViewById(R.id.customer_email_txt);
+        customerPhoneWork = (EditText) findViewById(R.id.customer_phone_work);
+        customerPhoneHome = (EditText) findViewById(R.id.customer_phone_home);
+        customerPhoneOther = (EditText) findViewById(R.id.customer_phone_other);
+        customerPhoneFax = (EditText) findViewById(R.id.customer_phone_fax);
+        customerAddressCountry = (EditText) findViewById(R.id.customer_address_country);
+        customerAddressCity = (EditText) findViewById(R.id.customer_address_city);
+        customerAddressStreet = (EditText) findViewById(R.id.customer_address_street);
+        customerAddressPostalCode = (EditText) findViewById(R.id.customer_address_postal_code);
+
         return true;
     }
 
@@ -149,22 +186,43 @@ public class DetailCustomer extends AppCompatActivity {
             case android.R.id.home:
                 NavUtils.navigateUpFromSameTask(this);
                 break;
-            case R.id.edit:
+            case R.id.item_save_customer:
+                if (CheckForValidity(
+                        customerFirstName.getText().toString(),
+                        customerLastName.getText().toString(),
+                        customerPhoneMobile.getText().toString()
+                )) {
+                    customerValues.put(KasebContract.Customers.COLUMN_FIRST_NAME, customerFirstName.getText().toString());
+                    customerValues.put(KasebContract.Customers.COLUMN_LAST_NAME, customerLastName.getText().toString());
+                    customerValues.put(KasebContract.Customers.COLUMN_BIRTHDAY, customerBirthDay.getText().toString());
+                    customerValues.put(KasebContract.Customers.COLUMN_PHONE_MOBILE, customerPhoneMobile.getText().toString());
+                    customerValues.put(KasebContract.Customers.COLUMN_PHONE_WORK, customerPhoneWork.getText().toString());
+                    customerValues.put(KasebContract.Customers.COLUMN_PHONE_HOME, customerPhoneHome.getText().toString());
+                    customerValues.put(KasebContract.Customers.COLUMN_PHONE_FAX, customerPhoneFax.getText().toString());
+                    customerValues.put(KasebContract.Customers.COLUMN_PHONE_OTHER, customerPhoneOther.getText().toString());
+                    customerValues.put(KasebContract.Customers.COLUMN_DESCRIPTION, customerDescription.getText().toString());
+                    customerValues.put(KasebContract.Customers.COLUMN_EMAIL, customerEmail.getText().toString());
+                    customerValues.put(KasebContract.Customers.COLUMN_ADDRESS_COUNTRY, customerAddressCountry.getText().toString());
+                    customerValues.put(KasebContract.Customers.COLUMN_ADDRESS_CITY, customerAddressCity.getText().toString());
+                    customerValues.put(KasebContract.Customers.COLUMN_ADDRESS_STREET, customerAddressStreet.getText().toString());
+                    customerValues.put(KasebContract.Customers.COLUMN_ADDRESS_POSTAL_CODE, customerAddressPostalCode.getText().toString());
 
-                customerFirstName = (EditText) findViewById(R.id.customer_first_name);
-                customerLastName = (EditText) findViewById(R.id.customer_last_name);
-                customerBirthDay = (EditText) findViewById(R.id.customer_birth_day);
-                customerPhoneMobile = (EditText) findViewById(R.id.customer_phone_mobile);
-                customerDescription = (EditText) findViewById(R.id.customer_description);
-                customerEmail = (EditText) findViewById(R.id.customer_email_txt);
-                customerPhoneWork = (EditText) findViewById(R.id.customer_phone_work);
-                customerPhoneHome = (EditText) findViewById(R.id.customer_phone_home);
-                customerPhoneOther = (EditText) findViewById(R.id.customer_phone_other);
-                customerPhoneFax = (EditText) findViewById(R.id.customer_phone_fax);
-                customerAddressCountry = (EditText) findViewById(R.id.customer_address_country);
-                customerAddressCity = (EditText) findViewById(R.id.customer_address_city);
-                customerAddressStreet = (EditText) findViewById(R.id.customer_address_street);
-                customerAddressPostalCode = (EditText) findViewById(R.id.customer_address_postal_code);
+                    getBaseContext().getContentResolver().update(
+                            KasebContract.Customers.CONTENT_URI,
+                            customerValues,
+                            KasebContract.Customers._ID + " = ? ",
+                            new String[]{String.valueOf(mCustomerId)}
+                    );
+
+                    //just a message to show everything are under control
+                    Toast.makeText(getBaseContext(), getBaseContext().getResources().getString(R.string.msg_update_succeed),
+                            Toast.LENGTH_LONG).show();
+
+                    finish();
+                }
+                break;
+            case R.id.item_edit_customer:
+                saveItem.setVisible(true);
 
                 customerFirstName.setEnabled(true);
                 customerLastName.setEnabled(true);
@@ -228,5 +286,34 @@ public class DetailCustomer extends AppCompatActivity {
         //endregion Switch Case for state type
 
         return super.onOptionsItemSelected(item);
+    }
+
+    // this method check the validation and correct entries. its check fill first and then check the validation rules.
+    private boolean CheckForValidity(String customerFirstName, String customerLastName, String customerPhoneMobile) {
+        if (customerFirstName.equals("") || customerFirstName.equals(null)) {
+            Toast.makeText(getBaseContext(), "Choose apropriate name for CUSTOMER.", Toast.LENGTH_SHORT).show();
+            return false;
+        } else if (customerLastName.equals("") || customerLastName.equals(null)) {
+            Toast.makeText(getBaseContext(), "Choose apropriate last name for CUSTOMER.", Toast.LENGTH_SHORT).show();
+            return false;
+        } else if (customerPhoneMobile.equals("") || customerPhoneMobile.equals(null)) {
+            Toast.makeText(getBaseContext(), "Choose apropriate phone mobile for CUSTOMER.", Toast.LENGTH_SHORT).show();
+            return false;
+        } else {
+            Cursor mCursor = getBaseContext().getContentResolver().query(
+                    KasebContract.Customers.CONTENT_URI,
+                    new String[]{KasebContract.Customers._ID},
+                    KasebContract.Customers.COLUMN_PHONE_MOBILE + " = ? and " + KasebContract.Customers._ID + " != ? ",
+                    new String[]{customerPhoneMobile, String.valueOf(mCustomerId)},
+                    null);
+
+            if (mCursor != null)
+                if (mCursor.moveToFirst())
+                    if (mCursor.getCount() > 0) {
+                        Toast.makeText(getBaseContext(), "Choose apropriate (Not Itterative) phone mobile for CUSTOMER.", Toast.LENGTH_SHORT).show();
+                        return false;
+                    }
+            return true;
+        }
     }
 }

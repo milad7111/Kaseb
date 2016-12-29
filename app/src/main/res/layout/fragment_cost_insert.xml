@@ -1,47 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
 
     <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:id="@+id/input_cost_name"
-        android:hint="@string/hint_cost_name" />
-
-    <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:hint="@string/hint_cost_name"
+        android:maxLength="30" />
+
+    <EditText
         android:id="@+id/input_cost_code"
-        android:hint="@string/hint_cost_code" />
-
-    <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:hint="@string/hint_cost_code"
+        android:maxLength="15" />
+
+    <EditText
         android:id="@+id/input_cost_amount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:hint="@string/hint_cost_amount"
-        android:inputType="number" />
+        android:inputType="number"
+        android:maxLength="15" />
 
     <Spinner
+        android:id="@+id/input_cost_type_spinner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/input_cost_type_spinner"
         android:spinnerMode="dropdown" />
 
     <EditText
+        android:id="@+id/input_cost_date"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:hint="@string/hint_date_picker"
         android:inputType="date"
-        android:ems="10"
-        android:id="@+id/input_cost_date"
-        android:hint="@string/hint_date_picker" />
+        android:maxLength="10" />
 
     <EditText
+        android:id="@+id/input_cost_description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:hint="@string/hint_description"
         android:inputType="textMultiLine"
-        android:ems="10"
-        android:id="@+id/input_cost_description"
-        android:hint="@string/hint_description" />
+        android:maxLength="15" />
 </LinearLayout>

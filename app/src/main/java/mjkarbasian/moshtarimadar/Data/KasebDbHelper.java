@@ -9,9 +9,9 @@ import android.database.sqlite.SQLiteOpenHelper;
  */
 public class KasebDbHelper extends SQLiteOpenHelper {
 
+    static final String DATABASE_NAME = "kaseb.db";
     //Defining DB version
     private static final int DATABASE_VERSION = 1;
-    static final String DATABASE_NAME = "kaseb.db";
 
     public KasebDbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -162,7 +162,7 @@ public class KasebDbHelper extends SQLiteOpenHelper {
                 KasebContract.ProductHistory.COLUMN_DATE + " TEXT NOT NULL," +
                 KasebContract.ProductHistory.COLUMN_QUANTITY + " REAL NOT NULL," +
                 KasebContract.ProductHistory.COLUMN_SALE_PRICE + " REAL NOT NULL," +
-                KasebContract.ProductHistory.COLUMN_PRODUCT_ID + " INTEGER NULL, " +
+                KasebContract.ProductHistory.COLUMN_PRODUCT_ID + " INTEGER NOT NULL, " +
                 " FOREIGN KEY (" + KasebContract.ProductHistory.COLUMN_PRODUCT_ID + ") REFERENCES " +
                 KasebContract.Products.TABLE_NAME + " (" + KasebContract.Products._ID + ")" +
                 ");";

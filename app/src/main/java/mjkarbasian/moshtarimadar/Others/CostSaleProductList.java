@@ -204,24 +204,30 @@ public class CostSaleProductList extends Fragment implements LoaderManager.Loade
                             updateButton.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
-                                    costValues.put(KasebContract.Costs.COLUMN_COST_NAME, costName.getText().toString());
-                                    costValues.put(KasebContract.Costs.COLUMN_COST_CODE, costCode.getText().toString());
-                                    costValues.put(KasebContract.Costs.COLUMN_AMOUNT, costAmount.getText().toString());
-                                    costValues.put(KasebContract.Costs.COLUMN_DATE, costDate.getText().toString());
-                                    costValues.put(KasebContract.Costs.COLUMN_DESCRIPTION, costDescription.getText().toString());
+                                    if (CheckForValidity(
+                                            costName.getText().toString(),
+                                            costAmount.getText().toString(),
+                                            costDate.getText().toString()
+                                    )) {
+                                        costValues.put(KasebContract.Costs.COLUMN_COST_NAME, costName.getText().toString());
+                                        costValues.put(KasebContract.Costs.COLUMN_COST_CODE, costCode.getText().toString());
+                                        costValues.put(KasebContract.Costs.COLUMN_AMOUNT, costAmount.getText().toString());
+                                        costValues.put(KasebContract.Costs.COLUMN_DATE, costDate.getText().toString());
+                                        costValues.put(KasebContract.Costs.COLUMN_DESCRIPTION, costDescription.getText().toString());
 
-                                    getActivity().getContentResolver().update(
-                                            KasebContract.Costs.CONTENT_URI,
-                                            costValues,
-                                            KasebContract.Costs._ID + " = ? ",
-                                            new String[]{mCursor.getString(mCursor.getColumnIndex(KasebContract.Costs._ID))}
-                                    );
+                                        getActivity().getContentResolver().update(
+                                                KasebContract.Costs.CONTENT_URI,
+                                                costValues,
+                                                KasebContract.Costs._ID + " = ? ",
+                                                new String[]{mCursor.getString(mCursor.getColumnIndex(KasebContract.Costs._ID))}
+                                        );
 
-                                    //just a message to show everything are under control
-                                    Toast.makeText(getContext(),
-                                            getContext().getResources().getString(R.string.msg_delete_succeed), Toast.LENGTH_LONG).show();
+                                        //just a message to show everything are under control
+                                        Toast.makeText(getContext(),
+                                                getContext().getResources().getString(R.string.msg_delete_succeed), Toast.LENGTH_LONG).show();
 
-                                    dialog.dismiss();
+                                        dialog.dismiss();
+                                    }
                                 }
                             });
                             //endregion update Button
@@ -268,7 +274,7 @@ public class CostSaleProductList extends Fragment implements LoaderManager.Loade
                             productHistoryBundle.putString("productId", mCursor.getString(mCursor.getColumnIndex(KasebContract.Products._ID)));
                             productHistory.setArguments(productHistoryBundle);
                             fragmentManager = getActivity().getSupportFragmentManager();
-                            fragmentManager.beginTransaction().addToBackStack(null).replace(R.id.my_container_4, productHistory).commit();
+                            fragmentManager.beginTransaction().addToBackStack(null).replace(R.id.container, productHistory).commit();
                         }
                         //endregion Product
                         break;
@@ -445,36 +451,6 @@ public class CostSaleProductList extends Fragment implements LoaderManager.Loade
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-//        // Handle action bar item clicks here. The action bar will
-//        // automatically handle clicks on the Home/Up button, so long
-//        // as you specify a parent activity in AndroidManifest.xml.
-//        int id = item.getItemId();
-//        Dialog typeInsert = null;
-//        switch (mColumnName) {
-//            case KasebContract.CostTypes.COLUMN_COST_TYPE_POINTER:
-//                typeInsert = Utility.dialogBuilder(getActivity(), R.layout.dialog_add_type_setting, R.id.title_dialog_add_cost_type);
-//                break;
-//            case KasebContract.PaymentMethods.COLUMN_PAYMENT_METHOD_POINTER:
-//                typeInsert = Utility.dialogBuilder(getActivity(), R.layout.dialog_add_type_setting, R.id.title_dialog_add_payment_methods);
-//                break;
-//            case KasebContract.TaxTypes.COLUMN_TAX_TYPE_POINTER:
-//                typeInsert = Utility.dialogBuilder(getActivity(), R.layout.dialog_add_type_setting, R.id.title_dialog_add_tax_types);
-//                break;
-//            case KasebContract.State.COLUMN_STATE_POINTER:
-//                typeInsert = Utility.dialogBuilder(getActivity(), R.layout.dialog_add_type_setting, R.id.title_dialog_add_state);
-//                break;
-//        }
-//        if (typeInsert != null) {
-//            typeInsert.show();
-//            Button dialogButton = (Button) typeInsert.findViewById(R.id.button_add_type_setting);
-//            final Dialog finalTypeInsert = typeInsert;
-//            dialogButton.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    finalTypeInsert.dismiss();
-//                }
-//            });
-//        } else Log.d(LOG_TAG, " Insert Dialog is null..! ");
         return super.onOptionsItemSelected(item);
     }
 
@@ -591,5 +567,20 @@ public class CostSaleProductList extends Fragment implements LoaderManager.Loade
     public void onLoaderReset(Loader<Cursor> loader) {
         Log.d(LOG_TAG, "onLoadReset");
         mAdapter.swapCursor(null);
+    }
+
+    // this method check the validation and correct entries. its check fill first and then check the validation rules.
+    private boolean CheckForValidity(String costName, String costAmount, String costDate) {
+        if (costName.equals("") || costName.equals(null)) {
+            Toast.makeText(getActivity(), "Choose apropriate name for COST.", Toast.LENGTH_SHORT).show();
+            return false;
+        } else if (costAmount.equals("") || costAmount.equals(null)) {
+            Toast.makeText(getActivity(), "Choose apropriate amount for COST.", Toast.LENGTH_SHORT).show();
+            return false;
+        } else if (costDate.equals("") || costDate.equals(null)) {
+            Toast.makeText(getActivity(), "Choose apropriate date for COST.", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
     }
 }
