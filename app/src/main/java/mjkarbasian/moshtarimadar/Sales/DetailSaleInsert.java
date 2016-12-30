@@ -710,7 +710,8 @@ public class DetailSaleInsert extends AppCompatActivity {
 
         sPaidAmount = 0l;
         for (int i = 0; i < mPaymentListMap.size(); i++) {
-            sPaidAmount += Long.valueOf(mPaymentListMap.get(i).get("amount").toString());
+            if (mPaymentListMap.get(i).get("isPass").equals("true"))
+                sPaidAmount += Long.valueOf(mPaymentListMap.get(i).get("amount").toString());
         }
 
         paidSummary.setText(
