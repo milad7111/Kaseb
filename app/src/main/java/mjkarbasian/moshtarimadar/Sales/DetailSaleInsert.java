@@ -284,6 +284,7 @@ public class DetailSaleInsert extends AppCompatActivity {
                     );
                     //endregion Insert DetailSalePayments
 
+
                     //region Insert DetailSaleTaxes
                     count = mTaxListMap.size();
                     taxValuesArray = new ContentValues[count];

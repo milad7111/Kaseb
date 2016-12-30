@@ -29,6 +29,7 @@ import mjkarbasian.moshtarimadar.Data.KasebContract;
 import mjkarbasian.moshtarimadar.Helpers.Utility;
 import mjkarbasian.moshtarimadar.R;
 
+
 public class DetailProducts extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
     final static int FRAGMENT_PRODUCT_HISTORY_LOADER = 5;

@@ -597,6 +597,7 @@ public class DetailSaleView extends AppCompatActivity {
                     count = mPaymentListMap.size();
                     paymentValuesArray = new ContentValues[count];
 
+
                     for (int i = 0; i < count; i++) {
                         paymentValues = new ContentValues();
 
@@ -890,9 +891,10 @@ public class DetailSaleView extends AppCompatActivity {
                         LinearLayout isPassed = (LinearLayout) dialog.findViewById(R.id.dialog_add_payment_is_passed_view);
                         if (mCursor3.getString(mCursor3.getColumnIndex(KasebContract.PaymentMethods.COLUMN_PAYMENT_METHOD_POINTER)).equals("Cheque")) {
                             isPassed.setVisibility(View.VISIBLE);
-                        } else
-                            isPassed.setVisibility(View.INVISIBLE);
-                    }
+                        }
+    else
+    isPassed.setVisibility(View.INVISIBLE);
+}
 
                     @Override
                     public void onNothingSelected(AdapterView<?> arg0) {
@@ -1068,7 +1070,8 @@ public class DetailSaleView extends AppCompatActivity {
         sPaidAmount = 0l;
         for (int i = 0; i < mPaymentListMap.size(); i++) {
             if (mPaymentListMap.get(i).get("isPass").equals("true"))
-                sPaidAmount += Long.valueOf(mPaymentListMap.get(i).get("amount").toString());
+            sPaidAmount += Long.valueOf(mPaymentListMap.get(i).get("amount").toString());
+
         }
 
         paidSummary.setText(
@@ -1082,6 +1085,10 @@ public class DetailSaleView extends AppCompatActivity {
                 Utility.formatPurchase(
                         mContext,
                         Utility.DecimalSeperation(mContext, sBalanceAmount)));
+    }
+
+    public void setPaymentMap(ArrayList<Map<String, String>> list) {
+        mPaymentListMap = list;
     }
 
     // this method check the validation and correct entries. its check fill first and then check the validation rules.
@@ -1126,7 +1133,5 @@ public class DetailSaleView extends AppCompatActivity {
         return true;
     }
 
-    public void setPaymentMap(ArrayList<Map<String, String>> list) {
-        mPaymentListMap = list;
-    }
+
 }
