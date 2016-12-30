@@ -20,13 +20,10 @@ import mjkarbasian.moshtarimadar.Data.KasebContract;
 import mjkarbasian.moshtarimadar.Helpers.Utility;
 import mjkarbasian.moshtarimadar.R;
 
-
 /**
  * Created by Unique on 10/21/2016.
  */
 public class CustomerInsert extends Fragment {
-
-//    static TypesSettingAdapter stateTypesAdapter = null;
 
     EditText firstName;
     EditText lastName;

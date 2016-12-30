@@ -161,7 +161,6 @@ public class DetailProducts extends Fragment implements LoaderManager.LoaderCall
                 break;
             case R.id.action_detail_product_save:
                 if (CheckForValidityEditProduct(productName.getText().toString())) {
-
                     productValues.put(KasebContract.Products.COLUMN_PRODUCT_NAME, productName.getText().toString());
                     productValues.put(KasebContract.Products.COLUMN_PRODUCT_CODE, productCode.getText().toString());
                     productValues.put(KasebContract.Products.COLUMN_UNIT, productUnit.getText().toString());
@@ -180,7 +179,6 @@ public class DetailProducts extends Fragment implements LoaderManager.LoaderCall
 
                     getFragmentManager().popBackStackImmediate();
                 }
-
                 break;
             case R.id.action_detail_product_share: {
             }

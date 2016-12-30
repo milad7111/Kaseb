@@ -224,6 +224,21 @@ public class DetailCustomer extends AppCompatActivity {
             case R.id.item_edit_customer:
                 saveItem.setVisible(true);
 
+                customerFirstName = (EditText) findViewById(R.id.customer_first_name);
+                customerLastName = (EditText) findViewById(R.id.customer_last_name);
+                customerBirthDay = (EditText) findViewById(R.id.customer_birth_day);
+                customerPhoneMobile = (EditText) findViewById(R.id.customer_phone_mobile);
+                customerDescription = (EditText) findViewById(R.id.customer_description);
+                customerEmail = (EditText) findViewById(R.id.customer_email_txt);
+                customerPhoneWork = (EditText) findViewById(R.id.customer_phone_work);
+                customerPhoneHome = (EditText) findViewById(R.id.customer_phone_home);
+                customerPhoneOther = (EditText) findViewById(R.id.customer_phone_other);
+                customerPhoneFax = (EditText) findViewById(R.id.customer_phone_fax);
+                customerAddressCountry = (EditText) findViewById(R.id.customer_address_country);
+                customerAddressCity = (EditText) findViewById(R.id.customer_address_city);
+                customerAddressStreet = (EditText) findViewById(R.id.customer_address_street);
+                customerAddressPostalCode = (EditText) findViewById(R.id.customer_address_postal_code);
+
                 customerFirstName.setEnabled(true);
                 customerLastName.setEnabled(true);
                 customerBirthDay.setEnabled(true);

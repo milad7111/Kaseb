@@ -310,7 +310,7 @@ public class CostSaleProductList extends Fragment implements LoaderManager.Loade
 
                                             //just a message to show everything are under control
                                             Toast.makeText(getContext(),
-                                                    getContext().getResources().getString(R.string.msg_insert_succeed), Toast.LENGTH_LONG).show();
+                                                    getContext().getResources().getString(R.string.msg_delete_succeed), Toast.LENGTH_LONG).show();
                                         }
                                     })
                                     .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {

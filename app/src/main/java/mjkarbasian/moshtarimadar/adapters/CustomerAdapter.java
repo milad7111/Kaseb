@@ -54,7 +54,8 @@ public class CustomerAdapter extends CursorAdapter {
                 KasebContract.Sales.customerSales(
                         cursor.getLong(cursor.getColumnIndex(KasebContract.Customers._ID))),
                 new String[]{
-                        KasebContract.Sales._ID},
+                        KasebContract.Sales._ID,
+                        KasebContract.Sales.COLUMN_IS_DELETED},
                 KasebContract.Sales.COLUMN_IS_DELETED + " = ? ",
                 new String[]{"0"},
                 null);
