@@ -21,7 +21,6 @@ import java.io.File;
 
 import mjkarbasian.moshtarimadar.Helpers.GalleryUtil;
 import mjkarbasian.moshtarimadar.Helpers.Samples;
-import mjkarbasian.moshtarimadar.Helpers.Utility;
 import mjkarbasian.moshtarimadar.Others.DrawerActivity;
 import mjkarbasian.moshtarimadar.R;
 
@@ -47,7 +46,7 @@ public class Customers extends DrawerActivity {
         setSupportActionBar(toolbar);
         setDefaultKeyMode(DEFAULT_KEYS_SEARCH_LOCAL);
         //this line initialize all references
-        Utility.initializer(this);
+
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mContext = this;
         //region handle search query
