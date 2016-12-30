@@ -21,7 +21,7 @@ public class Costs extends DrawerActivity {
     Bundle costsBundle = new Bundle();
 
     android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
-    Fragment costInsert = new CostInsert();
+    CostInsert costInsert;
     private String mQuery;
 
     @Override
@@ -66,6 +66,7 @@ public class Costs extends DrawerActivity {
     }
 
     public void fab_cost_sale_product(View v) {
+        costInsert = new CostInsert();
         android.support.v4.app.FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.container, costInsert);
         fragmentTransaction.addToBackStack(null);

@@ -50,7 +50,7 @@ public class CostSaleProductList extends Fragment implements LoaderManager.Loade
     FragmentManager fragmentManager;
     Dialog dialog;
 
-    Fragment productHistory = new DetailProducts();
+    DetailProducts productHistory = new DetailProducts();
     Bundle productHistoryBundle = new Bundle();
 
     KasebDbHelper mOpenHelper;
@@ -204,24 +204,30 @@ public class CostSaleProductList extends Fragment implements LoaderManager.Loade
                             updateButton.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
-                                    costValues.put(KasebContract.Costs.COLUMN_COST_NAME, costName.getText().toString());
-                                    costValues.put(KasebContract.Costs.COLUMN_COST_CODE, costCode.getText().toString());
-                                    costValues.put(KasebContract.Costs.COLUMN_AMOUNT, costAmount.getText().toString());
-                                    costValues.put(KasebContract.Costs.COLUMN_DATE, costDate.getText().toString());
-                                    costValues.put(KasebContract.Costs.COLUMN_DESCRIPTION, costDescription.getText().toString());
+                                    if (CheckForValidity(
+                                            costName.getText().toString(),
+                                            costAmount.getText().toString(),
+                                            costDate.getText().toString()
+                                    )) {
+                                        costValues.put(KasebContract.Costs.COLUMN_COST_NAME, costName.getText().toString());
+                                        costValues.put(KasebContract.Costs.COLUMN_COST_CODE, costCode.getText().toString());
+                                        costValues.put(KasebContract.Costs.COLUMN_AMOUNT, costAmount.getText().toString());
+                                        costValues.put(KasebContract.Costs.COLUMN_DATE, costDate.getText().toString());
+                                        costValues.put(KasebContract.Costs.COLUMN_DESCRIPTION, costDescription.getText().toString());
 
-                                    getActivity().getContentResolver().update(
-                                            KasebContract.Costs.CONTENT_URI,
-                                            costValues,
-                                            KasebContract.Costs._ID + " = ? ",
-                                            new String[]{mCursor.getString(mCursor.getColumnIndex(KasebContract.Costs._ID))}
-                                    );
+                                        getActivity().getContentResolver().update(
+                                                KasebContract.Costs.CONTENT_URI,
+                                                costValues,
+                                                KasebContract.Costs._ID + " = ? ",
+                                                new String[]{mCursor.getString(mCursor.getColumnIndex(KasebContract.Costs._ID))}
+                                        );
 
-                                    //just a message to show everything are under control
-                                    Toast.makeText(getContext(),
-                                            getContext().getResources().getString(R.string.msg_delete_succeed), Toast.LENGTH_LONG).show();
+                                        //just a message to show everything are under control
+                                        Toast.makeText(getContext(),
+                                                getContext().getResources().getString(R.string.msg_delete_succeed), Toast.LENGTH_LONG).show();
 
-                                    dialog.dismiss();
+                                        dialog.dismiss();
+                                    }
                                 }
                             });
                             //endregion update Button
@@ -304,7 +310,7 @@ public class CostSaleProductList extends Fragment implements LoaderManager.Loade
 
                                             //just a message to show everything are under control
                                             Toast.makeText(getContext(),
-                                                    getContext().getResources().getString(R.string.msg_insert_succeed), Toast.LENGTH_LONG).show();
+                                                    getContext().getResources().getString(R.string.msg_delete_succeed), Toast.LENGTH_LONG).show();
                                         }
                                     })
                                     .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
@@ -561,5 +567,20 @@ public class CostSaleProductList extends Fragment implements LoaderManager.Loade
     public void onLoaderReset(Loader<Cursor> loader) {
         Log.d(LOG_TAG, "onLoadReset");
         mAdapter.swapCursor(null);
+    }
+
+    // this method check the validation and correct entries. its check fill first and then check the validation rules.
+    private boolean CheckForValidity(String costName, String costAmount, String costDate) {
+        if (costName.equals("") || costName.equals(null)) {
+            Toast.makeText(getActivity(), "Choose apropriate name for COST.", Toast.LENGTH_SHORT).show();
+            return false;
+        } else if (costAmount.equals("") || costAmount.equals(null)) {
+            Toast.makeText(getActivity(), "Choose apropriate amount for COST.", Toast.LENGTH_SHORT).show();
+            return false;
+        } else if (costDate.equals("") || costDate.equals(null)) {
+            Toast.makeText(getActivity(), "Choose apropriate date for COST.", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
     }
 }

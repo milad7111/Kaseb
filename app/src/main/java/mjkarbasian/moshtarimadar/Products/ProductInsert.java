@@ -1,6 +1,7 @@
 package mjkarbasian.moshtarimadar.Products;
 
 import android.content.ContentValues;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -17,7 +18,6 @@ import mjkarbasian.moshtarimadar.Costs.CostInsert;
 import mjkarbasian.moshtarimadar.Data.KasebContract;
 import mjkarbasian.moshtarimadar.Helpers.Utility;
 import mjkarbasian.moshtarimadar.R;
-
 
 /**
  * Created by Unique on 10/25/2016.
@@ -71,42 +71,49 @@ public class ProductInsert extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.save_inputs: {
-                productValues.put(KasebContract.Products.COLUMN_PRODUCT_NAME, productName.getText().toString());
-                productValues.put(KasebContract.Products.COLUMN_PRODUCT_CODE, productCode.getText().toString());
-                productValues.put(KasebContract.Products.COLUMN_UNIT, unit.getText().toString());
-                productValues.put(KasebContract.Products.COLUMN_DESCRIPTION, productDescription.getText().toString());
-                insertUri = getActivity().getContentResolver().insert(
-                        KasebContract.Products.CONTENT_URI,
-                        productValues
-                );
+                if (CheckForValidity(
+                        productName.getText().toString(),
+                        buyPrice.getText().toString(),
+                        quantity.getText().toString(),
+                        salePrice.getText().toString(),
+                        buyDate.getText().toString())) {
 
-                productHistoryValues.put(KasebContract.ProductHistory.COLUMN_COST, buyPrice.getText().toString());
-                productHistoryValues.put(KasebContract.ProductHistory.COLUMN_QUANTITY, quantity.getText().toString());
-                productHistoryValues.put(KasebContract.ProductHistory.COLUMN_SALE_PRICE, salePrice.getText().toString());
-                productHistoryValues.put(KasebContract.ProductHistory.COLUMN_DATE, buyDate.getText().toString());
-                productHistoryValues.put(KasebContract.ProductHistory.COLUMN_PRODUCT_ID, insertUri.getLastPathSegment());
+                    productValues.put(KasebContract.Products.COLUMN_PRODUCT_NAME, productName.getText().toString());
+                    productValues.put(KasebContract.Products.COLUMN_PRODUCT_CODE, productCode.getText().toString());
+                    productValues.put(KasebContract.Products.COLUMN_UNIT, unit.getText().toString());
+                    productValues.put(KasebContract.Products.COLUMN_DESCRIPTION, productDescription.getText().toString());
+                    insertUri = getActivity().getContentResolver().insert(
+                            KasebContract.Products.CONTENT_URI,
+                            productValues
+                    );
 
-                insertUri = getActivity().getContentResolver().insert(
-                        KasebContract.ProductHistory.CONTENT_URI,
-                        productHistoryValues
-                );
+                    productHistoryValues.put(KasebContract.ProductHistory.COLUMN_COST, buyPrice.getText().toString());
+                    productHistoryValues.put(KasebContract.ProductHistory.COLUMN_QUANTITY, quantity.getText().toString());
+                    productHistoryValues.put(KasebContract.ProductHistory.COLUMN_SALE_PRICE, salePrice.getText().toString());
+                    productHistoryValues.put(KasebContract.ProductHistory.COLUMN_DATE, buyDate.getText().toString());
+                    productHistoryValues.put(KasebContract.ProductHistory.COLUMN_PRODUCT_ID, insertUri.getLastPathSegment());
 
-                //region disabling edit
-                productName.setEnabled(false);
-                productCode.setEnabled(false);
-                unit.setEnabled(false);
-                productDescription.setEnabled(false);
-                buyPrice.setEnabled(false);
-                quantity.setEnabled(false);
-                salePrice.setEnabled(false);
-                buyDate.setEnabled(false);
+                    insertUri = getActivity().getContentResolver().insert(
+                            KasebContract.ProductHistory.CONTENT_URI,
+                            productHistoryValues
+                    );
 
-                //just a message to show everything are under control
-                Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.msg_insert_succeed),
-                        Toast.LENGTH_LONG).show();
+                    //region disabling edit
+                    productName.setEnabled(false);
+                    productCode.setEnabled(false);
+                    unit.setEnabled(false);
+                    productDescription.setEnabled(false);
+                    buyPrice.setEnabled(false);
+                    quantity.setEnabled(false);
+                    salePrice.setEnabled(false);
+                    buyDate.setEnabled(false);
 
-                checkForValidity();
-                backToLastPage();
+                    //just a message to show everything are under control
+                    Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.msg_insert_succeed),
+                            Toast.LENGTH_LONG).show();
+
+                    getFragmentManager().popBackStackImmediate();
+                }
 
                 break;
             }
@@ -115,7 +122,42 @@ public class ProductInsert extends Fragment {
     }
 
     // this method check the validation and correct entries. its check fill first and then check the validation rules.
-    private void checkForValidity() {
+    private boolean CheckForValidity(String productName, String buyPrice, String quantity, String salePrice, String buyDate) {
+        if (productName.equals("") || productName.equals(null)) {
+            Toast.makeText(getActivity(), "Choose apropriate name for PRODUCT.", Toast.LENGTH_SHORT).show();
+            return false;
+        } else {
+            Cursor mCursor = getContext().getContentResolver().query(
+                    KasebContract.Products.CONTENT_URI,
+                    new String[]{KasebContract.Products._ID},
+                    KasebContract.Products.COLUMN_PRODUCT_NAME + " = ? ",
+                    new String[]{productName},
+                    null);
+
+            if (mCursor != null) {
+                if (mCursor.moveToFirst())
+                    if (mCursor.getCount() > 0) {
+                        Toast.makeText(getActivity(), "Choose apropriate (Not Itterative) name for PRODUCT.", Toast.LENGTH_SHORT).show();
+                        return false;
+                    }
+            }
+        }
+
+        if (buyPrice.equals("") || buyPrice.equals(null)) {
+            Toast.makeText(getActivity(), "Choose apropriate buy price for PRODUCT.", Toast.LENGTH_SHORT).show();
+            return false;
+        } else if (quantity.equals("") || quantity.equals(null)) {
+            Toast.makeText(getActivity(), "Choose apropriate quantity for PRODUCT.", Toast.LENGTH_SHORT).show();
+            return false;
+        } else if (salePrice.equals("") || salePrice.equals(null)) {
+            Toast.makeText(getActivity(), "Choose apropriate sale price for PRODUCT.", Toast.LENGTH_SHORT).show();
+            return false;
+        } else if (buyDate.equals("") || buyDate.equals(null)) {
+            Toast.makeText(getActivity(), "Choose apropriate buy date for PRODUCT.", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        return true;
     }
 
     // this method back to the activity view. this must be a utility method.

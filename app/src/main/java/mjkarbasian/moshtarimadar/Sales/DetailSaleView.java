@@ -53,6 +53,7 @@ public class DetailSaleView extends AppCompatActivity {
     LinearLayout addCustomerLayout;
     int mNumberOfChooseProduct = 0;
     Button dialogButton;
+    MenuItem saveItem;
 
     CardViewProducts mCardViewProducts;
     CardViewPayments mCardViewPayments;
@@ -120,7 +121,6 @@ public class DetailSaleView extends AppCompatActivity {
     EditText saleDate;
     CheckBox isPassCheckBox;
 
-    ListView mListView;
     ListView modeList;
     ListView mProductListView;
     ListView mPaymentListView;
@@ -477,6 +477,8 @@ public class DetailSaleView extends AppCompatActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_detail_sale_view, menu);
+        saveItem = (MenuItem) menu.findItem(R.id.save);
+        saveItem.setVisible(false);
         return true;
     }
 
@@ -489,158 +491,162 @@ public class DetailSaleView extends AppCompatActivity {
                         getApplicationContext().getResources().getString(R.string.print_your_factor), Toast.LENGTH_LONG).show();
                 break;
             case R.id.save:
-                //region CheckValidity
-                //endregion CheckValidity
+                if (CheckForValidity(
+                        saleCode.getText().toString(),
+                        customerId,
+                        saleDate.getText().toString(),
+                        mChosenProductListMap.size())) {
 
-                mDb.beginTransaction();
+                    mDb.beginTransaction();
 
-                mSelectionInitialize = new String[]{String.valueOf(whichDetailSaleId)};
+                    mSelectionInitialize = new String[]{String.valueOf(whichDetailSaleId)};
 
-                //region Delete Old Rows Of DetailSaleProducts
-                mWhereStatementInitialize = KasebContract.DetailSaleProducts.COLUMN_DETAIL_SALE_ID + " = ? ";
+                    //region Delete Old Rows Of DetailSaleProducts
+                    mWhereStatementInitialize = KasebContract.DetailSaleProducts.COLUMN_DETAIL_SALE_ID + " = ? ";
 
-                getContentResolver().delete(
-                        KasebContract.DetailSaleProducts.CONTENT_URI,
-                        mWhereStatementInitialize,
-                        mSelectionInitialize
-                );
-                //endregion Delete Old Rows Of DetailSaleProducts
+                    getContentResolver().delete(
+                            KasebContract.DetailSaleProducts.CONTENT_URI,
+                            mWhereStatementInitialize,
+                            mSelectionInitialize
+                    );
+                    //endregion Delete Old Rows Of DetailSaleProducts
 
-                //region Delete Old Rows Of DetailSalePayments
-                mWhereStatementInitialize = KasebContract.DetailSalePayments.COLUMN_DETAIL_SALE_ID + " = ? ";
+                    //region Delete Old Rows Of DetailSalePayments
+                    mWhereStatementInitialize = KasebContract.DetailSalePayments.COLUMN_DETAIL_SALE_ID + " = ? ";
 
-                getContentResolver().delete(
-                        KasebContract.DetailSalePayments.CONTENT_URI,
-                        mWhereStatementInitialize,
-                        mSelectionInitialize
-                );
-                //endregion Delete Old Rows Of DetailSalePayments
+                    getContentResolver().delete(
+                            KasebContract.DetailSalePayments.CONTENT_URI,
+                            mWhereStatementInitialize,
+                            mSelectionInitialize
+                    );
+                    //endregion Delete Old Rows Of DetailSalePayments
 
-                //region Delete Old Rows Of DetailSaleTaxes
-                mWhereStatementInitialize = KasebContract.DetailSaleTaxes.COLUMN_DETAIL_SALE_ID + " = ? ";
+                    //region Delete Old Rows Of DetailSaleTaxes
+                    mWhereStatementInitialize = KasebContract.DetailSaleTaxes.COLUMN_DETAIL_SALE_ID + " = ? ";
 
-                getContentResolver().delete(
-                        KasebContract.DetailSaleTaxes.CONTENT_URI,
-                        mWhereStatementInitialize,
-                        mSelectionInitialize
-                );
-                //endregion Delete Old Rows Of DetailSaleTaxes
+                    getContentResolver().delete(
+                            KasebContract.DetailSaleTaxes.CONTENT_URI,
+                            mWhereStatementInitialize,
+                            mSelectionInitialize
+                    );
+                    //endregion Delete Old Rows Of DetailSaleTaxes
 
-                //region Update Sale
-                mWhereStatementInitialize = KasebContract.Sales._ID + " = ? ";
-                mSelectionInitialize = new String[]{String.valueOf(whichSaleId)};
+                    //region Update Sale
+                    mWhereStatementInitialize = KasebContract.Sales._ID + " = ? ";
+                    mSelectionInitialize = new String[]{String.valueOf(whichSaleId)};
 
-                saleValues.put(KasebContract.Sales.COLUMN_CUSTOMER_ID, customerId);
-                saleValues.put(KasebContract.Sales.COLUMN_IS_DELETED, 0);
-                saleValues.put(KasebContract.Sales.COLUMN_SALE_CODE, saleCode.getText().toString());
+                    saleValues.put(KasebContract.Sales.COLUMN_CUSTOMER_ID, customerId);
+                    saleValues.put(KasebContract.Sales.COLUMN_IS_DELETED, 0);
+                    saleValues.put(KasebContract.Sales.COLUMN_SALE_CODE, saleCode.getText().toString());
 
-                getContentResolver().update(
-                        KasebContract.Sales.CONTENT_URI,
-                        saleValues,
-                        mWhereStatementInitialize,
-                        mSelectionInitialize
-                );
-                //endregion Insert Sale
+                    getContentResolver().update(
+                            KasebContract.Sales.CONTENT_URI,
+                            saleValues,
+                            mWhereStatementInitialize,
+                            mSelectionInitialize
+                    );
+                    //endregion Insert Sale
 
-                //region Update DetailSale
-                mWhereStatementInitialize = KasebContract.DetailSale._ID + " = ? ";
-                mSelectionInitialize = new String[]{String.valueOf(whichDetailSaleId)};
+                    //region Update DetailSale
+                    mWhereStatementInitialize = KasebContract.DetailSale._ID + " = ? ";
+                    mSelectionInitialize = new String[]{String.valueOf(whichDetailSaleId)};
 
-                detailSaleValues.put(KasebContract.DetailSale.COLUMN_DATE, saleDate.getText().toString());
-                detailSaleValues.put(KasebContract.DetailSale.COLUMN_IS_BALANCED, 0);
-                detailSaleValues.put(KasebContract.DetailSale.COLUMN_ITEMS_NUMBER, mChosenProductListMap.size());
-                detailSaleValues.put(KasebContract.DetailSale.COLUMN_SALE_ID, whichSaleId);
-                detailSaleValues.put(KasebContract.DetailSale.COLUMN_SUB_TOTAL, sTotalAmount);
-                detailSaleValues.put(KasebContract.DetailSale.COLUMN_TOTAL_DISCOUNT, sTotalDiscount);
-                detailSaleValues.put(KasebContract.DetailSale.COLUMN_TOTAL_DUE, sFinalAmount);
-                detailSaleValues.put(KasebContract.DetailSale.COLUMN_TOTAL_PAID, sPaidAmount);
-                detailSaleValues.put(KasebContract.DetailSale.COLUMN_TOTAL_TAX, sTotalTax);
+                    detailSaleValues.put(KasebContract.DetailSale.COLUMN_DATE, saleDate.getText().toString());
+                    detailSaleValues.put(KasebContract.DetailSale.COLUMN_IS_BALANCED, 0);
+                    detailSaleValues.put(KasebContract.DetailSale.COLUMN_ITEMS_NUMBER, mChosenProductListMap.size());
+                    detailSaleValues.put(KasebContract.DetailSale.COLUMN_SALE_ID, whichSaleId);
+                    detailSaleValues.put(KasebContract.DetailSale.COLUMN_SUB_TOTAL, sTotalAmount);
+                    detailSaleValues.put(KasebContract.DetailSale.COLUMN_TOTAL_DISCOUNT, sTotalDiscount);
+                    detailSaleValues.put(KasebContract.DetailSale.COLUMN_TOTAL_DUE, sFinalAmount);
+                    detailSaleValues.put(KasebContract.DetailSale.COLUMN_TOTAL_PAID, sPaidAmount);
+                    detailSaleValues.put(KasebContract.DetailSale.COLUMN_TOTAL_TAX, sTotalTax);
 
-                getContentResolver().update(
-                        KasebContract.DetailSale.CONTENT_URI,
-                        detailSaleValues,
-                        mWhereStatementInitialize,
-                        mSelectionInitialize
-                );
-                //endregion Insert DetailSale
+                    getContentResolver().update(
+                            KasebContract.DetailSale.CONTENT_URI,
+                            detailSaleValues,
+                            mWhereStatementInitialize,
+                            mSelectionInitialize
+                    );
+                    //endregion Insert DetailSale
 
-                //region Insert DetailSaleProducts
-                int count = mChosenProductListMap.size();
-                itemsValuesArray = new ContentValues[count];
+                    //region Insert DetailSaleProducts
+                    int count = mChosenProductListMap.size();
+                    itemsValuesArray = new ContentValues[count];
 
-                for (int i = 0; i < count; i++) {
-                    itemsValues = new ContentValues();
+                    for (int i = 0; i < count; i++) {
+                        itemsValues = new ContentValues();
 
-                    itemsValues.put(KasebContract.DetailSaleProducts.COLUMN_AMOUNT,
-                            Long.valueOf(mChosenProductListMap.get(i).get("price").toString()) *
-                                    Long.valueOf(mChosenProductListMap.get(i).get("quantity").toString()));
+                        itemsValues.put(KasebContract.DetailSaleProducts.COLUMN_AMOUNT,
+                                Long.valueOf(mChosenProductListMap.get(i).get("price").toString()) *
+                                        Long.valueOf(mChosenProductListMap.get(i).get("quantity").toString()));
 
-                    itemsValues.put(KasebContract.DetailSaleProducts.COLUMN_DETAIL_SALE_ID, whichDetailSaleId);
-                    itemsValues.put(KasebContract.DetailSaleProducts.COLUMN_PRODUCT_ID, mChosenProductListMap.get(i).get("id").toString());
-                    itemsValues.put(KasebContract.DetailSaleProducts.COLUMN_QUANTITY, mChosenProductListMap.get(i).get("quantity").toString());
+                        itemsValues.put(KasebContract.DetailSaleProducts.COLUMN_DETAIL_SALE_ID, whichDetailSaleId);
+                        itemsValues.put(KasebContract.DetailSaleProducts.COLUMN_PRODUCT_ID, mChosenProductListMap.get(i).get("id").toString());
+                        itemsValues.put(KasebContract.DetailSaleProducts.COLUMN_QUANTITY, mChosenProductListMap.get(i).get("quantity").toString());
 
-                    itemsValuesArray[i] = itemsValues;
+                        itemsValuesArray[i] = itemsValues;
+                    }
+
+                    this.getContentResolver().bulkInsert(
+                            KasebContract.DetailSaleProducts.CONTENT_URI,
+                            itemsValuesArray
+                    );
+                    //endregion Insert DetailSaleProducts
+
+                    //region Insert DetailSalePayments
+                    count = mPaymentListMap.size();
+                    paymentValuesArray = new ContentValues[count];
+
+                    for (int i = 0; i < count; i++) {
+                        paymentValues = new ContentValues();
+
+                        paymentValues.put(KasebContract.DetailSalePayments.COLUMN_DUE_DATE, mPaymentListMap.get(i).get("duedate").toString());
+                        paymentValues.put(KasebContract.DetailSalePayments.COLUMN_DETAIL_SALE_ID, whichDetailSaleId);
+                        paymentValues.put(KasebContract.DetailSalePayments.COLUMN_AMOUNT, Long.valueOf(mPaymentListMap.get(i).get("amount").toString()));
+                        paymentValues.put(KasebContract.DetailSalePayments.COLUMN_PAYMENT_METHOD_ID, mPaymentListMap.get(i).get("id").toString());
+                        paymentValues.put(KasebContract.DetailSalePayments.COLUMN_IS_PASS, Boolean.parseBoolean(mPaymentListMap.get(i).get("isPass")));
+
+                        paymentValuesArray[i] = paymentValues;
+                    }
+
+                    this.getContentResolver().bulkInsert(
+                            KasebContract.DetailSalePayments.CONTENT_URI,
+                            paymentValuesArray
+                    );
+                    //endregion Insert DetailSalePayments
+
+                    //region Insert DetailSaleTaxes
+                    count = mTaxListMap.size();
+                    taxValuesArray = new ContentValues[count];
+
+                    for (int i = 0; i < count; i++) {
+                        taxValues = new ContentValues();
+
+                        taxValues.put(KasebContract.DetailSaleTaxes.COLUMN_DETAIL_SALE_ID, whichDetailSaleId);
+                        taxValues.put(KasebContract.DetailSaleTaxes.COLUMN_AMOUNT, Long.valueOf(mTaxListMap.get(i).get("amount").toString()));
+                        taxValues.put(KasebContract.DetailSaleTaxes.COLUMN_TAX_TYPE_ID, mTaxListMap.get(i).get("id").toString());
+
+                        taxValuesArray[i] = taxValues;
+                    }
+
+                    this.getContentResolver().bulkInsert(
+                            KasebContract.DetailSaleTaxes.CONTENT_URI,
+                            taxValuesArray
+                    );
+                    //endregion Insert DetailSaleTaxes
+
+                    //just a message to show everything are under control
+                    Toast.makeText(this,
+                            getApplicationContext().getResources().getString(R.string.msg_update_succeed), Toast.LENGTH_LONG).show();
+
+                    mDb.setTransactionSuccessful();
+                    mDb.endTransaction();
+                    finish();
                 }
-
-                this.getContentResolver().bulkInsert(
-                        KasebContract.DetailSaleProducts.CONTENT_URI,
-                        itemsValuesArray
-                );
-                //endregion Insert DetailSaleProducts
-
-                //region Insert DetailSalePayments
-                count = mPaymentListMap.size();
-                paymentValuesArray = new ContentValues[count];
-
-                for (int i = 0; i < count; i++) {
-                    paymentValues = new ContentValues();
-
-                    paymentValues.put(KasebContract.DetailSalePayments.COLUMN_DUE_DATE, mPaymentListMap.get(i).get("duedate").toString());
-                    paymentValues.put(KasebContract.DetailSalePayments.COLUMN_DETAIL_SALE_ID, whichDetailSaleId);
-                    paymentValues.put(KasebContract.DetailSalePayments.COLUMN_AMOUNT, Long.valueOf(mPaymentListMap.get(i).get("amount").toString()));
-                    paymentValues.put(KasebContract.DetailSalePayments.COLUMN_PAYMENT_METHOD_ID, mPaymentListMap.get(i).get("id").toString());
-                    paymentValues.put(KasebContract.DetailSalePayments.COLUMN_IS_PASS, Boolean.parseBoolean(mPaymentListMap.get(i).get("isPass")));
-
-
-                    paymentValuesArray[i] = paymentValues;
-                }
-
-                this.getContentResolver().bulkInsert(
-                        KasebContract.DetailSalePayments.CONTENT_URI,
-                        paymentValuesArray
-                );
-                //endregion Insert DetailSalePayments
-
-                //region Insert DetailSaleTaxes
-                count = mTaxListMap.size();
-                taxValuesArray = new ContentValues[count];
-
-                for (int i = 0; i < count; i++) {
-                    taxValues = new ContentValues();
-
-                    taxValues.put(KasebContract.DetailSaleTaxes.COLUMN_DETAIL_SALE_ID, whichDetailSaleId);
-                    taxValues.put(KasebContract.DetailSaleTaxes.COLUMN_AMOUNT, Long.valueOf(mTaxListMap.get(i).get("amount").toString()));
-                    taxValues.put(KasebContract.DetailSaleTaxes.COLUMN_TAX_TYPE_ID, mTaxListMap.get(i).get("id").toString());
-
-                    taxValuesArray[i] = taxValues;
-                }
-
-                this.getContentResolver().bulkInsert(
-                        KasebContract.DetailSaleTaxes.CONTENT_URI,
-                        taxValuesArray
-                );
-                //endregion Insert DetailSaleTaxes
-
-                //just a message to show everything are under control
-                Toast.makeText(this,
-                        getApplicationContext().getResources().getString(R.string.msg_update_succeed), Toast.LENGTH_LONG).show();
-
-                mDb.setTransactionSuccessful();
-                mDb.endTransaction();
-                finish();
-
                 break;
             case R.id.edit:
+                saveItem.setVisible(true);
+
                 saleCode.setEnabled(true);
                 saleDate.setEnabled(true);
 
@@ -884,8 +890,7 @@ public class DetailSaleView extends AppCompatActivity {
                         LinearLayout isPassed = (LinearLayout) dialog.findViewById(R.id.dialog_add_payment_is_passed_view);
                         if (mCursor3.getString(mCursor3.getColumnIndex(KasebContract.PaymentMethods.COLUMN_PAYMENT_METHOD_POINTER)).equals("Cheque")) {
                             isPassed.setVisibility(View.VISIBLE);
-                        }
-                        else
+                        } else
                             isPassed.setVisibility(View.INVISIBLE);
                     }
 
@@ -1063,7 +1068,7 @@ public class DetailSaleView extends AppCompatActivity {
         sPaidAmount = 0l;
         for (int i = 0; i < mPaymentListMap.size(); i++) {
             if (mPaymentListMap.get(i).get("isPass").equals("true"))
-            sPaidAmount += Long.valueOf(mPaymentListMap.get(i).get("amount").toString());
+                sPaidAmount += Long.valueOf(mPaymentListMap.get(i).get("amount").toString());
         }
 
         paidSummary.setText(
@@ -1079,9 +1084,49 @@ public class DetailSaleView extends AppCompatActivity {
                         Utility.DecimalSeperation(mContext, sBalanceAmount)));
     }
 
+    // this method check the validation and correct entries. its check fill first and then check the validation rules.
+    private boolean CheckForValidity(String saleCode, Long customerId, String saleDate, int numberOfAllProducts) {
+        if (saleCode.equals("") || saleCode.equals(null)) {
+            Toast.makeText(mContext, "Choose apropriate sale code for SALE.", Toast.LENGTH_SHORT).show();
+            return false;
+        } else {
+            Cursor mCursor = mContext.getContentResolver().query(
+                    KasebContract.Sales.CONTENT_URI,
+                    new String[]{KasebContract.Sales._ID},
+                    KasebContract.Sales.COLUMN_SALE_CODE + " = ? and " + KasebContract.Sales._ID + " != ? ",
+                    new String[]{saleCode, String.valueOf(whichSaleId)},
+                    null);
+
+            if (mCursor != null) {
+                if (mCursor.moveToFirst())
+                    if (mCursor.getCount() > 0) {
+                        Toast.makeText(mContext, "Choose apropriate (Not Itterative) sale code for SALE.", Toast.LENGTH_SHORT).show();
+                        return false;
+                    }
+            }
+        }
+
+        if (customerId == 0) {
+            Toast.makeText(mContext, "Choose A customer for SALE.", Toast.LENGTH_SHORT).show();
+            return false;
+        } else if (saleDate.equals("") || saleDate.equals(null)) {
+            Toast.makeText(mContext, "Choose apropriate sale date for SALE.", Toast.LENGTH_SHORT).show();
+            return false;
+        } else if (numberOfAllProducts == 0) {
+            Toast.makeText(mContext, "Choose some PRODUCTS for SALE.", Toast.LENGTH_SHORT).show();
+            return false;
+        } else if (sFinalAmount < 0) {
+            Toast.makeText(mContext, "Final Amount can't be less than zero.", Toast.LENGTH_SHORT).show();
+            return false;
+        } else if (sBalanceAmount < 0) {
+            Toast.makeText(mContext, "Balance Amount can't be less than zero.", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        return true;
+    }
+
     public void setPaymentMap(ArrayList<Map<String, String>> list) {
         mPaymentListMap = list;
     }
-
-
 }

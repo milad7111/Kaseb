@@ -47,9 +47,10 @@ public class DetailCustomerBill extends Fragment implements LoaderManager.Loader
                 KasebContract.Sales.COLUMN_SALE_CODE};
 
         mSelection = new String[]{
-                KasebContract.Sales.COLUMN_CUSTOMER_ID};
+                String.valueOf(customerId),
+                "0"};
 
-        mWhereStatement = KasebContract.Sales.COLUMN_CUSTOMER_ID + " = ? ";
+        mWhereStatement = KasebContract.Sales.COLUMN_CUSTOMER_ID + " = ? and " + KasebContract.Sales.COLUMN_IS_DELETED + " = ? ";
 
         super.onCreate(savedInstanceState);
     }
@@ -80,7 +81,7 @@ public class DetailCustomerBill extends Fragment implements LoaderManager.Loader
                             new String[]{
                                     KasebContract.Sales._ID,
                                     KasebContract.Sales.COLUMN_CUSTOMER_ID},
-                            KasebContract.Sales.COLUMN_SALE_CODE + " = ?",
+                            KasebContract.Sales.COLUMN_SALE_CODE + " = ? ",
                             new String[]{saleCode},
                             null);
 
@@ -125,7 +126,7 @@ public class DetailCustomerBill extends Fragment implements LoaderManager.Loader
         Log.d(LOG_TAG, "onCreateLoader");
         return new CursorLoader(
                 getActivity(),
-                KasebContract.Sales.customerSales(customerId),
+                KasebContract.Sales.CONTENT_URI,
                 mProjection,
                 mWhereStatement,
                 mSelection,

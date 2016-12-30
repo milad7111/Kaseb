@@ -83,7 +83,7 @@ public class DetailSaleInsert extends AppCompatActivity {
     Long sFinalAmount = 0l;
     Long sPaidAmount = 0l;
     Long sBalanceAmount = 0l;
-    Long customerId;
+    Long customerId = 0l;
     Long cost = 0l;
 
     Cursor mCursor1;
@@ -108,7 +108,6 @@ public class DetailSaleInsert extends AppCompatActivity {
     EditText taxPercent;
     CheckBox isPassCheckBox;
 
-    ListView mListView;
     ListView modeList;
 
     TypesSettingAdapter cursorAdapter = null;
@@ -198,119 +197,122 @@ public class DetailSaleInsert extends AppCompatActivity {
                 break;
             case R.id.save:
 
-                //region CheckValidity
-                //endregion CheckValidity
-
-                mDb.beginTransaction();
-
                 //region SetValues
                 EditText saleCode = (EditText) findViewById(R.id.detail_sales_info_sale_code);
                 //endregion
 
-                //region Insert Sale
-                saleValues.put(KasebContract.Sales.COLUMN_CUSTOMER_ID, customerId);
-                saleValues.put(KasebContract.Sales.COLUMN_IS_DELETED, 0);
-                saleValues.put(KasebContract.Sales.COLUMN_SALE_CODE, saleCode.getText().toString());
+                if (CheckForValidity(
+                        saleCode.getText().toString(),
+                        customerId,
+                        saleDate.getText().toString(),
+                        mChosenProductListMap.size())) {
 
-                insertUri = this.getContentResolver().insert(
-                        KasebContract.Sales.CONTENT_URI,
-                        saleValues
-                );
+                    mDb.beginTransaction();
 
-                saleCode.setEnabled(false);
-                //endregion
+                    //region Insert Sale
+                    saleValues.put(KasebContract.Sales.COLUMN_CUSTOMER_ID, customerId);
+                    saleValues.put(KasebContract.Sales.COLUMN_IS_DELETED, 0);
+                    saleValues.put(KasebContract.Sales.COLUMN_SALE_CODE, saleCode.getText().toString());
 
-                //region Insert DetailSale
-                detailSaleValues.put(KasebContract.DetailSale.COLUMN_DATE, saleDate.getText().toString());
-                detailSaleValues.put(KasebContract.DetailSale.COLUMN_IS_BALANCED, 0);
-                detailSaleValues.put(KasebContract.DetailSale.COLUMN_ITEMS_NUMBER, mChosenProductListMap.size());
-                detailSaleValues.put(KasebContract.DetailSale.COLUMN_SALE_ID, insertUri.getLastPathSegment());
-                detailSaleValues.put(KasebContract.DetailSale.COLUMN_SUB_TOTAL, sTotalAmount);
-                detailSaleValues.put(KasebContract.DetailSale.COLUMN_TOTAL_DISCOUNT, sTotalDiscount);
-                detailSaleValues.put(KasebContract.DetailSale.COLUMN_TOTAL_DUE, sFinalAmount);
-                detailSaleValues.put(KasebContract.DetailSale.COLUMN_TOTAL_PAID, sPaidAmount);
-                detailSaleValues.put(KasebContract.DetailSale.COLUMN_TOTAL_TAX, sTotalTax);
+                    insertUri = this.getContentResolver().insert(
+                            KasebContract.Sales.CONTENT_URI,
+                            saleValues
+                    );
 
-                insertUri = this.getContentResolver().insert(
-                        KasebContract.DetailSale.CONTENT_URI,
-                        detailSaleValues
-                );
-                //endregion
+                    saleCode.setEnabled(false);
+                    //endregion
 
-                //region Insert DetailSaleProducts
-                int count = mChosenProductListMap.size();
-                itemsValuesArray = new ContentValues[count];
+                    //region Insert DetailSale
+                    detailSaleValues.put(KasebContract.DetailSale.COLUMN_DATE, saleDate.getText().toString());
+                    detailSaleValues.put(KasebContract.DetailSale.COLUMN_IS_BALANCED, 0);
+                    detailSaleValues.put(KasebContract.DetailSale.COLUMN_ITEMS_NUMBER, mChosenProductListMap.size());
+                    detailSaleValues.put(KasebContract.DetailSale.COLUMN_SALE_ID, insertUri.getLastPathSegment());
+                    detailSaleValues.put(KasebContract.DetailSale.COLUMN_SUB_TOTAL, sTotalAmount);
+                    detailSaleValues.put(KasebContract.DetailSale.COLUMN_TOTAL_DISCOUNT, sTotalDiscount);
+                    detailSaleValues.put(KasebContract.DetailSale.COLUMN_TOTAL_DUE, sFinalAmount);
+                    detailSaleValues.put(KasebContract.DetailSale.COLUMN_TOTAL_PAID, sPaidAmount);
+                    detailSaleValues.put(KasebContract.DetailSale.COLUMN_TOTAL_TAX, sTotalTax);
 
-                for (int i = 0; i < count; i++) {
-                    itemsValues = new ContentValues();
+                    insertUri = this.getContentResolver().insert(
+                            KasebContract.DetailSale.CONTENT_URI,
+                            detailSaleValues
+                    );
+                    //endregion
 
-                    itemsValues.put(KasebContract.DetailSaleProducts.COLUMN_AMOUNT,
-                            Long.valueOf(mChosenProductListMap.get(i).get("price").toString()) *
-                                    Long.valueOf(mChosenProductListMap.get(i).get("quantity").toString()));
+                    //region Insert DetailSaleProducts
+                    int count = mChosenProductListMap.size();
+                    itemsValuesArray = new ContentValues[count];
 
-                    itemsValues.put(KasebContract.DetailSaleProducts.COLUMN_DETAIL_SALE_ID, insertUri.getLastPathSegment());
-                    itemsValues.put(KasebContract.DetailSaleProducts.COLUMN_PRODUCT_ID, mChosenProductListMap.get(i).get("id").toString());
-                    itemsValues.put(KasebContract.DetailSaleProducts.COLUMN_QUANTITY, mChosenProductListMap.get(i).get("quantity").toString());
+                    for (int i = 0; i < count; i++) {
+                        itemsValues = new ContentValues();
 
-                    itemsValuesArray[i] = itemsValues;
+                        itemsValues.put(KasebContract.DetailSaleProducts.COLUMN_AMOUNT,
+                                Long.valueOf(mChosenProductListMap.get(i).get("price").toString()) *
+                                        Long.valueOf(mChosenProductListMap.get(i).get("quantity").toString()));
+
+                        itemsValues.put(KasebContract.DetailSaleProducts.COLUMN_DETAIL_SALE_ID, insertUri.getLastPathSegment());
+                        itemsValues.put(KasebContract.DetailSaleProducts.COLUMN_PRODUCT_ID, mChosenProductListMap.get(i).get("id").toString());
+                        itemsValues.put(KasebContract.DetailSaleProducts.COLUMN_QUANTITY, mChosenProductListMap.get(i).get("quantity").toString());
+
+                        itemsValuesArray[i] = itemsValues;
+                    }
+
+                    this.getContentResolver().bulkInsert(
+                            KasebContract.DetailSaleProducts.CONTENT_URI,
+                            itemsValuesArray
+                    );
+                    //endregion Insert DetailSaleProducts
+
+                    //region Insert DetailSalePayments
+                    count = mPaymentListMap.size();
+                    paymentValuesArray = new ContentValues[count];
+
+                    for (int i = 0; i < count; i++) {
+                        paymentValues = new ContentValues();
+
+                        paymentValues.put(KasebContract.DetailSalePayments.COLUMN_DUE_DATE, mPaymentListMap.get(i).get("duedate").toString());
+                        paymentValues.put(KasebContract.DetailSalePayments.COLUMN_DETAIL_SALE_ID, insertUri.getLastPathSegment());
+                        paymentValues.put(KasebContract.DetailSalePayments.COLUMN_AMOUNT, Long.valueOf(mPaymentListMap.get(i).get("amount").toString()));
+                        paymentValues.put(KasebContract.DetailSalePayments.COLUMN_PAYMENT_METHOD_ID, mPaymentListMap.get(i).get("id").toString());
+
+                        paymentValuesArray[i] = paymentValues;
+                    }
+
+                    this.getContentResolver().bulkInsert(
+                            KasebContract.DetailSalePayments.CONTENT_URI,
+                            paymentValuesArray
+                    );
+                    //endregion Insert DetailSalePayments
+
+                    //region Insert DetailSaleTaxes
+                    count = mTaxListMap.size();
+                    taxValuesArray = new ContentValues[count];
+
+                    for (int i = 0; i < count; i++) {
+                        taxValues = new ContentValues();
+
+                        taxValues.put(KasebContract.DetailSaleTaxes.COLUMN_DETAIL_SALE_ID, insertUri.getLastPathSegment());
+                        taxValues.put(KasebContract.DetailSaleTaxes.COLUMN_AMOUNT, Long.valueOf(mTaxListMap.get(i).get("amount").toString()));
+                        taxValues.put(KasebContract.DetailSaleTaxes.COLUMN_TAX_TYPE_ID, mTaxListMap.get(i).get("id").toString());
+
+                        taxValuesArray[i] = taxValues;
+                    }
+
+                    this.getContentResolver().bulkInsert(
+                            KasebContract.DetailSaleTaxes.CONTENT_URI,
+                            taxValuesArray
+                    );
+                    //endregion Insert DetailSaleTaxes
+
+                    //just a message to show everything are under control
+                    Toast.makeText(this,
+                            getApplicationContext().getResources().getString(R.string.msg_insert_succeed), Toast.LENGTH_LONG).show();
+
+                    mDb.setTransactionSuccessful();
+                    mDb.endTransaction();
+                    finish();
+                    return true;
                 }
-
-                this.getContentResolver().bulkInsert(
-                        KasebContract.DetailSaleProducts.CONTENT_URI,
-                        itemsValuesArray
-                );
-                //endregion Insert DetailSaleProducts
-
-                //region Insert DetailSalePayments
-                count = mPaymentListMap.size();
-                paymentValuesArray = new ContentValues[count];
-
-                for (int i = 0; i < count; i++) {
-                    paymentValues = new ContentValues();
-
-                    paymentValues.put(KasebContract.DetailSalePayments.COLUMN_DUE_DATE, mPaymentListMap.get(i).get("duedate").toString());
-                    paymentValues.put(KasebContract.DetailSalePayments.COLUMN_DETAIL_SALE_ID, insertUri.getLastPathSegment());
-                    paymentValues.put(KasebContract.DetailSalePayments.COLUMN_AMOUNT, Long.valueOf(mPaymentListMap.get(i).get("amount").toString()));
-                    paymentValues.put(KasebContract.DetailSalePayments.COLUMN_PAYMENT_METHOD_ID, mPaymentListMap.get(i).get("id").toString());
-                    paymentValues.put(KasebContract.DetailSalePayments.COLUMN_IS_PASS, Boolean.parseBoolean(mPaymentListMap.get(i).get("isPass")));
-
-                    paymentValuesArray[i] = paymentValues;
-                }
-
-                this.getContentResolver().bulkInsert(
-                        KasebContract.DetailSalePayments.CONTENT_URI,
-                        paymentValuesArray
-                );
-                //endregion Insert DetailSalePayments
-
-                //region Insert DetailSaleTaxes
-                count = mPaymentListMap.size();
-                taxValuesArray = new ContentValues[count];
-
-                for (int i = 0; i < count; i++) {
-                    taxValues = new ContentValues();
-
-                    taxValues.put(KasebContract.DetailSaleTaxes.COLUMN_DETAIL_SALE_ID, insertUri.getLastPathSegment());
-                    taxValues.put(KasebContract.DetailSaleTaxes.COLUMN_AMOUNT, Long.valueOf(mPaymentListMap.get(i).get("amount").toString()));
-                    taxValues.put(KasebContract.DetailSaleTaxes.COLUMN_TAX_TYPE_ID, mPaymentListMap.get(i).get("id").toString());
-
-                    taxValuesArray[i] = taxValues;
-                }
-
-                this.getContentResolver().bulkInsert(
-                        KasebContract.DetailSaleTaxes.CONTENT_URI,
-                        taxValuesArray
-                );
-                //endregion Insert DetailSaleTaxes
-
-                //just a message to show everything are under control
-                Toast.makeText(this,
-                        getApplicationContext().getResources().getString(R.string.msg_insert_succeed), Toast.LENGTH_LONG).show();
-
-                mDb.setTransactionSuccessful();
-                mDb.endTransaction();
-
-                return true;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -729,5 +731,47 @@ public class DetailSaleInsert extends AppCompatActivity {
                 Utility.formatPurchase(
                         mContext,
                         Utility.DecimalSeperation(mContext, sBalanceAmount)));
+    }
+
+    // this method check the validation and correct entries. its check fill first and then check the validation rules.
+    private boolean CheckForValidity(String saleCode, Long customerId, String saleDate, int numberOfAllProducts) {
+        if (saleCode.equals("") || saleCode.equals(null)) {
+            Toast.makeText(mContext, "Choose apropriate sale code for SALE.", Toast.LENGTH_SHORT).show();
+            return false;
+        } else {
+            Cursor mCursor = mContext.getContentResolver().query(
+                    KasebContract.Sales.CONTENT_URI,
+                    new String[]{KasebContract.Sales._ID},
+                    KasebContract.Sales.COLUMN_SALE_CODE + " = ? ",
+                    new String[]{saleCode},
+                    null);
+
+            if (mCursor != null) {
+                if (mCursor.moveToFirst())
+                    if (mCursor.getCount() > 0) {
+                        Toast.makeText(mContext, "Choose apropriate (Not Itterative) sale code for SALE.", Toast.LENGTH_SHORT).show();
+                        return false;
+                    }
+            }
+        }
+
+        if (customerId == 0) {
+            Toast.makeText(mContext, "Choose A customer for SALE.", Toast.LENGTH_SHORT).show();
+            return false;
+        } else if (saleDate.equals("") || saleDate.equals(null)) {
+            Toast.makeText(mContext, "Choose apropriate sale date for SALE.", Toast.LENGTH_SHORT).show();
+            return false;
+        } else if (numberOfAllProducts == 0) {
+            Toast.makeText(mContext, "Choose some PRODUCTS for SALE.", Toast.LENGTH_SHORT).show();
+            return false;
+        } else if (sFinalAmount < 0){
+            Toast.makeText(mContext, "Final Amount can't be less than zero.", Toast.LENGTH_SHORT).show();
+            return false;
+        } else if (sBalanceAmount < 0){
+            Toast.makeText(mContext, "Balance Amount can't be less than zero.", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        return true;
     }
 }

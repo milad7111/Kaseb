@@ -24,7 +24,6 @@ import mjkarbasian.moshtarimadar.Adapters.CustomerAdapter;
 import mjkarbasian.moshtarimadar.Data.KasebContract;
 import mjkarbasian.moshtarimadar.R;
 
-
 /**
  * A placeholder fragment containing a simple view.
  */
