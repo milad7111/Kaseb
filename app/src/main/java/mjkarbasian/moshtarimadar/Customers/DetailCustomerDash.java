@@ -55,10 +55,11 @@ public class DetailCustomerDash extends Fragment {
 
 
         mCursor = getContext().getContentResolver().query(
-                KasebContract.Sales.customerSales(Long.parseLong(uriCursor.getLastPathSegment())),
-                new String[]{KasebContract.Sales._ID},
-                KasebContract.Sales.COLUMN_IS_DELETED + " = ? ",
-                new String[]{"0"},
+                KasebContract.Sales.CONTENT_URI,
+                new String[]{
+                        KasebContract.Sales._ID},
+                KasebContract.Sales.COLUMN_IS_DELETED + " = ? and " + KasebContract.Sales.COLUMN_CUSTOMER_ID + " = ? ",
+                new String[]{"0", uriCursor.getLastPathSegment()},
                 null
         );
 

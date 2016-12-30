@@ -292,8 +292,8 @@ public class DetailSaleInsert extends AppCompatActivity {
                         taxValues = new ContentValues();
 
                         taxValues.put(KasebContract.DetailSaleTaxes.COLUMN_DETAIL_SALE_ID, insertUri.getLastPathSegment());
-                        taxValues.put(KasebContract.DetailSaleTaxes.COLUMN_AMOUNT, Long.valueOf(mPaymentListMap.get(i).get("amount").toString()));
-                        taxValues.put(KasebContract.DetailSaleTaxes.COLUMN_TAX_TYPE_ID, mPaymentListMap.get(i).get("id").toString());
+                        taxValues.put(KasebContract.DetailSaleTaxes.COLUMN_AMOUNT, Long.valueOf(mTaxListMap.get(i).get("amount").toString()));
+                        taxValues.put(KasebContract.DetailSaleTaxes.COLUMN_TAX_TYPE_ID, mTaxListMap.get(i).get("id").toString());
 
                         taxValuesArray[i] = taxValues;
                     }
@@ -759,6 +759,12 @@ public class DetailSaleInsert extends AppCompatActivity {
             return false;
         } else if (numberOfAllProducts == 0) {
             Toast.makeText(mContext, "Choose some PRODUCTS for SALE.", Toast.LENGTH_SHORT).show();
+            return false;
+        } else if (sFinalAmount < 0){
+            Toast.makeText(mContext, "Final Amount can't be less than zero.", Toast.LENGTH_SHORT).show();
+            return false;
+        } else if (sBalanceAmount < 0){
+            Toast.makeText(mContext, "Balance Amount can't be less than zero.", Toast.LENGTH_SHORT).show();
             return false;
         }
 

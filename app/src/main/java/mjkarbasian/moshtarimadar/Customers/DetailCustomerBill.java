@@ -126,7 +126,7 @@ public class DetailCustomerBill extends Fragment implements LoaderManager.Loader
         Log.d(LOG_TAG, "onCreateLoader");
         return new CursorLoader(
                 getActivity(),
-                KasebContract.Sales.customerSales(customerId),
+                KasebContract.Sales.CONTENT_URI,
                 mProjection,
                 mWhereStatement,
                 mSelection,
