@@ -15,10 +15,10 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import mjkarbasian.moshtarimadar.Data.KasebContract;
-import mjkarbasian.moshtarimadar.R;
 import mjkarbasian.moshtarimadar.Adapters.TypesSettingAdapter;
+import mjkarbasian.moshtarimadar.Data.KasebContract;
 import mjkarbasian.moshtarimadar.Helpers.Utility;
+import mjkarbasian.moshtarimadar.R;
 
 /**
  * Created by family on 10/19/2016.
@@ -50,6 +50,7 @@ public class CostInsert extends Fragment {
         costAmount = (EditText) rootView.findViewById(R.id.input_cost_amount);
         costDate = (EditText) rootView.findViewById(R.id.input_cost_date);
         costDate.setText(Utility.preInsertDate(getActivity()));
+
         costDescription = (EditText) rootView.findViewById(R.id.input_cost_description);
 
         Cursor cursor = getContext().getContentResolver().query(KasebContract.CostTypes.CONTENT_URI
@@ -77,23 +78,27 @@ public class CostInsert extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.save_inputs: {
-                costValues.put(KasebContract.Costs.COLUMN_COST_NAME, costName.getText().toString());
-                costValues.put(KasebContract.Costs.COLUMN_COST_CODE, costCode.getText().toString());
-                costValues.put(KasebContract.Costs.COLUMN_AMOUNT, costAmount.getText().toString());
-                costValues.put(KasebContract.Costs.COLUMN_DATE, costDate.getText().toString());
-                costValues.put(KasebContract.Costs.COLUMN_DESCRIPTION, costDescription.getText().toString());
-                costValues.put(KasebContract.Costs.COLUMN_COST_TYPE_ID, costType.getSelectedItemPosition() + 1);
-                insertUri = getActivity().getContentResolver().insert(
-                        KasebContract.Costs.CONTENT_URI,
-                        costValues
-                );
-                //just a message to show everything are under control
-                Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.msg_insert_succeed),
-                        Toast.LENGTH_LONG).show();
+                if (CheckForValidity(
+                        costName.getText().toString(),
+                        costAmount.getText().toString(),
+                        costDate.getText().toString())) {
+                    costValues.put(KasebContract.Costs.COLUMN_COST_NAME, costName.getText().toString());
+                    costValues.put(KasebContract.Costs.COLUMN_COST_CODE, costCode.getText().toString());
+                    costValues.put(KasebContract.Costs.COLUMN_AMOUNT, costAmount.getText().toString());
+                    costValues.put(KasebContract.Costs.COLUMN_DATE, costDate.getText().toString());
+                    costValues.put(KasebContract.Costs.COLUMN_DESCRIPTION, costDescription.getText().toString());
+                    costValues.put(KasebContract.Costs.COLUMN_COST_TYPE_ID, costType.getSelectedItemPosition() + 1);
+                    insertUri = getActivity().getContentResolver().insert(
+                            KasebContract.Costs.CONTENT_URI,
+                            costValues
+                    );
 
-                checkForValidity();
-                backToLastPage();
+                    //just a message to show everything are under control
+                    Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.msg_insert_succeed),
+                            Toast.LENGTH_LONG).show();
 
+                    backToLastPage();
+                }
                 break;
             }
 
@@ -101,14 +106,25 @@ public class CostInsert extends Fragment {
         return super.onOptionsItemSelected(item);
     }
 
-    // this method check the validation and correct entries. its check fill first and then check the validation rules.
-    private void checkForValidity() {
-    }
-
     // this method back to the activity view. this must be a utility method.
     private void backToLastPage() {
         Utility.clearForm((ViewGroup) rootView);
         getFragmentManager().popBackStackImmediate();
+    }
+
+    // this method check the validation and correct entries. its check fill first and then check the validation rules.
+    private boolean CheckForValidity(String costName, String costAmount, String costDate) {
+        if (costName.equals("") || costName.equals(null)) {
+            Toast.makeText(getActivity(), "Choose apropriate name for COST.", Toast.LENGTH_SHORT).show();
+            return false;
+        } else if (costAmount.equals("") || costAmount.equals(null)) {
+            Toast.makeText(getActivity(), "Choose apropriate amount for COST.", Toast.LENGTH_SHORT).show();
+            return false;
+        } else if (costDate.equals("") || costDate.equals(null)) {
+            Toast.makeText(getActivity(), "Choose apropriate date for COST.", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
     }
 }
 

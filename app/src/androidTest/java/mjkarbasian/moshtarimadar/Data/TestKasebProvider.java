@@ -31,7 +31,7 @@ import static mjkarbasian.moshtarimadar.Data.KasebContract.TaxTypes;
 /**
  * Created by Unique on 10/13/2016.
  */
-public class  TestKasebProvider extends AndroidTestCase {
+public class TestKasebProvider extends AndroidTestCase {
 
     final static String LOG_TAG = TestKasebProvider.class.getSimpleName();
     static private final int BULK_INSERT_RECORDS_TO_INSERT = 10;
@@ -599,7 +599,7 @@ public class  TestKasebProvider extends AndroidTestCase {
         //endregion
 
         //region 10 DetailSalePayments table
-        testValues = TestUtilities.createDetailSalePaymentsValues(detailSaleRowId,paymentMethodsRowId);
+        testValues = TestUtilities.createDetailSalePaymentsValues(detailSaleRowId, paymentMethodsRowId);
         long detailSalePaymentsRowId = db.insert(KasebContract.DetailSalePayments.TABLE_NAME, null, testValues);
         assertTrue("Unable to insert -DetailSalePayments table- row", detailSalePaymentsRowId != -1);
 
@@ -645,7 +645,7 @@ public class  TestKasebProvider extends AndroidTestCase {
         //endregion
 
         //region 12 DetailSaleTaxes table
-        testValues = TestUtilities.createDetailSaleTaxesValues(detailSaleRowId,taxTypesRowId);
+        testValues = TestUtilities.createDetailSaleTaxesValues(detailSaleRowId, taxTypesRowId);
         long detailSaleTaxesRowId = db.insert(KasebContract.DetailSaleTaxes.TABLE_NAME, null, testValues);
         assertTrue("Unable to insert -DetailSaleTaxes table- row", detailSaleTaxesRowId != -1);
 
@@ -668,7 +668,7 @@ public class  TestKasebProvider extends AndroidTestCase {
         //endregion
 
         //region 13 DetailSaleProducts table
-        testValues = TestUtilities.createDetailSaleProductsValues(productsRowId,detailSaleRowId);
+        testValues = TestUtilities.createDetailSaleProductsValues(productsRowId, detailSaleRowId);
         long detailSaleProductsRowId = db.insert(KasebContract.DetailSaleProducts.TABLE_NAME, null, testValues);
         assertTrue("Unable to insert -DetailSaleProducts table- row", detailSaleProductsRowId != -1);
 
@@ -1623,7 +1623,7 @@ public class  TestKasebProvider extends AndroidTestCase {
         //endregion
 
         //region 12 DetailSaleTaxes table
-        ContentValues detailSaleTaxesValues = TestUtilities.createDetailSaleTaxesValues(detailSaleRowId,taxTypesRowId);
+        ContentValues detailSaleTaxesValues = TestUtilities.createDetailSaleTaxesValues(detailSaleRowId, taxTypesRowId);
         Uri detailSaleTaxesUri = mContext.getContentResolver().insert(
                 DetailSaleTaxes.CONTENT_URI,
                 detailSaleTaxesValues
@@ -1671,7 +1671,7 @@ public class  TestKasebProvider extends AndroidTestCase {
         //endregion
 
         //region 13 DetailSaleProducts table
-        ContentValues detailSaleProductsValues = TestUtilities.createDetailSaleProductsValues(productsRowId,detailSaleRowId);
+        ContentValues detailSaleProductsValues = TestUtilities.createDetailSaleProductsValues(productsRowId, detailSaleRowId);
         Uri detailSaleProductsUri = mContext.getContentResolver().insert(
                 DetailSaleProducts.CONTENT_URI,
                 detailSaleProductsValues
@@ -1701,9 +1701,9 @@ public class  TestKasebProvider extends AndroidTestCase {
 
         int detailSaleProductsUpdateCount = mContext.getContentResolver().update(DetailSaleProducts.CONTENT_URI,
                 detailSaleProductsUpdateValues,
-              DetailSaleProducts._ID + "=" +
-                Long.toString(detailSaleProductsRowId), null);
-        assertEquals("Update more than one row in -DetailSaleProducts table-",detailSaleProductsUpdateCount, 1);
+                DetailSaleProducts._ID + "=" +
+                        Long.toString(detailSaleProductsRowId), null);
+        assertEquals("Update more than one row in -DetailSaleProducts table-", detailSaleProductsUpdateCount, 1);
 
         // Test to make sure our observer is called.  If not, we throw an assertion.
         // Students: If your code is failing here, it means that your content provider
@@ -1715,7 +1715,7 @@ public class  TestKasebProvider extends AndroidTestCase {
         detailSaleProductsCursor.moveToFirst();
 
         TestUtilities.validateCursor("testUpdate.  Error validating -DetailSaleProducts table- update.", detailSaleProductsCursor,
-                detailSaleProductsUpdateValues,DetailSaleProducts.TABLE_NAME);
+                detailSaleProductsUpdateValues, DetailSaleProducts.TABLE_NAME);
         detailSaleProductsCursor.close();
         //endregion
     }
@@ -1728,7 +1728,7 @@ public class  TestKasebProvider extends AndroidTestCase {
 
         for (int i = 0; i < BULK_INSERT_RECORDS_TO_INSERT; i++) {
             ContentValues stateValues = new ContentValues();
-            stateValues.put(State.COLUMN_STATE_POINTER, i*10);
+            stateValues.put(State.COLUMN_STATE_POINTER, i * 10);
             returnContentValues[i] = stateValues;
         }
         return returnContentValues;
@@ -1742,7 +1742,7 @@ public class  TestKasebProvider extends AndroidTestCase {
 
         for (int i = 0; i < BULK_INSERT_RECORDS_TO_INSERT; i++) {
             ContentValues costTypesValues = new ContentValues();
-            costTypesValues.put(CostTypes.COLUMN_COST_TYPE_POINTER, i*10);
+            costTypesValues.put(CostTypes.COLUMN_COST_TYPE_POINTER, i * 10);
             returnContentValues[i] = costTypesValues;
         }
         return returnContentValues;
@@ -1764,7 +1764,7 @@ public class  TestKasebProvider extends AndroidTestCase {
             ContentValues customersValues = new ContentValues();
             customersValues.put(Customers.COLUMN_FIRST_NAME, "sample");
             customersValues.put(Customers.COLUMN_LAST_NAME, "sample");
-            customersValues.put(Customers.COLUMN_PHONE_MOBILE, "sample"+i);
+            customersValues.put(Customers.COLUMN_PHONE_MOBILE, "sample" + i);
             customersValues.put(Customers.COLUMN_PHONE_WORK, "sample");
             customersValues.put(Customers.COLUMN_PHONE_FAX, "sample");
             customersValues.put(Customers.COLUMN_PHONE_OTHER, "sample");
@@ -1796,8 +1796,8 @@ public class  TestKasebProvider extends AndroidTestCase {
             ContentValues costsValues = new ContentValues();
             costsValues.put(Costs.COLUMN_COST_TYPE_ID, costTypesRowId);
             costsValues.put(Costs.COLUMN_COST_NAME, "sample");
-            costsValues.put(Costs.COLUMN_COST_CODE, "sample"+i);
-            costsValues.put(Costs.COLUMN_AMOUNT, i*10);
+            costsValues.put(Costs.COLUMN_COST_CODE, "sample" + i);
+            costsValues.put(Costs.COLUMN_AMOUNT, i * 10);
             costsValues.put(Costs.COLUMN_DATE, "sample");
             costsValues.put(Costs.COLUMN_DESCRIPTION, "sample");
 
@@ -1814,7 +1814,7 @@ public class  TestKasebProvider extends AndroidTestCase {
 
         for (int i = 0; i < BULK_INSERT_RECORDS_TO_INSERT; i++) {
             ContentValues paymentMethodsValues = new ContentValues();
-            paymentMethodsValues.put(PaymentMethods.COLUMN_PAYMENT_METHOD_POINTER, i*10);
+            paymentMethodsValues.put(PaymentMethods.COLUMN_PAYMENT_METHOD_POINTER, i * 10);
             returnContentValues[i] = paymentMethodsValues;
         }
         return returnContentValues;
@@ -1828,7 +1828,7 @@ public class  TestKasebProvider extends AndroidTestCase {
 
         for (int i = 0; i < BULK_INSERT_RECORDS_TO_INSERT; i++) {
             ContentValues taxTypesValues = new ContentValues();
-            taxTypesValues.put(TaxTypes.COLUMN_TAX_TYPE_POINTER, i*10);
+            taxTypesValues.put(TaxTypes.COLUMN_TAX_TYPE_POINTER, i * 10);
             returnContentValues[i] = taxTypesValues;
         }
         return returnContentValues;
@@ -1842,8 +1842,8 @@ public class  TestKasebProvider extends AndroidTestCase {
 
         for (int i = 0; i < BULK_INSERT_RECORDS_TO_INSERT; i++) {
             ContentValues productsValues = new ContentValues();
-            productsValues.put(Products.COLUMN_PRODUCT_NAME, "sample"+i);
-            productsValues.put(Products.COLUMN_PRODUCT_CODE, "sample"+i);
+            productsValues.put(Products.COLUMN_PRODUCT_NAME, "sample" + i);
+            productsValues.put(Products.COLUMN_PRODUCT_CODE, "sample" + i);
             productsValues.put(Products.COLUMN_DESCRIPTION, "sample");
             productsValues.put(Products.COLUMN_UNIT, "sample");
             returnContentValues[i] = productsValues;
@@ -1868,7 +1868,7 @@ public class  TestKasebProvider extends AndroidTestCase {
         for (int i = 0; i < BULK_INSERT_RECORDS_TO_INSERT; i++) {
             ContentValues salesValues = new ContentValues();
             salesValues.put(Sales.COLUMN_IS_DELETED, 0);
-            salesValues.put(Sales.COLUMN_SALE_CODE, "sample"+i);
+            salesValues.put(Sales.COLUMN_SALE_CODE, "sample" + i);
             salesValues.put(Sales.COLUMN_CUSTOMER_ID, 100);
             salesValues.put(Sales.COLUMN_CUSTOMER_ID, customersRowId);
             returnContentValues[i] = salesValues;
@@ -1892,7 +1892,7 @@ public class  TestKasebProvider extends AndroidTestCase {
 
         ContentValues testValuesSales;
 
-        for (int i = 0; i <BULK_INSERT_RECORDS_TO_INSERT; i++) {
+        for (int i = 0; i < BULK_INSERT_RECORDS_TO_INSERT; i++) {
             testValuesSales = TestUtilities.createSalesValues(customersRowId);
             salesRowIdArray[i] = db.insert(KasebContract.Sales.TABLE_NAME, null, testValuesSales);
         }
@@ -2044,9 +2044,9 @@ public class  TestKasebProvider extends AndroidTestCase {
 
         for (int i = 0; i < BULK_INSERT_RECORDS_TO_INSERT; i++) {
             ContentValues customersValues = new ContentValues();
-            customersValues.put(Customers.COLUMN_FIRST_NAME, "sample"+i);
+            customersValues.put(Customers.COLUMN_FIRST_NAME, "sample" + i);
             customersValues.put(Customers.COLUMN_LAST_NAME, "sample");
-            customersValues.put(Customers.COLUMN_PHONE_MOBILE, "sample"+i);
+            customersValues.put(Customers.COLUMN_PHONE_MOBILE, "sample" + i);
             customersValues.put(Customers.COLUMN_PHONE_WORK, "sample");
             customersValues.put(Customers.COLUMN_PHONE_FAX, "sample");
             customersValues.put(Customers.COLUMN_PHONE_OTHER, "sample");
@@ -2074,7 +2074,7 @@ public class  TestKasebProvider extends AndroidTestCase {
         for (int i = 0; i < BULK_INSERT_RECORDS_TO_INSERT; i++) {
             ContentValues salesValues = new ContentValues();
             salesValues.put(Sales.COLUMN_IS_DELETED, 0);
-            salesValues.put(Sales.COLUMN_SALE_CODE, "sample"+i);
+            salesValues.put(Sales.COLUMN_SALE_CODE, "sample" + i);
             salesValues.put(Sales.COLUMN_CUSTOMER_ID, 100);
             salesValues.put(Sales.COLUMN_CUSTOMER_ID, customerId);
             returnContentValues[i] = salesValues;
@@ -2098,7 +2098,7 @@ public class  TestKasebProvider extends AndroidTestCase {
 
         ContentValues testValuesSales;
 
-        for (int i = 0; i <BULK_INSERT_RECORDS_TO_INSERT; i++) {
+        for (int i = 0; i < BULK_INSERT_RECORDS_TO_INSERT; i++) {
             testValuesSales = TestUtilities.createSalesValues(customersRowId);
             salesRowIdArray[i] = db.insert(KasebContract.Sales.TABLE_NAME, null, testValuesSales);
         }
@@ -2276,8 +2276,8 @@ public class  TestKasebProvider extends AndroidTestCase {
             ContentValues costsValues = new ContentValues();
             costsValues.put(Costs.COLUMN_COST_TYPE_ID, costTypesId);
             costsValues.put(Costs.COLUMN_COST_NAME, "sample");
-            costsValues.put(Costs.COLUMN_COST_CODE, "sample"+i);
-            costsValues.put(Costs.COLUMN_AMOUNT, i*10);
+            costsValues.put(Costs.COLUMN_COST_CODE, "sample" + i);
+            costsValues.put(Costs.COLUMN_AMOUNT, i * 10);
             costsValues.put(Costs.COLUMN_DATE, "sample");
             costsValues.put(Costs.COLUMN_DESCRIPTION, "sample");
 
@@ -2300,7 +2300,7 @@ public class  TestKasebProvider extends AndroidTestCase {
         observer.waitForNotificationOrFail();
         mContext.getContentResolver().unregisterContentObserver(observer);
 
-        assertEquals("Bulk Insertion failed -State table-",BULK_INSERT_RECORDS_TO_INSERT, stateID);
+        assertEquals("Bulk Insertion failed -State table-", BULK_INSERT_RECORDS_TO_INSERT, stateID);
 
         // A cursor is your primary interface to the query results.
         Cursor stateCursor = mContext.getContentResolver().query(
@@ -2313,7 +2313,7 @@ public class  TestKasebProvider extends AndroidTestCase {
 
         // we should have as many records in the database as we've inserted
         assertEquals("Number of Inserted Rows is not " + BULK_INSERT_RECORDS_TO_INSERT
-                + " --> \nresult : Bulk Insertion failed - State table - ",BULK_INSERT_RECORDS_TO_INSERT,
+                        + " --> \nresult : Bulk Insertion failed - State table - ", BULK_INSERT_RECORDS_TO_INSERT,
                 stateCursor.getCount());
 
 //        // and let's make sure they match the ones we created
@@ -2347,7 +2347,7 @@ public class  TestKasebProvider extends AndroidTestCase {
 
         // we should have as many records in the database as we've inserted
         assertEquals("Number of Inserted Rows is not " + BULK_INSERT_RECORDS_TO_INSERT
-                + " --> \nresult : Bulk Insertion failed - CostTypes table - ", BULK_INSERT_RECORDS_TO_INSERT,
+                        + " --> \nresult : Bulk Insertion failed - CostTypes table - ", BULK_INSERT_RECORDS_TO_INSERT,
                 costTypesCursor.getCount());
 
         costTypesCursor.close();
@@ -2375,7 +2375,7 @@ public class  TestKasebProvider extends AndroidTestCase {
 
         // we should have as many records in the database as we've inserted
         assertEquals("Number of Inserted Rows is not " + BULK_INSERT_RECORDS_TO_INSERT
-        + " --> \nresult : Bulk Insertion failed - Customers table - ", BULK_INSERT_RECORDS_TO_INSERT,
+                        + " --> \nresult : Bulk Insertion failed - Customers table - ", BULK_INSERT_RECORDS_TO_INSERT,
                 customersCursor.getCount());
 
         customersCursor.close();
@@ -2403,7 +2403,7 @@ public class  TestKasebProvider extends AndroidTestCase {
 
         // we should have as many records in the database as we've inserted
         assertEquals("Number of Inserted Rows is not " + BULK_INSERT_RECORDS_TO_INSERT
-        + " --> \nresult : Bulk Insertion failed - Costs table - ", BULK_INSERT_RECORDS_TO_INSERT,
+                        + " --> \nresult : Bulk Insertion failed - Costs table - ", BULK_INSERT_RECORDS_TO_INSERT,
                 costsCursor.getCount());
 
         costsCursor.close();
@@ -2431,7 +2431,7 @@ public class  TestKasebProvider extends AndroidTestCase {
 
         // we should have as many records in the database as we've inserted
         assertEquals("Number of Inserted Rows is not " + BULK_INSERT_RECORDS_TO_INSERT
-                + " --> \nresult : Bulk Insertion failed - PaymentMethods table - ", BULK_INSERT_RECORDS_TO_INSERT,
+                        + " --> \nresult : Bulk Insertion failed - PaymentMethods table - ", BULK_INSERT_RECORDS_TO_INSERT,
                 paymentMethodsCursor.getCount());
 
         paymentMethodsCursor.close();
@@ -2459,7 +2459,7 @@ public class  TestKasebProvider extends AndroidTestCase {
 
         // we should have as many records in the database as we've inserted
         assertEquals("Number of Inserted Rows is not " + BULK_INSERT_RECORDS_TO_INSERT
-                + " --> \nresult : Bulk Insertion failed - TaxTypes table - ", BULK_INSERT_RECORDS_TO_INSERT,
+                        + " --> \nresult : Bulk Insertion failed - TaxTypes table - ", BULK_INSERT_RECORDS_TO_INSERT,
                 taxTypesCursor.getCount());
 
         taxTypesCursor.close();
@@ -2487,7 +2487,7 @@ public class  TestKasebProvider extends AndroidTestCase {
 
         // we should have as many records in the database as we've inserted
         assertEquals("Number of Inserted Rows is not " + BULK_INSERT_RECORDS_TO_INSERT
-        + " --> \nresult : Bulk Insertion failed - Products table - " , BULK_INSERT_RECORDS_TO_INSERT,
+                        + " --> \nresult : Bulk Insertion failed - Products table - ", BULK_INSERT_RECORDS_TO_INSERT,
                 productsCursor.getCount());
 
         productsCursor.close();
@@ -2515,7 +2515,7 @@ public class  TestKasebProvider extends AndroidTestCase {
 
         // we should have as many records in the database as we've inserted
         assertEquals("Number of Inserted Rows is not " + BULK_INSERT_RECORDS_TO_INSERT
-                + " --> \nresult : Bulk Insertion failed - Sales table - ", BULK_INSERT_RECORDS_TO_INSERT,
+                        + " --> \nresult : Bulk Insertion failed - Sales table - ", BULK_INSERT_RECORDS_TO_INSERT,
                 salesCursor.getCount());
 
         salesCursor.close();
@@ -2543,7 +2543,7 @@ public class  TestKasebProvider extends AndroidTestCase {
 
         // we should have as many records in the database as we've inserted
         assertEquals("Number of Inserted Rows is not " + BULK_INSERT_RECORDS_TO_INSERT
-                + " --> \nresult : Bulk Insertion failed - DetailSale table - ", BULK_INSERT_RECORDS_TO_INSERT,
+                        + " --> \nresult : Bulk Insertion failed - DetailSale table - ", BULK_INSERT_RECORDS_TO_INSERT,
                 detailSaleCursor.getCount());
 
         detailSaleCursor.close();
@@ -2571,7 +2571,7 @@ public class  TestKasebProvider extends AndroidTestCase {
 
         // we should have as many records in the database as we've inserted
         assertEquals("Number of Inserted Rows is not " + BULK_INSERT_RECORDS_TO_INSERT
-                + " --> \nresult : Bulk Insertion failed - DetailSalePayments table - ", BULK_INSERT_RECORDS_TO_INSERT,
+                        + " --> \nresult : Bulk Insertion failed - DetailSalePayments table - ", BULK_INSERT_RECORDS_TO_INSERT,
                 detailSalePaymentsCursor.getCount());
 
         detailSalePaymentsCursor.close();

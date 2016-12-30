@@ -11,8 +11,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import mjkarbasian.moshtarimadar.Data.KasebContract;
-import mjkarbasian.moshtarimadar.R;
 import mjkarbasian.moshtarimadar.Helpers.Utility;
+import mjkarbasian.moshtarimadar.R;
 
 /**
  * Created by family on 7/27/2016.
@@ -55,10 +55,11 @@ public class DetailCustomerDash extends Fragment {
 
 
         mCursor = getContext().getContentResolver().query(
-                KasebContract.Sales.customerSales(Long.parseLong(uriCursor.getLastPathSegment())),
-                new String[]{KasebContract.Sales._ID},
-                null,
-                null,
+                KasebContract.Sales.CONTENT_URI,
+                new String[]{
+                        KasebContract.Sales._ID},
+                KasebContract.Sales.COLUMN_IS_DELETED + " = ? and " + KasebContract.Sales.COLUMN_CUSTOMER_ID + " = ? ",
+                new String[]{"0", uriCursor.getLastPathSegment()},
                 null
         );
 

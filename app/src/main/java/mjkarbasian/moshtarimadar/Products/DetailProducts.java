@@ -50,6 +50,7 @@ public class DetailProducts extends Fragment implements LoaderManager.LoaderCall
     Long productId;
     ContentValues productValues = new ContentValues();
     FloatingActionButton fab;
+    MenuItem saveItem;
     private Uri insertUri;
 
     public DetailProducts() {
@@ -109,18 +110,24 @@ public class DetailProducts extends Fragment implements LoaderManager.LoaderCall
                 dialogButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        productHistoryValues.put(KasebContract.ProductHistory.COLUMN_COST, buyPrice.getText().toString());
-                        productHistoryValues.put(KasebContract.ProductHistory.COLUMN_QUANTITY, quantity.getText().toString());
-                        productHistoryValues.put(KasebContract.ProductHistory.COLUMN_SALE_PRICE, salePrice.getText().toString());
-                        productHistoryValues.put(KasebContract.ProductHistory.COLUMN_DATE, buyDate.getText().toString());
-                        productHistoryValues.put(KasebContract.ProductHistory.COLUMN_PRODUCT_ID, productId);
+                        if (CheckForValidityInsertProductHistory(
+                                buyPrice.getText().toString(),
+                                quantity.getText().toString(),
+                                salePrice.getText().toString(),
+                                buyDate.getText().toString())) {
+                            productHistoryValues.put(KasebContract.ProductHistory.COLUMN_COST, buyPrice.getText().toString());
+                            productHistoryValues.put(KasebContract.ProductHistory.COLUMN_QUANTITY, quantity.getText().toString());
+                            productHistoryValues.put(KasebContract.ProductHistory.COLUMN_SALE_PRICE, salePrice.getText().toString());
+                            productHistoryValues.put(KasebContract.ProductHistory.COLUMN_DATE, buyDate.getText().toString());
+                            productHistoryValues.put(KasebContract.ProductHistory.COLUMN_PRODUCT_ID, productId);
 
-                        insertUri = getActivity().getContentResolver().insert(
-                                KasebContract.ProductHistory.CONTENT_URI,
-                                productHistoryValues
-                        );
-                        Toast.makeText(getActivity(), getResources().getString(R.string.msg_insert_succeed), Toast.LENGTH_LONG).show();
-                        dialog.dismiss();
+                            insertUri = getActivity().getContentResolver().insert(
+                                    KasebContract.ProductHistory.CONTENT_URI,
+                                    productHistoryValues
+                            );
+                            Toast.makeText(getActivity(), getResources().getString(R.string.msg_insert_succeed), Toast.LENGTH_LONG).show();
+                            dialog.dismiss();
+                        }
                     }
                 });
 
@@ -136,6 +143,8 @@ public class DetailProducts extends Fragment implements LoaderManager.LoaderCall
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         // Inflate the menu; this adds items to the action bar if it is present.
         inflater.inflate(R.menu.menu_detail_products, menu);
+        saveItem = (MenuItem) menu.findItem(R.id.action_detail_product_save);
+        saveItem.setVisible(isHidden());
     }
 
     @Override
@@ -143,30 +152,34 @@ public class DetailProducts extends Fragment implements LoaderManager.LoaderCall
         switch (item.getItemId()) {
             // Respond to the action bar's Up/Home button
             case R.id.action_detail_product_edit:
+                saveItem.setVisible(isVisible());
                 productName.setEnabled(true);
                 productCode.setEnabled(true);
                 productUnit.setEnabled(true);
                 productDescription.setEnabled(true);
+                fab.show();
 
                 break;
             case R.id.action_detail_product_save:
-                productValues.put(KasebContract.Products.COLUMN_PRODUCT_NAME, productName.getText().toString());
-                productValues.put(KasebContract.Products.COLUMN_PRODUCT_CODE, productCode.getText().toString());
-                productValues.put(KasebContract.Products.COLUMN_UNIT, productUnit.getText().toString());
-                productValues.put(KasebContract.Products.COLUMN_DESCRIPTION, productDescription.getText().toString());
+                if (CheckForValidityEditProduct(productName.getText().toString())) {
+                    productValues.put(KasebContract.Products.COLUMN_PRODUCT_NAME, productName.getText().toString());
+                    productValues.put(KasebContract.Products.COLUMN_PRODUCT_CODE, productCode.getText().toString());
+                    productValues.put(KasebContract.Products.COLUMN_UNIT, productUnit.getText().toString());
+                    productValues.put(KasebContract.Products.COLUMN_DESCRIPTION, productDescription.getText().toString());
 
-                getActivity().getContentResolver().update(
-                        KasebContract.Products.CONTENT_URI,
-                        productValues,
-                        KasebContract.Products._ID + " = ? ",
-                        new String[]{String.valueOf(productId)}
-                );
+                    getActivity().getContentResolver().update(
+                            KasebContract.Products.CONTENT_URI,
+                            productValues,
+                            KasebContract.Products._ID + " = ? ",
+                            new String[]{String.valueOf(productId)}
+                    );
 
-                //just a message to show everything are under control
-                Toast.makeText(getContext(),
-                        getContext().getResources().getString(R.string.msg_update_succeed), Toast.LENGTH_LONG).show();
+                    //just a message to show everything are under control
+                    Toast.makeText(getContext(),
+                            getContext().getResources().getString(R.string.msg_update_succeed), Toast.LENGTH_LONG).show();
 
-
+                    getFragmentManager().popBackStackImmediate();
+                }
                 break;
             case R.id.action_detail_product_share: {
             }
@@ -247,5 +260,49 @@ public class DetailProducts extends Fragment implements LoaderManager.LoaderCall
     public void onLoaderReset(Loader<Cursor> loader) {
         Log.d(LOG_TAG, "onLoadReset");
         mAdapter.swapCursor(null);
+    }
+
+    // this method check the validation and correct entries. its check fill first and then check the validation rules.
+    private boolean CheckForValidityEditProduct(String productName) {
+        if (productName.equals("") || productName.equals(null)) {
+            Toast.makeText(getActivity(), "Choose apropriate name for PRODUCT.", Toast.LENGTH_SHORT).show();
+            return false;
+        } else {
+            Cursor mCursor = getContext().getContentResolver().query(
+                    KasebContract.Products.CONTENT_URI,
+                    new String[]{KasebContract.Products._ID},
+                    KasebContract.Products.COLUMN_PRODUCT_NAME + " = ? and " + KasebContract.Products._ID + " != ? ",
+                    new String[]{productName, String.valueOf(productId)},
+                    null);
+
+            if (mCursor != null) {
+                if (mCursor.moveToFirst())
+                    if (mCursor.getCount() > 0) {
+                        Toast.makeText(getActivity(), "Choose apropriate (Not Itterative) name for PRODUCT.", Toast.LENGTH_SHORT).show();
+                        return false;
+                    }
+            }
+        }
+
+        return true;
+    }
+
+    // this method check the validation and correct entries. its check fill first and then check the validation rules.
+    private boolean CheckForValidityInsertProductHistory(String buyPrice, String quantity, String salePrice, String buyDate) {
+        if (buyPrice.equals("") || buyPrice.equals(null)) {
+            Toast.makeText(getActivity(), "Choose apropriate buy price for PRODUCT.", Toast.LENGTH_SHORT).show();
+            return false;
+        } else if (quantity.equals("") || quantity.equals(null)) {
+            Toast.makeText(getActivity(), "Choose apropriate quantity for PRODUCT.", Toast.LENGTH_SHORT).show();
+            return false;
+        } else if (salePrice.equals("") || salePrice.equals(null)) {
+            Toast.makeText(getActivity(), "Choose apropriate sale price for PRODUCT.", Toast.LENGTH_SHORT).show();
+            return false;
+        } else if (buyDate.equals("") || buyDate.equals(null)) {
+            Toast.makeText(getActivity(), "Choose apropriate buy date for PRODUCT.", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        return true;
     }
 }

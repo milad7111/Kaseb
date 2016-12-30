@@ -51,12 +51,11 @@ public class CustomerAdapter extends CursorAdapter {
                 cursor.getString(cursor.getColumnIndex(KasebContract.Customers.COLUMN_LAST_NAME));
 
         Cursor mCursor = context.getContentResolver().query(
-                KasebContract.Sales.customerSales(
-                        cursor.getLong(cursor.getColumnIndex(KasebContract.Customers._ID))),
+                KasebContract.Sales.CONTENT_URI,
                 new String[]{
                         KasebContract.Sales._ID},
-                null,
-                null,
+                KasebContract.Sales.COLUMN_IS_DELETED + " = ? and " + KasebContract.Sales.COLUMN_CUSTOMER_ID + " = ? ",
+                new String[]{"0", cursor.getString(cursor.getColumnIndex(KasebContract.Customers._ID))},
                 null);
 
         Long totalDue = 0l;
