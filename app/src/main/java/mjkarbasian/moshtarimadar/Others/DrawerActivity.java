@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import mjkarbasian.moshtarimadar.Costs.Costs;
 import mjkarbasian.moshtarimadar.Customers.Customers;
 import mjkarbasian.moshtarimadar.Debaters.Debaters;
+import mjkarbasian.moshtarimadar.Kaseb;
 import mjkarbasian.moshtarimadar.Products.Products;
 import mjkarbasian.moshtarimadar.R;
 import mjkarbasian.moshtarimadar.Sales.Sales;
@@ -31,15 +32,6 @@ public class DrawerActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
-
         mDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, mDrawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -93,6 +85,11 @@ public class DrawerActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
         Intent intent;
+        if (id == R.id.nav_dashboard) {
+            // Handle the camera action
+            intent = new Intent(this, Kaseb.class);
+            startActivity(intent);
+        }
 
         if (id == R.id.nav_customers) {
             // Handle the camera action

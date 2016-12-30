@@ -333,4 +333,18 @@
     <string name="update_button">Update</string>
     <string name="cancel_button">Cancel</string>
     <string name="title_product_description">Description</string>
+    <string name="card_dashboard_customers">Customers Status</string>
+    <string name="card_dashboard_sales">Sales status</string>
+    <string name="card_dashboard_other">Other Important Notes</string>
+    <string name="kaseb_dashboard_customer_qty">total</string>
+    <string name="kaseb_dashboard_customer_qty_gold">Gold</string>
+    <string name="kaseb_dashboard_customer_qty_silver">Silver</string>
+    <string name="kaseb_dashboard_customer_qty_bronze">Bronze</string>
+    <string name="kaseb_dashboard_customer_qty_instart">In start</string>
+    <string name="kaseb_dashboard_sale_total">Total Sale</string>
+    <string name="kaseb_dashboard_others_total_recievables_instart">In Start</string>
+    <string name="kaseb_dashboard_others_total_recievables_bronze">Bronze</string>
+    <string name="kaseb_dashboard_others_total_recievables_silver">Silver</string>
+    <string name="kaseb_dashboard_others_total_recievables_gold">Gold</string>
+    <string name="title_dashboard">Kaseb Dashboard</string>
 </resources>
