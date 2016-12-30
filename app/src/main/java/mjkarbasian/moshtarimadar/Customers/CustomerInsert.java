@@ -72,7 +72,7 @@ public class CustomerInsert extends Fragment {
         addressPostalCode = (EditText) rootView.findViewById(R.id.input_address_postal_code);
 
         Cursor cursor = getContext().getContentResolver().query(KasebContract.State.CONTENT_URI
-                , null, null, null, null);
+                , null, null, null, KasebContract.State._ID + " DESC");
 
         int[] toViews = {
                 android.R.id.text1
@@ -118,7 +118,7 @@ public class CustomerInsert extends Fragment {
                     customerValues.put(KasebContract.Customers.COLUMN_ADDRESS_STREET, addressStreet.getText().toString());
                     customerValues.put(KasebContract.Customers.COLUMN_ADDRESS_POSTAL_CODE, addressPostalCode.getText().toString());
 
-                    customerValues.put(KasebContract.Customers.COLUMN_STATE_ID, stateType.getSelectedItemPosition() + 1);
+                    customerValues.put(KasebContract.Customers.COLUMN_STATE_ID, stateType.getCount()-stateType.getSelectedItemPosition());
                     insertUri = getActivity().getContentResolver().insert(
                             KasebContract.Customers.CONTENT_URI,
                             customerValues

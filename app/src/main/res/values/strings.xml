@@ -336,7 +336,7 @@
     <string name="card_dashboard_customers">Customers Status</string>
     <string name="card_dashboard_sales">Sales status</string>
     <string name="card_dashboard_other">Other Important Notes</string>
-    <string name="kaseb_dashboard_customer_qty">total</string>
+    <string name="kaseb_dashboard_customer_qty">Total Customers</string>
     <string name="kaseb_dashboard_customer_qty_gold">Gold</string>
     <string name="kaseb_dashboard_customer_qty_silver">Silver</string>
     <string name="kaseb_dashboard_customer_qty_bronze">Bronze</string>
@@ -347,4 +347,5 @@
     <string name="kaseb_dashboard_others_total_recievables_silver">Silver</string>
     <string name="kaseb_dashboard_others_total_recievables_gold">Gold</string>
     <string name="title_dashboard">Kaseb Dashboard</string>
+    <string name="kaseb_dashboard_recievables_total">Total Recievables</string>
 </resources>

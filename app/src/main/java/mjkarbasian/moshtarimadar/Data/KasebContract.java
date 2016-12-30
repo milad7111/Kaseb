@@ -152,6 +152,11 @@ public class KasebContract {
         public static Uri customerSales(long customerId) {
             return CONTENT_URI.buildUpon().appendPath("customer_id").appendPath(String.valueOf(customerId)).build();
         }
+
+        //definig a join uri for sale and detailSale content://AUTHORITY/Sales/DetailSale
+        public static Uri saleDetailSaleJoin(){
+            return CONTENT_URI.buildUpon().appendPath(PATH_DETAIL_SALE).build();
+        }
     }
 
     public static final class DetailSale implements BaseColumns {
