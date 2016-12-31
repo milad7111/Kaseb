@@ -82,6 +82,7 @@ public class Sales extends DrawerActivity {
                 (SearchManager) getSystemService(this.SEARCH_SERVICE);
         SearchView searchView =
                 (SearchView) menu.findItem(R.id.search_button).getActionView();
+        searchView.setQueryHint(getResources().getString(R.string.search_title_sale));
         searchView.setSearchableInfo(
                 searchManager.getSearchableInfo(getComponentName()));
         SearchView.OnQueryTextListener queryTextListener = new SearchView.OnQueryTextListener() {

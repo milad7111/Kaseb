@@ -129,4 +129,10 @@ public class KasebDashBoard extends android.support.v4.app.Fragment {
         return rootView;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
+
+
 }
