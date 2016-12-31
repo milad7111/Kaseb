@@ -41,11 +41,6 @@ public class Sales extends DrawerActivity {
             fragmentManager.beginTransaction().replace(R.id.container, costsSaleProductFragment, "CostSaleProductList").commit();
     }
 
-    @Override
-    protected void onStop() {
-        super.onStop();
-        this.finish();
-    }
 
     @Override
     protected void onNewIntent(Intent intent) {

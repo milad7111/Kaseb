@@ -88,31 +88,38 @@ public class DrawerActivity extends AppCompatActivity
         if (id == R.id.nav_dashboard) {
             // Handle the camera action
             intent = new Intent(this, Kaseb.class);
+            finish();
             startActivity(intent);
         }
 
         if (id == R.id.nav_customers) {
             // Handle the camera action
             intent = new Intent(this, Customers.class);
+            finish();
             startActivity(intent);
         } else if (id == R.id.nav_debtors) {
             intent = new Intent(this, Debaters.class);
+            finish();
             startActivity(intent);
 
         } else if (id == R.id.nav_sales) {
             intent = new Intent(this, Sales.class);
+            finish();
             startActivity(intent);
 
         } else if (id == R.id.nav_costs) {
             intent = new Intent(this, Costs.class);
+            finish();
             startActivity(intent);
 
         } else if (id == R.id.nav_products) {
             intent = new Intent(this, Products.class);
+            finish();
             startActivity(intent);
 
         } else if (id == R.id.nav_setting) {
             intent = new Intent(this, MySetting.class);
+            finish();
             startActivity(intent);
 
         } else if (id == R.id.nav_about_us) {
