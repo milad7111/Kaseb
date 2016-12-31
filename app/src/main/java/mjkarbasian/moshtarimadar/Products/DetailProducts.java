@@ -145,6 +145,8 @@ public class DetailProducts extends Fragment implements LoaderManager.LoaderCall
         inflater.inflate(R.menu.menu_detail_products, menu);
         saveItem = (MenuItem) menu.findItem(R.id.action_detail_product_save);
         saveItem.setVisible(isHidden());
+        MenuItem sort = menu.findItem(R.id.sort_button);
+        sort.setVisible(false);
     }
 
     @Override
@@ -181,8 +183,9 @@ public class DetailProducts extends Fragment implements LoaderManager.LoaderCall
                     getFragmentManager().popBackStackImmediate();
                 }
                 break;
-            case R.id.action_detail_product_share: {
-            }
+//            case R.id.action_detail_product_share: {
+//            }
+            default:
             return true;
         }
         return super.onOptionsItemSelected(item);

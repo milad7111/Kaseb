@@ -79,6 +79,7 @@ public class DebatersList extends Fragment implements LoaderManager.LoaderCallba
 
     public void getSearchQuery(String query) {
         searchQuery = query;
+        //add a query to fill in selection arg...
         updateList();
     }
 
