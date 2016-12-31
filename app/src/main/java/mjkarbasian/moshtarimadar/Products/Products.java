@@ -26,12 +26,6 @@ public class Products extends DrawerActivity {
     private String mQuery;
 
     @Override
-    protected void onStop() {
-        super.onStop();
-        this.finish();
-    }
-
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -85,6 +79,7 @@ public class Products extends DrawerActivity {
                 (SearchManager) getSystemService(this.SEARCH_SERVICE);
         SearchView searchView =
                 (SearchView) menu.findItem(R.id.search_button).getActionView();
+        searchView.setQueryHint(getResources().getString(R.string.search_title_products));
         searchView.setSearchableInfo(
                 searchManager.getSearchableInfo(getComponentName()));
         SearchView.OnQueryTextListener queryTextListener = new SearchView.OnQueryTextListener() {

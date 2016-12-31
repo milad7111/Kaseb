@@ -348,4 +348,7 @@
     <string name="kaseb_dashboard_others_total_recievables_gold">Gold</string>
     <string name="title_dashboard">Kaseb Dashboard</string>
     <string name="kaseb_dashboard_recievables_total">Total Recievables</string>
+    <string name="search_title_sale">Enter Sale Code</string>
+    <string name="search_title_products">Enter Product name</string>
+    <string name="search_title_cost">Enter Cost Name</string>
 </resources>
