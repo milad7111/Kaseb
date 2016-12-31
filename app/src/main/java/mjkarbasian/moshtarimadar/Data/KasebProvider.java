@@ -59,6 +59,7 @@ public class KasebProvider extends ContentProvider {
     public static final int PRODUCT_HISTORY_BY_PRODUCT_ID = 310;
     public static final int COSTS_BY_TYPE = 311;
     public static final int DETAIL_SALE_PRODUCT_BY_PRODUCT_ID = 312;
+    public static final int SALE_DETAIL_SALE_JOIN = 400;
     final static String LOG_TAG = KasebProvider.class.getSimpleName();
     private static final UriMatcher sUriMatcher = buildUriMatcher();
     private static final SQLiteQueryBuilder sSalesByCustomerQueryBuilder;
@@ -147,6 +148,7 @@ public class KasebProvider extends ContentProvider {
         uriMatcher.addURI(authority, KasebContract.PATH_PRODUCT_HISTORY + "/product_id/*", PRODUCT_HISTORY_BY_PRODUCT_ID);
         uriMatcher.addURI(authority, KasebContract.PATH_DETAIL_SALE_PRODUCTS + "/product_id/*", DETAIL_SALE_PRODUCT_BY_PRODUCT_ID);
         uriMatcher.addURI(authority, KasebContract.PATH_COSTS + "/cost_type_id/*", COSTS_BY_TYPE);
+        uriMatcher.addURI(authority,KasebContract.PATH_SALES +"/"+KasebContract.PATH_DETAIL_SALE,SALE_DETAIL_SALE_JOIN);
         return uriMatcher;
     }
 
@@ -597,7 +599,7 @@ public class KasebProvider extends ContentProvider {
             //endregion
 
             //region 29 DETAIL_SALE_BY_IS_BALANCED
-            case DETAIL_SALE_BY_IS_BALANCED: {//issue#42
+            case DETAIL_SALE_BY_IS_BALANCED: {
                 String isBalancedId = Utility.getTheLastPathUri(uri);
                 retCursor = sDetailSaleBySaleQueryBuilder.query(
                         mOpenHelper.getReadableDatabase(),
@@ -755,6 +757,21 @@ public class KasebProvider extends ContentProvider {
                         null,
                         sortOrder
                 );
+                break;
+            }
+            //endregion
+
+            //region SALE_DETAIL_SALE_JOIN
+            case SALE_DETAIL_SALE_JOIN:{
+                retCursor = sDetailSaleBySaleQueryBuilder.query(
+                        mOpenHelper.getReadableDatabase(),
+                        projection,
+                        selection,
+                        selectionArgs,
+                        null,
+                        null,
+                        sortOrder);
+
                 break;
             }
             //endregion

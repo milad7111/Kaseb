@@ -57,28 +57,76 @@ public class KasebDashBoard extends android.support.v4.app.Fragment {
             inStartCustomers.setText(String.valueOf(cursor.getCount()));
         }
         //endregion
-
-        //region set Total Sales
+        //region set Total Sales and recievables
         String[] projection = new String[]{"sum(" + KasebContract.DetailSale.TABLE_NAME + "." + KasebContract.DetailSale.COLUMN_TOTAL_DUE + ") as total"};
-        cursor = getContext().getContentResolver().query(KasebContract.DetailSale.CONTENT_URI, projection, null, null, null);
+        String[] recievProj = new String[]{"sum(" + KasebContract.DetailSale.TABLE_NAME + "." + KasebContract.DetailSale.COLUMN_TOTAL_PAID + ") as total"};
+        String selection = KasebContract.Sales.TABLE_NAME + "." + KasebContract.Sales.COLUMN_IS_DELETED + " =? ";
+        String[] selectArg = new String[]{"0"};
         TextView totalSales = (TextView) rootView.findViewById(R.id.kaseb_dashboard_sale_total);
+        TextView totalRecievable = (TextView) rootView.findViewById(R.id.kaseb_dashboard_others_total_recievables);
+
+        Cursor recievCurs = null;
+        cursor = getContext().getContentResolver().query(KasebContract.Sales.saleDetailSaleJoin(), projection, selection, selectArg, null);
+        recievCurs = getContext().getContentResolver().query(KasebContract.Sales.saleDetailSaleJoin(), recievProj, selection, selectArg, null);
+
+        assert cursor != null;
         if (cursor.moveToFirst())
-            totalSales.setText(cursor.getString(0));
-        //endregion
-        //region set Total sales of gold members
-        TextView totalSalesGold = (TextView) rootView.findViewById(R.id.kaseb_dashboard_Sale_total_gold);
+            totalSales.setText(cursor.getString(0) == null ? "0" : cursor.getString(0));
+        assert recievCurs != null;
+        if(recievCurs.moveToFirst())
+            totalRecievable.setText(recievCurs.getString(0)==null?cursor.getString(0):String.valueOf(cursor.getLong(0) - recievCurs.getLong(0)));
 
         //endregion
+        //region defining views
+        TextView totalSalesGold = (TextView) rootView.findViewById(R.id.kaseb_dashboard_Sale_total_gold);
         TextView totalSalesSilver = (TextView) rootView.findViewById(R.id.kaseb_dashboard_Sale_total_silver);
         TextView totalSalesBronze = (TextView) rootView.findViewById(R.id.kaseb_dashboard_Sale_total_bronze);
         TextView totalSalesInStart = (TextView) rootView.findViewById(R.id.kaseb_dashboard_Sale_total_instart);
-        //endregion
-        TextView totalRecievable = (TextView) rootView.findViewById(R.id.kaseb_dashboard_others_total_recievables);
         TextView totalRecievableGold = (TextView) rootView.findViewById(R.id.kaseb_dashboard_others_total_recievables_gold);
         TextView totalRecievableSilver = (TextView) rootView.findViewById(R.id.kaseb_dashboard_others_total_recievables_silver);
         TextView totalRecievableBronze = (TextView) rootView.findViewById(R.id.kaseb_dashboard_others_total_recievables_bronze);
         TextView totalRecievableInStart = (TextView) rootView.findViewById(R.id.kaseb_dashboard_others_total_recievables_instart);
+        //endregion defining views
+        //region defining variables
+        selection = KasebContract.Sales.TABLE_NAME + "." + KasebContract.Sales.COLUMN_IS_DELETED + " =? " + " AND " +
+                KasebContract.Sales.COLUMN_CUSTOMER_ID + " =?";
+        //iterate for 4 main customer state. i represent state id of gold,silver,bronze and in start
+        Long[] totalDue = new Long[4];
+        Long[] totalPaid = new Long[4];
+        Cursor customerCurs = null;
+        //endregion defining variables
+        //region set memberships due and recievables
+        for (int i = 0; i < 4; i++) {
+            totalDue[i] = 0l;
+            totalPaid[i] = 0l;
+            customerCurs = getContext().getContentResolver().query(KasebContract.Customers.CONTENT_URI, null,
+                    KasebContract.Customers.COLUMN_STATE_ID + " = ?", new String[]{String.valueOf(i)}, null);
+            assert customerCurs != null;
+            while (customerCurs.moveToNext()) {
+                selectArg = new String[]{"0", customerCurs.getString(customerCurs.getColumnIndex(KasebContract.Customers._ID))};
+                cursor = getContext().getContentResolver().query(KasebContract.Sales.saleDetailSaleJoin(), projection, selection, selectArg, null);
+                recievCurs = getContext().getContentResolver().query(KasebContract.Sales.saleDetailSaleJoin(), recievProj, selection, selectArg, null);
+                if (cursor.moveToFirst())
+                    totalDue[i] += cursor.getLong(0);
+                if (recievCurs.moveToFirst())
+                    totalPaid[i] += recievCurs.getLong(0);
+            }
+        }
+        //region setViews of membership
+        totalSalesGold.setText(totalDue[0] ==null?"0":String.valueOf(totalDue[0]));
+        totalSalesSilver.setText(totalDue[1] == null ? "0" : String.valueOf(totalDue[1]));
+        totalSalesBronze.setText(totalDue[2] ==null?"0":String.valueOf(totalDue[2]));
+        totalSalesInStart.setText(totalDue[3] ==null?"0":String.valueOf(totalDue[3]));
+        totalRecievableGold.setText(totalDue[0]==null?"0":String.valueOf(totalDue[0] - totalPaid[0]));
+        totalRecievableSilver.setText(totalDue[1] ==null?"0":String.valueOf(totalDue[1] - totalPaid[1]));
+        totalRecievableBronze.setText(totalDue[2] ==null?"0":String.valueOf(totalDue[2] - totalPaid[2]));
+        totalRecievableInStart.setText(totalDue[3] ==null?"0":String.valueOf(totalDue[3] - totalPaid[3]));
+        //endregion
+
+        recievCurs.close();
+        customerCurs.close();
         cursor.close();
         return rootView;
     }
+
 }
