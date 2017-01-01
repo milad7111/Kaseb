@@ -4,9 +4,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-
-    <!--android:layout_width="fill_parent"-->
-    <!--android:layout_height="fill_parent"-->
     <ScrollView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content">
@@ -15,6 +12,18 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center">
+
+                <ImageView
+                    android:id="@+id/fragment_customer_insert_picture"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:src="@drawable/kaseb_pic" />
+            </RelativeLayout>
 
             <EditText
                 android:id="@+id/input_first_name"
@@ -60,7 +69,7 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/hint_description"
                 android:inputType="text"
-                android:maxLength="15" />
+                android:maxLength="50" />
 
             <EditText
                 android:id="@+id/input_email"

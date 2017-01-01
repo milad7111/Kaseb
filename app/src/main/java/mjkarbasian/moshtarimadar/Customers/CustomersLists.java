@@ -50,7 +50,7 @@ public class CustomersLists extends Fragment implements LoaderManager.LoaderCall
                 KasebContract.Customers.COLUMN_FIRST_NAME,
                 KasebContract.Customers.COLUMN_LAST_NAME,
                 KasebContract.Customers.COLUMN_STATE_ID,
-                KasebContract.Customers.COLUMN_STATE_ID};
+                KasebContract.Customers.COLUMN_CUSTOMER_PICTURE};
 
         super.onCreate(savedInstanceState);
     }
