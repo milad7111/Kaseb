@@ -192,8 +192,8 @@
     <string name="hint_sale_price">Sale Price</string>
     <string name="hint_date">Buy Date: yy-mm-dd</string>
     <string name="hint_product_history_save">Save</string>
-    <string name="hint_buy_price_discount_amount">Discount Amount</string>
-    <string name="hint_buy_price_discount_percent">Discount Percent</string>
+    <string name="hint_buy_price_discount_amount">Discount Amount For Just One Item</string>
+    <string name="hint_buy_price_discount_percent">Discount Percent For Just One Item</string>
     <!-- Sale&DetailSaleInsert -->
     <string name="title_add_product_for_sale">Choose Your Product ...</string>
     <string name="title_add_product_history">Product History</string>

@@ -50,6 +50,7 @@ public class CustomerAdapter extends CursorAdapter {
             public void onClick(View v) {
                 Customers customersActivity = (Customers) context;
                 customersActivity.pic_selector(imageViewAvatar,_id);
+
             }
         });
 

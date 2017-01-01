@@ -11,6 +11,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -34,6 +36,17 @@ public class DetailProducts extends Fragment implements LoaderManager.LoaderCall
 
     final static int FRAGMENT_PRODUCT_HISTORY_LOADER = 5;
     private final String LOG_TAG = DetailProducts.class.getSimpleName();
+    private Uri insertUri;
+    String[] mProjection;
+    Cursor mCursor;
+    ListView mListView;
+    DetailProductAdapter mAdapter = null;
+    Long productId;
+    FloatingActionButton fab;
+
+    ContentValues productHistoryValues = new ContentValues();
+    ContentValues productValues = new ContentValues();
+
     EditText productName;
     EditText productCode;
     EditText productUnit;
@@ -42,16 +55,11 @@ public class DetailProducts extends Fragment implements LoaderManager.LoaderCall
     EditText quantity;
     EditText salePrice;
     EditText buyDate;
-    ContentValues productHistoryValues = new ContentValues();
-    String[] mProjection;
-    Cursor mCursor;
-    ListView mListView;
-    DetailProductAdapter mAdapter = null;
-    Long productId;
-    ContentValues productValues = new ContentValues();
-    FloatingActionButton fab;
+    EditText discountAmount;
+    EditText discountPercent;
+
     MenuItem saveItem;
-    private Uri insertUri;
+    MenuItem editItem;
 
     public DetailProducts() {
         super();
@@ -99,13 +107,80 @@ public class DetailProducts extends Fragment implements LoaderManager.LoaderCall
                         , R.layout.dialog_add_product_history
                         , R.string.title_add_product_history);
 
+                //region Declare Views
                 buyPrice = (EditText) dialog.findViewById(R.id.add_product_history_buy_price);
                 quantity = (EditText) dialog.findViewById(R.id.add_product_history_quantity);
                 salePrice = (EditText) dialog.findViewById(R.id.add_product_history_sale_price);
                 buyDate = (EditText) dialog.findViewById(R.id.add_product_history_buy_date);
+                discountAmount = (EditText) dialog.findViewById(R.id.add_product_history_discount_amount);
+                discountPercent = (EditText) dialog.findViewById(R.id.add_product_history_discount_percent);
+                //endregion Declare Views
+
                 buyDate.setText(Utility.preInsertDate(getActivity()));
 
-                Button dialogButton = (Button) dialog.findViewById(R.id.add_product_history_button1);
+                discountAmount.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence s, int start, int before, int count) {
+                        try {
+                            Float mDiscountAmount = Float.valueOf(discountAmount.getText().toString());
+                            Float mBuyPrice = Float.valueOf(buyPrice.getText().toString());
+
+                            if (mDiscountAmount > mBuyPrice)
+                                discountAmount.setText(buyPrice.getText().toString());
+                        } catch (Exception e) {
+                            salePrice.setText("");
+                        }
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable s) {
+                        try {
+                            Float mDiscountAmount = Float.valueOf(discountAmount.getText().toString());
+                            Float mBuyPrice = Float.valueOf(buyPrice.getText().toString());
+
+                            salePrice.setText(String.format("%.0f", Float.valueOf(mBuyPrice - mDiscountAmount)));
+                        } catch (Exception e) {
+                            salePrice.setText("");
+                        }
+                    }
+                });
+
+                discountPercent.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence s, int start, int before, int count) {
+                        try {
+                            Float mDiscountPercent = Float.valueOf(discountPercent.getText().toString());
+
+                            if (mDiscountPercent > 100)
+                                discountPercent.setText("100");
+                        } catch (Exception e) {
+                            salePrice.setText("");
+                        }
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable s) {
+                        try {
+                            Float mDiscountPercent = Float.valueOf(discountPercent.getText().toString());
+                            Float mBuyPrice = Float.valueOf(buyPrice.getText().toString());
+
+                            salePrice.setText(String.format("%.0f", Float.valueOf((100 - mDiscountPercent) * mBuyPrice / 100)));
+                        } catch (Exception e) {
+                            salePrice.setText("");
+                        }
+                    }
+                });
+
+                //region button save
+                Button dialogButton = (Button) dialog.findViewById(R.id.add_product_history_save);
 
                 dialogButton.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -130,6 +205,7 @@ public class DetailProducts extends Fragment implements LoaderManager.LoaderCall
                         }
                     }
                 });
+                //endregion button save
 
                 dialog.show();
             }
@@ -144,6 +220,7 @@ public class DetailProducts extends Fragment implements LoaderManager.LoaderCall
         // Inflate the menu; this adds items to the action bar if it is present.
         inflater.inflate(R.menu.menu_detail_products, menu);
         saveItem = (MenuItem) menu.findItem(R.id.action_detail_product_save);
+        editItem = (MenuItem) menu.findItem(R.id.action_detail_product_edit);
         saveItem.setVisible(isHidden());
         MenuItem sort = menu.findItem(R.id.sort_button);
         sort.setVisible(false);
@@ -155,6 +232,8 @@ public class DetailProducts extends Fragment implements LoaderManager.LoaderCall
             // Respond to the action bar's Up/Home button
             case R.id.action_detail_product_edit:
                 saveItem.setVisible(isVisible());
+                editItem.setVisible(isHidden());
+
                 productName.setEnabled(true);
                 productCode.setEnabled(true);
                 productUnit.setEnabled(true);
@@ -164,6 +243,9 @@ public class DetailProducts extends Fragment implements LoaderManager.LoaderCall
                 break;
             case R.id.action_detail_product_save:
                 if (CheckForValidityEditProduct(productName.getText().toString())) {
+                    editItem.setVisible(isVisible());
+                    saveItem.setVisible(isHidden());
+
                     productValues.put(KasebContract.Products.COLUMN_PRODUCT_NAME, productName.getText().toString());
                     productValues.put(KasebContract.Products.COLUMN_PRODUCT_CODE, productCode.getText().toString());
                     productValues.put(KasebContract.Products.COLUMN_UNIT, productUnit.getText().toString());
@@ -180,7 +262,7 @@ public class DetailProducts extends Fragment implements LoaderManager.LoaderCall
                     Toast.makeText(getContext(),
                             getContext().getResources().getString(R.string.msg_update_succeed), Toast.LENGTH_LONG).show();
 
-                    getFragmentManager().popBackStackImmediate();
+//                    getFragmentManager().popBackStackImmediate();
                 }
                 break;
 //            case R.id.action_detail_product_share: {

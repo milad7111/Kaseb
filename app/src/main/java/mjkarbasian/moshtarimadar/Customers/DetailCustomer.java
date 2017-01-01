@@ -3,6 +3,7 @@ package mjkarbasian.moshtarimadar.Customers;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
@@ -16,6 +17,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import mjkarbasian.moshtarimadar.Adapters.DetailCustomerAdapter;
@@ -27,6 +29,7 @@ import mjkarbasian.moshtarimadar.R;
 public class DetailCustomer extends AppCompatActivity {
     Toolbar mToolbar;
     MenuItem saveItem;
+    MenuItem editItem;
     ContentValues customerValues = new ContentValues();
 
     String[] mProjection;
@@ -51,6 +54,9 @@ public class DetailCustomer extends AppCompatActivity {
     EditText customerAddressStreet;
     EditText customerAddressPostalCode;
 
+    ImageView mCustomerAvatar;
+    byte[] imagegBytes;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,7 +76,8 @@ public class DetailCustomer extends AppCompatActivity {
                 KasebContract.Customers._ID,
                 KasebContract.Customers.COLUMN_FIRST_NAME,
                 KasebContract.Customers.COLUMN_LAST_NAME,
-                KasebContract.Customers.COLUMN_STATE_ID};
+                KasebContract.Customers.COLUMN_STATE_ID,
+                KasebContract.Customers.COLUMN_CUSTOMER_PICTURE};
 
         Cursor customerCursor = getBaseContext().getContentResolver().query(
                 uri,
@@ -86,6 +93,7 @@ public class DetailCustomer extends AppCompatActivity {
                 nameCustomer = customerCursor.getString(customerCursor.getColumnIndex(KasebContract.Customers.COLUMN_FIRST_NAME));
                 familyCustomer = customerCursor.getString(customerCursor.getColumnIndex(KasebContract.Customers.COLUMN_LAST_NAME));
                 mStateId = customerCursor.getInt(customerCursor.getColumnIndex(KasebContract.Customers.COLUMN_STATE_ID));
+                imagegBytes = customerCursor.getBlob(customerCursor.getColumnIndex(KasebContract.Customers.COLUMN_CUSTOMER_PICTURE));
 
                 ((CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar_layout))
                         .setTitle(nameCustomer + "  " + familyCustomer);
@@ -133,6 +141,20 @@ public class DetailCustomer extends AppCompatActivity {
         customerAddressCity = (EditText) findViewById(R.id.customer_address_city);
         customerAddressStreet = (EditText) findViewById(R.id.customer_address_street);
         customerAddressPostalCode = (EditText) findViewById(R.id.customer_address_postal_code);
+
+
+        mCustomerAvatar = (ImageView) findViewById(R.id.image_toolbar);
+
+        try {
+            if (imagegBytes.length == 0)
+                mCustomerAvatar.setImageDrawable(getBaseContext().getResources().getDrawable(
+                        getBaseContext().getResources().getIdentifier("@drawable/kaseb_pic", null, getPackageName())));
+            else {
+                mCustomerAvatar.setImageBitmap(BitmapFactory.decodeByteArray(imagegBytes, 0, imagegBytes.length));
+            }
+        } catch (Exception e) {
+        }
+
     }
 
     @Override
@@ -141,6 +163,7 @@ public class DetailCustomer extends AppCompatActivity {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_detail_customer, menu);
         saveItem = (MenuItem) menu.findItem(R.id.item_save_customer);
+        editItem = (MenuItem) menu.findItem(R.id.item_edit_customer);
         saveItem.setVisible(false);
 
         customerFirstName = (EditText) findViewById(R.id.customer_first_name);
@@ -187,6 +210,9 @@ public class DetailCustomer extends AppCompatActivity {
                         customerLastName.getText().toString(),
                         customerPhoneMobile.getText().toString()
                 )) {
+                    saveItem.setVisible(false);
+                    editItem.setVisible(true);
+
                     customerValues.put(KasebContract.Customers.COLUMN_FIRST_NAME, customerFirstName.getText().toString());
                     customerValues.put(KasebContract.Customers.COLUMN_LAST_NAME, customerLastName.getText().toString());
                     customerValues.put(KasebContract.Customers.COLUMN_BIRTHDAY, customerBirthDay.getText().toString());
@@ -212,12 +238,11 @@ public class DetailCustomer extends AppCompatActivity {
                     //just a message to show everything are under control
                     Toast.makeText(getBaseContext(), getBaseContext().getResources().getString(R.string.msg_update_succeed),
                             Toast.LENGTH_LONG).show();
-
-                    finish();
                 }
                 break;
             case R.id.item_edit_customer:
                 saveItem.setVisible(true);
+                editItem.setVisible(false);
 
                 customerFirstName = (EditText) findViewById(R.id.customer_first_name);
                 customerLastName = (EditText) findViewById(R.id.customer_last_name);
