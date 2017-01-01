@@ -58,7 +58,7 @@ public class CustomerAdapter extends CursorAdapter {
             public boolean onLongClick(View v) {
                 if (imagegBytes.length == 0)
                     return false;
-                else  {
+                else {
                     Customers customersActivity = (Customers) context;
                     customersActivity.pic_deleter(imageViewAvatar, _id);
 
@@ -67,11 +67,14 @@ public class CustomerAdapter extends CursorAdapter {
             }
         });
 
-        if (imagegBytes.length == 0)
-            imageViewAvatar.setImageDrawable(context.getResources().getDrawable(
-                    context.getResources().getIdentifier("@drawable/kaseb_pic", null, context.getPackageName())));
-        else {
-            imageViewAvatar.setImageBitmap(BitmapFactory.decodeByteArray(imagegBytes, 0, imagegBytes.length));
+        try {
+            if (imagegBytes.length == 0)
+                imageViewAvatar.setImageDrawable(context.getResources().getDrawable(
+                        context.getResources().getIdentifier("@drawable/kaseb_pic", null, context.getPackageName())));
+            else {
+                imageViewAvatar.setImageBitmap(BitmapFactory.decodeByteArray(imagegBytes, 0, imagegBytes.length));
+            }
+        } catch (Exception e) {
         }
 
         String selection = KasebContract.State._ID + " = ?";
