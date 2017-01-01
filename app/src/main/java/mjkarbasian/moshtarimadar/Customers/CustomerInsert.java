@@ -1,7 +1,13 @@
 package mjkarbasian.moshtarimadar.Customers;
 
+import android.app.Activity;
+import android.content.ActivityNotFoundException;
 import android.content.ContentValues;
+import android.content.Intent;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -12,20 +18,26 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+
 import mjkarbasian.moshtarimadar.Adapters.TypesSettingAdapter;
 import mjkarbasian.moshtarimadar.Data.KasebContract;
+import mjkarbasian.moshtarimadar.Helpers.GalleryUtil;
 import mjkarbasian.moshtarimadar.Helpers.Utility;
 import mjkarbasian.moshtarimadar.R;
-
 
 /**
  * Created by Unique on 10/21/2016.
  */
 public class CustomerInsert extends Fragment {
 
+    private static final int GALLERY_ACTIVITY_CODE = 200;
+    private static final int RESULT_CROP = 400;
     EditText firstName;
     EditText lastName;
     EditText birthDay;
@@ -43,7 +55,9 @@ public class CustomerInsert extends Fragment {
     EditText addressPostalCode;
     View rootView;
     ContentValues customerValues = new ContentValues();
+    ImageView mCustomerAvatar;
     private Uri insertUri;
+    Bitmap photo;
 
     public CustomerInsert() {
         setHasOptionsMenu(true);
@@ -54,6 +68,15 @@ public class CustomerInsert extends Fragment {
                              Bundle savedInstanceState) {
 
         rootView = inflater.inflate(R.layout.fragment_customer_insert, container, false);
+
+        mCustomerAvatar = (ImageView) rootView.findViewById(R.id.fragment_customer_insert_picture);
+
+        mCustomerAvatar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pic_selector_on_customer_insert(mCustomerAvatar);
+            }
+        });
 
         stateType = (Spinner) rootView.findViewById(R.id.input_state_type_spinner);
         firstName = (EditText) rootView.findViewById(R.id.input_first_name);
@@ -81,7 +104,8 @@ public class CustomerInsert extends Fragment {
                 KasebContract.State.COLUMN_STATE_POINTER
         };
 
-        TypesSettingAdapter cursorAdapter = new TypesSettingAdapter(getActivity(), cursor, 0, KasebContract.State.COLUMN_STATE_POINTER);
+        TypesSettingAdapter cursorAdapter = new TypesSettingAdapter(
+                getActivity(), cursor, 0, KasebContract.State.COLUMN_STATE_POINTER);
         stateType.setAdapter(cursorAdapter);
         return rootView;
     }
@@ -118,7 +142,7 @@ public class CustomerInsert extends Fragment {
                     customerValues.put(KasebContract.Customers.COLUMN_ADDRESS_STREET, addressStreet.getText().toString());
                     customerValues.put(KasebContract.Customers.COLUMN_ADDRESS_POSTAL_CODE, addressPostalCode.getText().toString());
 
-                    customerValues.put(KasebContract.Customers.COLUMN_STATE_ID, stateType.getCount()-stateType.getSelectedItemPosition());
+                    customerValues.put(KasebContract.Customers.COLUMN_STATE_ID, stateType.getCount() - stateType.getSelectedItemPosition());
                     insertUri = getActivity().getContentResolver().insert(
                             KasebContract.Customers.CONTENT_URI,
                             customerValues
@@ -187,5 +211,70 @@ public class CustomerInsert extends Fragment {
     private void backToLastPage() {
         Utility.clearForm((ViewGroup) rootView);
         getFragmentManager().popBackStackImmediate();
+    }
+
+    public void pic_selector_on_customer_insert(View view) {
+        mCustomerAvatar = (ImageView) view;
+        Intent gallery_Intent = new Intent(getContext(), GalleryUtil.class);
+        startActivityForResult(gallery_Intent, GALLERY_ACTIVITY_CODE);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == GALLERY_ACTIVITY_CODE) {
+            if (resultCode == Activity.RESULT_OK) {
+                String picturePath = data.getStringExtra("picturePath");
+                //perform Crop on the Image Selected from Gallery
+                performCrop(picturePath);
+            }
+        }
+        if (requestCode == RESULT_CROP) {
+            if (resultCode == Activity.RESULT_OK) {
+                if (data.getExtras() != null) {
+                    photo = data.getExtras().getParcelable("data");
+                    mCustomerAvatar.setImageBitmap(photo);
+
+                    ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                    photo.compress(Bitmap.CompressFormat.PNG, 0, byteArrayOutputStream);
+                    byte[] imagegBytes = byteArrayOutputStream.toByteArray();
+
+                    customerValues.put(KasebContract.Customers.COLUMN_CUSTOMER_PICTURE, imagegBytes);
+                }
+            }
+        }
+    }
+
+    private void performCrop(String picUri) {
+        try {
+            //Start Crop Activity
+
+            Intent cropIntent = new Intent("com.android.camera.action.CROP");
+            // indicate image type and Uri
+            File f = new File(picUri);
+            Uri contentUri = Uri.fromFile(f);
+
+            cropIntent.setDataAndType(contentUri, "image/*");
+            // set crop properties
+            cropIntent.putExtra("crop", "true");
+            // indicate aspect of desired crop
+            cropIntent.putExtra("aspectX", 1);
+            cropIntent.putExtra("aspectY", 1);
+            // indicate output X and Y
+            cropIntent.putExtra("outputX", 280);
+            cropIntent.putExtra("outputY", 280);
+
+            // retrieve data on return
+            cropIntent.putExtra("return-data", true);
+            // start the activity - we handle returning in onActivityResult
+            startActivityForResult(cropIntent, RESULT_CROP);
+        }
+        // respond to users whose devices do not support the crop action
+        catch (ActivityNotFoundException anfe) {
+            // display an error message
+            String errorMessage = "your device doesn't support the crop action!";
+            Toast toast = Toast.makeText(getActivity(), errorMessage, Toast.LENGTH_SHORT);
+            toast.show();
+        }
     }
 }

@@ -1,10 +1,15 @@
 package mjkarbasian.moshtarimadar.Customers;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.SearchManager;
 import android.content.ActivityNotFoundException;
+import android.content.ContentValues;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -17,10 +22,11 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 
+import mjkarbasian.moshtarimadar.Data.KasebContract;
 import mjkarbasian.moshtarimadar.Helpers.GalleryUtil;
-import mjkarbasian.moshtarimadar.Helpers.Samples;
 import mjkarbasian.moshtarimadar.Others.DrawerActivity;
 import mjkarbasian.moshtarimadar.R;
 
@@ -34,6 +40,8 @@ public class Customers extends DrawerActivity {
     ImageView mCustomerAvatar;
     Fragment customersFragment = new CustomersLists();
     Fragment customerInsert = new CustomerInsert();
+    Bitmap photo;
+    Long customerId;
 
 
     android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
@@ -57,7 +65,6 @@ public class Customers extends DrawerActivity {
             fragmentManager.beginTransaction().replace(R.id.container, customersFragment, "customersList").commit();
         }
         //endregion
-
     }
 
     @Override
@@ -133,8 +140,9 @@ public class Customers extends DrawerActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void pic_selector(View view) {
+    public void pic_selector(View view, Long _customerId) {
         mCustomerAvatar = (ImageView) view;
+        customerId = _customerId;
         Intent gallery_Intent = new Intent(getApplicationContext(), GalleryUtil.class);
         startActivityForResult(gallery_Intent, GALLERY_ACTIVITY_CODE);
     }
@@ -151,10 +159,23 @@ public class Customers extends DrawerActivity {
         }
         if (requestCode == RESULT_CROP) {
             if (resultCode == Activity.RESULT_OK) {
-                Uri imageUri = data.getData();
-                Samples.customerAvatar.add(imageUri);
-                mCustomerAvatar.setImageURI(imageUri);
-                // Set The Bitmap Data To ImageView
+                if (data.getExtras() != null) {
+                    photo = data.getExtras().getParcelable("data");
+                    mCustomerAvatar.setImageBitmap(photo);
+
+                    ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                    photo.compress(Bitmap.CompressFormat.PNG, 0, byteArrayOutputStream);
+                    byte[] imagegBytes = byteArrayOutputStream.toByteArray();
+
+                    ContentValues customerValues = new ContentValues();
+                    customerValues.put(KasebContract.Customers.COLUMN_CUSTOMER_PICTURE, imagegBytes);
+
+                    getBaseContext().getContentResolver().update(
+                            KasebContract.Customers.CONTENT_URI,
+                            customerValues,
+                            KasebContract.Customers._ID + " = ? ",
+                            new String[]{String.valueOf(customerId)});
+                }
             }
         }
     }
@@ -192,5 +213,49 @@ public class Customers extends DrawerActivity {
         }
     }
 
+    public void pic_deleter(final View view, final Long _customerId) {
+        customerId = _customerId;
 
+        Cursor mCursor = getContentResolver().query(
+                KasebContract.Customers.CONTENT_URI,
+                new String[]{
+                        KasebContract.Customers.COLUMN_FIRST_NAME,
+                        KasebContract.Customers.COLUMN_LAST_NAME},
+                KasebContract.Customers._ID + " = ? ",
+                new String[]{String.valueOf(customerId)},
+                null);
+
+        String infoCustomer = null;
+        if (mCursor != null)
+            if (mCursor.moveToFirst())
+                infoCustomer = mCursor.getString(mCursor.getColumnIndex(KasebContract.Customers.COLUMN_FIRST_NAME)) + "   " +
+                        mCursor.getString(mCursor.getColumnIndex(KasebContract.Customers.COLUMN_LAST_NAME));
+
+        mCursor.close();
+
+        new AlertDialog.Builder(this)
+                .setTitle("Confirmation ...")
+                .setMessage("Do You Really Want to Delete This Customer's Image?\n\nCustomer Name : " + infoCustomer)
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        mCustomerAvatar = (ImageView) view;
+
+                        ContentValues customerValues = new ContentValues();
+                        customerValues.put(KasebContract.Customers.COLUMN_CUSTOMER_PICTURE, new byte[]{});
+
+                        getBaseContext().getContentResolver().update(
+                                KasebContract.Customers.CONTENT_URI,
+                                customerValues,
+                                KasebContract.Customers._ID + " = ? ",
+                                new String[]{String.valueOf(customerId)});
+                    }
+                })
+                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                    }
+                }).show();
+    }
 }

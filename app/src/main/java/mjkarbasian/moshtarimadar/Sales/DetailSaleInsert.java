@@ -559,11 +559,7 @@ public class DetailSaleInsert extends AppCompatActivity {
             public void onClick(View v) {
                 paymentMapRow.put("amount", paymentAmount.getText().toString());
                 paymentMapRow.put("duedate", paymentDueDate.getText().toString());
-                if (!paymentMapRow.get("type").equals("Cheque"))
-                    paymentMapRow.put("isPass", "true");
-                else
-                    paymentMapRow.put("isPass", String.valueOf(isPassCheckBox.isChecked()));
-
+                paymentMapRow.put("isPass", String.valueOf(isPassCheckBox.isChecked()));
                 mPaymentListMap.add(paymentMapRow);
                 mCardViewPayments.getPaymentAdapter(mPaymentListMap);
 

@@ -3,19 +3,19 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/edit"
+        android:id="@+id/menu_detail_sale_view_edit"
         android:icon="@drawable/edit"
         android:title="@string/edit"
         app:showAsAction="always" />
 
     <item
-        android:id="@+id/save"
+        android:id="@+id/menu_detail_sale_view_save"
         android:icon="@drawable/save"
         android:title="@string/save"
         app:showAsAction="always" />
 
     <item
-        android:id="@+id/print_button"
+        android:id="@+id/menu_detail_sale_view_print"
         android:icon="@drawable/printer"
         android:title="@string/print_button"
         app:showAsAction="always" />

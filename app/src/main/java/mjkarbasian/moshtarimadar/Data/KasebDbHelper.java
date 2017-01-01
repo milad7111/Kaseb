@@ -46,7 +46,7 @@ public class KasebDbHelper extends SQLiteOpenHelper {
                 KasebContract.Customers.COLUMN_ADDRESS_STREET + " TEXT," +
                 KasebContract.Customers.COLUMN_ADDRESS_POSTAL_CODE + " TEXT," +
                 KasebContract.Customers.COLUMN_DESCRIPTION + " TEXT," +
-                KasebContract.Customers.COLUMN_CUSTOMER_PICTURE + " BLOB," +
+                KasebContract.Customers.COLUMN_CUSTOMER_PICTURE + " LONGBLOB," +
                 KasebContract.Customers.COLUMN_IS_DELETED + " BOOLEAN NOT NULL DEFAULT 0," +
                 KasebContract.Customers.COLUMN_STATE_ID + " INTEGER NOT NULL DEFAULT 4," +
                 " FOREIGN KEY (" + KasebContract.Customers.COLUMN_STATE_ID + ") REFERENCES " +

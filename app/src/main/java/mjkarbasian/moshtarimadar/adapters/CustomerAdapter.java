@@ -2,6 +2,7 @@ package mjkarbasian.moshtarimadar.Adapters;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,7 @@ import android.widget.CursorAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import mjkarbasian.moshtarimadar.Customers.Customers;
 import mjkarbasian.moshtarimadar.Data.KasebContract;
 import mjkarbasian.moshtarimadar.Helpers.Utility;
 import mjkarbasian.moshtarimadar.R;
@@ -34,10 +36,50 @@ public class CustomerAdapter extends CursorAdapter {
     }
 
     @Override
-    public void bindView(View view, Context context, Cursor cursor) {
+    public void bindView(View view, final Context context, Cursor cursor) {
         TextView textViewName = (TextView) view.findViewById(R.id.item_list_customer_name);
         TextView textViewAmount = (TextView) view.findViewById(R.id.item_list_purchase_amount);
         ImageView imageViewState = (ImageView) view.findViewById(R.id.item_list_customer_state);
+        final ImageView imageViewAvatar = (ImageView) view.findViewById(R.id.item_list_customer_avatar);
+
+        final Long _id = cursor.getLong(cursor.getColumnIndex(KasebContract.Customers._ID));
+        final byte[] imagegBytes = cursor.getBlob(cursor.getColumnIndex(KasebContract.Customers.COLUMN_CUSTOMER_PICTURE));
+
+        imageViewAvatar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Customers customersActivity = (Customers) context;
+                customersActivity.pic_selector(imageViewAvatar, _id);
+            }
+        });
+
+        imageViewAvatar.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                try {
+                    if (imagegBytes.length == 0)
+                        return false;
+                    else {
+                        Customers customersActivity = (Customers) context;
+                        customersActivity.pic_deleter(imageViewAvatar, _id);
+
+                        return true;
+                    }
+                }catch (Exception e){
+                    return false;
+                }
+            }
+        });
+
+        try {
+            if (imagegBytes.length == 0)
+                imageViewAvatar.setImageDrawable(context.getResources().getDrawable(
+                        context.getResources().getIdentifier("@drawable/kaseb_pic", null, context.getPackageName())));
+            else {
+                imageViewAvatar.setImageBitmap(BitmapFactory.decodeByteArray(imagegBytes, 0, imagegBytes.length));
+            }
+        } catch (Exception e) {
+        }
 
         String selection = KasebContract.State._ID + " = ?";
         String[] selecArg = new String[]{String.valueOf(cursor.getInt(cursor.getColumnIndex(KasebContract.Customers.COLUMN_STATE_ID)))};

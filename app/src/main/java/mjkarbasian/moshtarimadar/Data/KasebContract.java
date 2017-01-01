@@ -93,7 +93,7 @@ public class KasebContract {
         public static final String COLUMN_ADDRESS_CITY = "address_city";
         public static final String COLUMN_ADDRESS_STREET = "address_street";
         public static final String COLUMN_ADDRESS_POSTAL_CODE = "address_postal_code";
-        public static final String COLUMN_CUSTOMER_PICTURE = "cusomer_picture";
+        public static final String COLUMN_CUSTOMER_PICTURE = "customer_picture";
 
         //Defining Uri Maker functions : content://AUTHORITY/customers/id
         public static Uri buildCustomerUri(long id) {
