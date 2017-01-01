@@ -528,7 +528,6 @@ public class Utility {
         contentValues = new ContentValues[4];
         String[] ids = new String[]{context.getResources().getString(R.string.payment_method_cash)
                 , context.getResources().getString(R.string.payment_method_cheque)
-                , context.getResources().getString(R.string.payment_method_credit)
                 , context.getResources().getString(R.string.payment_method_pos)};
         for (int i = 0; i < ids.length; i++) {
             ContentValues paymentMethods = new ContentValues();
