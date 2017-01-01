@@ -5,6 +5,8 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -24,8 +26,10 @@ import mjkarbasian.moshtarimadar.R;
  * Created by Unique on 10/25/2016.
  */
 public class ProductInsert extends Fragment {
-
     private static final String LOG_TAG = CostInsert.class.getSimpleName();
+    View rootView;
+    ContentValues productValues = new ContentValues();
+    ContentValues productHistoryValues = new ContentValues();
     EditText productName;
     EditText productCode;
     EditText unit;
@@ -34,9 +38,8 @@ public class ProductInsert extends Fragment {
     EditText quantity;
     EditText salePrice;
     EditText buyDate;
-    ContentValues productValues = new ContentValues();
-    ContentValues productHistoryValues = new ContentValues();
-    View rootView;
+    EditText discountAmount;
+    EditText discountPercent;
     private Uri insertUri;
 
     public ProductInsert() {
@@ -52,12 +55,75 @@ public class ProductInsert extends Fragment {
         productCode = (EditText) rootView.findViewById(R.id.input_product_code);
         unit = (EditText) rootView.findViewById(R.id.input_product_unit);
         productDescription = (EditText) rootView.findViewById(R.id.input_product_description);
-
         buyPrice = (EditText) rootView.findViewById(R.id.input_buy_price);
         quantity = (EditText) rootView.findViewById(R.id.input_quantity);
         salePrice = (EditText) rootView.findViewById(R.id.input_sale_price);
         buyDate = (EditText) rootView.findViewById(R.id.input_buy_date);
+        discountAmount = (EditText) rootView.findViewById(R.id.input_discount_amount);
+        discountPercent = (EditText) rootView.findViewById(R.id.input_discount_percent);
+
         buyDate.setText(Utility.preInsertDate(getActivity()));
+
+        discountAmount.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                try {
+                    Float mDiscountAmount = Float.valueOf(discountAmount.getText().toString());
+                    Float mBuyPrice = Float.valueOf(buyPrice.getText().toString());
+
+                    if (mDiscountAmount > mBuyPrice)
+                        discountAmount.setText(buyPrice.getText().toString());
+                } catch (Exception e) {
+                    salePrice.setText("");
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                try {
+                    Float mDiscountAmount = Float.valueOf(discountAmount.getText().toString());
+                    Float mBuyPrice = Float.valueOf(buyPrice.getText().toString());
+
+                    salePrice.setText(String.format("%.0f", Float.valueOf(mBuyPrice - mDiscountAmount)));
+                } catch (Exception e) {
+                    salePrice.setText("");
+                }
+            }
+        });
+
+        discountPercent.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                try {
+                    Float mDiscountPercent = Float.valueOf(discountPercent.getText().toString());
+
+                    if (mDiscountPercent > 100)
+                        discountPercent.setText("100");
+                } catch (Exception e) {
+                    salePrice.setText("");
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                try {
+                    Float mDiscountPercent = Float.valueOf(discountPercent.getText().toString());
+                    Float mBuyPrice = Float.valueOf(buyPrice.getText().toString());
+
+                    salePrice.setText(String.format("%.0f", Float.valueOf((100 - mDiscountPercent) * mBuyPrice / 100)));
+                } catch (Exception e) {
+                    salePrice.setText("");
+                }
+            }
+        });
 
         return rootView;
     }

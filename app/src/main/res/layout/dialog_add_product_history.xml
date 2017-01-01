@@ -9,48 +9,51 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/hint_buy_price"
-        android:inputType="numberDecimal" />
+        android:inputType="numberDecimal"
+        android:maxLength="15" />
 
     <EditText
         android:id="@+id/add_product_history_quantity"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/hint_quantity"
-        android:inputType="number" />
+        android:inputType="number"
+        android:maxLength="10" />
 
     <EditText
         android:id="@+id/add_product_history_sale_price"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/hint_sale_price"
-        android:inputType="numberDecimal" />
+        android:inputType="numberDecimal"
+        android:maxLength="15" />
 
     <EditText
         android:id="@+id/add_product_history_buy_date"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:ems="10"
         android:hint="@string/hint_date"
-        android:inputType="date" />
+        android:inputType="date"
+        android:maxLength="10" />
 
     <EditText
         android:id="@+id/add_product_history_discount_amount"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:ems="10"
         android:hint="@string/hint_buy_price_discount_amount"
-        android:inputType="numberDecimal" />
+        android:inputType="numberDecimal"
+        android:maxLength="10" />
 
     <EditText
         android:id="@+id/add_product_history_discount_percent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:ems="10"
         android:hint="@string/hint_buy_price_discount_percent"
-        android:inputType="numberDecimal" />
+        android:inputType="numberDecimal"
+        android:maxLength="10" />
 
     <Button
-        android:id="@+id/add_product_history_button1"
+        android:id="@+id/add_product_history_save"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/text1"

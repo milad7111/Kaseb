@@ -54,6 +54,7 @@ public class DetailSaleView extends AppCompatActivity {
     int mNumberOfChooseProduct = 0;
     Button dialogButton;
     MenuItem saveItem;
+    MenuItem editItem;
 
     CardViewProducts mCardViewProducts;
     CardViewPayments mCardViewPayments;
@@ -477,7 +478,8 @@ public class DetailSaleView extends AppCompatActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_detail_sale_view, menu);
-        saveItem = (MenuItem) menu.findItem(R.id.save);
+        saveItem = (MenuItem) menu.findItem(R.id.menu_detail_sale_view_save);
+        editItem = (MenuItem) menu.findItem(R.id.menu_detail_sale_view_edit);
         saveItem.setVisible(false);
         return true;
     }
@@ -486,11 +488,11 @@ public class DetailSaleView extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             // Respond to the action bar's Up/Home button
-            case R.id.print_button:
+            case R.id.menu_detail_sale_view_print:
                 Toast.makeText(this,
                         getApplicationContext().getResources().getString(R.string.print_your_factor), Toast.LENGTH_LONG).show();
                 break;
-            case R.id.save:
+            case R.id.menu_detail_sale_view_save:
                 if (CheckForValidity(
                         saleCode.getText().toString(),
                         customerId,
@@ -645,8 +647,9 @@ public class DetailSaleView extends AppCompatActivity {
                     finish();
                 }
                 break;
-            case R.id.edit:
+            case R.id.menu_detail_sale_view_edit:
                 saveItem.setVisible(true);
+                editItem.setVisible(false);
 
                 saleCode.setEnabled(true);
                 saleDate.setEnabled(true);

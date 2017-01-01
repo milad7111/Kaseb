@@ -144,11 +144,14 @@ public class DetailCustomer extends AppCompatActivity {
 
         mCustomerAvatar = (ImageView) findViewById(R.id.image_toolbar);
 
-        if (imagegBytes.length == 0)
-            mCustomerAvatar.setImageDrawable(getBaseContext().getResources().getDrawable(
-                    getBaseContext().getResources().getIdentifier("@drawable/kaseb_pic", null, getPackageName())));
-        else {
-            mCustomerAvatar.setImageBitmap(BitmapFactory.decodeByteArray(imagegBytes, 0, imagegBytes.length));
+        try {
+            if (imagegBytes.length == 0)
+                mCustomerAvatar.setImageDrawable(getBaseContext().getResources().getDrawable(
+                        getBaseContext().getResources().getIdentifier("@drawable/kaseb_pic", null, getPackageName())));
+            else {
+                mCustomerAvatar.setImageBitmap(BitmapFactory.decodeByteArray(imagegBytes, 0, imagegBytes.length));
+            }
+        } catch (Exception e) {
         }
 
     }

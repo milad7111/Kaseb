@@ -56,13 +56,17 @@ public class CustomerAdapter extends CursorAdapter {
         imageViewAvatar.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                if (imagegBytes.length == 0)
-                    return false;
-                else {
-                    Customers customersActivity = (Customers) context;
-                    customersActivity.pic_deleter(imageViewAvatar, _id);
+                try {
+                    if (imagegBytes.length == 0)
+                        return false;
+                    else {
+                        Customers customersActivity = (Customers) context;
+                        customersActivity.pic_deleter(imageViewAvatar, _id);
 
-                    return true;
+                        return true;
+                    }
+                }catch (Exception e){
+                    return false;
                 }
             }
         });
