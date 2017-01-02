@@ -1,13 +1,11 @@
 package mjkarbasian.moshtarimadar.Helpers;
 
 import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.net.Uri;
-import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -530,7 +528,6 @@ public class Utility {
         contentValues = new ContentValues[4];
         String[] ids = new String[]{context.getResources().getString(R.string.payment_method_cash)
                 , context.getResources().getString(R.string.payment_method_cheque)
-                , context.getResources().getString(R.string.payment_method_credit)
                 , context.getResources().getString(R.string.payment_method_pos)};
         for (int i = 0; i < ids.length; i++) {
             ContentValues paymentMethods = new ContentValues();
