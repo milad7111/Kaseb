@@ -554,7 +554,7 @@ public class DetailSaleView extends AppCompatActivity {
                     mSelectionInitialize = new String[]{String.valueOf(whichDetailSaleId)};
 
                     detailSaleValues.put(KasebContract.DetailSale.COLUMN_DATE, saleDate.getText().toString());
-                    detailSaleValues.put(KasebContract.DetailSale.COLUMN_IS_BALANCED, 0);
+                    detailSaleValues.put(KasebContract.DetailSale.COLUMN_IS_BALANCED, sFinalAmount.equals(sPaidAmount));
                     detailSaleValues.put(KasebContract.DetailSale.COLUMN_ITEMS_NUMBER, mChosenProductListMap.size());
                     detailSaleValues.put(KasebContract.DetailSale.COLUMN_SALE_ID, whichSaleId);
                     detailSaleValues.put(KasebContract.DetailSale.COLUMN_SUB_TOTAL, sTotalAmount);
