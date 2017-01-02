@@ -301,6 +301,36 @@ public class CustomerInsert extends Fragment {
                     Toast toast = Toast.makeText(getActivity(), "There is some problem in croping app", Toast.LENGTH_LONG);
                     toast.show();
                 }
+                if (data.getExtras() != null) {
+                    photo = data.getExtras().getParcelable("data");
+                    mCustomerAvatar.setImageBitmap(photo);
+
+                    ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                    photo.compress(Bitmap.CompressFormat.PNG, 0, byteArrayOutputStream);
+                    byte[] imagegBytes = byteArrayOutputStream.toByteArray();
+                    customerValues.put(KasebContract.Customers.COLUMN_CUSTOMER_PICTURE, imagegBytes);
+                } else if (data.getData() != null) {
+                    Uri picUri = data.getData();
+                    BufferedInputStream bufferInputStream = null;
+                    try {
+                        URLConnection connection = new URL(picUri.toString()).openConnection();
+                        connection.connect();
+                        bufferInputStream = new BufferedInputStream(connection.getInputStream(), 8192);
+                        photo = BitmapFactory.decodeStream(bufferInputStream);
+
+                        mCustomerAvatar.setImageBitmap(photo);
+
+                        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                        photo.compress(Bitmap.CompressFormat.PNG, 0, byteArrayOutputStream);
+                        byte[] imagegBytes = byteArrayOutputStream.toByteArray();
+                        customerValues.put(KasebContract.Customers.COLUMN_CUSTOMER_PICTURE, imagegBytes);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    Toast toast = Toast.makeText(getActivity(), "There is some problem in croping app", Toast.LENGTH_LONG);
+                    toast.show();
+                }
             }
         }
 
