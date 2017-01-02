@@ -15,6 +15,7 @@ import mjkarbasian.moshtarimadar.R;
  * Created by family on 8/25/2016.
  */
 public class DetailProductAdapter extends CursorAdapter {
+
     Context mContext;
     private LayoutInflater cursorInflater;
 

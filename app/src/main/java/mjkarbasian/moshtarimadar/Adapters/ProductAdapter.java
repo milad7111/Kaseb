@@ -17,6 +17,7 @@ import mjkarbasian.moshtarimadar.Helpers.Utility;
  * Created by family on 7/21/2016.
  */
 public class ProductAdapter extends BaseAdapter {
+
     private static LayoutInflater inflater = null;
     List<Map<String, String>> mProductDetailsListHashMap;
 

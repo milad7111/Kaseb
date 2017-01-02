@@ -19,6 +19,7 @@ import mjkarbasian.moshtarimadar.Helpers.Utility;
  * Created by family on 12/19/2016.
  */
 public class DebaterAdapter extends CursorAdapter {
+
     private LayoutInflater cursorInflater;
     private android.content.Context mContext;
 

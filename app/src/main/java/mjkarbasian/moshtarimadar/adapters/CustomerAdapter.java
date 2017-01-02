@@ -42,6 +42,7 @@ public class CustomerAdapter extends CursorAdapter {
         ImageView imageViewState = (ImageView) view.findViewById(R.id.item_list_customer_state);
         final ImageView imageViewAvatar = (ImageView) view.findViewById(R.id.item_list_customer_avatar);
 
+        cursor.moveToFirst();
         final Long _id = cursor.getLong(cursor.getColumnIndex(KasebContract.Customers._ID));
         final byte[] imagegBytes = cursor.getBlob(cursor.getColumnIndex(KasebContract.Customers.COLUMN_CUSTOMER_PICTURE));
 

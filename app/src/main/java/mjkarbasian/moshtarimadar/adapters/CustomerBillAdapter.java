@@ -16,6 +16,7 @@ import mjkarbasian.moshtarimadar.Helpers.Utility;
  * Created by family on 7/30/2016.
  */
 public class CustomerBillAdapter extends CursorAdapter {
+
     Context mContext;
     String saleId;
     String[] mProjection;

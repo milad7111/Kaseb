@@ -16,9 +16,12 @@ import mjkarbasian.moshtarimadar.Helpers.Utility;
  * Created by Unique on 11/11/2016.
  */
 public class CostSaleProductAdapter extends CursorAdapter {
+
+
     String witchActivity;
     String firstName;
     String lastName;
+
     String name;
     String code;
     String date;

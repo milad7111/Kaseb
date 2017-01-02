@@ -17,6 +17,7 @@ import mjkarbasian.moshtarimadar.Helpers.Utility;
  * Created by Unique on 23/12/2016.
  */
 public class TaxAdapter extends BaseAdapter {
+
     private static LayoutInflater inflater = null;
     List<Map<String, String>> mTaxDetailsListHashMap;
     Context mContext;

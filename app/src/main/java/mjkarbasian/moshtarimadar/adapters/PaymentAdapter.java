@@ -19,6 +19,7 @@ import mjkarbasian.moshtarimadar.R;
  * Created by Unique on 23/12/2016.
  */
 public class PaymentAdapter extends BaseAdapter {
+
     private static LayoutInflater inflater = null;
     List<Map<String, String>> mPaymentDetailsListHashMap;
     Context mContext;
