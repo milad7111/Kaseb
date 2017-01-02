@@ -58,8 +58,8 @@ public class CustomerInsert extends Fragment {
     ContentValues customerValues = new ContentValues();
     ImageView mCustomerAvatar;
     Bitmap photo;
-    private Uri insertUri;
     private Uri outputFileUri;
+    private Uri insertUri;
 
     public CustomerInsert() {
         setHasOptionsMenu(true);

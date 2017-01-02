@@ -24,4 +24,10 @@ public class Kaseb extends DrawerActivity {
 
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        finish();
+    }
+
 }

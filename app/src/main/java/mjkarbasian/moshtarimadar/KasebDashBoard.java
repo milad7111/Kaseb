@@ -91,12 +91,12 @@ public class KasebDashBoard extends android.support.v4.app.Fragment {
         selection = KasebContract.Sales.TABLE_NAME + "." + KasebContract.Sales.COLUMN_IS_DELETED + " =? " + " AND " +
                 KasebContract.Sales.COLUMN_CUSTOMER_ID + " =?";
         //iterate for 4 main customer state. i represent state id of gold,silver,bronze and in start
-        Long[] totalDue = new Long[4];
-        Long[] totalPaid = new Long[4];
+        Long[] totalDue = new Long[5];
+        Long[] totalPaid = new Long[5];
         Cursor customerCurs = null;
         //endregion defining variables
         //region set memberships due and recievables
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < 5; i++) {
             totalDue[i] = 0l;
             totalPaid[i] = 0l;
             customerCurs = getContext().getContentResolver().query(KasebContract.Customers.CONTENT_URI, null,
@@ -113,14 +113,14 @@ public class KasebDashBoard extends android.support.v4.app.Fragment {
             }
         }
         //region setViews of membership
-        totalSalesGold.setText(totalDue[0] ==null?"0":String.valueOf(totalDue[0]));
-        totalSalesSilver.setText(totalDue[1] == null ? "0" : String.valueOf(totalDue[1]));
-        totalSalesBronze.setText(totalDue[2] ==null?"0":String.valueOf(totalDue[2]));
-        totalSalesInStart.setText(totalDue[3] ==null?"0":String.valueOf(totalDue[3]));
-        totalRecievableGold.setText(totalDue[0]==null?"0":String.valueOf(totalDue[0] - totalPaid[0]));
-        totalRecievableSilver.setText(totalDue[1] ==null?"0":String.valueOf(totalDue[1] - totalPaid[1]));
-        totalRecievableBronze.setText(totalDue[2] ==null?"0":String.valueOf(totalDue[2] - totalPaid[2]));
-        totalRecievableInStart.setText(totalDue[3] ==null?"0":String.valueOf(totalDue[3] - totalPaid[3]));
+        totalSalesGold.setText(totalDue[0] ==null?"0":String.valueOf(totalDue[1]));
+        totalSalesSilver.setText(totalDue[1] == null ? "0" : String.valueOf(totalDue[2]));
+        totalSalesBronze.setText(totalDue[2] ==null?"0":String.valueOf(totalDue[3]));
+        totalSalesInStart.setText(totalDue[3] ==null?"0":String.valueOf(totalDue[4]));
+        totalRecievableGold.setText(totalDue[0]==null?"0":String.valueOf(totalDue[1] - totalPaid[1]));
+        totalRecievableSilver.setText(totalDue[1] ==null?"0":String.valueOf(totalDue[2] - totalPaid[2]));
+        totalRecievableBronze.setText(totalDue[2] ==null?"0":String.valueOf(totalDue[3] - totalPaid[3]));
+        totalRecievableInStart.setText(totalDue[3] ==null?"0":String.valueOf(totalDue[4] - totalPaid[4]));
         //endregion
 
         recievCurs.close();
@@ -128,5 +128,11 @@ public class KasebDashBoard extends android.support.v4.app.Fragment {
         cursor.close();
         return rootView;
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
+
 
 }

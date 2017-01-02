@@ -17,10 +17,10 @@
         android:title="@string/edit_action_description"
         app:showAsAction="always" />
 
-    <item
-        android:id="@+id/action_detail_product_share"
-        android:icon="@drawable/ic_menu_share_white"
-        android:orderInCategory="100"
-        android:title="@string/share_action_description"
-        app:showAsAction="always" />
+    <!--<item-->
+        <!--android:id="@+id/action_detail_product_share"-->
+        <!--android:icon="@drawable/ic_menu_share_white"-->
+        <!--android:orderInCategory="100"-->
+        <!--android:title="@string/share_action_description"-->
+        <!--app:showAsAction="always" />-->
 </menu>

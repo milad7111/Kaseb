@@ -153,13 +153,6 @@ public class DetailCustomer extends AppCompatActivity {
             }
         } catch (Exception e) {
         }
-
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        this.finish();
     }
 
     @Override
