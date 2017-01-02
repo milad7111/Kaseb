@@ -41,8 +41,6 @@ public class CustomerAdapter extends CursorAdapter {
         TextView textViewAmount = (TextView) view.findViewById(R.id.item_list_purchase_amount);
         ImageView imageViewState = (ImageView) view.findViewById(R.id.item_list_customer_state);
         final ImageView imageViewAvatar = (ImageView) view.findViewById(R.id.item_list_customer_avatar);
-
-        cursor.moveToFirst();
         final Long _id = cursor.getLong(cursor.getColumnIndex(KasebContract.Customers._ID));
         final byte[] imagegBytes = cursor.getBlob(cursor.getColumnIndex(KasebContract.Customers.COLUMN_CUSTOMER_PICTURE));
 
@@ -51,7 +49,6 @@ public class CustomerAdapter extends CursorAdapter {
             public void onClick(View v) {
                 Customers customersActivity = (Customers) context;
                 customersActivity.pic_selector(imageViewAvatar,_id);
-
             }
         });
 
@@ -64,10 +61,9 @@ public class CustomerAdapter extends CursorAdapter {
                     else {
                         Customers customersActivity = (Customers) context;
                         customersActivity.pic_deleter(imageViewAvatar, _id);
-
                         return true;
                     }
-                }catch (Exception e){
+                } catch (Exception e) {
                     return false;
                 }
             }

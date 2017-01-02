@@ -9,8 +9,8 @@ import android.widget.CursorAdapter;
 import android.widget.TextView;
 
 import mjkarbasian.moshtarimadar.Data.KasebContract;
-import mjkarbasian.moshtarimadar.R;
 import mjkarbasian.moshtarimadar.Helpers.Utility;
+import mjkarbasian.moshtarimadar.R;
 
 /**
  * Created by family on 7/30/2016.

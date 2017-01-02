@@ -9,31 +9,22 @@
         android:id="@+id/about_us_my_info"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/about_us_my_info"
         android:layout_marginLeft="20dp"
-        android:layout_marginTop="20dp"
         android:layout_marginRight="20dp"
-        android:textIsSelectable="false"
-        android:textSize="15dp" />
+        android:layout_marginTop="20dp"
+        android:text="@string/about_us_my_info"></TextView>
 
     <EditText
         android:id="@+id/about_us_your_text"
         android:layout_width="300dp"
         android:layout_height="200dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginRight="20dp"
-        android:textIsSelectable="false"
-        android:textSize="15dp"
         android:layout_gravity="center_horizontal"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp"
         android:gravity="top|left"
-        android:hint="@string/about_us_hint_your_text" />
-
-    <Button
-        android:id="@+id/btnStartProgress"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Download File"
-        android:layout_gravity="center_horizontal" />
+        android:hint="@string/about_us_hint_your_text"
+        android:textIsSelectable="false"
+        android:textSize="15dp" />
 
 </LinearLayout>
