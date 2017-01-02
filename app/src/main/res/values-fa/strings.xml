@@ -6,7 +6,7 @@
 
     <string name="action_settings">تنظیمات</string>
     <string name="kaseb_hadith">کاسب حبیب خداست</string>
-    <string name="kaseb_name" >علی قربانی</string>
+    <string name="kaseb_name">علی قربانی</string>
     <string name="title_customer">مشتریان</string>
     <string name="title_debtors">بدهکاران</string>
     <string name="title_sales">فروشها</string>
@@ -118,5 +118,12 @@
     <string name="title_card_detail_product">مشخصات کالا</string>
     <string name="share_action_description">این دکمه به شما امکان اشتراک گذاری اطلاعات محصول را می دهد</string>
     <string name="edit_detail_product_action_description">این دکمه به شما اجازه تغییر در اطلاعات محصول/خدمت را می دهد</string>
+
+    <string name="about_us_my_info">
+        ما یک تیم نرم افزاری هستیم که قصد توسعه نرم افزارهای آندروید را داریم.
+در این پروژه ما به سراغ یک گروه نرم افزاری رفتیم که در دهه های گذشته مورد توجه تمام افرادی قرار گرفته است که به نوعی با حساب و کتاب سر و کار دارند.
+CRM یا همان نرم افزار مدیریت ارتباط با مشتری بحث اصلی ما می باشد.
+ما امیدواریم که این برنامه به شما کاربر گرامی در بازاریابی، مدیریت فروش و مدیریت مشتری کمک کند.
+    </string>
 
 </resources>
