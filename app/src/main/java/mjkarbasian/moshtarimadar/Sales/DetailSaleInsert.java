@@ -196,7 +196,7 @@ public class DetailSaleInsert extends AppCompatActivity {
                         getApplicationContext().getResources().getString(R.string.print_your_factor), Toast.LENGTH_LONG).show();
                 break;
             case R.id.save:
-
+                //region Save
                 //region SetValues
                 EditText saleCode = (EditText) findViewById(R.id.detail_sales_info_sale_code);
                 //endregion
@@ -214,7 +214,7 @@ public class DetailSaleInsert extends AppCompatActivity {
                     saleValues.put(KasebContract.Sales.COLUMN_IS_DELETED, 0);
                     saleValues.put(KasebContract.Sales.COLUMN_SALE_CODE, saleCode.getText().toString());
 
-                    insertUri = this.getContentResolver().insert(
+                    insertUri = getContentResolver().insert(
                             KasebContract.Sales.CONTENT_URI,
                             saleValues
                     );
@@ -233,7 +233,7 @@ public class DetailSaleInsert extends AppCompatActivity {
                     detailSaleValues.put(KasebContract.DetailSale.COLUMN_TOTAL_PAID, sPaidAmount);
                     detailSaleValues.put(KasebContract.DetailSale.COLUMN_TOTAL_TAX, sTotalTax);
 
-                    insertUri = this.getContentResolver().insert(
+                    insertUri = getContentResolver().insert(
                             KasebContract.DetailSale.CONTENT_URI,
                             detailSaleValues
                     );
@@ -257,7 +257,7 @@ public class DetailSaleInsert extends AppCompatActivity {
                         itemsValuesArray[i] = itemsValues;
                     }
 
-                    this.getContentResolver().bulkInsert(
+                    getContentResolver().bulkInsert(
                             KasebContract.DetailSaleProducts.CONTENT_URI,
                             itemsValuesArray
                     );
@@ -278,7 +278,7 @@ public class DetailSaleInsert extends AppCompatActivity {
                         paymentValuesArray[i] = paymentValues;
                     }
 
-                    this.getContentResolver().bulkInsert(
+                    getContentResolver().bulkInsert(
                             KasebContract.DetailSalePayments.CONTENT_URI,
                             paymentValuesArray
                     );
@@ -299,21 +299,22 @@ public class DetailSaleInsert extends AppCompatActivity {
                         taxValuesArray[i] = taxValues;
                     }
 
-                    this.getContentResolver().bulkInsert(
+                    getContentResolver().bulkInsert(
                             KasebContract.DetailSaleTaxes.CONTENT_URI,
                             taxValuesArray
                     );
                     //endregion Insert DetailSaleTaxes
 
                     //just a message to show everything are under control
-                    Toast.makeText(this,
+                    Toast.makeText(getBaseContext(),
                             getApplicationContext().getResources().getString(R.string.msg_insert_succeed), Toast.LENGTH_LONG).show();
 
                     mDb.setTransactionSuccessful();
                     mDb.endTransaction();
                     finish();
-                    return true;
+                    break;
                 }
+                //endregion Save
         }
         return super.onOptionsItemSelected(item);
     }
@@ -323,7 +324,8 @@ public class DetailSaleInsert extends AppCompatActivity {
                 KasebContract.Customers._ID,
                 KasebContract.Customers.COLUMN_FIRST_NAME,
                 KasebContract.Customers.COLUMN_LAST_NAME,
-                KasebContract.Customers.COLUMN_STATE_ID};
+                KasebContract.Customers.COLUMN_STATE_ID,
+                KasebContract.Customers.COLUMN_CUSTOMER_PICTURE};
 
         modeList = new ListView(DetailSaleInsert.this);
         mCAdapter = new CustomerAdapter(
@@ -761,10 +763,10 @@ public class DetailSaleInsert extends AppCompatActivity {
         } else if (numberOfAllProducts == 0) {
             Toast.makeText(mContext, "Choose some PRODUCTS for SALE.", Toast.LENGTH_SHORT).show();
             return false;
-        } else if (sFinalAmount < 0){
+        } else if (sFinalAmount < 0) {
             Toast.makeText(mContext, "Final Amount can't be less than zero.", Toast.LENGTH_SHORT).show();
             return false;
-        } else if (sBalanceAmount < 0){
+        } else if (sBalanceAmount < 0) {
             Toast.makeText(mContext, "Balance Amount can't be less than zero.", Toast.LENGTH_SHORT).show();
             return false;
         }

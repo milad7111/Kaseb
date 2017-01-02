@@ -5,9 +5,7 @@ import android.content.ActivityNotFoundException;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -38,6 +36,8 @@ public class CustomerInsert extends Fragment {
 
     private static final int GALLERY_ACTIVITY_CODE = 200;
     private static final int RESULT_CROP = 400;
+    private static final int YOUR_SELECT_PICTURE_REQUEST_CODE = 300;
+
     EditText firstName;
     EditText lastName;
     EditText birthDay;
@@ -53,11 +53,13 @@ public class CustomerInsert extends Fragment {
     EditText addressCity;
     EditText addressStreet;
     EditText addressPostalCode;
+
     View rootView;
     ContentValues customerValues = new ContentValues();
     ImageView mCustomerAvatar;
-    private Uri insertUri;
     Bitmap photo;
+    private Uri insertUri;
+    private Uri outputFileUri;
 
     public CustomerInsert() {
         setHasOptionsMenu(true);
@@ -217,6 +219,40 @@ public class CustomerInsert extends Fragment {
         mCustomerAvatar = (ImageView) view;
         Intent gallery_Intent = new Intent(getContext(), GalleryUtil.class);
         startActivityForResult(gallery_Intent, GALLERY_ACTIVITY_CODE);
+
+//        // Determine Uri of camera image to save.
+//        final File root = new File(Environment.getExternalStorageDirectory() + File.separator + "MyDir" + File.separator);
+//        root.mkdirs();
+//        final String fname = "img_" + System.currentTimeMillis() + ".jpg";
+//        final File sdImageMainDirectory = new File(root, fname);
+//        outputFileUri = Uri.fromFile(sdImageMainDirectory);
+//
+//        // Camera.
+//        final List<Intent> cameraIntents = new ArrayList<Intent>();
+//        final Intent captureIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+//        final PackageManager packageManager = getContext().getPackageManager();
+//        final List<ResolveInfo> listCam = packageManager.queryIntentActivities(captureIntent, 0);
+//        for (ResolveInfo res : listCam) {
+//            final String packageName = res.activityInfo.packageName;
+//            final Intent intent = new Intent(captureIntent);
+//            intent.setComponent(new ComponentName(res.activityInfo.packageName, res.activityInfo.name));
+//            intent.setPackage(packageName);
+//            intent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
+//            cameraIntents.add(intent);
+//        }
+//
+//        // Filesystem.
+//        final Intent galleryIntent = new Intent();
+//        galleryIntent.setType("image/*");
+//        galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
+//
+//        // Chooser of filesystem options.
+//        final Intent chooserIntent = Intent.createChooser(galleryIntent, "Select Source");
+//
+//        // Add the camera options.
+//        chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, cameraIntents.toArray(new Parcelable[cameraIntents.size()]));
+//
+//        startActivityForResult(chooserIntent, YOUR_SELECT_PICTURE_REQUEST_CODE);
     }
 
     @Override
@@ -243,6 +279,45 @@ public class CustomerInsert extends Fragment {
                 }
             }
         }
+
+//        String picturePath;
+//
+//        if (requestCode == YOUR_SELECT_PICTURE_REQUEST_CODE)
+//            if (resultCode == Activity.RESULT_OK) {
+//                final boolean isCamera;
+//                if (data == null) {
+//                    isCamera = true;
+//                } else {
+//                    final String action = data.getAction();
+//                    if (action == null) {
+//                        isCamera = false;
+//                    } else {
+//                        isCamera = action.equals(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+//                    }
+//                }
+//
+//                if (isCamera)
+//                    picturePath = outputFileUri.getPath();
+//                else
+//                    picturePath = data == null ? null : data.toUri(0);
+//
+//                //perform Crop on the Image Selected from Gallery
+//                performCrop(picturePath);
+//            }
+//
+//        if (requestCode == RESULT_CROP)
+//            if (resultCode == Activity.RESULT_OK) {
+//                if (data.getExtras() != null) {
+//                    photo = data.getExtras().getParcelable("data");
+//                    mCustomerAvatar.setImageBitmap(photo);
+//
+//                    ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+//                    photo.compress(Bitmap.CompressFormat.PNG, 0, byteArrayOutputStream);
+//                    byte[] imagegBytes = byteArrayOutputStream.toByteArray();
+//
+//                    customerValues.put(KasebContract.Customers.COLUMN_CUSTOMER_PICTURE, imagegBytes);
+//                }
+//            }
     }
 
     private void performCrop(String picUri) {

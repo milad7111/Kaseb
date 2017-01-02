@@ -348,4 +348,13 @@
     <string name="kaseb_dashboard_others_total_recievables_gold">Gold</string>
     <string name="title_dashboard">Kaseb Dashboard</string>
     <string name="kaseb_dashboard_recievables_total">Total Recievables</string>
+
+    <string name="about_us_my_info">We are a software team that we intend to develop the Android software.
+        In this project we have gone to the group of software that over the past decades have been attracted by all persons
+        who were in touched by accounting.
+        CRM : Customer Relationship Management softwares are our main discuss.
+
+        We hope this app help you Dear user in marketing, sales management and customer management.</string>
+    <string name="about_us_hint_your_text">Your mind ...</string>
+    <string name="about_us_hint_your_email">Write Your Email ...</string>
 </resources>

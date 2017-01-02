@@ -12,6 +12,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import mjkarbasian.moshtarimadar.AboutUs.AboutUs;
 import mjkarbasian.moshtarimadar.Costs.Costs;
 import mjkarbasian.moshtarimadar.Customers.Customers;
 import mjkarbasian.moshtarimadar.Debaters.Debaters;
@@ -116,6 +117,8 @@ public class DrawerActivity extends AppCompatActivity
             startActivity(intent);
 
         } else if (id == R.id.nav_about_us) {
+            intent = new Intent(this, AboutUs.class);
+            startActivity(intent);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
