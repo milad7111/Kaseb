@@ -10,6 +10,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -22,8 +23,11 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.net.URL;
+import java.net.URLConnection;
 
 import mjkarbasian.moshtarimadar.Data.KasebContract;
 import mjkarbasian.moshtarimadar.Helpers.GalleryUtil;
@@ -175,6 +179,35 @@ public class Customers extends DrawerActivity {
                             customerValues,
                             KasebContract.Customers._ID + " = ? ",
                             new String[]{String.valueOf(customerId)});
+                } else if (data.getData() != null) {
+                    Uri picUri = data.getData();
+                    BufferedInputStream bufferInputStream = null;
+                    try {
+                        URLConnection connection = new URL(picUri.toString()).openConnection();
+                        connection.connect();
+                        bufferInputStream = new BufferedInputStream(connection.getInputStream(), 8192);
+                        photo = BitmapFactory.decodeStream(bufferInputStream);
+
+                        mCustomerAvatar.setImageBitmap(photo);
+
+                        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                        photo.compress(Bitmap.CompressFormat.PNG, 0, byteArrayOutputStream);
+                        byte[] imagegBytes = byteArrayOutputStream.toByteArray();
+
+                        ContentValues customerValues = new ContentValues();
+                        customerValues.put(KasebContract.Customers.COLUMN_CUSTOMER_PICTURE, imagegBytes);
+
+                        getBaseContext().getContentResolver().update(
+                                KasebContract.Customers.CONTENT_URI,
+                                customerValues,
+                                KasebContract.Customers._ID + " = ? ",
+                                new String[]{String.valueOf(customerId)});
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    Toast toast = Toast.makeText(this, "There is some problem in croping app", Toast.LENGTH_LONG);
+                    toast.show();
                 }
             }
         }
