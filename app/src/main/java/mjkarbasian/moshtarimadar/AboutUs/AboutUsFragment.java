@@ -1,9 +1,7 @@
 package mjkarbasian.moshtarimadar.AboutUs;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -11,7 +9,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -24,12 +21,6 @@ public class AboutUsFragment extends Fragment {
     private static final String LOG_TAG = AboutUsFragment.class.getSimpleName();
 
     EditText yourText;
-
-    Button btnStartProgress;
-    ProgressDialog progressBar;
-    private int progressBarStatus = 0;
-    private Handler progressBarHandler = new Handler();
-    private long fileSize = 0;
 
     public AboutUsFragment() {
         setHasOptionsMenu(true);

@@ -16,6 +16,7 @@ import mjkarbasian.moshtarimadar.R;
  * Created by family on 11/2/2016.
  */
 public class TypesSettingAdapter extends CursorAdapter {
+
     String columnName;
     LayoutInflater mInflater;
     private String typePointer;

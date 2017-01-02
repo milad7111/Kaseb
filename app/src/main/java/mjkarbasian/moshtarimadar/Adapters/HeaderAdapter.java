@@ -16,6 +16,7 @@ import mjkarbasian.moshtarimadar.R;
  * Created by family on 11/3/2016.
  */
 public class HeaderAdapter extends BaseAdapter {
+
     private final Context mContext;
     private final LayoutInflater mInflater;
     ArrayList<Integer> mHeaderIcon;

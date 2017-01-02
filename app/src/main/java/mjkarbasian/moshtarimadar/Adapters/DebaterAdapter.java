@@ -12,13 +12,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import mjkarbasian.moshtarimadar.Data.KasebContract;
-import mjkarbasian.moshtarimadar.R;
 import mjkarbasian.moshtarimadar.Helpers.Utility;
+import mjkarbasian.moshtarimadar.R;
 
 /**
  * Created by family on 12/19/2016.
  */
 public class DebaterAdapter extends CursorAdapter {
+
     private LayoutInflater cursorInflater;
     private android.content.Context mContext;
 
@@ -43,13 +44,13 @@ public class DebaterAdapter extends CursorAdapter {
                 KasebContract.Customers.COLUMN_LAST_NAME
         };
         Uri customerUri = KasebContract.Customers.buildCustomerUri(cursor.
-                getLong(cursor.getColumnIndex(KasebContract.Sales.TABLE_NAME +"."+KasebContract.Sales.COLUMN_CUSTOMER_ID)));
+                getLong(cursor.getColumnIndex(KasebContract.Sales.TABLE_NAME + "." + KasebContract.Sales.COLUMN_CUSTOMER_ID)));
         Cursor adapterCursor = mContext.getContentResolver().query(customerUri, null, null, null, null);
         String firstName = null;
-        String lastName= null;
-        if(adapterCursor.moveToFirst()){
-        firstName = adapterCursor.getString(adapterCursor.getColumnIndex(customersProjection[0]));
-        lastName = adapterCursor.getString(adapterCursor.getColumnIndex(customersProjection[1]));
+        String lastName = null;
+        if (adapterCursor.moveToFirst()) {
+            firstName = adapterCursor.getString(adapterCursor.getColumnIndex(customersProjection[0]));
+            lastName = adapterCursor.getString(adapterCursor.getColumnIndex(customersProjection[1]));
         }
         TextView debatorNameText = (TextView) view.findViewById(R.id.item_card_debator_name);
         debatorNameText.setText(firstName + " " + lastName);
@@ -57,11 +58,11 @@ public class DebaterAdapter extends CursorAdapter {
 
         ImageView customerAvater = (ImageView) view.findViewById(R.id.item_card_customer_avater);
 
-       //region set debator balance amount
+        //region set debator balance amount
         TextView debatorBalanceText = (TextView) view.findViewById(R.id.item_card_balance_amount);
-        int dueSumIndex = 2 ;
+        int dueSumIndex = 2;
         int paidSumIndex = 3;
-        Float totalBalance = Float.parseFloat(cursor.getString(dueSumIndex)) -  Float.parseFloat(cursor.getString(paidSumIndex)) ;
+        Float totalBalance = Float.parseFloat(cursor.getString(dueSumIndex)) - Float.parseFloat(cursor.getString(paidSumIndex));
         debatorBalanceText.setText(Utility.formatPurchase(mContext, Float.toString(totalBalance)));
         //endregion
 
@@ -79,7 +80,7 @@ public class DebaterAdapter extends CursorAdapter {
         messageImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.fromParts("sms","01", null));
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.fromParts("sms", "01", null));
                 mContext.startActivity(intent);
             }
         });

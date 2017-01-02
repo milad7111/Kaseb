@@ -108,6 +108,7 @@ import mjkarbasian.moshtarimadar.Customers.DetailCustomerDash;
 import mjkarbasian.moshtarimadar.Customers.DetailCustomerInfo;
 
 public class DetailCustomerAdapter extends FragmentStatePagerAdapter {
+
     int mNumOfTabs;
     Context mContext;
     Uri uriCursor;

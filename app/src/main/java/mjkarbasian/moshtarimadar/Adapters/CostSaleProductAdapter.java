@@ -9,16 +9,19 @@ import android.widget.CursorAdapter;
 import android.widget.TextView;
 
 import mjkarbasian.moshtarimadar.Data.KasebContract;
-import mjkarbasian.moshtarimadar.R;
 import mjkarbasian.moshtarimadar.Helpers.Utility;
+import mjkarbasian.moshtarimadar.R;
 
 /**
  * Created by Unique on 11/11/2016.
  */
 public class CostSaleProductAdapter extends CursorAdapter {
+
+
     String witchActivity;
     String firstName;
     String lastName;
+
     String name;
     String code;
     String date;

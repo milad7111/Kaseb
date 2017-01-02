@@ -12,9 +12,7 @@
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginTop="20dp"
-        android:text="@string/about_us_my_info"
-        android:textIsSelectable="false"
-        android:textSize="15dp" />
+        android:text="@string/about_us_my_info"></TextView>
 
     <EditText
         android:id="@+id/about_us_your_text"

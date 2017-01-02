@@ -10,13 +10,14 @@ import android.widget.TextView;
 import java.util.List;
 import java.util.Map;
 
-import mjkarbasian.moshtarimadar.R;
 import mjkarbasian.moshtarimadar.Helpers.Utility;
+import mjkarbasian.moshtarimadar.R;
 
 /**
  * Created by family on 7/21/2016.
  */
 public class ProductAdapter extends BaseAdapter {
+
     private static LayoutInflater inflater = null;
     List<Map<String, String>> mProductDetailsListHashMap;
 
