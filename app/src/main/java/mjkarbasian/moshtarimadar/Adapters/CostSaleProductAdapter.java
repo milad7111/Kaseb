@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CursorAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import mjkarbasian.moshtarimadar.Data.KasebContract;
@@ -47,6 +48,7 @@ public class CostSaleProductAdapter extends CursorAdapter {
         TextView textViewCode = (TextView) view.findViewById(R.id.item_list_code);
         TextView textViewDate = (TextView) view.findViewById(R.id.item_list_date);
         TextView textViewAmount = (TextView) view.findViewById(R.id.item_list_amount);
+        ImageView tagImageView = (ImageView)view.findViewById(R.id.cost_sale_product_tag_image);
 
         switch (witchActivity) {
             case "cost": {
@@ -81,7 +83,7 @@ public class CostSaleProductAdapter extends CursorAdapter {
 
                 mCursor = context.getContentResolver().query(
                         KasebContract.DetailSale.buildDetailSaleUri(Long.parseLong(saleId)),
-                        new String[]{KasebContract.DetailSale.COLUMN_DATE, KasebContract.DetailSale.COLUMN_TOTAL_DUE},
+                        new String[]{KasebContract.DetailSale.COLUMN_DATE, KasebContract.DetailSale.COLUMN_TOTAL_DUE,KasebContract.DetailSale.COLUMN_IS_BALANCED},
                         null,
                         null,
                         null);
@@ -90,11 +92,20 @@ public class CostSaleProductAdapter extends CursorAdapter {
                     if (mCursor.moveToFirst()) {
                         date = mCursor.getString(mCursor.getColumnIndex(KasebContract.DetailSale.COLUMN_DATE));
                         amount = mCursor.getLong(mCursor.getColumnIndex(KasebContract.DetailSale.COLUMN_TOTAL_DUE));
+                        tagImageView.setVisibility(View.VISIBLE);
+                        //check for isBalance=true
+                        if(mCursor.getString(mCursor.getColumnIndex(KasebContract.DetailSale.COLUMN_IS_BALANCED)).equals("1"))
+                            tagImageView.setImageResource(R.drawable.marked_circle);
+                        else
+                            tagImageView.setImageResource(R.drawable.open_marked_circle);
                     }
                 }
                 //endregion
 
                 code = cursor.getString(cursor.getColumnIndex(KasebContract.Sales.COLUMN_SALE_CODE));
+
+
+
                 break;
             }
             case "product": {
