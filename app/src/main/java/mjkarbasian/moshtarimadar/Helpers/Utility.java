@@ -609,4 +609,16 @@ public class Utility {
             return pDate;
         }
     }
+    public static String preInsertSaleCode(Context context) {
+        Cursor cursor = context.getContentResolver().query(KasebContract.Sales.CONTENT_URI, new String[]{KasebContract.Sales._ID},
+                null, null, KasebContract.Sales._ID + " DESC");
+        String prefix = context.getResources().getString(R.string.sale_code_prefix);
+        String newCode = null;
+        int codeNumber;
+        if(cursor.moveToFirst()){
+            codeNumber = cursor.getInt(0)+1;
+            newCode = prefix + String.valueOf(codeNumber);
+        }
+        return newCode;
+    }
 }

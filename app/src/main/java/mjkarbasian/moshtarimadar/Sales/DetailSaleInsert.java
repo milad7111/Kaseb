@@ -102,6 +102,7 @@ public class DetailSaleInsert extends AppCompatActivity {
     TextView nameCustomer;
     TextView familyCustomer;
 
+    EditText saleCode;
     EditText paymentAmount;
     EditText paymentDueDate;
     EditText taxAmount;
@@ -135,6 +136,9 @@ public class DetailSaleInsert extends AppCompatActivity {
         balanceSummary = (TextView) findViewById(R.id.card_detail_sale_summary_balance);
         nameCustomer = (TextView) findViewById(R.id.detail_sales_info_customer_name);
         familyCustomer = (TextView) findViewById(R.id.detail_sales_info_customer_family);
+        saleCode = (EditText) findViewById(R.id.detail_sales_info_sale_code);
+        saleCode.setText(Utility.preInsertSaleCode(this));
+        saleCode.setSelection(saleCode.getText().length());
 
         saleDate = (EditText) findViewById(R.id.detail_sales_info_sale_date);
         saleDate.setText(Utility.preInsertDate(mContext));
@@ -198,7 +202,7 @@ public class DetailSaleInsert extends AppCompatActivity {
             case R.id.save:
                 //region Save
                 //region SetValues
-                EditText saleCode = (EditText) findViewById(R.id.detail_sales_info_sale_code);
+                saleCode = (EditText) findViewById(R.id.detail_sales_info_sale_code);
                 //endregion
 
                 if (CheckForValidity(
