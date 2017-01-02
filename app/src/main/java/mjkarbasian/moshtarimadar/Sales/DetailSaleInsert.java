@@ -540,9 +540,12 @@ public class DetailSaleInsert extends AppCompatActivity {
 
                         paymentMapRow.put("type", mCursor3.getString(
                                 mCursor3.getColumnIndex(KasebContract.PaymentMethods.COLUMN_PAYMENT_METHOD_POINTER)).toString());
+                        LinearLayout isPassed = (LinearLayout) dialog.findViewById(R.id.dialog_add_payment_is_passed_view);
                         if (mCursor3.getString(mCursor3.getColumnIndex(KasebContract.PaymentMethods.COLUMN_PAYMENT_METHOD_POINTER)).equals("Cheque")) {
-                            LinearLayout isPassed = (LinearLayout) dialog.findViewById(R.id.dialog_add_payment_is_passed_view);
                             isPassed.setVisibility(View.VISIBLE);
+                        }
+                        else{
+                            isPassed.setVisibility(View.INVISIBLE);
                         }
 
                     }
@@ -561,7 +564,10 @@ public class DetailSaleInsert extends AppCompatActivity {
             public void onClick(View v) {
                 paymentMapRow.put("amount", paymentAmount.getText().toString());
                 paymentMapRow.put("duedate", paymentDueDate.getText().toString());
-                paymentMapRow.put("isPass", String.valueOf(isPassCheckBox.isChecked()));
+                if (!paymentMapRow.get("type").equals("Cheque"))
+                    paymentMapRow.put("isPass", "true");
+                else
+                    paymentMapRow.put("isPass", String.valueOf(isPassCheckBox.isChecked()));
                 mPaymentListMap.add(paymentMapRow);
                 mCardViewPayments.getPaymentAdapter(mPaymentListMap);
 
