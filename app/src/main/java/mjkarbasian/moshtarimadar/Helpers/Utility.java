@@ -525,7 +525,7 @@ public class Utility {
 
     private static void paymentsMethodinit(Context context) {
         ContentValues[] contentValues;
-        contentValues = new ContentValues[4];
+        contentValues = new ContentValues[3];
         String[] ids = new String[]{context.getResources().getString(R.string.payment_method_cash)
                 , context.getResources().getString(R.string.payment_method_cheque)
                 , context.getResources().getString(R.string.payment_method_pos)};
