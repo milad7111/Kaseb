@@ -673,7 +673,8 @@ public class DetailSaleView extends AppCompatActivity {
                 KasebContract.Customers._ID,
                 KasebContract.Customers.COLUMN_FIRST_NAME,
                 KasebContract.Customers.COLUMN_LAST_NAME,
-                KasebContract.Customers.COLUMN_STATE_ID};
+                KasebContract.Customers.COLUMN_STATE_ID,
+                KasebContract.Customers.COLUMN_CUSTOMER_PICTURE};
 
         modeList = new ListView(DetailSaleView.this);
         mCAdapter = new CustomerAdapter(

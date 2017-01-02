@@ -154,7 +154,6 @@ public class DetailCustomer extends AppCompatActivity {
             }
         } catch (Exception e) {
         }
-
     }
 
     @Override

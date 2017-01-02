@@ -37,7 +37,6 @@ public class CostInsert extends Fragment {
 
     public CostInsert() {
         setHasOptionsMenu(true);
-
     }
 
     @Override
