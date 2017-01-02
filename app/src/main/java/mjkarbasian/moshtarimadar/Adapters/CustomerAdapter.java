@@ -61,10 +61,9 @@ public class CustomerAdapter extends CursorAdapter {
                     else {
                         Customers customersActivity = (Customers) context;
                         customersActivity.pic_deleter(imageViewAvatar, _id);
-
                         return true;
                     }
-                }catch (Exception e){
+                } catch (Exception e) {
                     return false;
                 }
             }
