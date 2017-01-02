@@ -142,6 +142,7 @@ public class DetailCustomer extends AppCompatActivity {
         customerAddressStreet = (EditText) findViewById(R.id.customer_address_street);
         customerAddressPostalCode = (EditText) findViewById(R.id.customer_address_postal_code);
 
+
         mCustomerAvatar = (ImageView) findViewById(R.id.image_toolbar);
 
         try {
