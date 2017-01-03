@@ -114,7 +114,7 @@ public class DetailCustomerDash extends Fragment {
                             Utility.DecimalSeperation(getContext(),
                                     totalBalanceCustomer)));
 
-            customerNumberPurchase.setText(String.valueOf(salesCount));
+            customerNumberPurchase.setText(Utility.doubleFormatter(salesCount));
         }
         else
         {

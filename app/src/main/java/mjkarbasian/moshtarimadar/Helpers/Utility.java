@@ -184,6 +184,18 @@ public class Utility {
         String formatedDate = dateFormat.format(date);
         return formatedDate;
     }
+    public static String localePersianDate(String date){
+        try {
+            String[] datePart = date.split("/");
+            return doubleFormatter(Double.parseDouble(datePart[0]))+
+                    "/"+doubleFormatter(Double.parseDouble(datePart[1]))+"/"+
+                    doubleFormatter(Double.parseDouble(datePart[2]));
+
+        }catch (Exception e){
+
+        }
+        return "ERROR";
+    }
 
     public static String formatDate(Calendar calendar) {
 
