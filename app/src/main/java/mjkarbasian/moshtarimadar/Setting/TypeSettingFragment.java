@@ -84,16 +84,16 @@ public class TypeSettingFragment extends Fragment implements LoaderManager.Loade
         Dialog typeInsert = null;
         switch (mColumnName) {
             case CostTypes.COLUMN_COST_TYPE_POINTER:
-                typeInsert = Utility.dialogBuilder(getActivity(), R.layout.dialog_add_type_setting, R.id.title_dialog_add_cost_type);
+                typeInsert = Utility.dialogBuilder(getActivity(), R.layout.dialog_add_type_setting, R.string.title_dialog_add_cost_type);
                 break;
             case PaymentMethods.COLUMN_PAYMENT_METHOD_POINTER:
-                typeInsert = Utility.dialogBuilder(getActivity(), R.layout.dialog_add_type_setting, R.id.title_dialog_add_payment_methods);
+                typeInsert = Utility.dialogBuilder(getActivity(), R.layout.dialog_add_type_setting, R.string.title_dialog_add_payment_methods);
                 break;
             case TaxTypes.COLUMN_TAX_TYPE_POINTER:
-                typeInsert = Utility.dialogBuilder(getActivity(), R.layout.dialog_add_type_setting, R.id.title_dialog_add_tax_types);
+                typeInsert = Utility.dialogBuilder(getActivity(), R.layout.dialog_add_type_setting, R.string.title_dialog_add_tax_types);
                 break;
             case State.COLUMN_STATE_POINTER:
-                typeInsert = Utility.dialogBuilder(getActivity(), R.layout.dialog_add_state_type_setting, R.id.title_dialog_add_state);
+                typeInsert = Utility.dialogBuilder(getActivity(), R.layout.dialog_add_state_type_setting, R.string.title_dialog_add_state);
                 break;
         }
         if (typeInsert != null) {

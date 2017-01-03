@@ -915,7 +915,7 @@ public class Samples {
     public static void setCost_1(Context context) {
         cost_1.putString(KasebContract.Costs.COLUMN_COST_NAME, context.getResources().getString(R.string.sample_cost_name));
         cost_1.putString(KasebContract.Costs.COLUMN_COST_CODE, "101");
-        cost_1.putString(KasebContract.Costs.COLUMN_DATE, "2015/08/03");
+        cost_1.putString(KasebContract.Costs.COLUMN_DATE, Utility.preInsertDate(context));
         cost_1.putString(KasebContract.Costs.COLUMN_DESCRIPTION, context.getResources().getString(R.string.sample_cost_description));
         cost_1.putFloat(KasebContract.Costs.COLUMN_AMOUNT, 1500.0f);
         cost_1.putInt(KasebContract.Costs.COLUMN_COST_TYPE_ID, 2);
@@ -935,7 +935,7 @@ public class Samples {
     public static void setProduct_history(Context context) {
         product_history.putInt(KasebContract.ProductHistory.COLUMN_PRODUCT_ID, 1);
         product_history.putInt(KasebContract.ProductHistory.COLUMN_QUANTITY, 10);
-        product_history.putString(KasebContract.ProductHistory.COLUMN_DATE, "2016/10/20");
+        product_history.putString(KasebContract.ProductHistory.COLUMN_DATE, Utility.preInsertDate(context));
         product_history.putFloat(KasebContract.ProductHistory.COLUMN_COST, 1100);
         product_history.putFloat(KasebContract.ProductHistory.COLUMN_SALE_PRICE, product_1_sale_price);
     }
@@ -958,16 +958,16 @@ public class Samples {
         ds1PaymentItems.putInt(KasebContract.DetailSalePayments.COLUMN_DETAIL_SALE_ID, 1);
         ds1PaymentItems.putInt(KasebContract.DetailSalePayments.COLUMN_PAYMENT_METHOD_ID, 1);
         ds1PaymentItems.putFloat(KasebContract.DetailSalePayments.COLUMN_AMOUNT, product_1_sale_price);
-        ds1PaymentItems.putString(KasebContract.DetailSalePayments.COLUMN_DUE_DATE, "20116/11/17");
-        ds1PaymentItems.putString(KasebContract.DetailSalePayments.COLUMN_MODIFIED_DATE, "20116/11/17");
+        ds1PaymentItems.putString(KasebContract.DetailSalePayments.COLUMN_DUE_DATE, Utility.preInsertDate(context));
+        ds1PaymentItems.putString(KasebContract.DetailSalePayments.COLUMN_MODIFIED_DATE, Utility.preInsertDate(context));
     }
 
     public static void setDS2PaymentItems(Context context) {
         ds2PaymentItems.putInt(KasebContract.DetailSalePayments.COLUMN_DETAIL_SALE_ID, 2);
         ds2PaymentItems.putInt(KasebContract.DetailSalePayments.COLUMN_PAYMENT_METHOD_ID, 3);
         ds2PaymentItems.putFloat(KasebContract.DetailSalePayments.COLUMN_AMOUNT, product_1_sale_price - 200);
-        ds2PaymentItems.putString(KasebContract.DetailSalePayments.COLUMN_DUE_DATE, "20116/12/17");
-        ds2PaymentItems.putString(KasebContract.DetailSalePayments.COLUMN_MODIFIED_DATE, "20116/11/19");
+        ds2PaymentItems.putString(KasebContract.DetailSalePayments.COLUMN_DUE_DATE, Utility.preInsertDate(context));
+        ds2PaymentItems.putString(KasebContract.DetailSalePayments.COLUMN_MODIFIED_DATE, Utility.preInsertDate(context));
     }
 
     public static void setDS1TaxItems(Context context) {
@@ -984,7 +984,7 @@ public class Samples {
 
     public static void setDetailSale_1(Context context) {
         detail_sale_1.putInt(KasebContract.DetailSale.COLUMN_SALE_ID, 1);
-        detail_sale_1.putString(KasebContract.DetailSale.COLUMN_DATE, "2016/11/17");
+        detail_sale_1.putString(KasebContract.DetailSale.COLUMN_DATE, Utility.preInsertDate(context));
         detail_sale_1.putInt(KasebContract.DetailSale.COLUMN_ITEMS_NUMBER, 1);
         detail_sale_1.putInt(KasebContract.DetailSale.COLUMN_IS_BALANCED, 1);
         detail_sale_1.putFloat(KasebContract.DetailSale.COLUMN_SUB_TOTAL, 5.0f * product_1_sale_price);
@@ -996,7 +996,7 @@ public class Samples {
 
     public static void setDetailSale_2(Context context) {
         detail_sale_2.putInt(KasebContract.DetailSale.COLUMN_SALE_ID, 2);
-        detail_sale_2.putString(KasebContract.DetailSale.COLUMN_DATE, "2016/11/19");
+        detail_sale_2.putString(KasebContract.DetailSale.COLUMN_DATE, Utility.preInsertDate(context));
         detail_sale_2.putInt(KasebContract.DetailSale.COLUMN_ITEMS_NUMBER, 1);
         detail_sale_2.putInt(KasebContract.DetailSale.COLUMN_IS_BALANCED, 0);
         detail_sale_2.putFloat(KasebContract.DetailSale.COLUMN_SUB_TOTAL, 10.0f * product_1_sale_price);
