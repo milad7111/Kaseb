@@ -34,19 +34,17 @@ import mjkarbasian.moshtarimadar.R;
 
 public class DetailProducts extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
+    //region Declare Values & Views
     final static int FRAGMENT_PRODUCT_HISTORY_LOADER = 5;
     private final String LOG_TAG = DetailProducts.class.getSimpleName();
-    private Uri insertUri;
     String[] mProjection;
     Cursor mCursor;
     ListView mListView;
     DetailProductAdapter mAdapter = null;
     Long productId;
     FloatingActionButton fab;
-
     ContentValues productHistoryValues = new ContentValues();
     ContentValues productValues = new ContentValues();
-
     EditText productName;
     EditText productCode;
     EditText productUnit;
@@ -57,9 +55,10 @@ public class DetailProducts extends Fragment implements LoaderManager.LoaderCall
     EditText buyDate;
     EditText discountAmount;
     EditText discountPercent;
-
     MenuItem saveItem;
     MenuItem editItem;
+    private Uri insertUri;
+    //endregion Declare Values & Views
 
     public DetailProducts() {
         super();
@@ -261,6 +260,12 @@ public class DetailProducts extends Fragment implements LoaderManager.LoaderCall
                     //just a message to show everything are under control
                     Toast.makeText(getContext(),
                             getContext().getResources().getString(R.string.msg_update_succeed), Toast.LENGTH_LONG).show();
+
+                    productName.setEnabled(false);
+                    productCode.setEnabled(false);
+                    productUnit.setEnabled(false);
+                    productDescription.setEnabled(false);
+                    fab.hide();
 
 //                    getFragmentManager().popBackStackImmediate();
                 }

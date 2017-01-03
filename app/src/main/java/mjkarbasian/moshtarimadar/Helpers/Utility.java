@@ -163,13 +163,11 @@ public class Utility {
         return formattedDate;
     }
 
-
     public static String getLocale(Context context) {
 
         Locale current = context.getResources().getConfiguration().locale;
         return current.getCountry();
     }
-
 
     public static String doubleFormatter(double myNumber) {
         DecimalFormat f = (DecimalFormat) DecimalFormat.getInstance();
@@ -506,11 +504,11 @@ public class Utility {
                 context.getResources().getString(R.string.states_silver),
                 context.getResources().getString(R.string.states_bronze, R.string.states_instart),
                 context.getResources().getString(R.string.states_instart)};
-        int [] colors = new int[]{Color.rgb(255, 215, 0),Color.rgb(192,192,192),Color.rgb(218,165,32),Color.rgb(176,224,230)};
+        int[] colors = new int[]{Color.rgb(255, 215, 0), Color.rgb(192, 192, 192), Color.rgb(218, 165, 32), Color.rgb(176, 224, 230)};
         for (int i = 0; i < ids.length; i++) {
             ContentValues states = new ContentValues();
             states.put(KasebContract.State.COLUMN_STATE_POINTER, ids[i]);
-            states.put(KasebContract.State.COLUMN_STATE_COLOR,colors[i]);
+            states.put(KasebContract.State.COLUMN_STATE_COLOR, colors[i]);
             contentValues[i] = states;
         }
 
@@ -609,16 +607,70 @@ public class Utility {
             return pDate;
         }
     }
+
     public static String preInsertSaleCode(Context context) {
         Cursor cursor = context.getContentResolver().query(KasebContract.Sales.CONTENT_URI, new String[]{KasebContract.Sales._ID},
                 null, null, KasebContract.Sales._ID + " DESC");
         String prefix = context.getResources().getString(R.string.sale_code_prefix);
         String newCode = null;
         int codeNumber;
-        if(cursor.moveToFirst()){
-            codeNumber = cursor.getInt(0)+1;
+        if (cursor.moveToFirst()) {
+            codeNumber = cursor.getInt(0) + 1;
             newCode = prefix + String.valueOf(codeNumber);
         }
         return newCode;
+    }
+
+    public static Long checkNumberOfProductsForDetailSaleInsert(Context mContext, Long mProductId) {
+        Cursor mCursor = mContext.getContentResolver().query(
+                KasebContract.DetailSaleProducts.uriDetailSaleProductsWithProductId(mProductId),
+                new String[]{"SUM (" + KasebContract.DetailSaleProducts.COLUMN_QUANTITY + " ) AS all_saled_quantity_product"},
+                null,
+                null,
+                null);
+
+        if (mCursor != null)
+            if (mCursor.moveToFirst())
+                return howManyBuyed(mContext, mProductId) -
+                        mCursor.getLong(mCursor.getColumnIndex("all_saled_quantity_product"));
+
+        mCursor.close();
+        return 0l;
+    }
+
+    public static Long checkNumberOfProductsForDetailSaleView(Context mContext, Long mDetailSaleId, Long mProductId) {
+
+        Cursor mCursor = mContext.getContentResolver().query(
+                KasebContract.DetailSaleProducts.CONTENT_URI,
+                new String[]{"SUM (" + KasebContract.DetailSaleProducts.COLUMN_QUANTITY + " ) AS all_salled_quantity_product",
+                },
+                KasebContract.DetailSaleProducts.COLUMN_DETAIL_SALE_ID + " != ? and " +
+                        KasebContract.DetailSaleProducts.COLUMN_PRODUCT_ID + " = ? ",
+                new String[]{String.valueOf(mDetailSaleId), String.valueOf(mProductId)},
+                null);
+
+        if (mCursor != null)
+            if (mCursor.moveToFirst())
+                return howManyBuyed(mContext, mProductId) -
+                        mCursor.getLong(mCursor.getColumnIndex("all_salled_quantity_product"));
+
+        mCursor.close();
+        return 0l;
+    }
+
+    private static Long howManyBuyed(Context mContext, Long mProductId) {
+        Cursor mCursor = mContext.getContentResolver().query(
+                KasebContract.ProductHistory.aProductHistory(mProductId),
+                new String[]{"SUM (" + KasebContract.ProductHistory.COLUMN_QUANTITY + " ) AS all_buyed_quantity_product"},
+                null,
+                null,
+                null);
+
+        if (mCursor != null)
+            if (mCursor.moveToFirst())
+                return mCursor.getLong(mCursor.getColumnIndex("all_buyed_quantity_product"));
+
+        mCursor.close();
+        return 0l;
     }
 }

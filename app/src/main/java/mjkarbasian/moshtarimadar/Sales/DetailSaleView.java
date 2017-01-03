@@ -93,6 +93,7 @@ public class DetailSaleView extends AppCompatActivity {
     Long cost = 0l;
     Long whichSaleId;
     Long whichDetailSaleId;
+    Long differneceOfBuy_Sale;
 
     Cursor mCursor1;
     Cursor mCursor2;
@@ -169,20 +170,6 @@ public class DetailSaleView extends AppCompatActivity {
         addCustomerLayout = (LinearLayout) findViewById(R.id.content_detail_sale_insert_linear_layout_add_customer);
         //endregion Initialize Some Views & Values
 
-        //region Set Fragments
-        mCardViewProducts = new CardViewProducts();
-        mCardViewPayments = new CardViewPayments();
-        mCardViewTaxes = new CardViewTaxes();
-
-        mCardViewProducts.setArguments(bundleCardViewFragments);
-        mCardViewPayments.setArguments(bundleCardViewFragments);
-        mCardViewTaxes.setArguments(bundleCardViewFragments);
-
-        frm.beginTransaction().replace(R.id.my_container_1, mCardViewProducts, "Frag_CardViewProducts_tag").commit();
-        frm.beginTransaction().replace(R.id.my_container_2, mCardViewPayments, "Frag_CardViewPayments_tag").commit();
-        frm.beginTransaction().replace(R.id.my_container_3, mCardViewTaxes, "Frag_CardViewTaxes_tag").commit();
-        //endregion Set Fragments
-
         //region Get SaleId
         whichSaleId = Long.parseLong(getIntent().getExtras().get("saleId").toString());
         saleCode.setText(getIntent().getExtras().get("saleCode").toString());
@@ -205,9 +192,24 @@ public class DetailSaleView extends AppCompatActivity {
             if (mCursorInitialize.moveToFirst()) {
                 whichDetailSaleId = mCursorInitialize.getLong(mCursorInitialize.getColumnIndex(KasebContract.DetailSale._ID));
                 saleDate.setText(mCursorInitialize.getString(mCursorInitialize.getColumnIndex(KasebContract.DetailSale.COLUMN_DATE)));
+                bundleCardViewFragments.putLong("detailSaleId", whichDetailSaleId);
             }
         }
         //endregion Get DetailSaleId
+
+        //region Set Fragments
+        mCardViewProducts = new CardViewProducts();
+        mCardViewPayments = new CardViewPayments();
+        mCardViewTaxes = new CardViewTaxes();
+
+        mCardViewProducts.setArguments(bundleCardViewFragments);
+        mCardViewPayments.setArguments(bundleCardViewFragments);
+        mCardViewTaxes.setArguments(bundleCardViewFragments);
+
+        frm.beginTransaction().replace(R.id.my_container_1, mCardViewProducts, "Frag_CardViewProducts_tag").commit();
+        frm.beginTransaction().replace(R.id.my_container_2, mCardViewPayments, "Frag_CardViewPayments_tag").commit();
+        frm.beginTransaction().replace(R.id.my_container_3, mCardViewTaxes, "Frag_CardViewTaxes_tag").commit();
+        //endregion Set Fragments
     }
 
     @Override
@@ -762,6 +764,9 @@ public class DetailSaleView extends AppCompatActivity {
                             final String _id = cursor.getString(
                                     cursor.getColumnIndex(KasebContract.Products._ID));
 
+                            differneceOfBuy_Sale = Utility.checkNumberOfProductsForDetailSaleView(getBaseContext(),
+                                    whichDetailSaleId, Long.parseLong(_id));
+
                             final String _name = cursor.getString(
                                     cursor.getColumnIndex(KasebContract.Products.COLUMN_PRODUCT_NAME));
 
@@ -790,6 +795,8 @@ public class DetailSaleView extends AppCompatActivity {
                             final EditText howManyEditText = (EditText) howManyOfThat
                                     .findViewById(R.id.add_number_of_product_for_sale_number);
 
+                            howManyEditText.setHint("Stock is : " + differneceOfBuy_Sale);
+
                             //region Save Button
                             Button saveButton = (Button) howManyOfThat
                                     .findViewById(R.id.add_number_of_product_for_sale_save);
@@ -798,31 +805,34 @@ public class DetailSaleView extends AppCompatActivity {
                                     new View.OnClickListener() {
                                         @Override
                                         public void onClick(View v) {
-                                            Map<String, String> mProductsRowMap = new HashMap<>();
-
                                             String num = howManyEditText.getText().toString();
 
-                                            mProductsRowMap.put("id", _id);
-                                            mProductsRowMap.put("name", _name);
-                                            mProductsRowMap.put("quantity", String.valueOf(num));
-                                            mProductsRowMap.put("price", String.valueOf(cost));
+                                            if (differneceOfBuy_Sale >= Long.parseLong(num)) {
+                                                Map<String, String> mProductsRowMap = new HashMap<>();
 
-                                            sTotalAmount += cost * Long.valueOf(num);
+                                                mProductsRowMap.put("id", _id);
+                                                mProductsRowMap.put("name", _name);
+                                                mProductsRowMap.put("quantity", String.valueOf(num));
+                                                mProductsRowMap.put("price", String.valueOf(cost));
 
-                                            int mIndex = Utility.
-                                                    indexOfRowsInMap(mChosenProductListMap, "id", _id);
+                                                sTotalAmount += cost * Long.valueOf(num);
 
-                                            if (mIndex == -1) {
-                                                //region Add Product To Sale
-                                                mChosenProductListMap.add(mProductsRowMap);
-                                                mCardViewProducts.getChosenProductAdapter(mChosenProductListMap);
+                                                int mIndex = Utility.
+                                                        indexOfRowsInMap(mChosenProductListMap, "id", _id);
 
-                                                howManyOfThat.dismiss();
-                                                dialog.dismiss();
-                                            }
+                                                if (mIndex == -1) {
+                                                    //region Add Product To Sale
+                                                    mChosenProductListMap.add(mProductsRowMap);
+                                                    mCardViewProducts.getChosenProductAdapter(mChosenProductListMap);
+
+                                                    howManyOfThat.dismiss();
+                                                    dialog.dismiss();
+                                                }
+                                            } else
+                                                Toast.makeText(DetailSaleView.this, "There is not enough good in stock.",
+                                                        Toast.LENGTH_SHORT).show();
                                         }
                                     }
-
                             );
                             //endregion Save Button
 
@@ -895,10 +905,9 @@ public class DetailSaleView extends AppCompatActivity {
                         LinearLayout isPassed = (LinearLayout) dialog.findViewById(R.id.dialog_add_payment_is_passed_view);
                         if (mCursor3.getString(mCursor3.getColumnIndex(KasebContract.PaymentMethods.COLUMN_PAYMENT_METHOD_POINTER)).equals("Cheque")) {
                             isPassed.setVisibility(View.VISIBLE);
-                        }
-    else
-    isPassed.setVisibility(View.INVISIBLE);
-}
+                        } else
+                            isPassed.setVisibility(View.INVISIBLE);
+                    }
 
                     @Override
                     public void onNothingSelected(AdapterView<?> arg0) {
@@ -1074,7 +1083,7 @@ public class DetailSaleView extends AppCompatActivity {
         sPaidAmount = 0l;
         for (int i = 0; i < mPaymentListMap.size(); i++) {
             if (mPaymentListMap.get(i).get("isPass").equals("true"))
-            sPaidAmount += Long.valueOf(mPaymentListMap.get(i).get("amount").toString());
+                sPaidAmount += Long.valueOf(mPaymentListMap.get(i).get("amount").toString());
 
         }
 

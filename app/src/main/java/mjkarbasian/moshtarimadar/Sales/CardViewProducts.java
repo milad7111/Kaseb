@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -28,19 +30,26 @@ public class CardViewProducts extends Fragment {
     ProductAdapter mChosenProductAdapter;
     ArrayList<Map<String, String>> mProductListHashMap;
     View view;
-    String activity;
     String _id;
     String _nameOfProduct;
+    String activity;
+    Long differneceOfBuy_Sale;
+    Long mDetailSaleId = 0l;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         view = inflater.inflate(R.layout.fragment_card_view_products, container, false);
         activity = getArguments().getString("activity").toString();
-
         mChosenProductAdapter = new ProductAdapter(getActivity(), mProductListHashMap);
         productListView = (ListView) view.findViewById(R.id.list_view_fragment_card_view_products);
         productListView.setAdapter(mChosenProductAdapter);
+        try {
+            mDetailSaleId = getArguments().getLong("detailSaleId");
+        } catch (Exception e) {
+            Log.i(CardViewProducts.class.getName(),
+                    "DetailSaleView does not put DetailSaleId in Bundle of CardViewProducts Fragments.");
+        }
 
         //region ProductListView OnItemClickListener
         productListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -52,6 +61,13 @@ public class CardViewProducts extends Fragment {
 
                     final int index = Utility.indexOfRowsInMap(mProductListHashMap, "id", _id);
 
+                    if (activity.equals("insert"))
+                        differneceOfBuy_Sale = Utility.checkNumberOfProductsForDetailSaleInsert(getContext(),
+                                Long.parseLong(_id));
+                    else if (activity.equals("view"))
+                        differneceOfBuy_Sale = Utility.checkNumberOfProductsForDetailSaleView(getContext(),
+                                mDetailSaleId, Long.parseLong(_id));
+
                     //region Show Dialog To Edit Number Of Product
                     final Dialog howManyOfThatForEdit = Utility.dialogBuilder(getActivity()
                             , R.layout.dialog_edit_chosen_product_for_sale
@@ -59,6 +75,8 @@ public class CardViewProducts extends Fragment {
 
                     final EditText howManyEditTextForEdit = (EditText) howManyOfThatForEdit
                             .findViewById(R.id.edit_chosen_product_for_sale_number);
+
+                    howManyEditTextForEdit.setHint("Stock is : " + differneceOfBuy_Sale);
 
                     Button saveButtonForEdit = (Button) howManyOfThatForEdit
                             .findViewById(R.id.edit_chosen_product_for_sale_save);
@@ -68,24 +86,27 @@ public class CardViewProducts extends Fragment {
                         public void onClick(View v) {
                             Long num = Long.parseLong(howManyEditTextForEdit.getText().toString());
 
-                            mProductListHashMap.set(index,
-                                    Utility.setValueWithIndexInKeyOfMapRow(
-                                            cursor,
-                                            "quantity",
-                                            String.valueOf(num)
-                                    ));
+                            if (differneceOfBuy_Sale >= num) {
+                                mProductListHashMap.set(index,
+                                        Utility.setValueWithIndexInKeyOfMapRow(
+                                                cursor,
+                                                "quantity",
+                                                String.valueOf(num)
+                                        ));
 
-                            productListView.setAdapter(mChosenProductAdapter);
+                                productListView.setAdapter(mChosenProductAdapter);
 
-                            String activity = getArguments().getString("activity").toString();
-                            if (activity.equals("insert"))
-                                ((DetailSaleInsert) getActivity()).setValuesOfFactor();
-                            else if (activity.equals("view"))
-                                ((DetailSaleView) getActivity()).setValuesOfFactor();
+                                if (activity.equals("insert"))
+                                    ((DetailSaleInsert) getActivity()).setValuesOfFactor();
+                                else if (activity.equals("view"))
+                                    ((DetailSaleView) getActivity()).setValuesOfFactor();
 
-                            Utility.setHeightOfListView(productListView);
+                                Utility.setHeightOfListView(productListView);
 
-                            howManyOfThatForEdit.dismiss();
+                                howManyOfThatForEdit.dismiss();
+                            } else
+                                Toast.makeText(getContext(), "There is not enough good in stock.",
+                                        Toast.LENGTH_SHORT).show();
                         }
                     });
 

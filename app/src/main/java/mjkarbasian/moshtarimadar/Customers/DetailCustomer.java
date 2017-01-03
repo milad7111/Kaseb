@@ -237,6 +237,21 @@ public class DetailCustomer extends AppCompatActivity {
                     //just a message to show everything are under control
                     Toast.makeText(getBaseContext(), getBaseContext().getResources().getString(R.string.msg_update_succeed),
                             Toast.LENGTH_LONG).show();
+
+                    customerFirstName.setEnabled(false);
+                    customerLastName.setEnabled(false);
+                    customerBirthDay.setEnabled(false);
+                    customerPhoneMobile.setEnabled(false);
+                    customerDescription.setEnabled(false);
+                    customerEmail.setEnabled(false);
+                    customerPhoneWork.setEnabled(false);
+                    customerPhoneHome.setEnabled(false);
+                    customerPhoneOther.setEnabled(false);
+                    customerPhoneFax.setEnabled(false);
+                    customerAddressCountry.setEnabled(false);
+                    customerAddressCity.setEnabled(false);
+                    customerAddressStreet.setEnabled(false);
+                    customerAddressPostalCode.setEnabled(false);
                 }
                 break;
             case R.id.item_edit_customer:

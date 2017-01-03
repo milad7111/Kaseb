@@ -416,6 +416,9 @@ public class DetailSaleInsert extends AppCompatActivity {
                             final String _id = cursor.getString(
                                     cursor.getColumnIndex(KasebContract.Products._ID));
 
+                            final Long differneceOfBuy_Sale = Utility.checkNumberOfProductsForDetailSaleInsert(getBaseContext(),
+                                    Long.parseLong(_id));
+
                             final String _name = cursor.getString(
                                     cursor.getColumnIndex(KasebContract.Products.COLUMN_PRODUCT_NAME));
 
@@ -444,6 +447,8 @@ public class DetailSaleInsert extends AppCompatActivity {
                             final EditText howManyEditText = (EditText) howManyOfThat
                                     .findViewById(R.id.add_number_of_product_for_sale_number);
 
+                            howManyEditText.setHint("Stock is : " + differneceOfBuy_Sale);
+
                             //region Save Button
                             Button saveButton = (Button) howManyOfThat
                                     .findViewById(R.id.add_number_of_product_for_sale_save);
@@ -452,28 +457,32 @@ public class DetailSaleInsert extends AppCompatActivity {
                                     new View.OnClickListener() {
                                         @Override
                                         public void onClick(View v) {
-                                            Map<String, String> mProductsRowMap = new HashMap<>();
-
                                             String num = howManyEditText.getText().toString();
 
-                                            mProductsRowMap.put("id", _id);
-                                            mProductsRowMap.put("name", _name);
-                                            mProductsRowMap.put("quantity", String.valueOf(num));
-                                            mProductsRowMap.put("price", String.valueOf(cost));
+                                            if (differneceOfBuy_Sale >= Long.parseLong(num)) {
+                                                Map<String, String> mProductsRowMap = new HashMap<>();
 
-                                            sTotalAmount += cost * Long.valueOf(num);
+                                                mProductsRowMap.put("id", _id);
+                                                mProductsRowMap.put("name", _name);
+                                                mProductsRowMap.put("quantity", num);
+                                                mProductsRowMap.put("price", String.valueOf(cost));
 
-                                            int mIndex = Utility.
-                                                    indexOfRowsInMap(mChosenProductListMap, "id", _id);
+                                                sTotalAmount += cost * Long.valueOf(num);
 
-                                            if (mIndex == -1) {
-                                                //region Add Product To Sale
-                                                mChosenProductListMap.add(mProductsRowMap);
-                                                mCardViewProducts.getChosenProductAdapter(mChosenProductListMap);
+                                                int mIndex = Utility.
+                                                        indexOfRowsInMap(mChosenProductListMap, "id", _id);
 
-                                                howManyOfThat.dismiss();
-                                                dialog.dismiss();
-                                            }
+                                                if (mIndex == -1) {
+                                                    //region Add Product To Sale
+                                                    mChosenProductListMap.add(mProductsRowMap);
+                                                    mCardViewProducts.getChosenProductAdapter(mChosenProductListMap);
+
+                                                    howManyOfThat.dismiss();
+                                                    dialog.dismiss();
+                                                }
+                                            } else
+                                                Toast.makeText(DetailSaleInsert.this, "There is not enough good in stock.",
+                                                        Toast.LENGTH_SHORT).show();
                                         }
                                     }
 
