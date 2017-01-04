@@ -629,8 +629,41 @@ public class Utility {
         int codeNumber;
         if(cursor.moveToFirst()){
             codeNumber = cursor.getInt(0)+1;
-            newCode = prefix + String.valueOf(codeNumber);
+            newCode = prefix + String.valueOf(Utility.doubleFormatter(codeNumber));
         }
+        cursor.close();
+        return newCode;
+    }
+    public static String preInsertCostCode(Context context) {
+        Cursor cursor = context.getContentResolver().query(KasebContract.Costs.CONTENT_URI, new String[]{KasebContract.Costs._ID},
+                null, null, KasebContract.Costs._ID + " DESC");
+        String prefix = context.getResources().getString(R.string.cost_code_prefix);
+        String newCode = null;
+        int codeNumber;
+        if(cursor.moveToFirst()){
+            codeNumber = cursor.getInt(0)+1;
+            newCode = prefix +" "+String.valueOf(Utility.doubleFormatter(codeNumber));
+        }else{
+            codeNumber = 1;
+            newCode = prefix +" " +String.valueOf(Utility.doubleFormatter(codeNumber));
+        }
+        cursor.close();
+        return newCode;
+    }
+    public static String preInsertProductCode(Context context) {
+        Cursor cursor = context.getContentResolver().query(KasebContract.Products.CONTENT_URI, new String[]{KasebContract.Products._ID},
+                null, null, KasebContract.Products._ID + " DESC");
+        String prefix = context.getResources().getString(R.string.product_code_prefix);
+        String newCode = null;
+        int codeNumber;
+        if(cursor.moveToFirst()){
+            codeNumber = cursor.getInt(0)+1;
+            newCode = prefix + String.valueOf(Utility.doubleFormatter(codeNumber));
+        }else{
+            codeNumber = 1;
+            newCode = prefix + String.valueOf(Utility.doubleFormatter(codeNumber));
+        }
+        cursor.close();
         return newCode;
     }
 }

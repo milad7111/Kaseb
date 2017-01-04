@@ -906,7 +906,7 @@ public class Samples {
     public static void setProduct_1(Context context) {
         product_1.putString(KasebContract.Products.COLUMN_PRODUCT_NAME,
                 context.getResources().getString(R.string.sample_product_name_2));
-        product_1.putString(KasebContract.Products.COLUMN_PRODUCT_CODE, "101");
+        product_1.putString(KasebContract.Products.COLUMN_PRODUCT_CODE, Utility.preInsertProductCode(context));
         product_1.putString(KasebContract.Products.COLUMN_DESCRIPTION, "very light");
         product_1.putString(KasebContract.Products.COLUMN_UNIT,
                 context.getResources().getString(R.string.sample_unit));
@@ -914,7 +914,7 @@ public class Samples {
 
     public static void setCost_1(Context context) {
         cost_1.putString(KasebContract.Costs.COLUMN_COST_NAME, context.getResources().getString(R.string.sample_cost_name));
-        cost_1.putString(KasebContract.Costs.COLUMN_COST_CODE, "101");
+        cost_1.putString(KasebContract.Costs.COLUMN_COST_CODE, Utility.preInsertCostCode(context));
         cost_1.putString(KasebContract.Costs.COLUMN_DATE, Utility.preInsertDate(context));
         cost_1.putString(KasebContract.Costs.COLUMN_DESCRIPTION, context.getResources().getString(R.string.sample_cost_description));
         cost_1.putFloat(KasebContract.Costs.COLUMN_AMOUNT, 1500.0f);

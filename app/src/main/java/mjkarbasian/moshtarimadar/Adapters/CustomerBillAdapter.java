@@ -9,6 +9,8 @@ import android.widget.CursorAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.text.NumberFormat;
+
 import mjkarbasian.moshtarimadar.Data.KasebContract;
 import mjkarbasian.moshtarimadar.Helpers.Utility;
 import mjkarbasian.moshtarimadar.R;
@@ -79,6 +81,6 @@ public class CustomerBillAdapter extends CursorAdapter {
         textViewPurchaseAmount.setText(Utility.formatPurchase(
                 context,
                 Utility.DecimalSeperation(context, Long.valueOf(String.format("%.0f", (float) totalDue)))));
-        textViewSaleCode.setText(saleCode);
+        textViewSaleCode.setText(NumberFormat.getInstance().format(saleCode));
     }
 }

@@ -285,5 +285,8 @@ CRM یا همان نرم افزار مدیریت ارتباط با مشتری ب
     <string name="title_dialog_add_payment_methods">افزودن مدل پرداخت</string>
     <string name="title_dialog_add_state">افزودن نوع عضویت</string>
     <string name="title_dialog_add_tax_types">افزودن نوع مالیات و تخفیف</string>
+    <string name="pref_header_kaseb">کاسب</string>
+    <string name="cost_code_prefix">کد- </string>
+    <string name="product_code_prefix">کد- </string>
 
 </resources>

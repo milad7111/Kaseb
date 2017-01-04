@@ -53,6 +53,7 @@ public class ProductInsert extends Fragment {
 
         productName = (EditText) rootView.findViewById(R.id.input_product_name);
         productCode = (EditText) rootView.findViewById(R.id.input_product_code);
+        productCode.setText(Utility.preInsertProductCode(getActivity()));
         unit = (EditText) rootView.findViewById(R.id.input_product_unit);
         productDescription = (EditText) rootView.findViewById(R.id.input_product_description);
         buyPrice = (EditText) rootView.findViewById(R.id.input_buy_price);

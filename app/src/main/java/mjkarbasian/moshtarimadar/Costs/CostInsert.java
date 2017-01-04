@@ -46,6 +46,7 @@ public class CostInsert extends Fragment {
         costType = (Spinner) rootView.findViewById(R.id.input_cost_type_spinner);
         costName = (EditText) rootView.findViewById(R.id.input_cost_name);
         costCode = (EditText) rootView.findViewById(R.id.input_cost_code);
+        costCode.setText(Utility.preInsertCostCode(getActivity()));
         costAmount = (EditText) rootView.findViewById(R.id.input_cost_amount);
         costDate = (EditText) rootView.findViewById(R.id.input_cost_date);
         costDate.setText(Utility.preInsertDate(getActivity()));

@@ -366,4 +366,6 @@
     <string name="title_dialog_add_payment_methods">add Payment method</string>
     <string name="title_dialog_add_tax_types">Add tax type</string>
     <string name="title_dialog_add_state">Add state type</string>
+    <string name="cost_code_prefix">C-</string>
+    <string name="product_code_prefix">P-</string>
 </resources>
