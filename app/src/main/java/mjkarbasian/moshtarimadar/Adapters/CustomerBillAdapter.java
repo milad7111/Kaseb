@@ -75,7 +75,7 @@ public class CustomerBillAdapter extends CursorAdapter {
 
         mCursor.close();
 
-        textViewDate.setText(dueDate);
+        textViewDate.setText(Utility.localePersianDate(dueDate));
         textViewPurchaseAmount.setText(Utility.formatPurchase(
                 context,
                 Utility.DecimalSeperation(context, Long.valueOf(String.format("%.0f", (float) totalDue)))));

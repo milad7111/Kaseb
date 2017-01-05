@@ -184,6 +184,18 @@ public class Utility {
         String formatedDate = dateFormat.format(date);
         return formatedDate;
     }
+    public static String localePersianDate(String date){
+        try {
+            String[] datePart = date.split("/");
+            return doubleFormatter(Double.parseDouble(datePart[0]))+
+                    "/"+doubleFormatter(Double.parseDouble(datePart[1]))+"/"+
+                    doubleFormatter(Double.parseDouble(datePart[2]));
+
+        }catch (Exception e){
+
+        }
+        return "ERROR";
+    }
 
     public static String formatDate(Calendar calendar) {
 
@@ -443,15 +455,15 @@ public class Utility {
 
     private static void salesInits(Context context) {
         setSale_1(context);
-        setSale_2(context);
         ContentValues sale1 = new ContentValues();
-        ContentValues sale2 = new ContentValues();
         sale1.put(KasebContract.Sales.COLUMN_SALE_CODE, sale_1.getString(KasebContract.Sales.COLUMN_SALE_CODE));
-        sale2.put(KasebContract.Sales.COLUMN_SALE_CODE, sale_2.getString(KasebContract.Sales.COLUMN_SALE_CODE));
         sale1.put(KasebContract.Sales.COLUMN_CUSTOMER_ID, sale_1.getInt(KasebContract.Sales.COLUMN_CUSTOMER_ID));
-        sale2.put(KasebContract.Sales.COLUMN_CUSTOMER_ID, sale_2.getInt(KasebContract.Sales.COLUMN_CUSTOMER_ID));
-
         Uri saleUri = context.getContentResolver().insert(KasebContract.Sales.CONTENT_URI, sale1);
+
+        setSale_2(context);
+        ContentValues sale2 = new ContentValues();
+        sale2.put(KasebContract.Sales.COLUMN_SALE_CODE, sale_2.getString(KasebContract.Sales.COLUMN_SALE_CODE));
+        sale2.put(KasebContract.Sales.COLUMN_CUSTOMER_ID, sale_2.getInt(KasebContract.Sales.COLUMN_CUSTOMER_ID));
         Uri saleUri2 = context.getContentResolver().insert(KasebContract.Sales.CONTENT_URI, sale2);
     }
 
@@ -617,8 +629,45 @@ public class Utility {
         int codeNumber;
         if(cursor.moveToFirst()){
             codeNumber = cursor.getInt(0)+1;
-            newCode = prefix + String.valueOf(codeNumber);
+            newCode = prefix + String.valueOf(Utility.doubleFormatter(codeNumber));
         }
+        else{
+            codeNumber = 1;
+            newCode = prefix +" " +String.valueOf(Utility.doubleFormatter(codeNumber));
+        }
+        cursor.close();
+        return newCode;
+    }
+    public static String preInsertCostCode(Context context) {
+        Cursor cursor = context.getContentResolver().query(KasebContract.Costs.CONTENT_URI, new String[]{KasebContract.Costs._ID},
+                null, null, KasebContract.Costs._ID + " DESC");
+        String prefix = context.getResources().getString(R.string.cost_code_prefix);
+        String newCode = null;
+        int codeNumber;
+        if(cursor.moveToFirst()){
+            codeNumber = cursor.getInt(0)+1;
+            newCode = prefix +" "+String.valueOf(Utility.doubleFormatter(codeNumber));
+        }else{
+            codeNumber = 1;
+            newCode = prefix +" " +String.valueOf(Utility.doubleFormatter(codeNumber));
+        }
+        cursor.close();
+        return newCode;
+    }
+    public static String preInsertProductCode(Context context) {
+        Cursor cursor = context.getContentResolver().query(KasebContract.Products.CONTENT_URI, new String[]{KasebContract.Products._ID},
+                null, null, KasebContract.Products._ID + " DESC");
+        String prefix = context.getResources().getString(R.string.product_code_prefix);
+        String newCode = null;
+        int codeNumber;
+        if(cursor.moveToFirst()){
+            codeNumber = cursor.getInt(0)+1;
+            newCode = prefix + String.valueOf(Utility.doubleFormatter(codeNumber));
+        }else{
+            codeNumber = 1;
+            newCode = prefix + String.valueOf(Utility.doubleFormatter(codeNumber));
+        }
+        cursor.close();
         return newCode;
     }
 }

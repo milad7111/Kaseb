@@ -60,12 +60,11 @@ public class PaymentAdapter extends BaseAdapter {
         CheckBox isPassCheckBox = (CheckBox) view.findViewById(R.id.payment_list_for_sale_is_passed_check_box);
 
         amountText.setText(
-                Utility.doubleFormatter(
-                        Long.parseLong(
-                                mPaymentDetailsListHashMap.get(position).get("amount"))));
+                Utility.DecimalSeperation(mContext,
+                        Long.parseLong(mPaymentDetailsListHashMap.get(position).get("amount"))));
 
         duedateText.setText(
-                mPaymentDetailsListHashMap.get(position).get("duedate"));
+               Utility.localePersianDate(mPaymentDetailsListHashMap.get(position).get("duedate")));
 
         typeText.setText(
                 mPaymentDetailsListHashMap.get(position).get("type"));

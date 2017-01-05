@@ -20,12 +20,14 @@ public class ProductAdapter extends BaseAdapter {
 
     private static LayoutInflater inflater = null;
     List<Map<String, String>> mProductDetailsListHashMap;
+    private Context mContext;
 
     public ProductAdapter(Context context, List<Map<String, String>> productDetailsListHashMap) {
         super();
         mProductDetailsListHashMap = productDetailsListHashMap;
         inflater = (LayoutInflater) context.
                 getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        mContext = context;
     }
 
     @Override
@@ -59,15 +61,15 @@ public class ProductAdapter extends BaseAdapter {
                 mProductDetailsListHashMap.get(position).get("name"));
 
         priceText.setText(
-                Utility.doubleFormatter(
+                Utility.DecimalSeperation(mContext,
                         Long.parseLong(
                                 mProductDetailsListHashMap.get(position).get("price"))));
 
         quantityText.setText(
-                mProductDetailsListHashMap.get(position).get("quantity"));
+                Utility.doubleFormatter(Double.parseDouble(mProductDetailsListHashMap.get(position).get("quantity"))));
 
         totalCostText.setText(
-                Utility.doubleFormatter(
+                Utility.DecimalSeperation(mContext,
                         Long.parseLong(String.valueOf(
                                 Long.parseLong(
                                         mProductDetailsListHashMap.get(position).get("price"))

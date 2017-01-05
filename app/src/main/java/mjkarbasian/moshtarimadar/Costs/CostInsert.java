@@ -46,6 +46,7 @@ public class CostInsert extends Fragment {
         costType = (Spinner) rootView.findViewById(R.id.input_cost_type_spinner);
         costName = (EditText) rootView.findViewById(R.id.input_cost_name);
         costCode = (EditText) rootView.findViewById(R.id.input_cost_code);
+        costCode.setText(Utility.preInsertCostCode(getActivity()));
         costAmount = (EditText) rootView.findViewById(R.id.input_cost_amount);
         costDate = (EditText) rootView.findViewById(R.id.input_cost_date);
         costDate.setText(Utility.preInsertDate(getActivity()));
@@ -114,13 +115,13 @@ public class CostInsert extends Fragment {
     // this method check the validation and correct entries. its check fill first and then check the validation rules.
     private boolean CheckForValidity(String costName, String costAmount, String costDate) {
         if (costName.equals("") || costName.equals(null)) {
-            Toast.makeText(getActivity(), "Choose apropriate name for COST.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), R.string.validity_error_cost_name, Toast.LENGTH_SHORT).show();
             return false;
         } else if (costAmount.equals("") || costAmount.equals(null)) {
-            Toast.makeText(getActivity(), "Choose apropriate amount for COST.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), R.string.validity_error_cost_amount, Toast.LENGTH_SHORT).show();
             return false;
         } else if (costDate.equals("") || costDate.equals(null)) {
-            Toast.makeText(getActivity(), "Choose apropriate date for COST.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), R.string.validity_error_date_cost, Toast.LENGTH_SHORT).show();
             return false;
         }
         return true;

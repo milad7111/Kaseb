@@ -325,13 +325,13 @@ public class DetailCustomer extends AppCompatActivity {
     // this method check the validation and correct entries. its check fill first and then check the validation rules.
     private boolean CheckForValidity(String customerFirstName, String customerLastName, String customerPhoneMobile) {
         if (customerFirstName.equals("") || customerFirstName.equals(null)) {
-            Toast.makeText(getBaseContext(), "Choose apropriate name for CUSTOMER.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getBaseContext(), R.string.validity_error_customer_name, Toast.LENGTH_SHORT).show();
             return false;
         } else if (customerLastName.equals("") || customerLastName.equals(null)) {
-            Toast.makeText(getBaseContext(), "Choose apropriate last name for CUSTOMER.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getBaseContext(), R.string.validity_error_customer_last_name, Toast.LENGTH_SHORT).show();
             return false;
         } else if (customerPhoneMobile.equals("") || customerPhoneMobile.equals(null)) {
-            Toast.makeText(getBaseContext(), "Choose apropriate phone mobile for CUSTOMER.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getBaseContext(), R.string.validity_error_customer_phone_mobile, Toast.LENGTH_SHORT).show();
             return false;
         } else {
             Cursor mCursor = getBaseContext().getContentResolver().query(
@@ -344,7 +344,7 @@ public class DetailCustomer extends AppCompatActivity {
             if (mCursor != null)
                 if (mCursor.moveToFirst())
                     if (mCursor.getCount() > 0) {
-                        Toast.makeText(getBaseContext(), "Choose apropriate (Not Itterative) phone mobile for CUSTOMER.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getBaseContext(),R.string.validity_error_customer_phone_mobile_duplicate, Toast.LENGTH_SHORT).show();
                         return false;
                     }
             return true;

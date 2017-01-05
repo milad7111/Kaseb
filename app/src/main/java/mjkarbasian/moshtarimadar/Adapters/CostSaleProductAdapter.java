@@ -138,7 +138,7 @@ public class CostSaleProductAdapter extends CursorAdapter {
 
         textViewName.setText(name);
         textViewCode.setText(code);
-        textViewDate.setText(date);
+        textViewDate.setText(Utility.localePersianDate(date));
         textViewAmount.setText(Utility.formatPurchase(
                 context,
                 Utility.DecimalSeperation(context, Long.valueOf(String.format("%.0f", (float) amount)))));

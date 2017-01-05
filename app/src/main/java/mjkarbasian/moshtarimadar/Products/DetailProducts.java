@@ -160,7 +160,7 @@ public class DetailProducts extends Fragment implements LoaderManager.LoaderCall
                             Float mDiscountPercent = Float.valueOf(discountPercent.getText().toString());
 
                             if (mDiscountPercent > 100)
-                                discountPercent.setText("100");
+                                discountPercent.setText(Utility.doubleFormatter(100));
                         } catch (Exception e) {
                             salePrice.setText("");
                         }
@@ -350,7 +350,7 @@ public class DetailProducts extends Fragment implements LoaderManager.LoaderCall
     // this method check the validation and correct entries. its check fill first and then check the validation rules.
     private boolean CheckForValidityEditProduct(String productName) {
         if (productName.equals("") || productName.equals(null)) {
-            Toast.makeText(getActivity(), "Choose apropriate name for PRODUCT.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), R.string.validity_error_product_name, Toast.LENGTH_SHORT).show();
             return false;
         } else {
             Cursor mCursor = getContext().getContentResolver().query(
@@ -363,7 +363,7 @@ public class DetailProducts extends Fragment implements LoaderManager.LoaderCall
             if (mCursor != null) {
                 if (mCursor.moveToFirst())
                     if (mCursor.getCount() > 0) {
-                        Toast.makeText(getActivity(), "Choose apropriate (Not Itterative) name for PRODUCT.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), R.string.validity_error_product_name_duplicate, Toast.LENGTH_SHORT).show();
                         return false;
                     }
             }
@@ -375,16 +375,16 @@ public class DetailProducts extends Fragment implements LoaderManager.LoaderCall
     // this method check the validation and correct entries. its check fill first and then check the validation rules.
     private boolean CheckForValidityInsertProductHistory(String buyPrice, String quantity, String salePrice, String buyDate) {
         if (buyPrice.equals("") || buyPrice.equals(null)) {
-            Toast.makeText(getActivity(), "Choose apropriate buy price for PRODUCT.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), R.string.validity_error_product_history_buy_price, Toast.LENGTH_SHORT).show();
             return false;
         } else if (quantity.equals("") || quantity.equals(null)) {
-            Toast.makeText(getActivity(), "Choose apropriate quantity for PRODUCT.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), R.string.validity_error_product_history_quantity, Toast.LENGTH_SHORT).show();
             return false;
         } else if (salePrice.equals("") || salePrice.equals(null)) {
-            Toast.makeText(getActivity(), "Choose apropriate sale price for PRODUCT.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), R.string.validity_error_product_history_sale_price, Toast.LENGTH_SHORT).show();
             return false;
         } else if (buyDate.equals("") || buyDate.equals(null)) {
-            Toast.makeText(getActivity(), "Choose apropriate buy date for PRODUCT.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), R.string.validity_error_product_history_buy_date, Toast.LENGTH_SHORT).show();
             return false;
         }
 
