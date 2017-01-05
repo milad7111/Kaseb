@@ -296,8 +296,8 @@ public class CostSaleProductList extends Fragment implements LoaderManager.Loade
                         mCursor = (Cursor) parent.getItemAtPosition(position);
                         if (mCursor != null) {
                             new AlertDialog.Builder(getActivity())
-                                    .setTitle("Confirmation ...")
-                                    .setMessage("Do You Really Want to Delete This COST?\n\nCost Name : " +
+                                    .setTitle(getActivity().getResources().getString(R.string.confirm_title))
+                                    .setMessage(getActivity().getResources().getString(R.string.confirm_message_delete_this_cost) +
                                             mCursor.getString(mCursor.getColumnIndex(KasebContract.Costs.COLUMN_COST_NAME)))
                                     .setIcon(android.R.drawable.ic_dialog_alert)
                                     .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
@@ -326,8 +326,8 @@ public class CostSaleProductList extends Fragment implements LoaderManager.Loade
                         mCursor = (Cursor) parent.getItemAtPosition(position);
                         if (mCursor != null) {
                             new AlertDialog.Builder(getActivity())
-                                    .setTitle("Confirmation ...")
-                                    .setMessage("Do You Really Want to Delete This Sale?\n\nSale Code : " +
+                                    .setTitle(getActivity().getResources().getString(R.string.confirm_title))
+                                    .setMessage(getActivity().getResources().getString(R.string.confirm_message_delete_sale) +
                                             mCursor.getString(mCursor.getColumnIndex(KasebContract.Sales.COLUMN_SALE_CODE)))
                                     .setIcon(android.R.drawable.ic_dialog_alert)
                                     .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
@@ -370,13 +370,13 @@ public class CostSaleProductList extends Fragment implements LoaderManager.Loade
 
                             if (numberUseOfThisProduct > 0)
                                 Toast.makeText(getContext(),
-                                        "This Product Is INUSE In "
+                                        getActivity().getResources().getString(R.string.confirm_delete_product_list_it_has)
                                                 + numberUseOfThisProduct
-                                                + " Factor(s)!", Toast.LENGTH_LONG).show();
+                                                + getActivity().getResources().getString(R.string.confirm_delete_customer_list_factors), Toast.LENGTH_LONG).show();
                             else {
                                 new AlertDialog.Builder(getActivity())
-                                        .setTitle("Confirmation ...")
-                                        .setMessage("Do You Really Want to Delete This PRODUCT?\n\nProduct Name : " +
+                                        .setTitle(getActivity().getResources().getString(R.string.confirm_title))
+                                        .setMessage(getActivity().getResources().getString(R.string.confirm_delete_product_list) +
                                                 mCursor.getString(mCursor.getColumnIndex(KasebContract.Products.COLUMN_PRODUCT_NAME)))
                                         .setIcon(android.R.drawable.ic_dialog_alert)
                                         .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
@@ -572,13 +572,13 @@ public class CostSaleProductList extends Fragment implements LoaderManager.Loade
     // this method check the validation and correct entries. its check fill first and then check the validation rules.
     private boolean CheckForValidity(String costName, String costAmount, String costDate) {
         if (costName.equals("") || costName.equals(null)) {
-            Toast.makeText(getActivity(), "Choose apropriate name for COST.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), R.string.validity_choose_cost_name, Toast.LENGTH_SHORT).show();
             return false;
         } else if (costAmount.equals("") || costAmount.equals(null)) {
-            Toast.makeText(getActivity(), "Choose apropriate amount for COST.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), R.string.validity_enter_cost_amount, Toast.LENGTH_SHORT).show();
             return false;
         } else if (costDate.equals("") || costDate.equals(null)) {
-            Toast.makeText(getActivity(), "Choose apropriate date for COST.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), R.string.validity_enter_cost_date, Toast.LENGTH_SHORT).show();
             return false;
         }
         return true;

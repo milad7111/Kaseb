@@ -455,15 +455,15 @@ public class Utility {
 
     private static void salesInits(Context context) {
         setSale_1(context);
-        setSale_2(context);
         ContentValues sale1 = new ContentValues();
-        ContentValues sale2 = new ContentValues();
         sale1.put(KasebContract.Sales.COLUMN_SALE_CODE, sale_1.getString(KasebContract.Sales.COLUMN_SALE_CODE));
-        sale2.put(KasebContract.Sales.COLUMN_SALE_CODE, sale_2.getString(KasebContract.Sales.COLUMN_SALE_CODE));
         sale1.put(KasebContract.Sales.COLUMN_CUSTOMER_ID, sale_1.getInt(KasebContract.Sales.COLUMN_CUSTOMER_ID));
-        sale2.put(KasebContract.Sales.COLUMN_CUSTOMER_ID, sale_2.getInt(KasebContract.Sales.COLUMN_CUSTOMER_ID));
-
         Uri saleUri = context.getContentResolver().insert(KasebContract.Sales.CONTENT_URI, sale1);
+
+        setSale_2(context);
+        ContentValues sale2 = new ContentValues();
+        sale2.put(KasebContract.Sales.COLUMN_SALE_CODE, sale_2.getString(KasebContract.Sales.COLUMN_SALE_CODE));
+        sale2.put(KasebContract.Sales.COLUMN_CUSTOMER_ID, sale_2.getInt(KasebContract.Sales.COLUMN_CUSTOMER_ID));
         Uri saleUri2 = context.getContentResolver().insert(KasebContract.Sales.CONTENT_URI, sale2);
     }
 
@@ -630,6 +630,10 @@ public class Utility {
         if(cursor.moveToFirst()){
             codeNumber = cursor.getInt(0)+1;
             newCode = prefix + String.valueOf(Utility.doubleFormatter(codeNumber));
+        }
+        else{
+            codeNumber = 1;
+            newCode = prefix +" " +String.valueOf(Utility.doubleFormatter(codeNumber));
         }
         cursor.close();
         return newCode;

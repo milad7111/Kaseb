@@ -9,6 +9,7 @@ import android.widget.CursorAdapter;
 import android.widget.TextView;
 
 import mjkarbasian.moshtarimadar.Data.KasebContract;
+import mjkarbasian.moshtarimadar.Helpers.Utility;
 import mjkarbasian.moshtarimadar.R;
 
 /**
@@ -37,9 +38,9 @@ public class DetailProductAdapter extends CursorAdapter {
         TextView textViewDate = (TextView) view.findViewById(R.id.price_list_date);
         TextView textViewQuantity = (TextView) view.findViewById(R.id.price_list_quantity);
 
-        textViewBuyPrice.setText(cursor.getString(cursor.getColumnIndex(KasebContract.ProductHistory.COLUMN_COST)));
-        textViewSalePrice.setText(cursor.getString(cursor.getColumnIndex(KasebContract.ProductHistory.COLUMN_SALE_PRICE)));
-        textViewDate.setText(cursor.getString(cursor.getColumnIndex(KasebContract.ProductHistory.COLUMN_DATE)));
-        textViewQuantity.setText(cursor.getString(cursor.getColumnIndex(KasebContract.ProductHistory.COLUMN_QUANTITY)));
+        textViewBuyPrice.setText(Utility.DecimalSeperation(mContext, cursor.getLong(cursor.getColumnIndex(KasebContract.ProductHistory.COLUMN_COST))));
+        textViewSalePrice.setText(Utility.DecimalSeperation(mContext, cursor.getLong(cursor.getColumnIndex(KasebContract.ProductHistory.COLUMN_SALE_PRICE))));
+        textViewDate.setText(Utility.localePersianDate(cursor.getString(cursor.getColumnIndex(KasebContract.ProductHistory.COLUMN_DATE))));
+        textViewQuantity.setText(Utility.doubleFormatter(cursor.getLong(cursor.getColumnIndex(KasebContract.ProductHistory.COLUMN_QUANTITY))));
     }
 }

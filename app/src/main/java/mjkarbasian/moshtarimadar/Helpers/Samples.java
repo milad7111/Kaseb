@@ -923,12 +923,12 @@ public class Samples {
     }
 
     public static void setSale_1(Context context) {
-        sale_1.putString(KasebContract.Sales.COLUMN_SALE_CODE, context.getResources().getString(R.string.sample_sale_code));
+        sale_1.putString(KasebContract.Sales.COLUMN_SALE_CODE, Utility.preInsertSaleCode(context));
         sale_1.putInt(KasebContract.Sales.COLUMN_CUSTOMER_ID, 1);
     }
 
     public static void setSale_2(Context context) {
-        sale_2.putString(KasebContract.Sales.COLUMN_SALE_CODE, context.getResources().getString(R.string.sample_sale_code_2));
+        sale_2.putString(KasebContract.Sales.COLUMN_SALE_CODE, Utility.preInsertSaleCode(context));
         sale_2.putInt(KasebContract.Sales.COLUMN_CUSTOMER_ID, 1);
     }
 

@@ -37,6 +37,7 @@ public class DetailCustomerDash extends Fragment {
         uriCursor = uri;
     }
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.customer_dash, container, false);

@@ -57,28 +57,28 @@ public class CardViewTaxes extends Fragment {
                     _amount = cursor.get("amount");
 
                     new AlertDialog.Builder(getActivity())
-                            .setTitle("Confirmation ...")
-                            .setMessage("Do You Really Want to Delete This TAX?\n\nTax Amount : " + _amount)
-                            .setIcon(android.R.drawable.ic_dialog_alert)
-                            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            .setTitle(getActivity().getResources().getString(R.string.confirm_title))
+                                    .setMessage(getActivity().getResources().getString(R.string.confirm_delete_tax) + _amount)
+                                    .setIcon(android.R.drawable.ic_dialog_alert)
+                                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
 
-                                public void onClick(DialogInterface dialog, int whichButton) {
-                                    mTaxListHashMap.remove(Utility.indexOfRowsInMap(mTaxListHashMap, "id", _id));
-                                    taxListView.setAdapter(mTaxAdapter);
+                                        public void onClick(DialogInterface dialog, int whichButton) {
+                                            mTaxListHashMap.remove(Utility.indexOfRowsInMap(mTaxListHashMap, "id", _id));
+                                            taxListView.setAdapter(mTaxAdapter);
 
-                                    if (activity.equals("insert"))
-                                        ((DetailSaleInsert) getActivity()).setValuesOfFactor();
-                                    else if (activity.equals("view"))
-                                        ((DetailSaleView) getActivity()).setValuesOfFactor();
+                                            if (activity.equals("insert"))
+                                                ((DetailSaleInsert) getActivity()).setValuesOfFactor();
+                                            else if (activity.equals("view"))
+                                                ((DetailSaleView) getActivity()).setValuesOfFactor();
 
-                                    Utility.setHeightOfListView(taxListView);
-                                }
-                            })
-                            .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                                            Utility.setHeightOfListView(taxListView);
+                                        }
+                                    })
+                                    .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
 
-                                public void onClick(DialogInterface dialog, int whichButton) {
-                                }
-                            }).show();
+                                        public void onClick(DialogInterface dialog, int whichButton) {
+                                        }
+                                    }).show();
                 }
 
                 return true;

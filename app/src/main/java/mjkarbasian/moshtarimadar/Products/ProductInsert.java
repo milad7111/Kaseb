@@ -192,7 +192,7 @@ public class ProductInsert extends Fragment {
     // this method check the validation and correct entries. its check fill first and then check the validation rules.
     private boolean CheckForValidity(String productName, String buyPrice, String quantity, String salePrice, String buyDate) {
         if (productName.equals("") || productName.equals(null)) {
-            Toast.makeText(getActivity(), "Choose apropriate name for PRODUCT.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), R.string.validity_error_product_name, Toast.LENGTH_SHORT).show();
             return false;
         } else {
             Cursor mCursor = getContext().getContentResolver().query(
@@ -205,23 +205,23 @@ public class ProductInsert extends Fragment {
             if (mCursor != null) {
                 if (mCursor.moveToFirst())
                     if (mCursor.getCount() > 0) {
-                        Toast.makeText(getActivity(), "Choose apropriate (Not Itterative) name for PRODUCT.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), R.string.validity_error_product_name_duplicate, Toast.LENGTH_SHORT).show();
                         return false;
                     }
             }
         }
 
         if (buyPrice.equals("") || buyPrice.equals(null)) {
-            Toast.makeText(getActivity(), "Choose apropriate buy price for PRODUCT.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), R.string.validity_error_product_buy_price, Toast.LENGTH_SHORT).show();
             return false;
         } else if (quantity.equals("") || quantity.equals(null)) {
-            Toast.makeText(getActivity(), "Choose apropriate quantity for PRODUCT.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), R.string.validity_error_product_qty, Toast.LENGTH_SHORT).show();
             return false;
         } else if (salePrice.equals("") || salePrice.equals(null)) {
-            Toast.makeText(getActivity(), "Choose apropriate sale price for PRODUCT.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), R.string.validity_error_product_sale_price, Toast.LENGTH_SHORT).show();
             return false;
         } else if (buyDate.equals("") || buyDate.equals(null)) {
-            Toast.makeText(getActivity(), "Choose apropriate buy date for PRODUCT.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), R.string.validity_error_product_buy_date, Toast.LENGTH_SHORT).show();
             return false;
         }
 
