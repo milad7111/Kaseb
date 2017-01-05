@@ -97,7 +97,7 @@
     <string name="fab_add_payment">ثبت پرداخت</string>
     <string name="fab_add_tax">ثبت مالیات</string>
     <string name="payment_model_cash">نقد</string>
-    <string name="payment_model_cheque">چک</string>
+    <string name="payment_model_czech">چک</string>
     <string name="payment_model_credit">امانی/اعتباری</string>
     <string name="print_button">پرینت</string>
     <string name="print_detail_sale_action_description">این دکمه به شما امکان پرینت از فکتور را می دهد</string>
@@ -126,4 +126,12 @@ CRM یا همان نرم افزار مدیریت ارتباط با مشتری ب
 ما امیدواریم که این برنامه به شما کاربر گرامی در بازاریابی، مدیریت فروش و مدیریت مشتری کمک کند.
     </string>
 
+    //region Sales Invoice Print
+    <string name="title_of_print_invoice">فاکتور فروش</string>
+    <string name="title_of_invoice_items">اقلام فاکتور</string>
+    <string name="title_of_taxes">مالیات های فاکتور</string>
+    <string name="title_of_discounts">تخفیف های فاکتور</string>
+    <string name="title_of_payments">پرداخت های فاکتور</string>
+    <string name="title_of_invoice_summary">خلاصه فاکتور</string>
+    //endregion Sales Invoice Print
 </resources>

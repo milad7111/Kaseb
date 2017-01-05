@@ -99,7 +99,7 @@
     <string name="detail_sales_summary_total_balance">Balance</string>
     <string name="payment_model_cash">cash</string>
     <string name="payment_model_pos" translatable="false">POS</string>
-    <string name="payment_model_cheque">Cheque</string>
+    <string name="payment_model_czech">Czech</string>
     <string name="payment_model_credit">Credit</string>
     <string name="sale_tax_tax_stick">Tax</string>
     <string name="sale_tax_off_stick">Discount</string>
@@ -154,7 +154,7 @@
     <!-- default payment method strings-->
     <string name="payment_method_cash">Cash</string>
     <string name="payment_method_credit">Credit</string>
-    <string name="payment_method_cheque">Cheque</string>
+    <string name="payment_method_czech">Czeque</string>
     <string name="payment_method_pos">POS</string>
     <!-- default customer states-->
     <string name="states_gold">Gold</string>
@@ -298,7 +298,7 @@
     <string name="dialog_select_restore">Restore</string>
     <string name="dialog_select_cancel">Cancel</string>
     <string-array name="payment_method">
-        <item>Check</item>
+        <item>Czech</item>
         <item>Cash</item>
     </string-array>
     <string name="payment_list_for_sale_amount_title">Amount :</string>
@@ -361,4 +361,13 @@
     <string name="search_title_products">Enter Product name</string>
     <string name="search_title_cost">Enter Cost Name</string>
     <string name="sale_code_prefix">INV-</string>
+
+    //region Sales Invoice Print
+    <string name="title_of_print_invoice">Sales Invoice</string>
+    <string name="title_of_invoice_items">Invoice Items</string>
+    <string name="title_of_taxes">Invoice Taxes</string>
+    <string name="title_of_discounts">Invoice Discounts</string>
+    <string name="title_of_payments">Invoice Payments</string>
+    <string name="title_of_invoice_summary">Invoice Summary</string>
+    //endregion Sales Invoice Print
 </resources>

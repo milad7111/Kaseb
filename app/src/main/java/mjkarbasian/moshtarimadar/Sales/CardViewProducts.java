@@ -62,11 +62,12 @@ public class CardViewProducts extends Fragment {
                     final int index = Utility.indexOfRowsInMap(mProductListHashMap, "id", _id);
 
                     if (activity.equals("insert"))
-                        differneceOfBuy_Sale = Utility.checkNumberOfProductsForDetailSaleInsert(getContext(),
-                                Long.parseLong(_id));
+                        //in this line does not matter post 0l to second parameter of function because not use in this case
+                        differneceOfBuy_Sale = Utility.checkNumberOfProductsForDetailSale(getActivity(),
+                                0l, "SaleInsert", Long.parseLong(_id));
                     else if (activity.equals("view"))
-                        differneceOfBuy_Sale = Utility.checkNumberOfProductsForDetailSaleView(getContext(),
-                                mDetailSaleId, Long.parseLong(_id));
+                        differneceOfBuy_Sale = Utility.checkNumberOfProductsForDetailSale(getActivity(),
+                                mDetailSaleId, "SaleView", Long.parseLong(_id));
 
                     //region Show Dialog To Edit Number Of Product
                     final Dialog howManyOfThatForEdit = Utility.dialogBuilder(getActivity()

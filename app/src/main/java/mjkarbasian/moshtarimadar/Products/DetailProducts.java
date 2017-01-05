@@ -184,11 +184,7 @@ public class DetailProducts extends Fragment implements LoaderManager.LoaderCall
                 dialogButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if (CheckForValidityInsertProductHistory(
-                                buyPrice.getText().toString(),
-                                quantity.getText().toString(),
-                                salePrice.getText().toString(),
-                                buyDate.getText().toString())) {
+                        if (CheckForValidityInsertProductHistory()) {
                             productHistoryValues.put(KasebContract.ProductHistory.COLUMN_COST, buyPrice.getText().toString());
                             productHistoryValues.put(KasebContract.ProductHistory.COLUMN_QUANTITY, quantity.getText().toString());
                             productHistoryValues.put(KasebContract.ProductHistory.COLUMN_SALE_PRICE, salePrice.getText().toString());
@@ -241,7 +237,10 @@ public class DetailProducts extends Fragment implements LoaderManager.LoaderCall
 
                 break;
             case R.id.action_detail_product_save:
-                if (CheckForValidityEditProduct(productName.getText().toString())) {
+                if (Utility.checkForValidityForEditTextNullOrEmptyAndItterative(
+                        getActivity(), productName, KasebContract.Products.CONTENT_URI,
+                        KasebContract.Products.COLUMN_PRODUCT_NAME + " = ? and " + KasebContract.Products._ID + " != ? ",
+                        KasebContract.Products._ID, new String[]{productName.getText().toString(), String.valueOf(productId)})) {
                     editItem.setVisible(isVisible());
                     saveItem.setVisible(isHidden());
 
@@ -273,7 +272,7 @@ public class DetailProducts extends Fragment implements LoaderManager.LoaderCall
 //            case R.id.action_detail_product_share: {
 //            }
             default:
-            return true;
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -353,45 +352,15 @@ public class DetailProducts extends Fragment implements LoaderManager.LoaderCall
     }
 
     // this method check the validation and correct entries. its check fill first and then check the validation rules.
-    private boolean CheckForValidityEditProduct(String productName) {
-        if (productName.equals("") || productName.equals(null)) {
-            Toast.makeText(getActivity(), "Choose apropriate name for PRODUCT.", Toast.LENGTH_SHORT).show();
+    private boolean CheckForValidityInsertProductHistory() {
+        if (!Utility.checkForValidityForEditTextNullOrEmpty(buyPrice, "BUY PRICE"))
             return false;
-        } else {
-            Cursor mCursor = getContext().getContentResolver().query(
-                    KasebContract.Products.CONTENT_URI,
-                    new String[]{KasebContract.Products._ID},
-                    KasebContract.Products.COLUMN_PRODUCT_NAME + " = ? and " + KasebContract.Products._ID + " != ? ",
-                    new String[]{productName, String.valueOf(productId)},
-                    null);
-
-            if (mCursor != null) {
-                if (mCursor.moveToFirst())
-                    if (mCursor.getCount() > 0) {
-                        Toast.makeText(getActivity(), "Choose apropriate (Not Itterative) name for PRODUCT.", Toast.LENGTH_SHORT).show();
-                        return false;
-                    }
-            }
-        }
-
-        return true;
-    }
-
-    // this method check the validation and correct entries. its check fill first and then check the validation rules.
-    private boolean CheckForValidityInsertProductHistory(String buyPrice, String quantity, String salePrice, String buyDate) {
-        if (buyPrice.equals("") || buyPrice.equals(null)) {
-            Toast.makeText(getActivity(), "Choose apropriate buy price for PRODUCT.", Toast.LENGTH_SHORT).show();
+        else if (!Utility.checkForValidityForEditTextNullOrEmpty(quantity, "QUANTITY"))
             return false;
-        } else if (quantity.equals("") || quantity.equals(null)) {
-            Toast.makeText(getActivity(), "Choose apropriate quantity for PRODUCT.", Toast.LENGTH_SHORT).show();
+        else if (!Utility.checkForValidityForEditTextNullOrEmpty(salePrice, "SALE PRICE"))
             return false;
-        } else if (salePrice.equals("") || salePrice.equals(null)) {
-            Toast.makeText(getActivity(), "Choose apropriate sale price for PRODUCT.", Toast.LENGTH_SHORT).show();
+        else if (!Utility.checkForValidityForEditTextNullOrEmpty(buyDate, "BUY DATE"))
             return false;
-        } else if (buyDate.equals("") || buyDate.equals(null)) {
-            Toast.makeText(getActivity(), "Choose apropriate buy date for PRODUCT.", Toast.LENGTH_SHORT).show();
-            return false;
-        }
 
         return true;
     }

@@ -214,6 +214,8 @@ public class DetailSaleInsert extends AppCompatActivity {
                     mDb.beginTransaction();
 
                     //region Insert Sale
+                    String mSaleId = "0";
+
                     saleValues.put(KasebContract.Sales.COLUMN_CUSTOMER_ID, customerId);
                     saleValues.put(KasebContract.Sales.COLUMN_IS_DELETED, 0);
                     saleValues.put(KasebContract.Sales.COLUMN_SALE_CODE, saleCode.getText().toString());
@@ -223,6 +225,8 @@ public class DetailSaleInsert extends AppCompatActivity {
                             saleValues
                     );
 
+                    mSaleId = insertUri.getLastPathSegment();
+
                     saleCode.setEnabled(false);
                     //endregion
 
@@ -230,7 +234,7 @@ public class DetailSaleInsert extends AppCompatActivity {
                     detailSaleValues.put(KasebContract.DetailSale.COLUMN_DATE, saleDate.getText().toString());
                     detailSaleValues.put(KasebContract.DetailSale.COLUMN_IS_BALANCED, sFinalAmount.equals(sPaidAmount));
                     detailSaleValues.put(KasebContract.DetailSale.COLUMN_ITEMS_NUMBER, mChosenProductListMap.size());
-                    detailSaleValues.put(KasebContract.DetailSale.COLUMN_SALE_ID, insertUri.getLastPathSegment());
+                    detailSaleValues.put(KasebContract.DetailSale.COLUMN_SALE_ID, mSaleId);
                     detailSaleValues.put(KasebContract.DetailSale.COLUMN_SUB_TOTAL, sTotalAmount);
                     detailSaleValues.put(KasebContract.DetailSale.COLUMN_TOTAL_DISCOUNT, sTotalDiscount);
                     detailSaleValues.put(KasebContract.DetailSale.COLUMN_TOTAL_DUE, sFinalAmount);
@@ -288,7 +292,6 @@ public class DetailSaleInsert extends AppCompatActivity {
                     );
                     //endregion Insert DetailSalePayments
 
-
                     //region Insert DetailSaleTaxes
                     count = mTaxListMap.size();
                     taxValuesArray = new ContentValues[count];
@@ -315,6 +318,62 @@ public class DetailSaleInsert extends AppCompatActivity {
 
                     mDb.setTransactionSuccessful();
                     mDb.endTransaction();
+
+                    //region Print Factor
+                    ArrayList<Long> mSummaryOfInvoice = new ArrayList<Long>();
+                    mSummaryOfInvoice.add(sTotalAmount);
+                    mSummaryOfInvoice.add(sTotalTax);
+                    mSummaryOfInvoice.add(sTotalDiscount);
+                    mSummaryOfInvoice.add(sPaidAmount);
+                    mSummaryOfInvoice.add(sBalanceAmount);
+
+                    Utility.printInvoice(mContext, saleCode.getText().toString(),
+                            nameCustomer.getText().toString(),
+                            familyCustomer.getText().toString(), mSummaryOfInvoice, customerId,
+                            mChosenProductListMap, mTaxListMap, mPaymentListMap);
+//                    HashMap<String, String> mTextFactor = new HashMap<String, String>();
+//                    mTextFactor.put("firstTitle", getString(R.string.title_of_print_invoice));
+//                    mTextFactor.put("secondTitle", getString(R.string.title_of_invoice_items));
+//                    mTextFactor.put("thirdTitle", getString(R.string.title_of_taxes));
+//                    mTextFactor.put("sixthTitle", getString(R.string.title_of_discounts));
+//                    mTextFactor.put("fourthTitle", getString(R.string.title_of_payments));
+//                    mTextFactor.put("fifthTitle", getString(R.string.title_of_invoice_summary));
+//                    mTextFactor.put("sellerInfo", " ... ");
+//                    mTextFactor.put("sellerTell", " ... ");
+//                    mTextFactor.put("sellerAddress", " ... ");
+//                    mTextFactor.put("saleCode", saleCode.getText().toString());
+//                    mTextFactor.put("customerInfo",
+//                            nameCustomer.getText().toString()
+//                                    + "   " + familyCustomer.getText().toString());
+
+//                    mTextFactor.put("totalAmount",
+//                            Utility.formatPurchase(
+//                                    mContext,
+//                                    Utility.DecimalSeperation(mContext,
+//                                            Double.parseDouble(String.valueOf(sTotalAmount)))));
+
+//                    mTextFactor.put("totalTax", Utility.formatPurchase(
+//                            mContext,
+//                            Utility.DecimalSeperation(mContext,
+//                                    Double.parseDouble(String.valueOf(sTotalTax)))));
+
+//                    mTextFactor.put("totalDiscount", Utility.formatPurchase(
+//                            mContext,
+//                            Utility.DecimalSeperation(mContext,
+//                                    Double.parseDouble(String.valueOf(sTotalDiscount)))));
+
+//                    mTextFactor.put("totalPaied", Utility.formatPurchase(
+//                            mContext,
+//                            Utility.DecimalSeperation(mContext,
+//                                    Double.parseDouble(String.valueOf(sPaidAmount)))));
+
+//                    mTextFactor.put("totalUnpaied", Utility.formatPurchase(
+//                            mContext,
+//                            Utility.DecimalSeperation(mContext,
+//                                    Double.parseDouble(String.valueOf(sBalanceAmount)))));
+
+                    //endregion Print Factor
+
                     finish();
                     break;
                 }
@@ -416,8 +475,8 @@ public class DetailSaleInsert extends AppCompatActivity {
                             final String _id = cursor.getString(
                                     cursor.getColumnIndex(KasebContract.Products._ID));
 
-                            final Long differneceOfBuy_Sale = Utility.checkNumberOfProductsForDetailSaleInsert(getBaseContext(),
-                                    Long.parseLong(_id));
+                            final Long differneceOfBuy_Sale = Utility.checkNumberOfProductsForDetailSale(getBaseContext(),
+                                    0l, "SaleInsert", Long.parseLong(_id));
 
                             final String _name = cursor.getString(
                                     cursor.getColumnIndex(KasebContract.Products.COLUMN_PRODUCT_NAME));
@@ -557,8 +616,7 @@ public class DetailSaleInsert extends AppCompatActivity {
 
                         if (mCursor3.getString(mCursor3.getColumnIndex(KasebContract.PaymentMethods.COLUMN_PAYMENT_METHOD_POINTER)).equals("Cheque")) {
                             isPassed.setVisibility(View.VISIBLE);
-                        }
-                        else{
+                        } else {
                             isPassed.setVisibility(View.INVISIBLE);
                         }
 
@@ -666,16 +724,18 @@ public class DetailSaleInsert extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         taxMapRow.put("amount", taxAmount.getText().toString());
-                        taxMapRow.put("percent", taxPercent.getText().toString());
 
                         try {
                             Float amount = Float.valueOf(taxAmount.getText().toString());
+                            taxMapRow.put("percent", String.format("%.2f",
+                                    Float.valueOf(String.valueOf(100 * amount / sTotalAmount))));
 
                             if (amount > sTotalAmount) {
                                 Toast.makeText(DetailSaleInsert.this, "Choose Amount Less Than Total Amount", Toast.LENGTH_SHORT).show();
                                 return;
                             } else if (taxPercent.getText().toString().length() == 0)
-                                taxMapRow.put("percent", String.valueOf(100 * amount / sTotalAmount));
+                                taxMapRow.put("percent", String.format("%.2f",
+                                        Float.valueOf(String.valueOf(100 * amount / sTotalAmount))));
 
                             mTaxListMap.add(taxMapRow);
                             mCardViewTaxes.getTaxAdapter(mTaxListMap);

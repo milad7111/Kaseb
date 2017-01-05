@@ -36,6 +36,4 @@
             android:icon="@drawable/information"
             android:title="@string/title_about_us" />
     </group>
-
-
 </menu>
