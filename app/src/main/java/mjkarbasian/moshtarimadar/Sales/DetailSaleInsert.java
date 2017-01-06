@@ -195,25 +195,25 @@ public class DetailSaleInsert extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             // Respond to the action bar's Up/Home button
-            case R.id.print_button:
-                Toast.makeText(this,
-                        getApplicationContext().getResources().getString(R.string.print_your_factor), Toast.LENGTH_LONG).show();
-                break;
             case R.id.save:
                 //region Save
                 //region SetValues
                 saleCode = (EditText) findViewById(R.id.detail_sales_info_sale_code);
                 //endregion
 
-                if (CheckForValidity(
-                        saleCode.getText().toString(),
+                if (Utility.checkForValidityForEditTextNullOrEmptyAndItterative(
+                        mContext, saleCode, KasebContract.Sales.CONTENT_URI,
+                        KasebContract.Sales.COLUMN_SALE_CODE + " = ? ",
+                        KasebContract.Sales._ID, new String[]{saleCode.getText().toString()})
+                        && CheckForValidity(
                         customerId,
-                        saleDate.getText().toString(),
                         mChosenProductListMap.size())) {
 
                     mDb.beginTransaction();
 
                     //region Insert Sale
+                    String mSaleId = "0";
+
                     saleValues.put(KasebContract.Sales.COLUMN_CUSTOMER_ID, customerId);
                     saleValues.put(KasebContract.Sales.COLUMN_IS_DELETED, 0);
                     saleValues.put(KasebContract.Sales.COLUMN_SALE_CODE, saleCode.getText().toString());
@@ -223,6 +223,8 @@ public class DetailSaleInsert extends AppCompatActivity {
                             saleValues
                     );
 
+                    mSaleId = insertUri.getLastPathSegment();
+
                     saleCode.setEnabled(false);
                     //endregion
 
@@ -230,7 +232,7 @@ public class DetailSaleInsert extends AppCompatActivity {
                     detailSaleValues.put(KasebContract.DetailSale.COLUMN_DATE, saleDate.getText().toString());
                     detailSaleValues.put(KasebContract.DetailSale.COLUMN_IS_BALANCED, sFinalAmount.equals(sPaidAmount));
                     detailSaleValues.put(KasebContract.DetailSale.COLUMN_ITEMS_NUMBER, mChosenProductListMap.size());
-                    detailSaleValues.put(KasebContract.DetailSale.COLUMN_SALE_ID, insertUri.getLastPathSegment());
+                    detailSaleValues.put(KasebContract.DetailSale.COLUMN_SALE_ID, mSaleId);
                     detailSaleValues.put(KasebContract.DetailSale.COLUMN_SUB_TOTAL, sTotalAmount);
                     detailSaleValues.put(KasebContract.DetailSale.COLUMN_TOTAL_DISCOUNT, sTotalDiscount);
                     detailSaleValues.put(KasebContract.DetailSale.COLUMN_TOTAL_DUE, sFinalAmount);
@@ -288,7 +290,6 @@ public class DetailSaleInsert extends AppCompatActivity {
                     );
                     //endregion Insert DetailSalePayments
 
-
                     //region Insert DetailSaleTaxes
                     count = mTaxListMap.size();
                     taxValuesArray = new ContentValues[count];
@@ -315,6 +316,21 @@ public class DetailSaleInsert extends AppCompatActivity {
 
                     mDb.setTransactionSuccessful();
                     mDb.endTransaction();
+
+                    //region Print Factor
+                    ArrayList<Long> mSummaryOfInvoice = new ArrayList<Long>();
+                    mSummaryOfInvoice.add(sTotalAmount);
+                    mSummaryOfInvoice.add(sTotalTax);
+                    mSummaryOfInvoice.add(sTotalDiscount);
+                    mSummaryOfInvoice.add(sPaidAmount);
+                    mSummaryOfInvoice.add(sBalanceAmount);
+
+                    Utility.printInvoice(mContext, saleDate.getText().toString(), saleCode.getText().toString(),
+                            nameCustomer.getText().toString(), familyCustomer.getText().toString(),
+                            mSummaryOfInvoice, customerId, insertUri.getLastPathSegment().toString(),
+                            mChosenProductListMap, mTaxListMap, mPaymentListMap);
+                    //endregion Print Factor
+
                     finish();
                     break;
                 }
@@ -416,6 +432,9 @@ public class DetailSaleInsert extends AppCompatActivity {
                             final String _id = cursor.getString(
                                     cursor.getColumnIndex(KasebContract.Products._ID));
 
+                            final Long differneceOfBuy_Sale = Utility.checkNumberOfProductsForDetailSale(getBaseContext(),
+                                    0l, "SaleInsert", Long.parseLong(_id));
+
                             final String _name = cursor.getString(
                                     cursor.getColumnIndex(KasebContract.Products.COLUMN_PRODUCT_NAME));
 
@@ -444,6 +463,8 @@ public class DetailSaleInsert extends AppCompatActivity {
                             final EditText howManyEditText = (EditText) howManyOfThat
                                     .findViewById(R.id.add_number_of_product_for_sale_number);
 
+                            howManyEditText.setHint("Stock is : " + differneceOfBuy_Sale);
+
                             //region Save Button
                             Button saveButton = (Button) howManyOfThat
                                     .findViewById(R.id.add_number_of_product_for_sale_save);
@@ -452,28 +473,32 @@ public class DetailSaleInsert extends AppCompatActivity {
                                     new View.OnClickListener() {
                                         @Override
                                         public void onClick(View v) {
-                                            Map<String, String> mProductsRowMap = new HashMap<>();
-
                                             String num = howManyEditText.getText().toString();
 
-                                            mProductsRowMap.put("id", _id);
-                                            mProductsRowMap.put("name", _name);
-                                            mProductsRowMap.put("quantity", String.valueOf(num));
-                                            mProductsRowMap.put("price", String.valueOf(cost));
+                                            if (differneceOfBuy_Sale >= Long.parseLong(num)) {
+                                                Map<String, String> mProductsRowMap = new HashMap<>();
 
-                                            sTotalAmount += cost * Long.valueOf(num);
+                                                mProductsRowMap.put("id", _id);
+                                                mProductsRowMap.put("name", _name);
+                                                mProductsRowMap.put("quantity", num);
+                                                mProductsRowMap.put("price", String.valueOf(cost));
 
-                                            int mIndex = Utility.
-                                                    indexOfRowsInMap(mChosenProductListMap, "id", _id);
+                                                sTotalAmount += cost * Long.valueOf(num);
 
-                                            if (mIndex == -1) {
-                                                //region Add Product To Sale
-                                                mChosenProductListMap.add(mProductsRowMap);
-                                                mCardViewProducts.getChosenProductAdapter(mChosenProductListMap);
+                                                int mIndex = Utility.
+                                                        indexOfRowsInMap(mChosenProductListMap, "id", _id);
 
-                                                howManyOfThat.dismiss();
-                                                dialog.dismiss();
-                                            }
+                                                if (mIndex == -1) {
+                                                    //region Add Product To Sale
+                                                    mChosenProductListMap.add(mProductsRowMap);
+                                                    mCardViewProducts.getChosenProductAdapter(mChosenProductListMap);
+
+                                                    howManyOfThat.dismiss();
+                                                    dialog.dismiss();
+                                                }
+                                            } else
+                                                Toast.makeText(DetailSaleInsert.this, "There is not enough good in stock.",
+                                                        Toast.LENGTH_SHORT).show();
                                         }
                                     }
 
@@ -548,8 +573,7 @@ public class DetailSaleInsert extends AppCompatActivity {
 
                         if (mCursor3.getString(mCursor3.getColumnIndex(KasebContract.PaymentMethods.COLUMN_PAYMENT_METHOD_POINTER)).equals("Cheque")) {
                             isPassed.setVisibility(View.VISIBLE);
-                        }
-                        else{
+                        } else {
                             isPassed.setVisibility(View.INVISIBLE);
                         }
 
@@ -657,16 +681,18 @@ public class DetailSaleInsert extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         taxMapRow.put("amount", taxAmount.getText().toString());
-                        taxMapRow.put("percent", taxPercent.getText().toString());
 
                         try {
                             Float amount = Float.valueOf(taxAmount.getText().toString());
+                            taxMapRow.put("percent", String.format("%.2f",
+                                    Float.valueOf(String.valueOf(100 * amount / sTotalAmount))));
 
                             if (amount > sTotalAmount) {
                                 Toast.makeText(DetailSaleInsert.this, "Choose Amount Less Than Total Amount", Toast.LENGTH_SHORT).show();
                                 return;
                             } else if (taxPercent.getText().toString().length() == 0)
-                                taxMapRow.put("percent", String.valueOf(100 * amount / sTotalAmount));
+                                taxMapRow.put("percent", String.format("%.2f",
+                                        Float.valueOf(String.valueOf(100 * amount / sTotalAmount))));
 
                             mTaxListMap.add(taxMapRow);
                             mCardViewTaxes.getTaxAdapter(mTaxListMap);
@@ -744,35 +770,16 @@ public class DetailSaleInsert extends AppCompatActivity {
     }
 
     // this method check the validation and correct entries. its check fill first and then check the validation rules.
-    private boolean CheckForValidity(String saleCode, Long customerId, String saleDate, int numberOfAllProducts) {
-        if (saleCode.equals("") || saleCode.equals(null)) {
-            Toast.makeText(mContext, R.string.validity_error_dsale_code, Toast.LENGTH_SHORT).show();
+    private boolean CheckForValidity(Long customerId, int numberOfAllProducts) {
+        if (!Utility.checkForValidityForEditTextNullOrEmpty(getBaseContext(), saleCode))
             return false;
-        } else {
-            Cursor mCursor = mContext.getContentResolver().query(
-                    KasebContract.Sales.CONTENT_URI,
-                    new String[]{KasebContract.Sales._ID},
-                    KasebContract.Sales.COLUMN_SALE_CODE + " = ? ",
-                    new String[]{saleCode},
-                    null);
-
-            if (mCursor != null) {
-                if (mCursor.moveToFirst())
-                    if (mCursor.getCount() > 0) {
-                        Toast.makeText(mContext, R.string.validity_error_dsale_code_duplicate, Toast.LENGTH_SHORT).show();
-                        return false;
-                    }
-            }
-        }
-
-        if (customerId == 0) {
-            Toast.makeText(mContext, R.string.validity_error_dsale_select_customer, Toast.LENGTH_SHORT).show();
+        else if (customerId == 0) {
+            Toast.makeText(mContext, "Choose A customer for SALE.", Toast.LENGTH_SHORT).show();
             return false;
-        } else if (saleDate.equals("") || saleDate.equals(null)) {
-            Toast.makeText(mContext, R.string.validity_error_dsale_date, Toast.LENGTH_SHORT).show();
+        } else if (!Utility.checkForValidityForEditTextNullOrEmpty(getBaseContext(), saleDate))
             return false;
-        } else if (numberOfAllProducts == 0) {
-            Toast.makeText(mContext, R.string.validity_error_dsale_select_product, Toast.LENGTH_SHORT).show();
+        else if (numberOfAllProducts == 0) {
+            Toast.makeText(mContext, "Choose some PRODUCTS for SALE.", Toast.LENGTH_SHORT).show();
             return false;
         } else if (sFinalAmount < 0) {
             Toast.makeText(mContext, R.string.validity_error_dsale_minus_amount, Toast.LENGTH_SHORT).show();

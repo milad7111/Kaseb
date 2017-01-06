@@ -53,6 +53,8 @@ public class DetailSaleView extends AppCompatActivity {
     LinearLayout addCustomerLayout;
     int mNumberOfChooseProduct = 0;
     Button dialogButton;
+    boolean mSaved = true;
+
     MenuItem saveItem;
     MenuItem editItem;
 
@@ -93,6 +95,7 @@ public class DetailSaleView extends AppCompatActivity {
     Long cost = 0l;
     Long whichSaleId;
     Long whichDetailSaleId;
+    Long differneceOfBuy_Sale;
 
     Cursor mCursor1;
     Cursor mCursor2;
@@ -160,28 +163,10 @@ public class DetailSaleView extends AppCompatActivity {
 
         frm = getSupportFragmentManager();
 
-        mChosenProductListMap = new ArrayList<Map<String, String>>();
-        mPaymentListMap = new ArrayList<Map<String, String>>();
-        mTaxListMap = new ArrayList<Map<String, String>>();
-
         saleCode = (EditText) findViewById(R.id.detail_sales_info_sale_code);
         saleDate = (EditText) findViewById(R.id.detail_sales_info_sale_date);
         addCustomerLayout = (LinearLayout) findViewById(R.id.content_detail_sale_insert_linear_layout_add_customer);
         //endregion Initialize Some Views & Values
-
-        //region Set Fragments
-        mCardViewProducts = new CardViewProducts();
-        mCardViewPayments = new CardViewPayments();
-        mCardViewTaxes = new CardViewTaxes();
-
-        mCardViewProducts.setArguments(bundleCardViewFragments);
-        mCardViewPayments.setArguments(bundleCardViewFragments);
-        mCardViewTaxes.setArguments(bundleCardViewFragments);
-
-        frm.beginTransaction().replace(R.id.my_container_1, mCardViewProducts, "Frag_CardViewProducts_tag").commit();
-        frm.beginTransaction().replace(R.id.my_container_2, mCardViewPayments, "Frag_CardViewPayments_tag").commit();
-        frm.beginTransaction().replace(R.id.my_container_3, mCardViewTaxes, "Frag_CardViewTaxes_tag").commit();
-        //endregion Set Fragments
 
         //region Get SaleId
         whichSaleId = Long.parseLong(getIntent().getExtras().get("saleId").toString());
@@ -205,9 +190,24 @@ public class DetailSaleView extends AppCompatActivity {
             if (mCursorInitialize.moveToFirst()) {
                 whichDetailSaleId = mCursorInitialize.getLong(mCursorInitialize.getColumnIndex(KasebContract.DetailSale._ID));
                 saleDate.setText(mCursorInitialize.getString(mCursorInitialize.getColumnIndex(KasebContract.DetailSale.COLUMN_DATE)));
+                bundleCardViewFragments.putLong("detailSaleId", whichDetailSaleId);
             }
         }
         //endregion Get DetailSaleId
+
+        //region Set Fragments
+        mCardViewProducts = new CardViewProducts();
+        mCardViewPayments = new CardViewPayments();
+        mCardViewTaxes = new CardViewTaxes();
+
+        mCardViewProducts.setArguments(bundleCardViewFragments);
+        mCardViewPayments.setArguments(bundleCardViewFragments);
+        mCardViewTaxes.setArguments(bundleCardViewFragments);
+
+        frm.beginTransaction().replace(R.id.my_container_1, mCardViewProducts, "Frag_CardViewProducts_tag").commit();
+        frm.beginTransaction().replace(R.id.my_container_2, mCardViewPayments, "Frag_CardViewPayments_tag").commit();
+        frm.beginTransaction().replace(R.id.my_container_3, mCardViewTaxes, "Frag_CardViewTaxes_tag").commit();
+        //endregion Set Fragments
     }
 
     @Override
@@ -215,6 +215,10 @@ public class DetailSaleView extends AppCompatActivity {
         super.onStart();
 
         //region Initialize Some Views
+        mChosenProductListMap = new ArrayList<Map<String, String>>();
+        mPaymentListMap = new ArrayList<Map<String, String>>();
+        mTaxListMap = new ArrayList<Map<String, String>>();
+
         imageButtonProducts = (ImageButton) findViewById(R.id.content_detail_sale_insert_add_product_image_button);
         imageButtonPayments = (ImageButton) findViewById(R.id.content_detail_sale_insert_add_payment_image_button);
         imageButtonTaxes = (ImageButton) findViewById(R.id.content_detail_sale_insert_add_taxDiscount_image_button);
@@ -237,6 +241,8 @@ public class DetailSaleView extends AppCompatActivity {
         imageButtonProducts.setEnabled(false);
         imageButtonPayments.setEnabled(false);
         imageButtonTaxes.setEnabled(false);
+
+        mSaved = true;
         //endregion Disable Views
 
         //region Get Products
@@ -489,8 +495,20 @@ public class DetailSaleView extends AppCompatActivity {
         switch (item.getItemId()) {
             // Respond to the action bar's Up/Home button
             case R.id.menu_detail_sale_view_print:
-                Toast.makeText(this,
-                        getApplicationContext().getResources().getString(R.string.print_your_factor), Toast.LENGTH_LONG).show();
+                if (mSaved) {
+                    ArrayList<Long> mSummaryOfInvoice = new ArrayList<Long>();
+                    mSummaryOfInvoice.add(sTotalAmount);
+                    mSummaryOfInvoice.add(sTotalTax);
+                    mSummaryOfInvoice.add(sTotalDiscount);
+                    mSummaryOfInvoice.add(sPaidAmount);
+                    mSummaryOfInvoice.add(sBalanceAmount);
+
+                    Utility.printInvoice(mContext, saleDate.getText().toString(), saleCode.getText().toString(),
+                            nameCustomer.getText().toString(), familyCustomer.getText().toString(),
+                            mSummaryOfInvoice, customerId, String.valueOf(whichDetailSaleId),
+                            mChosenProductListMap, mTaxListMap, mPaymentListMap);
+                } else
+                    Toast.makeText(DetailSaleView.this, R.string.save_factor_then_print, Toast.LENGTH_LONG).show();
                 break;
             case R.id.menu_detail_sale_view_save:
                 if (CheckForValidity(
@@ -644,10 +662,32 @@ public class DetailSaleView extends AppCompatActivity {
 
                     mDb.setTransactionSuccessful();
                     mDb.endTransaction();
-                    finish();
+
+                    mSaved = true;
+
+                    addCustomerLayout.setEnabled(false);
+
+                    saveItem.setVisible(false);
+                    editItem.setVisible(true);
+
+                    saleCode.setEnabled(false);
+                    saleDate.setEnabled(false);
+
+                    mProductListView.setEnabled(false);
+                    mPaymentListView.setEnabled(false);
+                    mTaxListView.setEnabled(false);
+
+
+                    imageButtonProducts.setEnabled(false);
+                    imageButtonPayments.setEnabled(false);
+                    imageButtonTaxes.setEnabled(false);
                 }
                 break;
             case R.id.menu_detail_sale_view_edit:
+                mSaved = false;
+
+                addCustomerLayout.setEnabled(true);
+
                 saveItem.setVisible(true);
                 editItem.setVisible(false);
 
@@ -662,7 +702,6 @@ public class DetailSaleView extends AppCompatActivity {
                 imageButtonProducts.setEnabled(true);
                 imageButtonPayments.setEnabled(true);
                 imageButtonTaxes.setEnabled(true);
-
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -762,6 +801,9 @@ public class DetailSaleView extends AppCompatActivity {
                             final String _id = cursor.getString(
                                     cursor.getColumnIndex(KasebContract.Products._ID));
 
+                            differneceOfBuy_Sale = Utility.checkNumberOfProductsForDetailSale(getBaseContext(),
+                                    whichDetailSaleId, "SaleInsert", Long.parseLong(_id));
+
                             final String _name = cursor.getString(
                                     cursor.getColumnIndex(KasebContract.Products.COLUMN_PRODUCT_NAME));
 
@@ -790,6 +832,8 @@ public class DetailSaleView extends AppCompatActivity {
                             final EditText howManyEditText = (EditText) howManyOfThat
                                     .findViewById(R.id.add_number_of_product_for_sale_number);
 
+                            howManyEditText.setHint("Stock is : " + differneceOfBuy_Sale);
+
                             //region Save Button
                             Button saveButton = (Button) howManyOfThat
                                     .findViewById(R.id.add_number_of_product_for_sale_save);
@@ -798,31 +842,34 @@ public class DetailSaleView extends AppCompatActivity {
                                     new View.OnClickListener() {
                                         @Override
                                         public void onClick(View v) {
-                                            Map<String, String> mProductsRowMap = new HashMap<>();
-
                                             String num = howManyEditText.getText().toString();
 
-                                            mProductsRowMap.put("id", _id);
-                                            mProductsRowMap.put("name", _name);
-                                            mProductsRowMap.put("quantity", String.valueOf(num));
-                                            mProductsRowMap.put("price", String.valueOf(cost));
+                                            if (differneceOfBuy_Sale >= Long.parseLong(num)) {
+                                                Map<String, String> mProductsRowMap = new HashMap<>();
 
-                                            sTotalAmount += cost * Long.valueOf(num);
+                                                mProductsRowMap.put("id", _id);
+                                                mProductsRowMap.put("name", _name);
+                                                mProductsRowMap.put("quantity", String.valueOf(num));
+                                                mProductsRowMap.put("price", String.valueOf(cost));
 
-                                            int mIndex = Utility.
-                                                    indexOfRowsInMap(mChosenProductListMap, "id", _id);
+                                                sTotalAmount += cost * Long.valueOf(num);
 
-                                            if (mIndex == -1) {
-                                                //region Add Product To Sale
-                                                mChosenProductListMap.add(mProductsRowMap);
-                                                mCardViewProducts.getChosenProductAdapter(mChosenProductListMap);
+                                                int mIndex = Utility.
+                                                        indexOfRowsInMap(mChosenProductListMap, "id", _id);
 
-                                                howManyOfThat.dismiss();
-                                                dialog.dismiss();
-                                            }
+                                                if (mIndex == -1) {
+                                                    //region Add Product To Sale
+                                                    mChosenProductListMap.add(mProductsRowMap);
+                                                    mCardViewProducts.getChosenProductAdapter(mChosenProductListMap);
+
+                                                    howManyOfThat.dismiss();
+                                                    dialog.dismiss();
+                                                }
+                                            } else
+                                                Toast.makeText(DetailSaleView.this, "There is not enough good in stock.",
+                                                        Toast.LENGTH_SHORT).show();
                                         }
                                     }
-
                             );
                             //endregion Save Button
 
@@ -895,10 +942,9 @@ public class DetailSaleView extends AppCompatActivity {
                         LinearLayout isPassed = (LinearLayout) dialog.findViewById(R.id.dialog_add_payment_is_passed_view);
                         if (mCursor3.getString(mCursor3.getColumnIndex(KasebContract.PaymentMethods.COLUMN_PAYMENT_METHOD_POINTER)).equals("Cheque")) {
                             isPassed.setVisibility(View.VISIBLE);
-                        }
-    else
-    isPassed.setVisibility(View.INVISIBLE);
-}
+                        } else
+                            isPassed.setVisibility(View.INVISIBLE);
+                    }
 
                     @Override
                     public void onNothingSelected(AdapterView<?> arg0) {
@@ -1012,7 +1058,7 @@ public class DetailSaleView extends AppCompatActivity {
                         Toast.makeText(DetailSaleView.this, "Choose Amount Less Than Total Amount", Toast.LENGTH_SHORT).show();
                         return;
                     } else if (taxPercent.getText().toString().length() == 0)
-                        taxMapRow.put("percent", String.valueOf(100 * amount / sTotalAmount));
+                        taxMapRow.put("percent", String.format("%.2f", Float.valueOf(String.valueOf(100 * amount / sTotalAmount))));
 
                     mTaxListMap.add(taxMapRow);
                     mCardViewTaxes.getTaxAdapter(mTaxListMap);
@@ -1074,7 +1120,7 @@ public class DetailSaleView extends AppCompatActivity {
         sPaidAmount = 0l;
         for (int i = 0; i < mPaymentListMap.size(); i++) {
             if (mPaymentListMap.get(i).get("isPass").equals("true"))
-            sPaidAmount += Long.valueOf(mPaymentListMap.get(i).get("amount").toString());
+                sPaidAmount += Long.valueOf(mPaymentListMap.get(i).get("amount").toString());
 
         }
 
@@ -1121,7 +1167,7 @@ public class DetailSaleView extends AppCompatActivity {
             Toast.makeText(mContext, R.string.validity_error_dsale_select_customer, Toast.LENGTH_SHORT).show();
             return false;
         } else if (saleDate.equals("") || saleDate.equals(null)) {
-            Toast.makeText(mContext,R.string.validity_error_dsale_date, Toast.LENGTH_SHORT).show();
+            Toast.makeText(mContext, R.string.validity_error_dsale_date, Toast.LENGTH_SHORT).show();
             return false;
         } else if (numberOfAllProducts == 0) {
             Toast.makeText(mContext, R.string.validity_error_dsale_select_product, Toast.LENGTH_SHORT).show();
@@ -1136,6 +1182,4 @@ public class DetailSaleView extends AppCompatActivity {
 
         return true;
     }
-
-
 }

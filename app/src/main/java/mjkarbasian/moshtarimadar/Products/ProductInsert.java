@@ -1,7 +1,6 @@
 package mjkarbasian.moshtarimadar.Products;
 
 import android.content.ContentValues;
-import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -139,12 +138,11 @@ public class ProductInsert extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.save_inputs: {
-                if (CheckForValidity(
-                        productName.getText().toString(),
-                        buyPrice.getText().toString(),
-                        quantity.getText().toString(),
-                        salePrice.getText().toString(),
-                        buyDate.getText().toString())) {
+                if (Utility.checkForValidityForEditTextNullOrEmptyAndItterative(
+                        getActivity(), productName, KasebContract.Products.CONTENT_URI,
+                        KasebContract.Products.COLUMN_PRODUCT_NAME + " = ? ",
+                        KasebContract.Products._ID, new String[]{productName.getText().toString()})
+                        && CheckForValidity()) {
 
                     productValues.put(KasebContract.Products.COLUMN_PRODUCT_NAME, productName.getText().toString());
                     productValues.put(KasebContract.Products.COLUMN_PRODUCT_CODE, productCode.getText().toString());
@@ -190,40 +188,15 @@ public class ProductInsert extends Fragment {
     }
 
     // this method check the validation and correct entries. its check fill first and then check the validation rules.
-    private boolean CheckForValidity(String productName, String buyPrice, String quantity, String salePrice, String buyDate) {
-        if (productName.equals("") || productName.equals(null)) {
-            Toast.makeText(getActivity(), R.string.validity_error_product_name, Toast.LENGTH_SHORT).show();
+    private boolean CheckForValidity() {
+        if (!Utility.checkForValidityForEditTextNullOrEmpty(getActivity(), buyPrice))
             return false;
-        } else {
-            Cursor mCursor = getContext().getContentResolver().query(
-                    KasebContract.Products.CONTENT_URI,
-                    new String[]{KasebContract.Products._ID},
-                    KasebContract.Products.COLUMN_PRODUCT_NAME + " = ? ",
-                    new String[]{productName},
-                    null);
-
-            if (mCursor != null) {
-                if (mCursor.moveToFirst())
-                    if (mCursor.getCount() > 0) {
-                        Toast.makeText(getActivity(), R.string.validity_error_product_name_duplicate, Toast.LENGTH_SHORT).show();
-                        return false;
-                    }
-            }
-        }
-
-        if (buyPrice.equals("") || buyPrice.equals(null)) {
-            Toast.makeText(getActivity(), R.string.validity_error_product_buy_price, Toast.LENGTH_SHORT).show();
+        else if (!Utility.checkForValidityForEditTextNullOrEmpty(getActivity(), quantity))
             return false;
-        } else if (quantity.equals("") || quantity.equals(null)) {
-            Toast.makeText(getActivity(), R.string.validity_error_product_qty, Toast.LENGTH_SHORT).show();
+        else if (!Utility.checkForValidityForEditTextNullOrEmpty(getActivity(), salePrice))
             return false;
-        } else if (salePrice.equals("") || salePrice.equals(null)) {
-            Toast.makeText(getActivity(), R.string.validity_error_product_sale_price, Toast.LENGTH_SHORT).show();
+        else if (!Utility.checkForValidityForEditTextNullOrEmpty(getActivity(), buyDate))
             return false;
-        } else if (buyDate.equals("") || buyDate.equals(null)) {
-            Toast.makeText(getActivity(), R.string.validity_error_product_buy_date, Toast.LENGTH_SHORT).show();
-            return false;
-        }
 
         return true;
     }

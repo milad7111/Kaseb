@@ -70,10 +70,11 @@ public class ProductAdapter extends BaseAdapter {
 
         totalCostText.setText(
                 Utility.DecimalSeperation(mContext,
-                        Long.parseLong(
+                        Long.parseLong(String.valueOf(
+                                Long.parseLong(
                                         mProductDetailsListHashMap.get(position).get("price"))
                                         * Long.parseLong(
-                                        mProductDetailsListHashMap.get(position).get("quantity"))));
+                                        mProductDetailsListHashMap.get(position).get("quantity"))))));
 
         return view;
     }
