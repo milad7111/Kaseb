@@ -8,12 +8,4 @@
         android:title="@string/save"
         app:showAsAction="always" />
 
-    <item
-        android:id="@+id/print_button"
-        android:icon="@drawable/printer"
-        android:showAsAction="collapseActionView|ifRoom"
-        android:title="@string/print_button"
-        app:showAsAction="always" />
-
-
 </menu>

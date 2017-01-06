@@ -195,20 +195,18 @@ public class DetailSaleInsert extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             // Respond to the action bar's Up/Home button
-            case R.id.print_button:
-                Toast.makeText(this,
-                        getApplicationContext().getResources().getString(R.string.print_your_factor), Toast.LENGTH_LONG).show();
-                break;
             case R.id.save:
                 //region Save
                 //region SetValues
                 saleCode = (EditText) findViewById(R.id.detail_sales_info_sale_code);
                 //endregion
 
-                if (CheckForValidity(
-                        saleCode.getText().toString(),
+                if (Utility.checkForValidityForEditTextNullOrEmptyAndItterative(
+                        mContext, saleCode, KasebContract.Sales.CONTENT_URI,
+                        KasebContract.Sales.COLUMN_SALE_CODE + " = ? ",
+                        KasebContract.Sales._ID, new String[]{saleCode.getText().toString()})
+                        && CheckForValidity(
                         customerId,
-                        saleDate.getText().toString(),
                         mChosenProductListMap.size())) {
 
                     mDb.beginTransaction();
@@ -327,51 +325,10 @@ public class DetailSaleInsert extends AppCompatActivity {
                     mSummaryOfInvoice.add(sPaidAmount);
                     mSummaryOfInvoice.add(sBalanceAmount);
 
-                    Utility.printInvoice(mContext, saleCode.getText().toString(),
-                            nameCustomer.getText().toString(),
-                            familyCustomer.getText().toString(), mSummaryOfInvoice, customerId,
+                    Utility.printInvoice(mContext, saleDate.getText().toString(), saleCode.getText().toString(),
+                            nameCustomer.getText().toString(), familyCustomer.getText().toString(),
+                            mSummaryOfInvoice, customerId, insertUri.getLastPathSegment().toString(),
                             mChosenProductListMap, mTaxListMap, mPaymentListMap);
-//                    HashMap<String, String> mTextFactor = new HashMap<String, String>();
-//                    mTextFactor.put("firstTitle", getString(R.string.title_of_print_invoice));
-//                    mTextFactor.put("secondTitle", getString(R.string.title_of_invoice_items));
-//                    mTextFactor.put("thirdTitle", getString(R.string.title_of_taxes));
-//                    mTextFactor.put("sixthTitle", getString(R.string.title_of_discounts));
-//                    mTextFactor.put("fourthTitle", getString(R.string.title_of_payments));
-//                    mTextFactor.put("fifthTitle", getString(R.string.title_of_invoice_summary));
-//                    mTextFactor.put("sellerInfo", " ... ");
-//                    mTextFactor.put("sellerTell", " ... ");
-//                    mTextFactor.put("sellerAddress", " ... ");
-//                    mTextFactor.put("saleCode", saleCode.getText().toString());
-//                    mTextFactor.put("customerInfo",
-//                            nameCustomer.getText().toString()
-//                                    + "   " + familyCustomer.getText().toString());
-
-//                    mTextFactor.put("totalAmount",
-//                            Utility.formatPurchase(
-//                                    mContext,
-//                                    Utility.DecimalSeperation(mContext,
-//                                            Double.parseDouble(String.valueOf(sTotalAmount)))));
-
-//                    mTextFactor.put("totalTax", Utility.formatPurchase(
-//                            mContext,
-//                            Utility.DecimalSeperation(mContext,
-//                                    Double.parseDouble(String.valueOf(sTotalTax)))));
-
-//                    mTextFactor.put("totalDiscount", Utility.formatPurchase(
-//                            mContext,
-//                            Utility.DecimalSeperation(mContext,
-//                                    Double.parseDouble(String.valueOf(sTotalDiscount)))));
-
-//                    mTextFactor.put("totalPaied", Utility.formatPurchase(
-//                            mContext,
-//                            Utility.DecimalSeperation(mContext,
-//                                    Double.parseDouble(String.valueOf(sPaidAmount)))));
-
-//                    mTextFactor.put("totalUnpaied", Utility.formatPurchase(
-//                            mContext,
-//                            Utility.DecimalSeperation(mContext,
-//                                    Double.parseDouble(String.valueOf(sBalanceAmount)))));
-
                     //endregion Print Factor
 
                     finish();
@@ -813,34 +770,15 @@ public class DetailSaleInsert extends AppCompatActivity {
     }
 
     // this method check the validation and correct entries. its check fill first and then check the validation rules.
-    private boolean CheckForValidity(String saleCode, Long customerId, String saleDate, int numberOfAllProducts) {
-        if (saleCode.equals("") || saleCode.equals(null)) {
-            Toast.makeText(mContext, "Choose apropriate sale code for SALE.", Toast.LENGTH_SHORT).show();
+    private boolean CheckForValidity(Long customerId, int numberOfAllProducts) {
+        if (!Utility.checkForValidityForEditTextNullOrEmpty(getBaseContext(), saleCode))
             return false;
-        } else {
-            Cursor mCursor = mContext.getContentResolver().query(
-                    KasebContract.Sales.CONTENT_URI,
-                    new String[]{KasebContract.Sales._ID},
-                    KasebContract.Sales.COLUMN_SALE_CODE + " = ? ",
-                    new String[]{saleCode},
-                    null);
-
-            if (mCursor != null) {
-                if (mCursor.moveToFirst())
-                    if (mCursor.getCount() > 0) {
-                        Toast.makeText(mContext, "Choose apropriate (Not Itterative) sale code for SALE.", Toast.LENGTH_SHORT).show();
-                        return false;
-                    }
-            }
-        }
-
-        if (customerId == 0) {
+        else if (customerId == 0) {
             Toast.makeText(mContext, "Choose A customer for SALE.", Toast.LENGTH_SHORT).show();
             return false;
-        } else if (saleDate.equals("") || saleDate.equals(null)) {
-            Toast.makeText(mContext, "Choose apropriate sale date for SALE.", Toast.LENGTH_SHORT).show();
+        } else if (!Utility.checkForValidityForEditTextNullOrEmpty(getBaseContext(), saleDate))
             return false;
-        } else if (numberOfAllProducts == 0) {
+        else if (numberOfAllProducts == 0) {
             Toast.makeText(mContext, "Choose some PRODUCTS for SALE.", Toast.LENGTH_SHORT).show();
             return false;
         } else if (sFinalAmount < 0) {

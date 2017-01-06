@@ -163,10 +163,6 @@ public class DetailSaleView extends AppCompatActivity {
 
         frm = getSupportFragmentManager();
 
-        mChosenProductListMap = new ArrayList<Map<String, String>>();
-        mPaymentListMap = new ArrayList<Map<String, String>>();
-        mTaxListMap = new ArrayList<Map<String, String>>();
-
         saleCode = (EditText) findViewById(R.id.detail_sales_info_sale_code);
         saleDate = (EditText) findViewById(R.id.detail_sales_info_sale_date);
         addCustomerLayout = (LinearLayout) findViewById(R.id.content_detail_sale_insert_linear_layout_add_customer);
@@ -219,6 +215,10 @@ public class DetailSaleView extends AppCompatActivity {
         super.onStart();
 
         //region Initialize Some Views
+        mChosenProductListMap = new ArrayList<Map<String, String>>();
+        mPaymentListMap = new ArrayList<Map<String, String>>();
+        mTaxListMap = new ArrayList<Map<String, String>>();
+
         imageButtonProducts = (ImageButton) findViewById(R.id.content_detail_sale_insert_add_product_image_button);
         imageButtonPayments = (ImageButton) findViewById(R.id.content_detail_sale_insert_add_payment_image_button);
         imageButtonTaxes = (ImageButton) findViewById(R.id.content_detail_sale_insert_add_taxDiscount_image_button);
@@ -503,12 +503,12 @@ public class DetailSaleView extends AppCompatActivity {
                     mSummaryOfInvoice.add(sPaidAmount);
                     mSummaryOfInvoice.add(sBalanceAmount);
 
-                    Utility.printInvoice(mContext, saleCode.getText().toString(),
-                            nameCustomer.getText().toString(),
-                            familyCustomer.getText().toString(), mSummaryOfInvoice, customerId,
+                    Utility.printInvoice(mContext, saleDate.getText().toString(), saleCode.getText().toString(),
+                            nameCustomer.getText().toString(), familyCustomer.getText().toString(),
+                            mSummaryOfInvoice, customerId, String.valueOf(whichDetailSaleId),
                             mChosenProductListMap, mTaxListMap, mPaymentListMap);
                 } else
-                    Toast.makeText(DetailSaleView.this, "Please Save Invoice Then RETRY.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(DetailSaleView.this, R.string.save_factor_then_print, Toast.LENGTH_LONG).show();
                 break;
             case R.id.menu_detail_sale_view_save:
                 if (CheckForValidity(

@@ -204,11 +204,11 @@ public class DetailCustomer extends AppCompatActivity {
                 NavUtils.navigateUpFromSameTask(this);
                 break;
             case R.id.item_save_customer:
-                if (CheckForValidity(
-                        customerFirstName.getText().toString(),
-                        customerLastName.getText().toString(),
-                        customerPhoneMobile.getText().toString()
-                )) {
+                if (CheckForValidity() && Utility.checkForValidityForEditTextNullOrEmptyAndItterative(
+                        getBaseContext(), customerPhoneMobile, KasebContract.Customers.CONTENT_URI,
+                        KasebContract.Customers.COLUMN_PHONE_MOBILE + " = ? and " + KasebContract.Customers._ID + " != ? ",
+                        KasebContract.Customers._ID,
+                        new String[]{customerPhoneMobile.getText().toString(), String.valueOf(mCustomerId)})) {
                     saveItem.setVisible(false);
                     editItem.setVisible(true);
 
@@ -338,31 +338,14 @@ public class DetailCustomer extends AppCompatActivity {
     }
 
     // this method check the validation and correct entries. its check fill first and then check the validation rules.
-    private boolean CheckForValidity(String customerFirstName, String customerLastName, String customerPhoneMobile) {
-        if (customerFirstName.equals("") || customerFirstName.equals(null)) {
-            Toast.makeText(getBaseContext(), "Choose apropriate name for CUSTOMER.", Toast.LENGTH_SHORT).show();
+    private boolean CheckForValidity() {
+        if (!Utility.checkForValidityForEditTextNullOrEmpty(getBaseContext(), customerFirstName))
             return false;
-        } else if (customerLastName.equals("") || customerLastName.equals(null)) {
-            Toast.makeText(getBaseContext(), "Choose apropriate last name for CUSTOMER.", Toast.LENGTH_SHORT).show();
+        else if (!Utility.checkForValidityForEditTextNullOrEmpty(getBaseContext(), customerLastName))
             return false;
-        } else if (customerPhoneMobile.equals("") || customerPhoneMobile.equals(null)) {
-            Toast.makeText(getBaseContext(), "Choose apropriate phone mobile for CUSTOMER.", Toast.LENGTH_SHORT).show();
+        else if (!Utility.checkForValidityForEditTextNullOrEmpty(getBaseContext(), customerPhoneMobile))
             return false;
-        } else {
-            Cursor mCursor = getBaseContext().getContentResolver().query(
-                    KasebContract.Customers.CONTENT_URI,
-                    new String[]{KasebContract.Customers._ID},
-                    KasebContract.Customers.COLUMN_PHONE_MOBILE + " = ? and " + KasebContract.Customers._ID + " != ? ",
-                    new String[]{customerPhoneMobile, String.valueOf(mCustomerId)},
-                    null);
 
-            if (mCursor != null)
-                if (mCursor.moveToFirst())
-                    if (mCursor.getCount() > 0) {
-                        Toast.makeText(getBaseContext(), "Choose apropriate (Not Itterative) phone mobile for CUSTOMER.", Toast.LENGTH_SHORT).show();
-                        return false;
-                    }
-            return true;
-        }
+        return true;
     }
 }

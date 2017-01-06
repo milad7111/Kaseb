@@ -77,10 +77,7 @@ public class CostInsert extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.save_inputs: {
-                if (CheckForValidity(
-                        costName.getText().toString(),
-                        costAmount.getText().toString(),
-                        costDate.getText().toString())) {
+                if (CheckForValidity()) {
                     costValues.put(KasebContract.Costs.COLUMN_COST_NAME, costName.getText().toString());
                     costValues.put(KasebContract.Costs.COLUMN_COST_CODE, costCode.getText().toString());
                     costValues.put(KasebContract.Costs.COLUMN_AMOUNT, costAmount.getText().toString());
@@ -112,17 +109,14 @@ public class CostInsert extends Fragment {
     }
 
     // this method check the validation and correct entries. its check fill first and then check the validation rules.
-    private boolean CheckForValidity(String costName, String costAmount, String costDate) {
-        if (costName.equals("") || costName.equals(null)) {
-            Toast.makeText(getActivity(), "Choose apropriate name for COST.", Toast.LENGTH_SHORT).show();
+    private boolean CheckForValidity() {
+        if (!Utility.checkForValidityForEditTextNullOrEmpty(getActivity(), costName))
             return false;
-        } else if (costAmount.equals("") || costAmount.equals(null)) {
-            Toast.makeText(getActivity(), "Choose apropriate amount for COST.", Toast.LENGTH_SHORT).show();
+        else if (!Utility.checkForValidityForEditTextNullOrEmpty(getActivity(), costAmount))
             return false;
-        } else if (costDate.equals("") || costDate.equals(null)) {
-            Toast.makeText(getActivity(), "Choose apropriate date for COST.", Toast.LENGTH_SHORT).show();
+        else if (!Utility.checkForValidityForEditTextNullOrEmpty(getActivity(), costDate))
             return false;
-        }
+
         return true;
     }
 }

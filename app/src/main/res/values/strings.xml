@@ -369,5 +369,31 @@
     <string name="title_of_discounts">Invoice Discounts</string>
     <string name="title_of_payments">Invoice Payments</string>
     <string name="title_of_invoice_summary">Invoice Summary</string>
+    <string name="choose_apropriate_data">Choose apropriate data.</string>
+    <string name="save_factor_then_print">Please Save Invoice Then RETRY.</string>
+    <string name="not_itterative">(Not Itterative)</string>
+    <string name="register_message_copyright">Registered By KASEB. \n@COPYRIGHT</string>
+    <string name="seller_info">"Seller : "</string>
+    <string name="seller_tell">"Seller Tell : "</string>
+    <string name="seller_address">"Seller Address : "</string>
+    <string name="customer_info">"Customer : "</string>
+    <string name="invoice_date">"Date : "</string>
+    <string name="invoice_sale_code">"Sale Code : "</string>
+    <string name="row_title">Row</string>
+    <string name="good_title">Good</string>
+    <string name="price_title">Price</string>
+    <string name="quantity_title">Quantity</string>
+    <string name="total_title">Total</string>
+    <string name="type_title">Type</string>
+    <string name="amount_title">Amount</string>
+    <string name="percent_title">Percent</string>
+    <string name="total_amount_title">"Total Amount : "</string>
+    <string name="total_tax_title">"Total Tax : "</string>
+    <string name="total_discount_title">"Total Discount : "</string>
+    <string name="total_paied_title">"Total Paied : "</string>
+    <string name="total_unpaied_title">"Total Unpaied : "</string>
+    <string name="stamp_and_signature">Stamp and Signature</string>
+    <string name="seller_title">Seller</string>
+    <string name="buyer_title">Buyer</string>
     //endregion Sales Invoice Print
 </resources>

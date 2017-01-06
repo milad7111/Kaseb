@@ -188,13 +188,13 @@ public class ProductInsert extends Fragment {
 
     // this method check the validation and correct entries. its check fill first and then check the validation rules.
     private boolean CheckForValidity() {
-        if (!Utility.checkForValidityForEditTextNullOrEmpty(buyPrice, "BUY PRICE"))
+        if (!Utility.checkForValidityForEditTextNullOrEmpty(getActivity(), buyPrice))
             return false;
-        else if (!Utility.checkForValidityForEditTextNullOrEmpty(quantity, "QUANTITY"))
+        else if (!Utility.checkForValidityForEditTextNullOrEmpty(getActivity(), quantity))
             return false;
-        else if (!Utility.checkForValidityForEditTextNullOrEmpty(salePrice, "SALE PRICE"))
+        else if (!Utility.checkForValidityForEditTextNullOrEmpty(getActivity(), salePrice))
             return false;
-        else if (!Utility.checkForValidityForEditTextNullOrEmpty(buyDate, "BUY DATE"))
+        else if (!Utility.checkForValidityForEditTextNullOrEmpty(getActivity(), buyDate))
             return false;
 
         return true;
