@@ -47,8 +47,11 @@ public class CustomerAdapter extends CursorAdapter {
         imageViewAvatar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Customers customersActivity = (Customers) context;
-                customersActivity.pic_selector(imageViewAvatar,_id);
+                try {
+                    Customers customersActivity = (Customers) context;
+                    customersActivity.pic_selector(imageViewAvatar, _id);
+                } catch (Exception e) {
+                }
             }
         });
 
@@ -70,7 +73,13 @@ public class CustomerAdapter extends CursorAdapter {
         });
 
         try {
-            if (imagegBytes.length == 0)
+            Boolean mWhat = false;
+            if (imagegBytes == null)
+                mWhat = true;
+            else if (imagegBytes.length == 0)
+                mWhat = true;
+
+            if (mWhat)
                 imageViewAvatar.setImageDrawable(context.getResources().getDrawable(
                         context.getResources().getIdentifier("@drawable/kaseb_pic", null, context.getPackageName())));
             else {

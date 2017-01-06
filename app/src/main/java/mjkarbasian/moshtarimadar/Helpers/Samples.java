@@ -20,7 +20,7 @@ public class Samples {
     public static Integer[] customerName = {R.string.sample_ali_ghorbani_name, R.string.sample_mohammad_alikhani_name, R.string.sample_sima_saberzadeh};
     public static ArrayList<Uri> customerAvatar = new ArrayList<Uri>();
 
-    public static Integer[] paymentModels = {R.string.payment_model_cash, R.string.payment_model_pos, R.string.payment_model_cheque, R.string.payment_model_credit};
+    public static Integer[] paymentModels = {R.string.payment_model_cash, R.string.payment_model_pos, R.string.payment_model_czech, R.string.payment_model_credit};
 
     public static Integer[] debatorName = {customerName[0], customerName[2]};
     public static Integer[] offTaxSticks = {R.string.sale_tax_tax_stick, R.string.sale_tax_off_stick};
@@ -77,7 +77,24 @@ public class Samples {
 
     //product detail tables and columns
     public static ArrayList<ArrayList<String>> productPriceList = new ArrayList<ArrayList<String>>();
-
+    public static Bundle customer_1 = new Bundle();
+    public static Bundle product_1 = new Bundle();
+    public static Bundle cost_1 = new Bundle();
+    public static Bundle sale_1 = new Bundle();
+    public static Bundle sale_2 = new Bundle();
+    public static Bundle detail_sale_1 = new Bundle();
+    //detail sale mdata: salecode,products , payments code ,discount,saleAmount,saleCustomer
+    //payments mdata: salecode,method,date,amount,
+    //discount mdata:salecode,discountPercentOfsaleAmount,discountAmount
+    public static Bundle detail_sale_2 = new Bundle();
+    public static Bundle product_history = new Bundle();
+    public static Bundle ds1ProductItems = new Bundle();
+    public static Bundle ds2ProductItems = new Bundle();
+    public static Bundle ds1PaymentItems = new Bundle();
+    public static Bundle ds2PaymentItems = new Bundle();
+    public static Bundle ds1TaxItems = new Bundle();
+    public static Bundle ds2TaxItems = new Bundle();
+    public static Float product_1_sale_price = 1400.0f;
 
     public static void setSalesCode() {
         salesCode.add("12430");
@@ -186,9 +203,6 @@ public class Samples {
         sales.add(salesAmount);
         sales.add(salesFinalAmount);
     }
-    //detail sale mdata: salecode,products , payments code ,discount,saleAmount,saleCustomer
-    //payments mdata: salecode,method,date,amount,
-    //discount mdata:salecode,discountPercentOfsaleAmount,discountAmount
 
     public static void setCostNames(Context context) {
         costNames.add(context.getString(R.string.sample_cost_name));
@@ -860,22 +874,6 @@ public class Samples {
         //fill in picture
         productPriceList.add(5, productPics);
     }
-
-    public static Bundle customer_1 = new Bundle();
-    public static Bundle product_1 = new Bundle();
-    public static Bundle cost_1 = new Bundle();
-    public static Bundle sale_1 = new Bundle();
-    public static Bundle sale_2 = new Bundle();
-    public static Bundle detail_sale_1 = new Bundle();
-    public static Bundle detail_sale_2 = new Bundle();
-    public static Bundle product_history = new Bundle();
-    public static Bundle ds1ProductItems = new Bundle();
-    public static Bundle ds2ProductItems = new Bundle();
-    public static Bundle ds1PaymentItems = new Bundle();
-    public static Bundle ds2PaymentItems = new Bundle();
-    public static Bundle ds1TaxItems = new Bundle();
-    public static Bundle ds2TaxItems = new Bundle();
-    public static Float product_1_sale_price = 1400.0f;
 
     public static void setCustomer_1(Context context) {
         customer_1.putString(KasebContract.Customers.COLUMN_FIRST_NAME,

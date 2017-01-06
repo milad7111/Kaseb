@@ -3,9 +3,11 @@ package mjkarbasian.moshtarimadar.Helpers;
 import android.app.Dialog;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,12 +16,31 @@ import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
+import com.itextpdf.text.BaseColor;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Element;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.PageSize;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.Phrase;
+import com.itextpdf.text.Rectangle;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
 import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
@@ -75,6 +96,125 @@ import static mjkarbasian.moshtarimadar.Helpers.Samples.setSalesCustomer;
 public class Utility {
 
     private static final String LOG_TAG = Utility.class.getSimpleName();
+    private static Font mainTitleFont = new Font(Font.FontFamily.TIMES_ROMAN, 20, Font.BOLD);
+    private static Font subTitleFontUnColoredSmall = new Font(Font.FontFamily.TIMES_ROMAN, 14, Font.BOLD);
+    private static Font subTitleFontUnColored = new Font(Font.FontFamily.TIMES_ROMAN, 16, Font.BOLD);
+    private static BaseColor subTitleColorTables = new BaseColor(140, 221, 8);
+    private static BaseColor mainTitleColorTables = new BaseColor(255, 255, 255);
+    private static Context _mContext;
+    private static Document _mDocument;
+
+    public static void printInvoice(Context mContext, String mSaleDate, String mSaleCode, String mNameCustomer,
+                                    String mFamilyCustomer, ArrayList<Long> mSummaryOfInvoice,
+                                    Long mCustomerId, String mDetailSaleId,
+                                    ArrayList<Map<String, String>> mChosenProductListMap,
+                                    ArrayList<Map<String, String>> mTaxListMap,
+                                    ArrayList<Map<String, String>> mPaymentListMap) {
+        _mContext = mContext;
+
+        HashMap<String, String> mTextFactor = new HashMap<String, String>();
+        mTextFactor.put("firstTitle", _mContext.getString(R.string.title_of_print_invoice));
+        mTextFactor.put("secondTitle", _mContext.getString(R.string.title_of_invoice_items));
+        mTextFactor.put("thirdTitle", _mContext.getString(R.string.title_of_taxes));
+        mTextFactor.put("sixthTitle", _mContext.getString(R.string.title_of_discounts));
+        mTextFactor.put("fourthTitle", _mContext.getString(R.string.title_of_payments));
+        mTextFactor.put("fifthTitle", _mContext.getString(R.string.title_of_invoice_summary));
+        mTextFactor.put("sellerInfo", " ... ");
+        mTextFactor.put("sellerTell", " ... ");
+        mTextFactor.put("sellerAddress", " ... ");
+        mTextFactor.put("saleCode", mSaleCode);
+        mTextFactor.put("saleDate", mSaleDate);
+        mTextFactor.put("customerInfo", mNameCustomer + "   " + mFamilyCustomer);
+
+        mTextFactor.put("totalAmount",
+                Utility.formatPurchase(
+                        _mContext,
+                        Utility.DecimalSeperation(_mContext,
+                                Double.parseDouble(String.valueOf(mSummaryOfInvoice.get(0))))));
+
+        mTextFactor.put("totalTax", Utility.formatPurchase(
+                _mContext,
+                Utility.DecimalSeperation(_mContext,
+                        Double.parseDouble(String.valueOf(mSummaryOfInvoice.get(1))))));
+
+        mTextFactor.put("totalDiscount", Utility.formatPurchase(
+                _mContext,
+                Utility.DecimalSeperation(_mContext,
+                        Double.parseDouble(String.valueOf(mSummaryOfInvoice.get(2))))));
+
+        mTextFactor.put("totalPaied", Utility.formatPurchase(
+                _mContext,
+                Utility.DecimalSeperation(_mContext,
+                        Double.parseDouble(String.valueOf(mSummaryOfInvoice.get(3))))));
+
+        mTextFactor.put("totalUnpaied", Utility.formatPurchase(
+                _mContext,
+                Utility.DecimalSeperation(_mContext,
+                        Double.parseDouble(String.valueOf(mSummaryOfInvoice.get(4))))));
+
+        try {
+            File myFile = Utility.createPdf(
+                    "SaleFactors",
+                    String.valueOf(mCustomerId) + "_00000_" + mDetailSaleId,
+                    PageSize.A4,
+                    mTextFactor,
+                    mChosenProductListMap,
+                    mTaxListMap,
+                    mPaymentListMap
+            );
+
+            Utility.viewPdf(_mContext, myFile);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (DocumentException e) {
+            e.printStackTrace();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static boolean checkForValidityForEditTextNullOrEmpty(Context mContext, EditText mEditText) {
+        _mContext = mContext;
+        if (mEditText.getText().toString().equals("") || mEditText.getText().toString().equals(null)) {
+            Utility.setErrorForEditText(mEditText);
+            return false;
+        }
+        return true;
+    }
+
+    public static void setErrorForEditText(EditText mEditText) {
+        mEditText.setError(_mContext.getString(R.string.choose_apropriate_data));
+        mEditText.requestFocus();
+    }
+
+    public static void setErrorForEditText(EditText mEditText, String mMessage) {
+        mEditText.setError(_mContext.getString(R.string.choose_apropriate_data) + mMessage);
+        mEditText.requestFocus();
+    }
+
+    public static boolean checkForValidityForEditTextNullOrEmptyAndItterative(
+            Context mContext, EditText mEditText, Uri mUri, String mWhereStatment,
+            String mProjectionColumnName, String[] mSelection) {
+        if (!Utility.checkForValidityForEditTextNullOrEmpty(mContext, mEditText))
+            return false;
+        else {
+            Cursor mCursor = mContext.getContentResolver().query(
+                    mUri,
+                    new String[]{mProjectionColumnName},
+                    mWhereStatment,
+                    mSelection,
+                    null);
+
+            if (mCursor != null) {
+                if (mCursor.moveToFirst())
+                    if (mCursor.getCount() > 0) {
+                        Utility.setErrorForEditText(mEditText, mContext.getString(R.string.not_itterative));
+                        return false;
+                    }
+            }
+            return true;
+        }
+    }
 
     public static void setHeightOfListView(ListView mListView) {
         ListAdapter adapter = mListView.getAdapter();
@@ -83,10 +223,10 @@ public class Utility {
             return;
         }
 
-        ViewGroup vg = mListView;
+        ViewGroup mViewGroup = mListView;
         int totalHeight = 0;
         for (int i = 0; i < adapter.getCount(); i++) {
-            View listItem = adapter.getView(i, null, vg);
+            View listItem = adapter.getView(i, null, mViewGroup);
             listItem.measure(0, 0);
             totalHeight += listItem.getMeasuredHeight();
         }
@@ -163,13 +303,11 @@ public class Utility {
         return formattedDate;
     }
 
-
     public static String getLocale(Context context) {
 
         Locale current = context.getResources().getConfiguration().locale;
         return current.getCountry();
     }
-
 
     public static String doubleFormatter(double myNumber) {
         DecimalFormat f = (DecimalFormat) DecimalFormat.getInstance();
@@ -184,14 +322,15 @@ public class Utility {
         String formatedDate = dateFormat.format(date);
         return formatedDate;
     }
-    public static String localePersianDate(String date){
+
+    public static String localePersianDate(String date) {
         try {
             String[] datePart = date.split("/");
-            return doubleFormatter(Double.parseDouble(datePart[0]))+
-                    "/"+doubleFormatter(Double.parseDouble(datePart[1]))+"/"+
+            return doubleFormatter(Double.parseDouble(datePart[0])) +
+                    "/" + doubleFormatter(Double.parseDouble(datePart[1])) + "/" +
                     doubleFormatter(Double.parseDouble(datePart[2]));
 
-        }catch (Exception e){
+        } catch (Exception e) {
 
         }
         return "ERROR";
@@ -518,11 +657,11 @@ public class Utility {
                 context.getResources().getString(R.string.states_silver),
                 context.getResources().getString(R.string.states_bronze, R.string.states_instart),
                 context.getResources().getString(R.string.states_instart)};
-        int [] colors = new int[]{Color.rgb(255, 215, 0),Color.rgb(192,192,192),Color.rgb(218,165,32),Color.rgb(176,224,230)};
+        int[] colors = new int[]{Color.rgb(255, 215, 0), Color.rgb(192, 192, 192), Color.rgb(218, 165, 32), Color.rgb(176, 224, 230)};
         for (int i = 0; i < ids.length; i++) {
             ContentValues states = new ContentValues();
             states.put(KasebContract.State.COLUMN_STATE_POINTER, ids[i]);
-            states.put(KasebContract.State.COLUMN_STATE_COLOR,colors[i]);
+            states.put(KasebContract.State.COLUMN_STATE_COLOR, colors[i]);
             contentValues[i] = states;
         }
 
@@ -621,53 +760,711 @@ public class Utility {
             return pDate;
         }
     }
+
     public static String preInsertSaleCode(Context context) {
         Cursor cursor = context.getContentResolver().query(KasebContract.Sales.CONTENT_URI, new String[]{KasebContract.Sales._ID},
                 null, null, KasebContract.Sales._ID + " DESC");
         String prefix = context.getResources().getString(R.string.sale_code_prefix);
         String newCode = null;
         int codeNumber;
-        if(cursor.moveToFirst()){
-            codeNumber = cursor.getInt(0)+1;
+
+        if (cursor.moveToFirst()) {
+            codeNumber = cursor.getInt(0) + 1;
             newCode = prefix + String.valueOf(Utility.doubleFormatter(codeNumber));
-        }
-        else{
+        } else {
             codeNumber = 1;
-            newCode = prefix +" " +String.valueOf(Utility.doubleFormatter(codeNumber));
+            newCode = prefix + " " + String.valueOf(Utility.doubleFormatter(codeNumber));
         }
         cursor.close();
         return newCode;
     }
+
     public static String preInsertCostCode(Context context) {
         Cursor cursor = context.getContentResolver().query(KasebContract.Costs.CONTENT_URI, new String[]{KasebContract.Costs._ID},
                 null, null, KasebContract.Costs._ID + " DESC");
         String prefix = context.getResources().getString(R.string.cost_code_prefix);
         String newCode = null;
         int codeNumber;
-        if(cursor.moveToFirst()){
-            codeNumber = cursor.getInt(0)+1;
-            newCode = prefix +" "+String.valueOf(Utility.doubleFormatter(codeNumber));
-        }else{
+        if (cursor.moveToFirst()) {
+            codeNumber = cursor.getInt(0) + 1;
+            newCode = prefix + " " + String.valueOf(Utility.doubleFormatter(codeNumber));
+        } else {
             codeNumber = 1;
-            newCode = prefix +" " +String.valueOf(Utility.doubleFormatter(codeNumber));
+            newCode = prefix + " " + String.valueOf(Utility.doubleFormatter(codeNumber));
         }
         cursor.close();
         return newCode;
     }
+
     public static String preInsertProductCode(Context context) {
         Cursor cursor = context.getContentResolver().query(KasebContract.Products.CONTENT_URI, new String[]{KasebContract.Products._ID},
                 null, null, KasebContract.Products._ID + " DESC");
         String prefix = context.getResources().getString(R.string.product_code_prefix);
         String newCode = null;
         int codeNumber;
-        if(cursor.moveToFirst()){
-            codeNumber = cursor.getInt(0)+1;
+        if (cursor.moveToFirst()) {
+            codeNumber = cursor.getInt(0) + 1;
             newCode = prefix + String.valueOf(Utility.doubleFormatter(codeNumber));
-        }else{
+        } else {
             codeNumber = 1;
             newCode = prefix + String.valueOf(Utility.doubleFormatter(codeNumber));
         }
         cursor.close();
         return newCode;
+    }
+
+    public static Long checkNumberOfProductsForDetailSale(Context mContext, Long mDetailSaleId,
+                                                          String mWhichActivity, Long mProductId) {
+        return howManyBuyed(mContext, mProductId) -
+                howManySold(mContext, mDetailSaleId, mWhichActivity, mProductId);
+    }
+
+    public static String cretaeWhereStatementArgsFor_checkNumberOfProductsForDetailSale(String whichActivity, int mCount) {
+
+        if (whichActivity.equals("SaleInsert"))
+            return KasebContract.DetailSaleProducts.COLUMN_DETAIL_SALE_ID + " IN (" +
+                    Utility.makePlaceholders((mCount > 0 ? mCount : 1)) + ") and " +
+                    KasebContract.DetailSaleProducts.COLUMN_PRODUCT_ID + " = ? ";
+        else if (whichActivity.equals("SaleView"))
+            return KasebContract.DetailSaleProducts.COLUMN_DETAIL_SALE_ID + " IN (" +
+                    Utility.makePlaceholders((mCount > 0 ? mCount : 1)) + ") and " +
+                    KasebContract.DetailSaleProducts.COLUMN_DETAIL_SALE_ID + " != ? and " +
+                    KasebContract.DetailSaleProducts.COLUMN_PRODUCT_ID + " = ? ";
+
+        return "";
+    }
+
+    private static Long howManySold(Context mContext, Long mDetailSaleId, String mWhichActivity, Long mProductId) {
+
+        Cursor mCursor = mContext.getContentResolver().query(
+                KasebContract.Sales.CONTENT_URI,
+                new String[]{KasebContract.Sales._ID},
+                KasebContract.Sales.COLUMN_IS_DELETED + " = ? ",
+                new String[]{"0"},
+                null);
+
+        String[] mSelection = new String[(mCursor.getCount() > 0 ? mCursor.getCount() : 1)];
+
+        if (mCursor != null)
+            if (mCursor.moveToFirst())
+                for (int i = 0; i < mCursor.getCount(); i++) {
+                    mSelection[i] = mCursor.getString(mCursor.getColumnIndex(KasebContract.Sales._ID));
+                    mCursor.moveToNext();
+                }
+
+        if (mSelection[0] == null)
+            mSelection[0] = "-1";
+
+        String mWhereStatement = KasebContract.DetailSale.COLUMN_SALE_ID + " IN (" +
+                Utility.makePlaceholders((mCursor.getCount() > 0 ? mCursor.getCount() : 1)) + ")";
+
+        mCursor = mContext.getContentResolver().query(
+                KasebContract.DetailSale.CONTENT_URI,
+                new String[]{KasebContract.DetailSale._ID},
+                mWhereStatement,
+                mSelection,
+                null);
+
+        if (mWhichActivity == "SaleInsert")
+            mSelection = new String[(mCursor.getCount() > 0 ? mCursor.getCount() + 1 : 1)];
+        else if (mWhichActivity == "SaleView")
+            mSelection = new String[(mCursor.getCount() > 0 ? mCursor.getCount() + 2 : 1)];
+
+        if (mCursor != null)
+            if (mCursor.moveToFirst())
+                for (int i = 0; i < mCursor.getCount(); i++) {
+                    mSelection[i] = mCursor.getString(mCursor.getColumnIndex(KasebContract.DetailSale._ID));
+                    mCursor.moveToNext();
+                }
+
+        if (mSelection[0] == null)
+            mSelection[0] = "-1";
+        else if (mWhichActivity == "SaleInsert")
+            mSelection[mSelection.length - 1] = String.valueOf(mProductId);
+        else if (mWhichActivity == "SaleView") {
+            mSelection[mSelection.length - 2] = String.valueOf(mDetailSaleId);
+            mSelection[mSelection.length - 1] = String.valueOf(mProductId);
+        }
+
+        mCursor = mContext.getContentResolver().query(
+                KasebContract.DetailSaleProducts.CONTENT_URI,
+                new String[]{"SUM (" + KasebContract.DetailSaleProducts.COLUMN_QUANTITY + " ) AS all_sold_quantity_product"},
+                cretaeWhereStatementArgsFor_checkNumberOfProductsForDetailSale(mWhichActivity, mCursor.getCount()),
+                mWhichActivity == "SaleInsert" ? mSelection :
+                        new String[]{String.valueOf(mDetailSaleId), String.valueOf(mProductId)},
+                null);
+
+        if (mCursor != null)
+            if (mCursor.moveToFirst())
+                return mCursor.getLong(mCursor.getColumnIndex("all_sold_quantity_product"));
+
+        mCursor.close();
+        return 0l;
+    }
+
+    private static Long howManyBuyed(Context mContext, Long mProductId) {
+        Cursor mCursor = mContext.getContentResolver().query(
+                KasebContract.ProductHistory.aProductHistory(mProductId),
+                new String[]{"SUM (" + KasebContract.ProductHistory.COLUMN_QUANTITY + " ) AS all_bought_quantity_product"},
+                null,
+                null,
+                null);
+
+        if (mCursor != null)
+            if (mCursor.moveToFirst())
+                return mCursor.getLong(mCursor.getColumnIndex("all_bought_quantity_product"));
+
+        mCursor.close();
+        return 0l;
+    }
+
+    public static File createPdf(String mDirectoryName, String mFileName,
+                                 Rectangle mPageSize, HashMap<String, String> mTextHashMap,
+                                 ArrayList<Map<String, String>> mChosenProductListMap,
+                                 ArrayList<Map<String, String>> mTaxListMap,
+                                 ArrayList<Map<String, String>> mPaymentListMap)
+            throws FileNotFoundException, DocumentException, ParseException {
+
+        File pdfFolder = new File(Environment.getExternalStorageDirectory(), "/" + mDirectoryName);
+        if (!pdfFolder.exists())
+            pdfFolder.mkdir();
+
+        File myFile = new File(pdfFolder + "/" + mFileName + ".pdf");
+
+        if (myFile.exists())
+            myFile.delete();
+
+        _mDocument = new Document(mPageSize);
+        OutputStream output = new FileOutputStream(myFile);
+        PdfWriter.getInstance(_mDocument, output);
+
+        _mDocument.open();
+
+        addMetaData();
+        addContent(mTextHashMap, mChosenProductListMap, mTaxListMap, mPaymentListMap);
+
+        _mDocument.close();
+
+        return myFile;
+    }
+
+    private static void addMetaData() {
+        _mDocument.addTitle("Sales Invoice");
+        _mDocument.addSubject("Kaseb Release 1.0");
+        _mDocument.addKeywords("Kaseb, Sales, Invoice");
+        _mDocument.addAuthor("Kaseb");
+        _mDocument.addCreator("Kaseb");
+    }
+
+    private static void addContent(HashMap<String, String> mTextHashMapTitles_Summary,
+                                   ArrayList<Map<String, String>> mChosenProductListMap,
+                                   ArrayList<Map<String, String>> mTaxListMap,
+                                   ArrayList<Map<String, String>> mPaymentListMap)
+            throws DocumentException, ParseException {
+
+        //region Create Paragraph with Some Lines
+        Paragraph mParagraph = new Paragraph();
+        mParagraph.setAlignment(Element.ALIGN_CENTER);
+        addEmptyLine(mParagraph, 1);
+        //endregion Create Paragraph with Some Lines
+
+        PdfPTable table;
+
+        //region add InfoForSalesInvoice paragraph
+        _mDocument.add(mParagraph);
+        table = new PdfPTable(1);
+        PdfPCell mCell = new PdfPCell(new Phrase(mTextHashMapTitles_Summary.get("firstTitle"), mainTitleFont));
+        mCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+        mCell.setBorder(Rectangle.NO_BORDER);
+        table.addCell(mCell);
+        _mDocument.add(table);
+        _mDocument.add(mParagraph);
+
+        createTableInfoForSalesInvoice(mTextHashMapTitles_Summary);
+        //endregion add InfoForSalesInvoice paragraph
+
+        //region add InfoTableForInvoiceItems paragraph
+        _mDocument.add(mParagraph);
+        table = new PdfPTable(1);
+        mCell = new PdfPCell(new Phrase(mTextHashMapTitles_Summary.get("secondTitle"), mainTitleFont));
+        mCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+        mCell.setBorder(Rectangle.NO_BORDER);
+        table.addCell(mCell);
+        _mDocument.add(table);
+        _mDocument.add(mParagraph);
+
+        createInfoTableForInvoiceItems(mChosenProductListMap);
+        //endregion add InfoTableForInvoiceItems paragraph
+
+        //region add TaxesForSalesInvoice paragraph
+        _mDocument.add(mParagraph);
+        table = new PdfPTable(1);
+        mCell = new PdfPCell(new Phrase(mTextHashMapTitles_Summary.get("thirdTitle"), mainTitleFont));
+        mCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+        mCell.setBorder(Rectangle.NO_BORDER);
+        table.addCell(mCell);
+        _mDocument.add(table);
+        _mDocument.add(mParagraph);
+
+        createTableTaxesForSalesInvoice(mTaxListMap);
+        //endregion add TaxesForSalesInvoice paragraph
+
+        //region add Taxes_DiscountsForSalesInvoice paragraph
+        _mDocument.add(mParagraph);
+        table = new PdfPTable(1);
+        mCell = new PdfPCell(new Phrase(mTextHashMapTitles_Summary.get("sixthTitle"), mainTitleFont));
+        mCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+        mCell.setBorder(Rectangle.NO_BORDER);
+        table.addCell(mCell);
+        _mDocument.add(table);
+        _mDocument.add(mParagraph);
+
+        createTableDiscountsForSalesInvoice(mTaxListMap);
+        //endregion add Taxes_DiscountsForSalesInvoice paragraph
+
+        //region add PaymentsForSalesInvoice paragraph
+        _mDocument.add(mParagraph);
+        table = new PdfPTable(1);
+        mCell = new PdfPCell(new Phrase(mTextHashMapTitles_Summary.get("fourthTitle"), mainTitleFont));
+        mCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+        mCell.setBorder(Rectangle.NO_BORDER);
+        table.addCell(mCell);
+        _mDocument.add(table);
+        _mDocument.add(mParagraph);
+
+        createTablePaymentsForSalesInvoice(mPaymentListMap);
+        //endregion add PaymentsForSalesInvoice paragraph
+
+        //region add InfoForSalesInvoice paragraph
+        _mDocument.add(mParagraph);
+        table = new PdfPTable(1);
+        mCell = new PdfPCell(new Phrase(mTextHashMapTitles_Summary.get("fifthTitle"), mainTitleFont));
+        mCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+        mCell.setBorder(Rectangle.NO_BORDER);
+        table.addCell(mCell);
+        _mDocument.add(table);
+        _mDocument.add(mParagraph);
+
+        createTableSummaryForSalesInvoice(mTextHashMapTitles_Summary);
+        //endregion add InfoForSalesInvoice paragraph
+
+        //region add Register paragraph
+        _mDocument.add(mParagraph);
+        _mDocument.add(mParagraph);
+        createTableEndInfoForSalesInvoice();
+        _mDocument.add(mParagraph);
+        _mDocument.add(mParagraph);
+        table = new PdfPTable(1);
+        mCell = new PdfPCell(new Phrase(_mContext.getString(R.string.register_message_copyright), mainTitleFont));
+        mCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+        mCell.setBorder(Rectangle.NO_BORDER);
+        table.addCell(mCell);
+        _mDocument.add(table);
+        //endregion add Register paragraph
+    }
+
+    private static void createTableInfoForSalesInvoice(HashMap<String, String> mTextHashMapTitles)
+            throws DocumentException {
+        PdfPTable table = new PdfPTable(1);
+
+        PdfPCell mCell = new PdfPCell(new Phrase(
+                _mContext.getString(R.string.seller_info) + mTextHashMapTitles.get("sellerInfo") + "\n\n" +
+                        _mContext.getString(R.string.seller_tell) + mTextHashMapTitles.get("sellerTell") + "\n\n" +
+                        _mContext.getString(R.string.seller_address) + mTextHashMapTitles.get("sellerAddress") + "\n\n" +
+                        _mContext.getString(R.string.customer_info) + mTextHashMapTitles.get("customerInfo") + "\n\n" +
+                        _mContext.getString(R.string.invoice_date) + mTextHashMapTitles.get("saleDate") + "\n\n" +
+                        _mContext.getString(R.string.invoice_sale_code) + mTextHashMapTitles.get("saleCode")
+                , subTitleFontUnColored));
+        setBackGroundColor_P_BW_HA_VA(mCell, mainTitleColorTables, 10, 3, Element.ALIGN_LEFT, Element.ALIGN_CENTER);
+        table.addCell(mCell);
+        _mDocument.add(table);
+    }
+
+    private static void createInfoTableForInvoiceItems(ArrayList<Map<String, String>> mChosenProductListMap)
+            throws DocumentException {
+        PdfPTable table = new PdfPTable(5);
+        table.setWidths(new int[]{25, 50, 40, 45, 45});
+
+        //region Add Titles For Items In Invoice
+        PdfPCell mCell = new PdfPCell(new Phrase(_mContext.getString(R.string.row_title), subTitleFontUnColoredSmall));
+        setBackGroundColor_P_BW_HA_VA(mCell, subTitleColorTables, 10, 3, Element.ALIGN_CENTER, Element.ALIGN_CENTER);
+        table.addCell(mCell);
+
+        mCell = new PdfPCell(new Phrase(_mContext.getString(R.string.good_title), subTitleFontUnColoredSmall));
+        setBackGroundColor_P_BW_HA_VA(mCell, subTitleColorTables, 10, 3, Element.ALIGN_CENTER, Element.ALIGN_CENTER);
+        table.addCell(mCell);
+
+        mCell = new PdfPCell(new Phrase(_mContext.getString(R.string.price_title), subTitleFontUnColoredSmall));
+        setBackGroundColor_P_BW_HA_VA(mCell, subTitleColorTables, 10, 3, Element.ALIGN_CENTER, Element.ALIGN_CENTER);
+        table.addCell(mCell);
+
+        mCell = new PdfPCell(new Phrase(_mContext.getString(R.string.quantity_title), subTitleFontUnColoredSmall));
+        setBackGroundColor_P_BW_HA_VA(mCell, subTitleColorTables, 10, 3, Element.ALIGN_CENTER, Element.ALIGN_CENTER);
+        table.addCell(mCell);
+
+        mCell = new PdfPCell(new Phrase(_mContext.getString(R.string.total_title), subTitleFontUnColoredSmall));
+        setBackGroundColor_P_BW_HA_VA(mCell, subTitleColorTables, 10, 3, Element.ALIGN_CENTER, Element.ALIGN_CENTER);
+        table.addCell(mCell);
+
+        table.setHeaderRows(1);
+        //endregion Add Titles For Items In Invoice
+
+        //region Add Data For Items In Invoice
+        for (int i = 0; i < mChosenProductListMap.size(); i++) {
+
+            mCell = new PdfPCell(new Phrase(String.valueOf(i + 1)));
+            setBackGroundColor_P_BW_HA_VA(mCell, mainTitleColorTables, 5, 3, Element.ALIGN_CENTER, Element.ALIGN_CENTER);
+            table.addCell(mCell);
+
+            mCell = new PdfPCell(new Phrase(
+                    getProductNameWithProductId(
+                            Long.valueOf(mChosenProductListMap.get(i).get("id").toString()))));
+            setBackGroundColor_P_BW_HA_VA(mCell, mainTitleColorTables, 5, 3, Element.ALIGN_CENTER, Element.ALIGN_CENTER);
+            table.addCell(mCell);
+
+            mCell = new PdfPCell(new Phrase(
+                    Utility.formatPurchase(
+                            _mContext,
+                            Utility.DecimalSeperation(_mContext,
+                                    Double.parseDouble(mChosenProductListMap.get(i).get("price").toString())))
+            ));
+            setBackGroundColor_P_BW_HA_VA(mCell, mainTitleColorTables, 5, 3, Element.ALIGN_CENTER, Element.ALIGN_CENTER);
+            table.addCell(mCell);
+
+            mCell = new PdfPCell(new Phrase(mChosenProductListMap.get(i).get("quantity").toString()));
+            setBackGroundColor_P_BW_HA_VA(mCell, mainTitleColorTables, 5, 3, Element.ALIGN_CENTER, Element.ALIGN_CENTER);
+            table.addCell(mCell);
+
+            mCell = new PdfPCell(new Phrase(
+                    Utility.formatPurchase(
+                            _mContext,
+                            Utility.DecimalSeperation(_mContext,
+                                    Double.parseDouble(
+                                            String.valueOf(
+                                                    Long.valueOf(mChosenProductListMap.get(i).get("price").toString()) *
+                                                            Long.valueOf(mChosenProductListMap.get(i).get("quantity").toString()
+                                                            )))))));
+            setBackGroundColor_P_BW_HA_VA(mCell, mainTitleColorTables, 5, 3, Element.ALIGN_CENTER, Element.ALIGN_CENTER);
+            table.addCell(mCell);
+        }
+        //endregion Add Data For Items In Invoice
+
+        _mDocument.add(table);
+    }
+
+    private static void createTableTaxesForSalesInvoice(ArrayList<Map<String, String>> mTaxListMap)
+            throws DocumentException, ParseException {
+        PdfPTable table = new PdfPTable(4);
+        table.setWidths(new int[]{25, 60, 65, 60});
+
+        //region Add Titles For Taxes In Invoice
+        PdfPCell mCell = new PdfPCell(new Phrase(_mContext.getString(R.string.row_title), subTitleFontUnColored));
+        setBackGroundColor_P_BW_HA_VA(mCell, subTitleColorTables, 5, 3, Element.ALIGN_CENTER, Element.ALIGN_CENTER);
+        table.addCell(mCell);
+
+        mCell = new PdfPCell(new Phrase(_mContext.getString(R.string.type_title), subTitleFontUnColored));
+        setBackGroundColor_P_BW_HA_VA(mCell, subTitleColorTables, 5, 3, Element.ALIGN_CENTER, Element.ALIGN_CENTER);
+        table.addCell(mCell);
+
+        mCell = new PdfPCell(new Phrase(_mContext.getString(R.string.amount_title), subTitleFontUnColored));
+        setBackGroundColor_P_BW_HA_VA(mCell, subTitleColorTables, 5, 3, Element.ALIGN_CENTER, Element.ALIGN_CENTER);
+        table.addCell(mCell);
+
+        mCell = new PdfPCell(new Phrase(_mContext.getString(R.string.percent_title), subTitleFontUnColored));
+        setBackGroundColor_P_BW_HA_VA(mCell, subTitleColorTables, 5, 3, Element.ALIGN_CENTER, Element.ALIGN_CENTER);
+        table.addCell(mCell);
+
+        table.setHeaderRows(1);
+        //endregion Add Titles For Taxes In Invoice
+
+        //region Add Data For Taxes In Invoice
+        int j = 0;
+        for (int i = 0; i < mTaxListMap.size(); i++) {
+            if (mTaxListMap.get(i).get("type").toString().equals("VAS")) {
+                mCell = new PdfPCell(new Phrase(String.valueOf(j++ + 1)));
+                setBackGroundColor_P_BW_HA_VA(mCell, mainTitleColorTables, 5, 3, Element.ALIGN_CENTER, Element.ALIGN_CENTER);
+                table.addCell(mCell);
+
+                mCell = new PdfPCell(new Phrase(mTaxListMap.get(i).get("type").toString()));
+                setBackGroundColor_P_BW_HA_VA(mCell, mainTitleColorTables, 5, 3, Element.ALIGN_CENTER, Element.ALIGN_CENTER);
+                table.addCell(mCell);
+
+                mCell = new PdfPCell(new Phrase(
+                        Utility.formatPurchase(
+                                _mContext,
+                                Utility.DecimalSeperation(_mContext,
+                                        Double.parseDouble(mTaxListMap.get(i).get("amount").toString())
+                                ))));
+                setBackGroundColor_P_BW_HA_VA(mCell, mainTitleColorTables, 5, 3, Element.ALIGN_CENTER, Element.ALIGN_CENTER);
+                table.addCell(mCell);
+
+//                mCell = new PdfPCell(new Phrase(String.format("%.2f",
+//                        createFloatNumberWithString(mTaxListMap.get(i).get("percent").toString())) + " %"));
+                mCell = new PdfPCell(new Phrase(String.format("%.2f",
+                        Float.valueOf(mTaxListMap.get(i).get("percent").toString())) + " %"));
+                setBackGroundColor_P_BW_HA_VA(mCell, mainTitleColorTables, 5, 3, Element.ALIGN_CENTER, Element.ALIGN_CENTER);
+                table.addCell(mCell);
+            } else
+                continue;
+        }
+        //endregion Add Data For Taxes In Invoice
+
+        _mDocument.add(table);
+    }
+
+    private static void createTableDiscountsForSalesInvoice(ArrayList<Map<String, String>> mTaxListMap)
+            throws DocumentException, ParseException {
+        PdfPTable table = new PdfPTable(4);
+        table.setWidths(new int[]{25, 60, 65, 60});
+
+        //region Add Titles For Discounts In Invoice
+        PdfPCell mCell = new PdfPCell(new Phrase(_mContext.getString(R.string.row_title), subTitleFontUnColored));
+        setBackGroundColor_P_BW_HA_VA(mCell, subTitleColorTables, 5, 3, Element.ALIGN_CENTER, Element.ALIGN_CENTER);
+        table.addCell(mCell);
+
+        mCell = new PdfPCell(new Phrase(_mContext.getString(R.string.type_title), subTitleFontUnColored));
+        setBackGroundColor_P_BW_HA_VA(mCell, subTitleColorTables, 5, 3, Element.ALIGN_CENTER, Element.ALIGN_CENTER);
+        table.addCell(mCell);
+
+        mCell = new PdfPCell(new Phrase(_mContext.getString(R.string.amount_title), subTitleFontUnColored));
+        setBackGroundColor_P_BW_HA_VA(mCell, subTitleColorTables, 5, 3, Element.ALIGN_CENTER, Element.ALIGN_CENTER);
+        table.addCell(mCell);
+
+        mCell = new PdfPCell(new Phrase(_mContext.getString(R.string.percent_title), subTitleFontUnColored));
+        setBackGroundColor_P_BW_HA_VA(mCell, subTitleColorTables, 5, 3, Element.ALIGN_CENTER, Element.ALIGN_CENTER);
+        table.addCell(mCell);
+
+        table.setHeaderRows(1);
+        //endregion Add Titles For Discounts In Invoice
+
+        //region Add Data For Discounts In Invoice
+        int j = 0;
+        for (int i = 0; i < mTaxListMap.size(); i++) {
+
+            if (mTaxListMap.get(i).get("type").toString().equals("Discount")) {
+                mCell = new PdfPCell(new Phrase(String.valueOf(j++ + 1)));
+                setBackGroundColor_P_BW_HA_VA(mCell, mainTitleColorTables, 5, 3, Element.ALIGN_CENTER, Element.ALIGN_CENTER);
+                table.addCell(mCell);
+
+                mCell = new PdfPCell(new Phrase(mTaxListMap.get(i).get("type").toString()));
+                setBackGroundColor_P_BW_HA_VA(mCell, mainTitleColorTables, 5, 3, Element.ALIGN_CENTER, Element.ALIGN_CENTER);
+                table.addCell(mCell);
+
+                mCell = new PdfPCell(new Phrase(
+                        Utility.formatPurchase(
+                                _mContext,
+                                Utility.DecimalSeperation(_mContext,
+                                        Double.parseDouble(mTaxListMap.get(i).get("amount").toString())
+                                ))));
+                setBackGroundColor_P_BW_HA_VA(mCell, mainTitleColorTables, 5, 3, Element.ALIGN_CENTER, Element.ALIGN_CENTER);
+                table.addCell(mCell);
+
+//                mCell = new PdfPCell(new Phrase(String.format("%.2f",
+//                        createFloatNumberWithString(mTaxListMap.get(i).get("percent").toString())) + " %"));
+                mCell = new PdfPCell(new Phrase(String.format("%.2f",
+                        Float.valueOf(mTaxListMap.get(i).get("percent").toString())) + " %"));
+                mCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                mCell.setVerticalAlignment(Element.ALIGN_CENTER);
+                mCell.setBorderWidth(3);
+                mCell.setPadding(5);
+                table.addCell(mCell);
+            } else
+                continue;
+        }
+        //endregion Add Data For Discounts In Invoice
+
+        _mDocument.add(table);
+    }
+
+    private static void createTablePaymentsForSalesInvoice(ArrayList<Map<String, String>> mPaymentListMap)
+            throws DocumentException {
+        PdfPTable table = new PdfPTable(3);
+        table.setWidths(new int[]{25, 125, 60});
+
+        //region Add Titles In Payments In Invoice
+        PdfPCell mCell = new PdfPCell(new Phrase(_mContext.getString(R.string.row_title), subTitleFontUnColored));
+        setBackGroundColor_P_BW_HA_VA(mCell, subTitleColorTables, 5, 3, Element.ALIGN_CENTER, Element.ALIGN_CENTER);
+        table.addCell(mCell);
+
+        mCell = new PdfPCell(new Phrase(_mContext.getString(R.string.type_title), subTitleFontUnColored));
+        setBackGroundColor_P_BW_HA_VA(mCell, subTitleColorTables, 5, 3, Element.ALIGN_CENTER, Element.ALIGN_CENTER);
+        table.addCell(mCell);
+
+        mCell = new PdfPCell(new Phrase(_mContext.getString(R.string.amount_title), subTitleFontUnColored));
+        setBackGroundColor_P_BW_HA_VA(mCell, subTitleColorTables, 5, 3, Element.ALIGN_CENTER, Element.ALIGN_CENTER);
+        table.addCell(mCell);
+
+        table.setHeaderRows(1);
+        //endregion Add Titles In Payments In Invoice
+
+        //region Add Data In Payments In Invoice
+        for (int i = 0; i < mPaymentListMap.size(); i++) {
+
+            mCell = new PdfPCell(new Phrase(String.valueOf(i + 1)));
+            setBackGroundColor_P_BW_HA_VA(mCell, mainTitleColorTables, 5, 3, Element.ALIGN_CENTER, Element.ALIGN_CENTER);
+            table.addCell(mCell);
+
+            String mType = mPaymentListMap.get(i).get("type").toString();
+            if (mType.equals("Cheque"))
+                mType += (mPaymentListMap.get(i).get("isPass").toString().equals("true") ? " : Passed" : " : Not Passed");
+
+            mCell = new PdfPCell(new Phrase(mType));
+            setBackGroundColor_P_BW_HA_VA(mCell, mainTitleColorTables, 5, 3, Element.ALIGN_CENTER, Element.ALIGN_CENTER);
+            table.addCell(mCell);
+
+            mCell = new PdfPCell(new Phrase(
+                    Utility.formatPurchase(
+                            _mContext,
+                            Utility.DecimalSeperation(_mContext,
+                                    Double.parseDouble(mPaymentListMap.get(i).get("amount").toString())
+                            ))));
+            setBackGroundColor_P_BW_HA_VA(mCell, mainTitleColorTables, 5, 3, Element.ALIGN_CENTER, Element.ALIGN_CENTER);
+            table.addCell(mCell);
+        }
+        //endregion Add Data In Payments In Invoice
+
+        _mDocument.add(table);
+    }
+
+    private static void createTableSummaryForSalesInvoice(HashMap<String, String> mSummaryHashMap)
+            throws DocumentException {
+        PdfPTable table = new PdfPTable(2);
+        table.setWidths(new int[]{70, 140});
+
+        //region Add Total Amount To Invoice
+        PdfPCell mCell = new PdfPCell(new Phrase(_mContext.getString(R.string.total_amount_title), subTitleFontUnColoredSmall));
+        setBackGroundColor_P_BW_HA_VA(mCell, subTitleColorTables, 10, 3, Element.ALIGN_RIGHT, Element.ALIGN_CENTER);
+        table.addCell(mCell);
+
+        mCell = new PdfPCell(new Phrase(mSummaryHashMap.get("totalAmount")));
+        setBackGroundColor_P_BW_HA_VA(mCell, mainTitleColorTables, 5, 3, Element.ALIGN_LEFT, Element.ALIGN_CENTER);
+        table.addCell(mCell);
+        //endregion Add Total Amount To Invoice
+
+        //region Add Total Tax To Invoice
+        mCell = new PdfPCell(new Phrase(_mContext.getString(R.string.total_tax_title), subTitleFontUnColoredSmall));
+        setBackGroundColor_P_BW_HA_VA(mCell, subTitleColorTables, 10, 3, Element.ALIGN_RIGHT, Element.ALIGN_CENTER);
+        table.addCell(mCell);
+
+        mCell = new PdfPCell(new Phrase(mSummaryHashMap.get("totalTax")));
+        setBackGroundColor_P_BW_HA_VA(mCell, mainTitleColorTables, 5, 3, Element.ALIGN_LEFT, Element.ALIGN_CENTER);
+        table.addCell(mCell);
+        //endregion Add Total Tax To Invoice
+
+        //region Add Total Discount To Invoice
+        mCell = new PdfPCell(new Phrase(_mContext.getString(R.string.total_discount_title), subTitleFontUnColoredSmall));
+        setBackGroundColor_P_BW_HA_VA(mCell, subTitleColorTables, 10, 3, Element.ALIGN_RIGHT, Element.ALIGN_CENTER);
+        table.addCell(mCell);
+
+        mCell = new PdfPCell(new Phrase(mSummaryHashMap.get("totalDiscount")));
+        setBackGroundColor_P_BW_HA_VA(mCell, mainTitleColorTables, 5, 3, Element.ALIGN_LEFT, Element.ALIGN_CENTER);
+        table.addCell(mCell);
+        //endregion Add Total Discount To Invoice
+
+        //region Add Total Paied To Invoice
+        mCell = new PdfPCell(new Phrase(_mContext.getString(R.string.total_paied_title), subTitleFontUnColoredSmall));
+        setBackGroundColor_P_BW_HA_VA(mCell, subTitleColorTables, 10, 3, Element.ALIGN_RIGHT, Element.ALIGN_CENTER);
+        table.addCell(mCell);
+
+        mCell = new PdfPCell(new Phrase(mSummaryHashMap.get("totalPaied")));
+        setBackGroundColor_P_BW_HA_VA(mCell, mainTitleColorTables, 5, 3, Element.ALIGN_LEFT, Element.ALIGN_CENTER);
+        table.addCell(mCell);
+        //endregion Add Total Paied To Invoice
+
+        //region Add Total UnPaied To Invoice
+        mCell = new PdfPCell(new Phrase(_mContext.getString(R.string.total_unpaied_title), subTitleFontUnColoredSmall));
+        setBackGroundColor_P_BW_HA_VA(mCell, subTitleColorTables, 10, 3, Element.ALIGN_RIGHT, Element.ALIGN_CENTER);
+        table.addCell(mCell);
+
+        mCell = new PdfPCell(new Phrase(mSummaryHashMap.get("totalUnpaied")));
+        setBackGroundColor_P_BW_HA_VA(mCell, mainTitleColorTables, 5, 3, Element.ALIGN_LEFT, Element.ALIGN_CENTER);
+        table.addCell(mCell);
+        //endregion Add Total UnPaied To Invoice
+
+        _mDocument.add(table);
+    }
+
+    private static void createTableEndInfoForSalesInvoice()
+            throws DocumentException {
+        PdfPTable table = new PdfPTable(2);
+        table.setWidths(new int[]{105, 105});
+
+        PdfPCell mCell = new PdfPCell(new Phrase());
+        setBackGroundColor_P_BW_HA_VA(mCell, subTitleColorTables, 0, 3, Element.ALIGN_CENTER, Element.ALIGN_CENTER);
+        table.addCell(mCell);
+
+        mCell = new PdfPCell(new Phrase());
+        setBackGroundColor_P_BW_HA_VA(mCell, subTitleColorTables, 0, 3, Element.ALIGN_CENTER, Element.ALIGN_CENTER);
+        table.addCell(mCell);
+
+        table.setHeaderRows(1);
+
+        mCell = new PdfPCell(new Phrase(_mContext.getString(R.string.stamp_and_signature), subTitleFontUnColored));
+        setBackGroundColor_P_BW_HA_VA(mCell, subTitleColorTables, 10, 3, Element.ALIGN_CENTER, Element.ALIGN_CENTER);
+        mCell.setColspan(2);
+        table.addCell(mCell);
+
+        mCell = new PdfPCell(new Phrase(_mContext.getString(R.string.seller_title), subTitleFontUnColored));
+        setBackGroundColor_P_BW_HA_VA(mCell, subTitleColorTables, 10, 3, Element.ALIGN_CENTER, Element.ALIGN_CENTER);
+        table.addCell(mCell);
+
+        mCell = new PdfPCell(new Phrase(_mContext.getString(R.string.buyer_title), subTitleFontUnColored));
+        setBackGroundColor_P_BW_HA_VA(mCell, subTitleColorTables, 10, 3, Element.ALIGN_CENTER, Element.ALIGN_CENTER);
+        table.addCell(mCell);
+
+        mCell = new PdfPCell(new Phrase("\n\n\n\n\n\n\n"));
+        mCell.setBorderWidth(3);
+        table.addCell(mCell);
+
+        mCell = new PdfPCell(new Phrase("\n\n\n\n\n\n\n"));
+        mCell.setBorderWidth(3);
+        table.addCell(mCell);
+
+        _mDocument.add(table);
+    }
+
+    private static void setBackGroundColor_P_BW_HA_VA(
+            PdfPCell mPdfPCell, BaseColor mBaseColor, int mPadding, int mBorderWidth,
+            int mHorizontalAlignment, int mVerticalAlignment) {
+        mPdfPCell.setHorizontalAlignment(mHorizontalAlignment);
+        mPdfPCell.setVerticalAlignment(mVerticalAlignment);
+        mPdfPCell.setBorderWidth(mBorderWidth);
+        mPdfPCell.setPadding(mPadding);
+        mPdfPCell.setBackgroundColor(mBaseColor);
+    }
+
+    public static float createFloatNumberWithString(String mNumber) throws ParseException {
+        return NumberFormat.getInstance(Locale.forLanguageTag("es")).parse(mNumber).floatValue();
+    }
+
+    private static String getProductNameWithProductId(Long mProductId) {
+        Cursor mCursor = _mContext.getContentResolver().query(
+                KasebContract.Products.buildProductsUri(mProductId),
+                new String[]{KasebContract.Products.COLUMN_PRODUCT_NAME},
+                null,
+                null,
+                null
+        );
+
+        if (mCursor != null)
+            if (mCursor.moveToFirst())
+                return mCursor.getString(mCursor.getColumnIndex(KasebContract.Products.COLUMN_PRODUCT_NAME));
+
+        mCursor.close();
+
+        return null;
+    }
+
+    private static void addEmptyLine(Paragraph paragraph, int number) {
+        for (int i = 0; i < number; i++) {
+            paragraph.add(new Paragraph(" "));
+        }
+    }
+
+    public static void viewPdf(Context mContext, File mFile) {
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setDataAndType(Uri.fromFile(mFile), "application/pdf");
+        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+        mContext.startActivity(intent);
     }
 }

@@ -128,11 +128,10 @@ public class CustomerInsert extends Fragment {
         switch (item.getItemId()) {
             case R.id.save_inputs: {
 
-                if (CheckForValidity(
-                        firstName.getText().toString(),
-                        lastName.getText().toString(),
-                        phoneMobile.getText().toString()
-                )) {
+                if (CheckForValidity() && Utility.checkForValidityForEditTextNullOrEmptyAndItterative(
+                        getActivity(), phoneMobile, KasebContract.Customers.CONTENT_URI,
+                        KasebContract.Customers.COLUMN_PHONE_MOBILE + " = ? ",
+                        KasebContract.Customers._ID, new String[]{phoneMobile.getText().toString()})) {
                     customerValues.put(KasebContract.Customers.COLUMN_FIRST_NAME, firstName.getText().toString());
                     customerValues.put(KasebContract.Customers.COLUMN_LAST_NAME, lastName.getText().toString());
                     customerValues.put(KasebContract.Customers.COLUMN_BIRTHDAY, birthDay.getText().toString());
@@ -186,32 +185,15 @@ public class CustomerInsert extends Fragment {
     }
 
     // this method check the validation and correct entries. its check fill first and then check the validation rules.
-    private boolean CheckForValidity(String customerFirstName, String customerLastName, String customerPhoneMobile) {
-        if (customerFirstName.equals("") || customerFirstName.equals(null)) {
-            Toast.makeText(getActivity(), R.string.validity_error_customer_name, Toast.LENGTH_SHORT).show();
+    private boolean CheckForValidity() {
+        if (!Utility.checkForValidityForEditTextNullOrEmpty(getActivity(), firstName))
             return false;
-        } else if (customerLastName.equals("") || customerLastName.equals(null)) {
-            Toast.makeText(getActivity(), R.string.validity_error_customer_last_name, Toast.LENGTH_SHORT).show();
+        else if (!Utility.checkForValidityForEditTextNullOrEmpty(getActivity(), lastName))
             return false;
-        } else if (customerPhoneMobile.equals("") || customerPhoneMobile.equals(null)) {
-            Toast.makeText(getActivity(), R.string.validity_error_customer_phone_mobile, Toast.LENGTH_SHORT).show();
+        else if (!Utility.checkForValidityForEditTextNullOrEmpty(getActivity(), phoneMobile))
             return false;
-        } else {
-            Cursor mCursor = getContext().getContentResolver().query(
-                    KasebContract.Customers.CONTENT_URI,
-                    new String[]{KasebContract.Customers._ID},
-                    KasebContract.Customers.COLUMN_PHONE_MOBILE + " = ? ",
-                    new String[]{customerPhoneMobile},
-                    null);
 
-            if (mCursor != null)
-                if (mCursor.moveToFirst())
-                    if (mCursor.getCount() > 0) {
-                        Toast.makeText(getActivity(), R.string.validity_error_customer_phone_mobile_duplicate, Toast.LENGTH_SHORT).show();
-                        return false;
-                    }
-            return true;
-        }
+        return true;
     }
 
     private void backToLastPage() {
@@ -223,40 +205,6 @@ public class CustomerInsert extends Fragment {
         mCustomerAvatar = (ImageView) view;
         Intent gallery_Intent = new Intent(getContext(), GalleryUtil.class);
         startActivityForResult(gallery_Intent, GALLERY_ACTIVITY_CODE);
-
-//        // Determine Uri of camera image to save.
-//        final File root = new File(Environment.getExternalStorageDirectory() + File.separator + "MyDir" + File.separator);
-//        root.mkdirs();
-//        final String fname = "img_" + System.currentTimeMillis() + ".jpg";
-//        final File sdImageMainDirectory = new File(root, fname);
-//        outputFileUri = Uri.fromFile(sdImageMainDirectory);
-//
-//        // Camera.
-//        final List<Intent> cameraIntents = new ArrayList<Intent>();
-//        final Intent captureIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-//        final PackageManager packageManager = getContext().getPackageManager();
-//        final List<ResolveInfo> listCam = packageManager.queryIntentActivities(captureIntent, 0);
-//        for (ResolveInfo res : listCam) {
-//            final String packageName = res.activityInfo.packageName;
-//            final Intent intent = new Intent(captureIntent);
-//            intent.setComponent(new ComponentName(res.activityInfo.packageName, res.activityInfo.name));
-//            intent.setPackage(packageName);
-//            intent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
-//            cameraIntents.add(intent);
-//        }
-//
-//        // Filesystem.
-//        final Intent galleryIntent = new Intent();
-//        galleryIntent.setType("image/*");
-//        galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
-//
-//        // Chooser of filesystem options.
-//        final Intent chooserIntent = Intent.createChooser(galleryIntent, "Select Source");
-//
-//        // Add the camera options.
-//        chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, cameraIntents.toArray(new Parcelable[cameraIntents.size()]));
-//
-//        startActivityForResult(chooserIntent, YOUR_SELECT_PICTURE_REQUEST_CODE);
     }
 
     @Override
@@ -333,45 +281,6 @@ public class CustomerInsert extends Fragment {
                 }
             }
         }
-
-//        String picturePath;
-//
-//        if (requestCode == YOUR_SELECT_PICTURE_REQUEST_CODE)
-//            if (resultCode == Activity.RESULT_OK) {
-//                final boolean isCamera;
-//                if (data == null) {
-//                    isCamera = true;
-//                } else {
-//                    final String action = data.getAction();
-//                    if (action == null) {
-//                        isCamera = false;
-//                    } else {
-//                        isCamera = action.equals(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-//                    }
-//                }
-//
-//                if (isCamera)
-//                    picturePath = outputFileUri.getPath();
-//                else
-//                    picturePath = data == null ? null : data.toUri(0);
-//
-//                //perform Crop on the Image Selected from Gallery
-//                performCrop(picturePath);
-//            }
-//
-//        if (requestCode == RESULT_CROP)
-//            if (resultCode == Activity.RESULT_OK) {
-//                if (data.getExtras() != null) {
-//                    photo = data.getExtras().getParcelable("data");
-//                    mCustomerAvatar.setImageBitmap(photo);
-//
-//                    ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-//                    photo.compress(Bitmap.CompressFormat.PNG, 0, byteArrayOutputStream);
-//                    byte[] imagegBytes = byteArrayOutputStream.toByteArray();
-//
-//                    customerValues.put(KasebContract.Customers.COLUMN_CUSTOMER_PICTURE, imagegBytes);
-//                }
-//            }
     }
 
     private void performCrop(String picUri) {

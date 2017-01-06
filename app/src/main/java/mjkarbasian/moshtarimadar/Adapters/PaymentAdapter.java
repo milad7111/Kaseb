@@ -64,7 +64,7 @@ public class PaymentAdapter extends BaseAdapter {
                         Long.parseLong(mPaymentDetailsListHashMap.get(position).get("amount"))));
 
         duedateText.setText(
-               Utility.localePersianDate(mPaymentDetailsListHashMap.get(position).get("duedate")));
+                Utility.localePersianDate(mPaymentDetailsListHashMap.get(position).get("duedate")));
 
         typeText.setText(
                 mPaymentDetailsListHashMap.get(position).get("type"));
