@@ -63,7 +63,7 @@ public class DebaterAdapter extends CursorAdapter {
         int dueSumIndex = 2;
         int paidSumIndex = 3;
         Float totalBalance = Float.parseFloat(cursor.getString(dueSumIndex)) - Float.parseFloat(cursor.getString(paidSumIndex));
-        debatorBalanceText.setText(Utility.formatPurchase(mContext, Float.toString(totalBalance)));
+        debatorBalanceText.setText(Utility.formatPurchase(mContext, Utility.DecimalSeperation(mContext, totalBalance)));
         //endregion
 
         //Card actions click handler

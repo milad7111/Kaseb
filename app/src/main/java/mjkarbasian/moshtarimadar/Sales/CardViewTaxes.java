@@ -13,9 +13,9 @@ import android.widget.ListView;
 import java.util.ArrayList;
 import java.util.Map;
 
-import mjkarbasian.moshtarimadar.R;
 import mjkarbasian.moshtarimadar.Adapters.TaxAdapter;
 import mjkarbasian.moshtarimadar.Helpers.Utility;
+import mjkarbasian.moshtarimadar.R;
 
 /**
  * Created by Unique on 20/12/2016.
@@ -57,8 +57,8 @@ public class CardViewTaxes extends Fragment {
                     _amount = cursor.get("amount");
 
                     new AlertDialog.Builder(getActivity())
-                            .setTitle("Confirmation ...")
-                            .setMessage("Do You Really Want to Delete This TAX?\n\nTax Amount : " + _amount)
+                            .setTitle(getActivity().getResources().getString(R.string.confirm_title))
+                            .setMessage(getActivity().getResources().getString(R.string.confirm_delete_tax) + _amount)
                             .setIcon(android.R.drawable.ic_dialog_alert)
                             .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
 

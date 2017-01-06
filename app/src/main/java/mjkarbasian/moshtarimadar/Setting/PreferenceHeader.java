@@ -28,9 +28,9 @@ import java.io.OutputStream;
 import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 
+import mjkarbasian.moshtarimadar.Adapters.HeaderAdapter;
 import mjkarbasian.moshtarimadar.Data.KasebContract;
 import mjkarbasian.moshtarimadar.R;
-import mjkarbasian.moshtarimadar.Adapters.HeaderAdapter;
 
 /**
  * Created by family on 11/3/2016.
@@ -238,7 +238,7 @@ public class PreferenceHeader extends Fragment {
     private void dataError(String name) {
         new AlertDialog.Builder(getActivity())
                 .setTitle(getActivity().getResources().getString(R.string.dialog_title_import_customer_fail))
-                .setMessage(getActivity().getResources().getString(R.string.dialog_message_import_customer_fail_par1) + name +
+                .setMessage(getActivity().getResources().getString(R.string.dialog_message_import_customer_fail_par1) + name + " " +
                         getActivity().getResources().getString(R.string.dialog_message_import_customer_fail_par2))
                 .setPositiveButton(getActivity().getResources().getString(R.string.dialog_positive_button), new DialogInterface.OnClickListener() {
             @Override

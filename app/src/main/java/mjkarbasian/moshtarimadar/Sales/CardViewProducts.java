@@ -139,8 +139,8 @@ public class CardViewProducts extends Fragment {
                     _nameOfProduct = cursor.get("name");
 
                     new AlertDialog.Builder(getActivity())
-                            .setTitle("Confirmation ...")
-                            .setMessage("Do You Really Want to Delete This PRODUCT?\n\nProduct Name : " + _nameOfProduct)
+                            .setTitle(getActivity().getResources().getString(R.string.confirm_title))
+                            .setMessage(getActivity().getResources().getString(R.string.confirm_delete_product_list) + _nameOfProduct)
                             .setIcon(android.R.drawable.ic_dialog_alert)
                             .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
 

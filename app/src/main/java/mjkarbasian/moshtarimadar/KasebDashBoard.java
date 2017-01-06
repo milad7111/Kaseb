@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import mjkarbasian.moshtarimadar.Data.KasebContract;
+import mjkarbasian.moshtarimadar.Helpers.Utility;
 
 /**
  * Created by family on 12/30/2016.
@@ -29,32 +30,32 @@ public class KasebDashBoard extends android.support.v4.app.Fragment {
         Cursor cursor = getContext().getContentResolver().query(KasebContract.Customers.CONTENT_URI, null, null, null, null);
         TextView totalCustomers = (TextView) rootView.findViewById(R.id.kaseb_dashboard_customer_qty);
         if (cursor != null) {
-            totalCustomers.setText(String.valueOf(cursor.getCount()));
+            totalCustomers.setText(Utility.doubleFormatter(cursor.getCount()));
         }
         TextView goldCustomers = (TextView) rootView.findViewById(R.id.kaseb_dashboard_customer_qty_gold);
         cursor = getContext().getContentResolver().query(KasebContract.Customers.CONTENT_URI, null,
                 KasebContract.Customers.COLUMN_STATE_ID + " = ?", new String[]{"1"}, null);
         if (cursor != null) {
-            goldCustomers.setText(String.valueOf(cursor.getCount()));
+            goldCustomers.setText(Utility.doubleFormatter(cursor.getCount()));
         }
 
         TextView silverCustomers = (TextView) rootView.findViewById(R.id.kaseb_dashboard_customer_qty_silver);
         cursor = getContext().getContentResolver().query(KasebContract.Customers.CONTENT_URI, null,
                 KasebContract.Customers.COLUMN_STATE_ID + " = ?", new String[]{"2"}, null);
         if (cursor != null) {
-            silverCustomers.setText(String.valueOf(cursor.getCount()));
+            silverCustomers.setText(Utility.doubleFormatter(cursor.getCount()));
         }
         TextView bronzeCustomers = (TextView) rootView.findViewById(R.id.kaseb_dashboard_customer_qty_bronze);
         cursor = getContext().getContentResolver().query(KasebContract.Customers.CONTENT_URI, null,
                 KasebContract.Customers.COLUMN_STATE_ID + " = ?", new String[]{"3"}, null);
         if (cursor != null) {
-            bronzeCustomers.setText(String.valueOf(cursor.getCount()));
+            bronzeCustomers.setText(Utility.doubleFormatter(cursor.getCount()));
         }
         TextView inStartCustomers = (TextView) rootView.findViewById(R.id.kaseb_dashboard_customer_qty_instart);
         cursor = getContext().getContentResolver().query(KasebContract.Customers.CONTENT_URI, null,
                 KasebContract.Customers.COLUMN_STATE_ID + " = ?", new String[]{"4"}, null);
         if (cursor != null) {
-            inStartCustomers.setText(String.valueOf(cursor.getCount()));
+            inStartCustomers.setText(Utility.doubleFormatter(cursor.getCount()));
         }
         //endregion
         //region set Total Sales and recievables
@@ -71,10 +72,10 @@ public class KasebDashBoard extends android.support.v4.app.Fragment {
 
         assert cursor != null;
         if (cursor.moveToFirst())
-            totalSales.setText(cursor.getString(0) == null ? "0" : cursor.getString(0));
+            totalSales.setText(cursor.getString(0) == null ? Utility.formatPurchase(getActivity(), "0") : Utility.formatPurchase(getActivity(), Utility.DecimalSeperation(getActivity(), cursor.getLong(0))));
         assert recievCurs != null;
         if(recievCurs.moveToFirst())
-            totalRecievable.setText(recievCurs.getString(0)==null?cursor.getString(0):String.valueOf(cursor.getLong(0) - recievCurs.getLong(0)));
+            totalRecievable.setText(recievCurs.getString(0) == null ? Utility.formatPurchase(getActivity(), cursor.getString(0)) : Utility.formatPurchase(getActivity(), Utility.DecimalSeperation(getActivity(), cursor.getLong(0) - recievCurs.getLong(0))));
 
         //endregion
         //region defining views
@@ -113,14 +114,14 @@ public class KasebDashBoard extends android.support.v4.app.Fragment {
             }
         }
         //region setViews of membership
-        totalSalesGold.setText(totalDue[0] ==null?"0":String.valueOf(totalDue[1]));
-        totalSalesSilver.setText(totalDue[1] == null ? "0" : String.valueOf(totalDue[2]));
-        totalSalesBronze.setText(totalDue[2] ==null?"0":String.valueOf(totalDue[3]));
-        totalSalesInStart.setText(totalDue[3] ==null?"0":String.valueOf(totalDue[4]));
-        totalRecievableGold.setText(totalDue[0]==null?"0":String.valueOf(totalDue[1] - totalPaid[1]));
-        totalRecievableSilver.setText(totalDue[1] ==null?"0":String.valueOf(totalDue[2] - totalPaid[2]));
-        totalRecievableBronze.setText(totalDue[2] ==null?"0":String.valueOf(totalDue[3] - totalPaid[3]));
-        totalRecievableInStart.setText(totalDue[3] ==null?"0":String.valueOf(totalDue[4] - totalPaid[4]));
+        totalSalesGold.setText(totalDue[0] == null ? Utility.formatPurchase(getActivity(), "0") : Utility.formatPurchase(getActivity(), Utility.DecimalSeperation(getActivity(), totalDue[1])));
+        totalSalesSilver.setText(totalDue[1] == null ? Utility.formatPurchase(getActivity(), "0") : Utility.formatPurchase(getActivity(), Utility.DecimalSeperation(getActivity(), totalDue[2])));
+        totalSalesBronze.setText(totalDue[2] == null ? Utility.formatPurchase(getActivity(), "0") : Utility.formatPurchase(getActivity(), Utility.DecimalSeperation(getActivity(), totalDue[3])));
+        totalSalesInStart.setText(totalDue[3] == null ? Utility.formatPurchase(getActivity(), "0") : Utility.formatPurchase(getActivity(), Utility.DecimalSeperation(getActivity(), totalDue[4])));
+        totalRecievableGold.setText(totalDue[0] == null ? Utility.formatPurchase(getActivity(), "0") : Utility.formatPurchase(getActivity(), Utility.DecimalSeperation(getActivity(), (totalDue[1] - totalPaid[1]))));
+        totalRecievableSilver.setText(totalDue[1] == null ? Utility.formatPurchase(getActivity(), "0") : Utility.formatPurchase(getActivity(), Utility.DecimalSeperation(getActivity(), (totalDue[2] - totalPaid[2]))));
+        totalRecievableBronze.setText(totalDue[2] == null ? Utility.formatPurchase(getActivity(), "0") : Utility.formatPurchase(getActivity(), Utility.DecimalSeperation(getActivity(), (totalDue[3] - totalPaid[3]))));
+        totalRecievableInStart.setText(totalDue[3] == null ? Utility.formatPurchase(getActivity(), "0") : Utility.formatPurchase(getActivity(), Utility.DecimalSeperation(getActivity(), (totalDue[4] - totalPaid[4]))));
         //endregion
 
         recievCurs.close();

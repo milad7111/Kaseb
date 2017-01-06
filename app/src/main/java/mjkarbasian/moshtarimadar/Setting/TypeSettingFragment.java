@@ -24,10 +24,10 @@ import android.widget.ListView;
 
 import com.pes.androidmaterialcolorpickerdialog.ColorPicker;
 
-import mjkarbasian.moshtarimadar.Data.KasebContract;
-import mjkarbasian.moshtarimadar.R;
 import mjkarbasian.moshtarimadar.Adapters.TypesSettingAdapter;
+import mjkarbasian.moshtarimadar.Data.KasebContract;
 import mjkarbasian.moshtarimadar.Helpers.Utility;
+import mjkarbasian.moshtarimadar.R;
 
 import static mjkarbasian.moshtarimadar.Data.KasebContract.CostTypes;
 import static mjkarbasian.moshtarimadar.Data.KasebContract.PaymentMethods;
@@ -38,12 +38,12 @@ import static mjkarbasian.moshtarimadar.Data.KasebContract.TaxTypes;
  * Created by family on 11/3/2016.
  */
 public class TypeSettingFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
-    static TypesSettingAdapter adapter = null;
-    ListView mListView;
-    private final String LOG_TAG = TypesSettingAdapter.class.getSimpleName();
-    String mColumnName;
     final static String COST_TYPE_CLASS_NAME = KasebContract.CostTypes.class.getSimpleName();
     final static int FRAGMENT_TYPE_LOADER = 0;
+    static TypesSettingAdapter adapter = null;
+    private final String LOG_TAG = TypesSettingAdapter.class.getSimpleName();
+    ListView mListView;
+    String mColumnName;
     int mColor;
     String mType;
     Uri mCursoruri;
@@ -84,16 +84,16 @@ public class TypeSettingFragment extends Fragment implements LoaderManager.Loade
         Dialog typeInsert = null;
         switch (mColumnName) {
             case CostTypes.COLUMN_COST_TYPE_POINTER:
-                typeInsert = Utility.dialogBuilder(getActivity(), R.layout.dialog_add_type_setting, R.id.title_dialog_add_cost_type);
+                typeInsert = Utility.dialogBuilder(getActivity(), R.layout.dialog_add_type_setting, R.string.title_dialog_add_cost_type);
                 break;
             case PaymentMethods.COLUMN_PAYMENT_METHOD_POINTER:
-                typeInsert = Utility.dialogBuilder(getActivity(), R.layout.dialog_add_type_setting, R.id.title_dialog_add_payment_methods);
+                typeInsert = Utility.dialogBuilder(getActivity(), R.layout.dialog_add_type_setting, R.string.title_dialog_add_payment_methods);
                 break;
             case TaxTypes.COLUMN_TAX_TYPE_POINTER:
-                typeInsert = Utility.dialogBuilder(getActivity(), R.layout.dialog_add_type_setting, R.id.title_dialog_add_tax_types);
+                typeInsert = Utility.dialogBuilder(getActivity(), R.layout.dialog_add_type_setting, R.string.title_dialog_add_tax_types);
                 break;
             case State.COLUMN_STATE_POINTER:
-                typeInsert = Utility.dialogBuilder(getActivity(), R.layout.dialog_add_state_type_setting, R.id.title_dialog_add_state);
+                typeInsert = Utility.dialogBuilder(getActivity(), R.layout.dialog_add_state_type_setting, R.string.title_dialog_add_state);
                 break;
         }
         if (typeInsert != null) {

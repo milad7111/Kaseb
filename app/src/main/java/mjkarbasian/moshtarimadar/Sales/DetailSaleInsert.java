@@ -782,10 +782,10 @@ public class DetailSaleInsert extends AppCompatActivity {
             Toast.makeText(mContext, "Choose some PRODUCTS for SALE.", Toast.LENGTH_SHORT).show();
             return false;
         } else if (sFinalAmount < 0) {
-            Toast.makeText(mContext, "Final Amount can't be less than zero.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(mContext, R.string.validity_error_dsale_minus_amount, Toast.LENGTH_SHORT).show();
             return false;
         } else if (sBalanceAmount < 0) {
-            Toast.makeText(mContext, "Balance Amount can't be less than zero.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(mContext, R.string.validity_error_dsale_minus_balance, Toast.LENGTH_SHORT).show();
             return false;
         }
 

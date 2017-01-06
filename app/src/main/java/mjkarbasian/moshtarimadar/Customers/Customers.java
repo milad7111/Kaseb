@@ -267,8 +267,8 @@ public class Customers extends DrawerActivity {
         mCursor.close();
 
         new AlertDialog.Builder(this)
-                .setTitle("Confirmation ...")
-                .setMessage("Do You Really Want to Delete This Customer's Image?\n\nCustomer Name : " + infoCustomer)
+                .setTitle(R.string.confirm_title)
+                .setMessage(getString(R.string.confirm_message_delete_customer_image) + infoCustomer)
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
 

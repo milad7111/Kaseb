@@ -159,7 +159,7 @@ public class DetailProducts extends Fragment implements LoaderManager.LoaderCall
                             Float mDiscountPercent = Float.valueOf(discountPercent.getText().toString());
 
                             if (mDiscountPercent > 100)
-                                discountPercent.setText("100");
+                                discountPercent.setText(Utility.doubleFormatter(100));
                         } catch (Exception e) {
                             salePrice.setText("");
                         }
@@ -361,7 +361,6 @@ public class DetailProducts extends Fragment implements LoaderManager.LoaderCall
             return false;
         else if (!Utility.checkForValidityForEditTextNullOrEmpty(getActivity(), buyDate))
             return false;
-
         return true;
     }
 }

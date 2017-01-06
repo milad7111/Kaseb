@@ -99,13 +99,13 @@ public class CustomersLists extends Fragment implements LoaderManager.LoaderCall
 
                     if (numberUseOfThisCustomer > 0)
                         Toast.makeText(getContext(),
-                                "This Customer Has "
+                                getActivity().getResources().getString(R.string.confirm_delete_customer_list_it_has)
                                         + numberUseOfThisCustomer
-                                        + " Factor(s)!", Toast.LENGTH_LONG).show();
+                                        + getActivity().getResources().getString(R.string.confirm_delete_customer_list_factors), Toast.LENGTH_LONG).show();
                     else {
                         new AlertDialog.Builder(getActivity())
-                                .setTitle("Confirmation ...")
-                                .setMessage("Do You Really Want to Delete This CUSTOMER?\n\nCustomer Info : " +
+                                .setTitle(getActivity().getResources().getString(R.string.confirm_title))
+                                .setMessage(getActivity().getResources().getString(R.string.confirm_want_delete_customer_info) +
                                         cursor.getString(cursor.getColumnIndex(KasebContract.Customers.COLUMN_FIRST_NAME)) + "  " +
                                         cursor.getString(cursor.getColumnIndex(KasebContract.Customers.COLUMN_LAST_NAME)))
                                 .setIcon(android.R.drawable.ic_dialog_alert)
