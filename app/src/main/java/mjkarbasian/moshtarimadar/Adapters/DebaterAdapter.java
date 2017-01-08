@@ -3,6 +3,7 @@ package mjkarbasian.moshtarimadar.Adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -41,22 +42,44 @@ public class DebaterAdapter extends CursorAdapter {
         //region get debator name
         String[] customersProjection = new String[]{
                 KasebContract.Customers.COLUMN_FIRST_NAME,
-                KasebContract.Customers.COLUMN_LAST_NAME
+                KasebContract.Customers.COLUMN_LAST_NAME,
+                KasebContract.Customers.COLUMN_CUSTOMER_PICTURE
         };
         Uri customerUri = KasebContract.Customers.buildCustomerUri(cursor.
                 getLong(cursor.getColumnIndex(KasebContract.Sales.TABLE_NAME + "." + KasebContract.Sales.COLUMN_CUSTOMER_ID)));
         Cursor adapterCursor = mContext.getContentResolver().query(customerUri, null, null, null, null);
         String firstName = null;
         String lastName = null;
+        byte[] imagegBytes = null;
         if (adapterCursor.moveToFirst()) {
             firstName = adapterCursor.getString(adapterCursor.getColumnIndex(customersProjection[0]));
             lastName = adapterCursor.getString(adapterCursor.getColumnIndex(customersProjection[1]));
+            imagegBytes = adapterCursor.getBlob(adapterCursor.getColumnIndex(KasebContract.Customers.COLUMN_CUSTOMER_PICTURE));
         }
+
         TextView debatorNameText = (TextView) view.findViewById(R.id.item_card_debator_name);
         debatorNameText.setText(firstName + " " + lastName);
         //endregion
 
-        ImageView customerAvater = (ImageView) view.findViewById(R.id.item_card_customer_avater);
+        //region set Image Avavtar
+        ImageView imageViewAvatar = (ImageView) view.findViewById(R.id.item_card_customer_avater);
+
+        try {
+            Boolean mWhat = false;
+            if (imagegBytes == null)
+                mWhat = true;
+            else if (imagegBytes.length == 0)
+                mWhat = true;
+
+            if (mWhat)
+                imageViewAvatar.setImageDrawable(context.getResources().getDrawable(
+                        context.getResources().getIdentifier("@drawable/kaseb_pic", null, context.getPackageName())));
+            else {
+                imageViewAvatar.setImageBitmap(BitmapFactory.decodeByteArray(imagegBytes, 0, imagegBytes.length));
+            }
+        } catch (Exception e) {
+        }
+        //endregion set Image Avavtar
 
         //region set debator balance amount
         TextView debatorBalanceText = (TextView) view.findViewById(R.id.item_card_balance_amount);

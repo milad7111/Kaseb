@@ -115,7 +115,7 @@ public class CostInsert extends Fragment {
             return false;
         else if (!Utility.checkForValidityForEditTextNullOrEmpty(getActivity(), costAmount))
             return false;
-        else if (!Utility.checkForValidityForEditTextNullOrEmpty(getActivity(), costDate))
+        else if (!Utility.checkForValidityForEditTextDate(getActivity(), costDate))
             return false;
 
         return true;
