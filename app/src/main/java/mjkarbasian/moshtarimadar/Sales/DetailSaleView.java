@@ -1093,7 +1093,7 @@ public class DetailSaleView extends AppCompatActivity {
         for (int i = 0; i < mTaxListMap.size(); i++) {
             String type = mTaxListMap.get(i).get("type").toString();
 
-            if (type.equals("Discount"))
+            if (type.equals(getResources().getString(R.string.tax_types_discount)))
                 sTotalDiscount += Long.valueOf(mTaxListMap.get(i).get("amount").toString());
             else
                 sTotalTax += Long.valueOf(mTaxListMap.get(i).get("amount").toString());

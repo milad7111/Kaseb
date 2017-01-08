@@ -373,7 +373,7 @@
     <string name="not_itterative">(Not Itterative)</string>
     <string name="register_message_copyright">Registered By KASEB. \n@COPYRIGHT</string>
     <string name="seller_info">"Seller : "</string>
-    <string name="seller_tell">"Seller Tell : "</string>
+    <string name="seller_tell">"Seller phone : "</string>
     <string name="seller_address">"Seller Address : "</string>
     <string name="customer_info">"Customer : "</string>
     <string name="invoice_date">"Date : "</string>
@@ -441,4 +441,10 @@
     <string name="validity_error_product_history_sale_price">Choose apropriate sale price for PRODUCT.</string>
     <string name="validity_error_product_history_buy_date">Choose apropriate buy date for PRODUCT.</string>
     <string name="confirm_delete_tax">"Do You Really Want to Delete This TAX?\n\nTax Amount : "</string>
+    <string name="payment_model_cheque">Czech</string>
+    <string name="sales_pdf_meta_data_title">Sales Invoice</string>
+    <string name="sales_pdf_meta_data_subject">Kaseb Release 1.0</string>
+    <string name="sales_pdf_meta_data_kew_words">Kaseb, Sales, Invoice</string>
+    <string name="sales_pdf_meta_data_author">Kaseb</string>
+    <string name="sales_pdf_meta_data_creator">Kaseb</string>
 </resources>
