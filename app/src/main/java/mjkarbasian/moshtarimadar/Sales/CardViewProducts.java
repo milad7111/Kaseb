@@ -44,6 +44,7 @@ public class CardViewProducts extends Fragment {
         mChosenProductAdapter = new ProductAdapter(getActivity(), mProductListHashMap);
         productListView = (ListView) view.findViewById(R.id.list_view_fragment_card_view_products);
         productListView.setAdapter(mChosenProductAdapter);
+
         try {
             mDetailSaleId = getArguments().getLong("detailSaleId");
         } catch (Exception e) {

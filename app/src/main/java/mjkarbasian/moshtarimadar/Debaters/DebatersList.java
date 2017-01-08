@@ -15,10 +15,10 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import mjkarbasian.moshtarimadar.Adapters.DebaterAdapter;
 import mjkarbasian.moshtarimadar.Customers.DetailCustomer;
 import mjkarbasian.moshtarimadar.Data.KasebContract;
 import mjkarbasian.moshtarimadar.R;
-import mjkarbasian.moshtarimadar.Adapters.DebaterAdapter;
 
 /**
  * Created by family on 12/19/2016.
@@ -27,10 +27,9 @@ public class DebatersList extends Fragment implements LoaderManager.LoaderCallba
     DebaterAdapter mDebaterAdapter;
     ListView mListView;
     private String searchQuery;
-    private int sortId;
     private int FRAGMENT_DEBATERS_LIST_LOADER = 9;
     private String LOG_TAG = DebatersList.class.getSimpleName();
-    private String[] mProjection =  mProjection = new String[]{
+    private String[] mProjection = new String[]{
             KasebContract.Sales.TABLE_NAME + "." + KasebContract.Sales._ID,
             KasebContract.Sales.TABLE_NAME + "."+ KasebContract.Sales.COLUMN_CUSTOMER_ID,
             "sum(" + KasebContract.DetailSale.TABLE_NAME + "."+KasebContract.DetailSale.COLUMN_TOTAL_DUE + ") as total",

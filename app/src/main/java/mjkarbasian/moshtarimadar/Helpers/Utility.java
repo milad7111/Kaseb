@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Document;
@@ -112,7 +113,6 @@ public class Utility {
                                     ArrayList<Map<String, String>> mTaxListMap,
                                     ArrayList<Map<String, String>> mPaymentListMap) throws IOException, DocumentException {
         _mContext = mContext;
-//        urFontName = new Font(BaseFont.createFont("assets/fonts/bmitra.ttf", "UTF-8", BaseFont.EMBEDDED), 12);
 
         HashMap<String, String> mTextFactor = new HashMap<String, String>();
         mTextFactor.put("firstTitle", _mContext.getString(R.string.title_of_print_invoice));
@@ -188,26 +188,40 @@ public class Utility {
 
     public static boolean checkForValidityForEditTextDate(Context mContext, EditText mEditText) {
         _mContext = mContext;
-        String[] dateList = new String[]{};
-        dateList = mEditText.getText().toString().split("/");
+        String[] dateList = mEditText.getText().toString().split("/");
 
         if (mEditText.getText().toString().equals("") || mEditText.getText().toString().equals(null)) {
-            Utility.setErrorForEditText(mEditText);
+            Utility.setErrorForEditText(mEditText, mContext.getString(R.string.date_format_error));
             return false;
-        } else if (dateList.length != 3)
+        } else if (dateList.length != 3) {
+            Utility.setErrorForEditText(mEditText, mContext.getString(R.string.date_format_error));
             return false;
-        else if (dateList[0].length() != 4)
+        } else if (dateList[0].length() != 4) {
+            Utility.setErrorForEditText(mEditText, mContext.getString(R.string.date_format_error));
             return false;
-        else if (dateList[1].length() != 2)
+        } else if (dateList[1].length() == 1 && dateList[1].equals("0")) {
+            Utility.setErrorForEditText(mEditText, mContext.getString(R.string.date_format_error));
             return false;
-        else if (dateList[2].length() != 2)
+        } else if (dateList[1].length() != 1 && dateList[1].length() != 2) {
+            Utility.setErrorForEditText(mEditText, mContext.getString(R.string.date_format_error));
             return false;
-
+        } else if (dateList[2].length() == 1 && dateList[2].equals("0")) {
+            Utility.setErrorForEditText(mEditText, mContext.getString(R.string.date_format_error));
+            return false;
+        } else if (dateList[2].length() != 1 && dateList[2].length() != 2) {
+            Utility.setErrorForEditText(mEditText, mContext.getString(R.string.date_format_error));
+            return false;
+        }
 
         return true;
     }
 
-    public static void setErrorForEditText(EditText mEditText) {
+    public static void setErrorForTextView(TextView mTextView) {
+        mTextView.setError("");
+        mTextView.requestFocus();
+    }
+
+    private static void setErrorForEditText(EditText mEditText) {
         mEditText.setError(_mContext.getString(R.string.choose_apropriate_data));
         mEditText.requestFocus();
     }

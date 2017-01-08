@@ -104,6 +104,7 @@ public class DetailSaleInsert extends AppCompatActivity {
     EditText saleDate;
     TextView nameCustomer;
     TextView familyCustomer;
+    TextView listItemsTitle;
 
     EditText saleCode;
     EditText paymentAmount;
@@ -130,6 +131,8 @@ public class DetailSaleInsert extends AppCompatActivity {
         mContext = this;
         mOpenHelper = KasebProvider.mOpenHelper;
         mDb = mOpenHelper.getWritableDatabase();
+
+        listItemsTitle = (TextView) findViewById(R.id.text_view_title_list_items);
 
         totalAmountSummary = (TextView) findViewById(R.id.card_detail_sale_summary_total_amount);
         taxSummary = (TextView) findViewById(R.id.card_detail_sale_summary_tax);
@@ -208,9 +211,7 @@ public class DetailSaleInsert extends AppCompatActivity {
                         mContext, saleCode, KasebContract.Sales.CONTENT_URI,
                         KasebContract.Sales.COLUMN_SALE_CODE + " = ? ",
                         KasebContract.Sales._ID, new String[]{saleCode.getText().toString()})
-                        && CheckForValidity(
-                        customerId,
-                        mChosenProductListMap.size())) {
+                        && CheckForValidity()) {
 
                     mDb.beginTransaction();
 
@@ -385,6 +386,8 @@ public class DetailSaleInsert extends AppCompatActivity {
                             dialog.dismiss();
                         }
                         cursor.close();
+
+                        nameCustomer.setError(null);
                     }
                 }
         );
@@ -776,25 +779,34 @@ public class DetailSaleInsert extends AppCompatActivity {
                 Utility.formatPurchase(
                         mContext,
                         Utility.DecimalSeperation(mContext, sBalanceAmount)));
+
+        if (sFinalAmount < 0)
+            finalAmountSummary.setError(null);
+
+        if (sBalanceAmount < 0)
+            balanceSummary.setError(null);
     }
 
     // this method check the validation and correct entries. its check fill first and then check the validation rules.
-    private boolean CheckForValidity(Long customerId, int numberOfAllProducts) {
+    private boolean CheckForValidity() {
         if (!Utility.checkForValidityForEditTextNullOrEmpty(getBaseContext(), saleCode))
             return false;
         else if (customerId == 0) {
-            Toast.makeText(mContext, "Choose A customer for SALE.", Toast.LENGTH_SHORT).show();
+            Utility.setErrorForTextView(nameCustomer);
+            Toast.makeText(mContext, R.string.choose_customer_error_for_sale, Toast.LENGTH_SHORT).show();
             return false;
         } else if (!Utility.checkForValidityForEditTextNullOrEmpty(getBaseContext(), saleDate))
             return false;
-        else if (numberOfAllProducts == 0) {
-            Toast.makeText(mContext, "Choose some PRODUCTS for SALE.", Toast.LENGTH_SHORT).show();
+        else if (mChosenProductListMap.size() == 0) {
+            Toast.makeText(mContext, R.string.validity_error_dsale_select_product, Toast.LENGTH_SHORT).show();
             return false;
         } else if (sFinalAmount < 0) {
-            Toast.makeText(mContext, R.string.validity_error_dsale_minus_amount, Toast.LENGTH_SHORT).show();
+            Utility.setErrorForTextView(finalAmountSummary);
+            Toast.makeText(mContext, R.string.not_minus_number, Toast.LENGTH_SHORT).show();
             return false;
         } else if (sBalanceAmount < 0) {
-            Toast.makeText(mContext, R.string.validity_error_dsale_minus_balance, Toast.LENGTH_SHORT).show();
+            Utility.setErrorForTextView(balanceSummary);
+            Toast.makeText(mContext, R.string.not_minus_number, Toast.LENGTH_SHORT).show();
             return false;
         }
 

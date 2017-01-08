@@ -520,11 +520,11 @@ public class DetailSaleView extends AppCompatActivity {
                     Toast.makeText(DetailSaleView.this, R.string.save_factor_then_print, Toast.LENGTH_LONG).show();
                 break;
             case R.id.menu_detail_sale_view_save:
-                if (CheckForValidity(
-                        saleCode.getText().toString(),
-                        customerId,
-                        saleDate.getText().toString(),
-                        mChosenProductListMap.size())) {
+                if (CheckForValidity() && Utility.checkForValidityForEditTextNullOrEmptyAndItterative(
+                        getBaseContext(), saleCode, KasebContract.Sales.CONTENT_URI,
+                        KasebContract.Sales.COLUMN_SALE_CODE + " = ? and " + KasebContract.Sales._ID + " != ? ",
+                        KasebContract.Sales._ID,
+                        new String[]{saleCode.getText().toString(), String.valueOf(whichSaleId)})) {
 
                     mDb.beginTransaction();
 
@@ -753,6 +753,8 @@ public class DetailSaleView extends AppCompatActivity {
                             dialog.dismiss();
                         }
                         cursor.close();
+
+                        nameCustomer.setError(null);
                     }
                 }
 
@@ -1144,6 +1146,12 @@ public class DetailSaleView extends AppCompatActivity {
                 Utility.formatPurchase(
                         mContext,
                         Utility.DecimalSeperation(mContext, sBalanceAmount)));
+
+        if (sFinalAmount < 0)
+            finalAmountSummary.setError(null);
+
+        if (sBalanceAmount < 0)
+            balanceSummary.setError(null);
     }
 
     public void setPaymentMap(ArrayList<Map<String, String>> list) {
@@ -1151,41 +1159,25 @@ public class DetailSaleView extends AppCompatActivity {
     }
 
     // this method check the validation and correct entries. its check fill first and then check the validation rules.
-    private boolean CheckForValidity(String saleCode, Long customerId, String saleDate, int numberOfAllProducts) {
-        if (saleCode.equals("") || saleCode.equals(null)) {
-            Toast.makeText(mContext, R.string.validity_error_dsale_code, Toast.LENGTH_SHORT).show();
+    private boolean CheckForValidity() {
+        if (!Utility.checkForValidityForEditTextNullOrEmpty(getBaseContext(), saleCode))
             return false;
-        } else {
-            Cursor mCursor = mContext.getContentResolver().query(
-                    KasebContract.Sales.CONTENT_URI,
-                    new String[]{KasebContract.Sales._ID},
-                    KasebContract.Sales.COLUMN_SALE_CODE + " = ? and " + KasebContract.Sales._ID + " != ? ",
-                    new String[]{saleCode, String.valueOf(whichSaleId)},
-                    null);
-
-            if (mCursor != null) {
-                if (mCursor.moveToFirst())
-                    if (mCursor.getCount() > 0) {
-                        Toast.makeText(mContext, R.string.validity_error_dsale_code_duplicate, Toast.LENGTH_SHORT).show();
-                        return false;
-                    }
-            }
-        }
-
-        if (customerId == 0) {
-            Toast.makeText(mContext, R.string.validity_error_dsale_select_customer, Toast.LENGTH_SHORT).show();
+        else if (customerId == 0) {
+            Utility.setErrorForTextView(nameCustomer);
+            Toast.makeText(mContext, R.string.choose_customer_error_for_sale, Toast.LENGTH_SHORT).show();
             return false;
-        } else if (saleDate.equals("") || saleDate.equals(null)) {
-            Toast.makeText(mContext, R.string.validity_error_dsale_date, Toast.LENGTH_SHORT).show();
+        } else if (!Utility.checkForValidityForEditTextNullOrEmpty(getBaseContext(), saleDate))
             return false;
-        } else if (numberOfAllProducts == 0) {
+        else if (mChosenProductListMap.size() == 0) {
             Toast.makeText(mContext, R.string.validity_error_dsale_select_product, Toast.LENGTH_SHORT).show();
             return false;
         } else if (sFinalAmount < 0) {
-            Toast.makeText(mContext, R.string.validity_error_dsale_minus_amount, Toast.LENGTH_SHORT).show();
+            Utility.setErrorForTextView(finalAmountSummary);
+            Toast.makeText(mContext, R.string.not_minus_number, Toast.LENGTH_SHORT).show();
             return false;
         } else if (sBalanceAmount < 0) {
-            Toast.makeText(mContext, R.string.validity_error_dsale_minus_balance, Toast.LENGTH_SHORT).show();
+            Utility.setErrorForTextView(balanceSummary);
+            Toast.makeText(mContext, R.string.not_minus_number, Toast.LENGTH_SHORT).show();
             return false;
         }
 

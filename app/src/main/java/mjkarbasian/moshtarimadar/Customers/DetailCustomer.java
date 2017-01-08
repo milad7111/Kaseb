@@ -115,6 +115,13 @@ public class DetailCustomer extends AppCompatActivity {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 viewPager.setCurrentItem(tab.getPosition());
+                if (tab.getPosition() == 0) {
+                    saveItem.setVisible(false);
+                    editItem.setVisible(true);
+                } else {
+                    saveItem.setVisible(false);
+                    editItem.setVisible(false);
+                }
             }
 
             @Override
@@ -195,7 +202,6 @@ public class DetailCustomer extends AppCompatActivity {
         Cursor cursor;
         String updateSelect = KasebContract.Customers._ID + " = ?";
         String[] updSelArg = new String[]{String.valueOf(mCustomerId)};
-        int updatedRow;
 
         //region Switch Case for state type
         switch (item.getItemId()) {
@@ -297,7 +303,7 @@ public class DetailCustomer extends AppCompatActivity {
                 if (cursor.moveToFirst())
                     value = cursor.getInt(cursor.getColumnIndex(KasebContract.State._ID));
                 contentValues.put(key, value);
-                updatedRow = getContentResolver().update(uri, contentValues, updateSelect, updSelArg);
+                getContentResolver().update(uri, contentValues, updateSelect, updSelArg);
                 break;
             case R.id.silver_member:
                 selectArg = new String[]{String.valueOf(Color.rgb(192, 192, 192))};
@@ -307,7 +313,7 @@ public class DetailCustomer extends AppCompatActivity {
                 if (cursor.moveToFirst())
                     value = cursor.getInt(cursor.getColumnIndex(KasebContract.State._ID));
                 contentValues.put(key, value);
-                updatedRow = getContentResolver().update(uri, contentValues, updateSelect, updSelArg);
+                getContentResolver().update(uri, contentValues, updateSelect, updSelArg);
                 break;
             case R.id.bronze_member:
                 selectArg = new String[]{String.valueOf(Color.rgb(218, 165, 32))};
@@ -317,7 +323,7 @@ public class DetailCustomer extends AppCompatActivity {
                 if (cursor.moveToFirst())
                     value = cursor.getInt(cursor.getColumnIndex(KasebContract.State._ID));
                 contentValues.put(key, value);
-                updatedRow = getContentResolver().update(uri, contentValues, updateSelect, updSelArg);
+                getContentResolver().update(uri, contentValues, updateSelect, updSelArg);
                 break;
             case R.id.non_member:
                 selectArg = new String[]{String.valueOf(Color.rgb(176, 224, 230))};
@@ -327,7 +333,7 @@ public class DetailCustomer extends AppCompatActivity {
                 if (cursor.moveToFirst())
                     value = cursor.getInt(cursor.getColumnIndex(KasebContract.State._ID));
                 contentValues.put(key, value);
-                updatedRow = this.getContentResolver().update(uri, contentValues, updateSelect, updSelArg);
+                this.getContentResolver().update(uri, contentValues, updateSelect, updSelArg);
                 break;
             default:
                 return true;
@@ -339,13 +345,13 @@ public class DetailCustomer extends AppCompatActivity {
 
     // this method check the validation and correct entries. its check fill first and then check the validation rules.
     private boolean CheckForValidity() {
-        if (!Utility.checkForValidityForEditTextNullOrEmpty(getBaseContext(), customerFirstName))
+        if (!Utility.checkForValidityForEditTextNullOrEmpty(getBaseContext(), customerPhoneMobile))
+            return false;
+        else if (!Utility.checkForValidityForEditTextNullOrEmpty(getBaseContext(), customerFirstName))
             return false;
         else if (!Utility.checkForValidityForEditTextNullOrEmpty(getBaseContext(), customerLastName))
             return false;
-        else if (!Utility.checkForValidityForEditTextNullOrEmpty(getBaseContext(), customerPhoneMobile))
-            return false;
-        else if ((!customerBirthDay.getText().toString().equals("") || !customerBirthDay.getText().toString().equals(null)) &&
+        if (!customerBirthDay.getText().toString().equals("") && !customerBirthDay.getText().toString().equals(null) &&
                 !Utility.checkForValidityForEditTextDate(getBaseContext(), customerBirthDay))
             return false;
 
