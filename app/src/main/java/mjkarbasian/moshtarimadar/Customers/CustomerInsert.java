@@ -192,6 +192,9 @@ public class CustomerInsert extends Fragment {
             return false;
         else if (!Utility.checkForValidityForEditTextNullOrEmpty(getActivity(), phoneMobile))
             return false;
+        else if ((!birthDay.getText().toString().equals("") || !birthDay.getText().toString().equals(null)) &&
+                !Utility.checkForValidityForEditTextDate(getActivity(), birthDay))
+            return false;
 
         return true;
     }

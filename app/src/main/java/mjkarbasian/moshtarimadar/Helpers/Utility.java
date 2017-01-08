@@ -32,6 +32,7 @@ import com.itextpdf.text.pdf.PdfWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.OutputStream;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
@@ -96,9 +97,9 @@ import static mjkarbasian.moshtarimadar.Helpers.Samples.setSalesCustomer;
 public class Utility {
 
     private static final String LOG_TAG = Utility.class.getSimpleName();
-    private static Font mainTitleFont = new Font(Font.FontFamily.TIMES_ROMAN, 20, Font.BOLD);
-    private static Font subTitleFontUnColoredSmall = new Font(Font.FontFamily.TIMES_ROMAN, 14, Font.BOLD);
-    private static Font subTitleFontUnColored = new Font(Font.FontFamily.TIMES_ROMAN, 16, Font.BOLD);
+    private static Font mainTitleFont = new Font(Font.FontFamily.HELVETICA, 20, Font.BOLD);
+    private static Font subTitleFontUnColoredSmall = new Font(Font.FontFamily.HELVETICA, 14, Font.BOLD);
+    private static Font subTitleFontUnColored = new Font(Font.FontFamily.HELVETICA, 16, Font.BOLD);
     private static BaseColor subTitleColorTables = new BaseColor(140, 221, 8);
     private static BaseColor mainTitleColorTables = new BaseColor(255, 255, 255);
     private static Context _mContext;
@@ -109,8 +110,9 @@ public class Utility {
                                     Long mCustomerId, String mDetailSaleId,
                                     ArrayList<Map<String, String>> mChosenProductListMap,
                                     ArrayList<Map<String, String>> mTaxListMap,
-                                    ArrayList<Map<String, String>> mPaymentListMap) {
+                                    ArrayList<Map<String, String>> mPaymentListMap) throws IOException, DocumentException {
         _mContext = mContext;
+//        urFontName = new Font(BaseFont.createFont("assets/fonts/bmitra.ttf", "UTF-8", BaseFont.EMBEDDED), 12);
 
         HashMap<String, String> mTextFactor = new HashMap<String, String>();
         mTextFactor.put("firstTitle", _mContext.getString(R.string.title_of_print_invoice));
@@ -170,6 +172,8 @@ public class Utility {
             e.printStackTrace();
         } catch (ParseException e) {
             e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
@@ -179,6 +183,27 @@ public class Utility {
             Utility.setErrorForEditText(mEditText);
             return false;
         }
+        return true;
+    }
+
+    public static boolean checkForValidityForEditTextDate(Context mContext, EditText mEditText) {
+        _mContext = mContext;
+        String[] dateList = new String[]{};
+        dateList = mEditText.getText().toString().split("/");
+
+        if (mEditText.getText().toString().equals("") || mEditText.getText().toString().equals(null)) {
+            Utility.setErrorForEditText(mEditText);
+            return false;
+        } else if (dateList.length != 3)
+            return false;
+        else if (dateList[0].length() != 4)
+            return false;
+        else if (dateList[1].length() != 2)
+            return false;
+        else if (dateList[2].length() != 2)
+            return false;
+
+
         return true;
     }
 
@@ -304,7 +329,6 @@ public class Utility {
     }
 
     public static String getLocale(Context context) {
-
         Locale current = context.getResources().getConfiguration().locale;
         return current.getCountry();
     }
@@ -923,7 +947,7 @@ public class Utility {
                                  ArrayList<Map<String, String>> mChosenProductListMap,
                                  ArrayList<Map<String, String>> mTaxListMap,
                                  ArrayList<Map<String, String>> mPaymentListMap)
-            throws FileNotFoundException, DocumentException, ParseException {
+            throws IOException, DocumentException, ParseException {
 
         File pdfFolder = new File(Environment.getExternalStorageDirectory(), "/" + mDirectoryName);
         if (!pdfFolder.exists())
@@ -949,18 +973,18 @@ public class Utility {
     }
 
     private static void addMetaData() {
-        _mDocument.addTitle("Sales Invoice");
-        _mDocument.addSubject("Kaseb Release 1.0");
-        _mDocument.addKeywords("Kaseb, Sales, Invoice");
-        _mDocument.addAuthor("Kaseb");
-        _mDocument.addCreator("Kaseb");
+        _mDocument.addTitle(_mContext.getString(R.string.sales_pdf_meta_data_title));
+        _mDocument.addSubject(_mContext.getString(R.string.sales_pdf_meta_data_subject));
+        _mDocument.addKeywords(_mContext.getString(R.string.sales_pdf_meta_data_kew_words));
+        _mDocument.addAuthor(_mContext.getString(R.string.sales_pdf_meta_data_author));
+        _mDocument.addCreator(_mContext.getString(R.string.sales_pdf_meta_data_creator));
     }
 
     private static void addContent(HashMap<String, String> mTextHashMapTitles_Summary,
                                    ArrayList<Map<String, String>> mChosenProductListMap,
                                    ArrayList<Map<String, String>> mTaxListMap,
                                    ArrayList<Map<String, String>> mPaymentListMap)
-            throws DocumentException, ParseException {
+            throws DocumentException, ParseException, IOException {
 
         //region Create Paragraph with Some Lines
         Paragraph mParagraph = new Paragraph();
@@ -1198,10 +1222,10 @@ public class Utility {
                 setBackGroundColor_P_BW_HA_VA(mCell, mainTitleColorTables, 5, 3, Element.ALIGN_CENTER, Element.ALIGN_CENTER);
                 table.addCell(mCell);
 
-//                mCell = new PdfPCell(new Phrase(String.format("%.2f",
-//                        createFloatNumberWithString(mTaxListMap.get(i).get("percent").toString())) + " %"));
                 mCell = new PdfPCell(new Phrase(String.format("%.2f",
-                        Float.valueOf(mTaxListMap.get(i).get("percent").toString())) + " %"));
+                        createFloatNumberWithString(mTaxListMap.get(i).get("percent").toString())) + " %"));
+//                mCell = new PdfPCell(new Phrase(String.format("%.2f",
+//                        Float.valueOf(mTaxListMap.get(i).get("percent").toString())) + " %"));
                 setBackGroundColor_P_BW_HA_VA(mCell, mainTitleColorTables, 5, 3, Element.ALIGN_CENTER, Element.ALIGN_CENTER);
                 table.addCell(mCell);
             } else
@@ -1259,10 +1283,10 @@ public class Utility {
                 setBackGroundColor_P_BW_HA_VA(mCell, mainTitleColorTables, 5, 3, Element.ALIGN_CENTER, Element.ALIGN_CENTER);
                 table.addCell(mCell);
 
-//                mCell = new PdfPCell(new Phrase(String.format("%.2f",
-//                        createFloatNumberWithString(mTaxListMap.get(i).get("percent").toString())) + " %"));
                 mCell = new PdfPCell(new Phrase(String.format("%.2f",
-                        Float.valueOf(mTaxListMap.get(i).get("percent").toString())) + " %"));
+                        createFloatNumberWithString(mTaxListMap.get(i).get("percent").toString())) + " %"));
+//                mCell = new PdfPCell(new Phrase(String.format("%.2f",
+//                        Float.valueOf(mTaxListMap.get(i).get("percent").toString())) + " %"));
                 mCell.setHorizontalAlignment(Element.ALIGN_CENTER);
                 mCell.setVerticalAlignment(Element.ALIGN_CENTER);
                 mCell.setBorderWidth(3);
@@ -1434,7 +1458,10 @@ public class Utility {
     }
 
     public static float createFloatNumberWithString(String mNumber) throws ParseException {
-        return NumberFormat.getInstance(Locale.forLanguageTag("es")).parse(mNumber).floatValue();
+        if (getLocale(_mContext).equals("IR"))
+            return NumberFormat.getInstance(Locale.forLanguageTag("es")).parse(mNumber).floatValue();
+        else
+            return Float.valueOf(mNumber);
     }
 
     private static String getProductNameWithProductId(Long mProductId) {

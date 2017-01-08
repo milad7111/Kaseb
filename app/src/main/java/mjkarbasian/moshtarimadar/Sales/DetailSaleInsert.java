@@ -27,6 +27,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.itextpdf.text.DocumentException;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -325,10 +328,16 @@ public class DetailSaleInsert extends AppCompatActivity {
                     mSummaryOfInvoice.add(sPaidAmount);
                     mSummaryOfInvoice.add(sBalanceAmount);
 
-                    Utility.printInvoice(mContext, saleDate.getText().toString(), saleCode.getText().toString(),
-                            nameCustomer.getText().toString(), familyCustomer.getText().toString(),
-                            mSummaryOfInvoice, customerId, insertUri.getLastPathSegment().toString(),
-                            mChosenProductListMap, mTaxListMap, mPaymentListMap);
+                    try {
+                        Utility.printInvoice(mContext, saleDate.getText().toString(), saleCode.getText().toString(),
+                                nameCustomer.getText().toString(), familyCustomer.getText().toString(),
+                                mSummaryOfInvoice, customerId, insertUri.getLastPathSegment().toString(),
+                                mChosenProductListMap, mTaxListMap, mPaymentListMap);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } catch (DocumentException e) {
+                        e.printStackTrace();
+                    }
                     //endregion Print Factor
 
                     finish();

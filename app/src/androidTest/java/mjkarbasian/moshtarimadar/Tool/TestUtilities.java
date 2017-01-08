@@ -7,6 +7,8 @@ import android.net.Uri;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.test.AndroidTestCase;
+
+import java.util.Date;
 import java.util.Map;
 import java.util.Set;
 
@@ -160,7 +162,7 @@ public class TestUtilities extends AndroidTestCase {
         CustomersValues.put(KasebContract.Customers.COLUMN_LAST_NAME, sample_text + (sample_number++));
         CustomersValues.put(KasebContract.Customers.COLUMN_BIRTHDAY, sample_text + (sample_number++));
         CustomersValues.put(KasebContract.Customers.COLUMN_STATE_ID, StateRowId);
-        CustomersValues.put(KasebContract.Customers.COLUMN_PHONE_MOBILE, sample_text + (sample_number++));
+        CustomersValues.put(KasebContract.Customers.COLUMN_PHONE_MOBILE, (new Date().getTime()));
         CustomersValues.put(KasebContract.Customers.COLUMN_DESCRIPTION, sample_text + (sample_number++));
         CustomersValues.put(KasebContract.Customers.COLUMN_IS_DELETED, 0);
         CustomersValues.put(KasebContract.Customers.COLUMN_EMAIL, sample_text + (sample_number++));
@@ -199,19 +201,23 @@ public class TestUtilities extends AndroidTestCase {
         valueCursor.close();
     }
 
+    public static TestContentObserver getTestContentObserver() {
+        return TestContentObserver.getTestContentObserver();
+    }
+
     public static class TestContentObserver extends ContentObserver {
         final HandlerThread mHT;
         boolean mContentChanged;
+
+        private TestContentObserver(HandlerThread ht) {
+            super(new Handler(ht.getLooper()));
+            mHT = ht;
+        }
 
         static TestContentObserver getTestContentObserver() {
             HandlerThread ht = new HandlerThread("ContentObserverThread");
             ht.start();
             return new TestContentObserver(ht);
-        }
-
-        private TestContentObserver(HandlerThread ht) {
-            super(new Handler(ht.getLooper()));
-            mHT = ht;
         }
 
         // On earlier versions of Android, this onChange method is called
@@ -238,9 +244,5 @@ public class TestUtilities extends AndroidTestCase {
 //            }.run();
 //            mHT.quit();
         }
-    }
-
-    public static TestContentObserver getTestContentObserver() {
-        return TestContentObserver.getTestContentObserver();
     }
 }

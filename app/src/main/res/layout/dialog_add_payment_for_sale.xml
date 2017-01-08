@@ -4,20 +4,21 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-
     <EditText
         android:id="@+id/add_payment_for_sale_text1"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/hint_payment_amount" />
+        android:hint="@string/hint_payment_amount"
+        android:inputType="numberDecimal"
+        android:maxLength="15" />
 
     <EditText
         android:id="@+id/input_buy_date"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:ems="10"
         android:hint="@string/hint_due_date"
-        android:inputType="date" />
+        android:inputType="date"
+        android:maxLength="10" />
 
     <Spinner
         android:id="@+id/input_payment_method_spinner"

@@ -1926,7 +1926,10 @@ public class TestKasebProvider extends AndroidTestCase {
         ContentValues testValuesCustomers = TestUtilities.createCustomersValues(stateRowId);
         long customersRowId = db.insert(KasebContract.Customers.TABLE_NAME, null, testValuesCustomers);
 
-        ContentValues testValuesDetailSale = TestUtilities.createDetailSaleValues(customersRowId);
+        ContentValues testValuesSales = TestUtilities.createSalesValues(customersRowId);
+        long salesRowId = db.insert(KasebContract.Sales.TABLE_NAME, null, testValuesSales);
+
+        ContentValues testValuesDetailSale = TestUtilities.createDetailSaleValues(salesRowId);
         long detailSaleRowId = db.insert(KasebContract.DetailSale.TABLE_NAME, null, testValuesDetailSale);
 
         ContentValues testValuesPaymentMethods = TestUtilities.createPaymentMethodsValues();
@@ -1982,7 +1985,10 @@ public class TestKasebProvider extends AndroidTestCase {
         ContentValues testValuesCustomers = TestUtilities.createCustomersValues(stateRowId);
         long customersRowId = db.insert(KasebContract.Customers.TABLE_NAME, null, testValuesCustomers);
 
-        ContentValues testValuesDetailSale = TestUtilities.createDetailSaleValues(customersRowId);
+        ContentValues testValuesSales = TestUtilities.createSalesValues(customersRowId);
+        long salesRowId = db.insert(KasebContract.Sales.TABLE_NAME, null, testValuesSales);
+
+        ContentValues testValuesDetailSale = TestUtilities.createDetailSaleValues(salesRowId);
         long detailSaleRowId = db.insert(KasebContract.DetailSale.TABLE_NAME, null, testValuesDetailSale);
 
         ContentValues testValuesTaxTypes = TestUtilities.createTaxTypesValues();
@@ -2012,8 +2018,10 @@ public class TestKasebProvider extends AndroidTestCase {
         ContentValues testValuesCustomers = TestUtilities.createCustomersValues(stateRowId);
         long customersRowId = db.insert(KasebContract.Customers.TABLE_NAME, null, testValuesCustomers);
 
+        ContentValues testValuesSales = TestUtilities.createSalesValues(customersRowId);
+        long salesRowId = db.insert(KasebContract.Sales.TABLE_NAME, null, testValuesSales);
 
-        ContentValues testValuesDetailSale = TestUtilities.createDetailSaleValues(customersRowId);
+        ContentValues testValuesDetailSale = TestUtilities.createDetailSaleValues(salesRowId);
         long detailSaleRowId = db.insert(KasebContract.DetailSale.TABLE_NAME, null, testValuesDetailSale);
 
         ContentValues testValuesProducts = TestUtilities.createProductsValues();

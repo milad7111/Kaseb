@@ -345,6 +345,9 @@ public class DetailCustomer extends AppCompatActivity {
             return false;
         else if (!Utility.checkForValidityForEditTextNullOrEmpty(getBaseContext(), customerPhoneMobile))
             return false;
+        else if ((!customerBirthDay.getText().toString().equals("") || !customerBirthDay.getText().toString().equals(null)) &&
+                !Utility.checkForValidityForEditTextDate(getBaseContext(), customerBirthDay))
+            return false;
 
         return true;
     }
