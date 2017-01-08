@@ -648,7 +648,7 @@ public class DetailSaleInsert extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable s) {
                 try {
-                    Float percent = Float.valueOf(taxPercent.getText().toString());
+                    Float percent = Utility.createFloatNumberWithString(getBaseContext(), taxPercent.getText().toString());
                     taxAmount.setText(String.format("%.0f", Float.valueOf(percent * sTotalAmount / 100)));
                 } catch (Exception e) {
                     taxAmount.setText("");
@@ -693,18 +693,16 @@ public class DetailSaleInsert extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         taxMapRow.put("amount", taxAmount.getText().toString());
+                        taxMapRow.put("percent", taxPercent.getText().toString());
 
                         try {
-                            Float amount = Float.valueOf(taxAmount.getText().toString());
-                            taxMapRow.put("percent", String.format("%.2f",
-                                    Float.valueOf(String.valueOf(100 * amount / sTotalAmount))));
+                            Float amount = Utility.createFloatNumberWithString(getBaseContext(), taxAmount.getText().toString());
 
                             if (amount > sTotalAmount) {
-                                Toast.makeText(DetailSaleInsert.this, "Choose Amount Less Than Total Amount", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(DetailSaleInsert.this, getString(R.string.not_minus_number), Toast.LENGTH_SHORT).show();
                                 return;
                             } else if (taxPercent.getText().toString().length() == 0)
-                                taxMapRow.put("percent", String.format("%.2f",
-                                        Float.valueOf(String.valueOf(100 * amount / sTotalAmount))));
+                                taxMapRow.put("percent", String.format("%.2f", 100 * amount / sTotalAmount));
 
                             mTaxListMap.add(taxMapRow);
                             mCardViewTaxes.getTaxAdapter(mTaxListMap);
@@ -738,7 +736,8 @@ public class DetailSaleInsert extends AppCompatActivity {
         for (int i = 0; i < mTaxListMap.size(); i++) {
             String type = mTaxListMap.get(i).get("type").toString();
 
-            if (type.equals(getResources().getString(R.string.tax_types_discount)))
+            if (type.equals(getResources().getString(R.string.tax_types_discount))
+                    || type.equals(getResources().getString(R.string.discount_title)))
                 sTotalDiscount += Long.valueOf(mTaxListMap.get(i).get("amount").toString());
             else
                 sTotalTax += Long.valueOf(mTaxListMap.get(i).get("amount").toString());

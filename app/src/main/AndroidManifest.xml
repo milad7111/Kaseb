@@ -32,7 +32,8 @@
             android:name=".Sales.DetailSaleInsert"
             android:label="@string/title_activity_detail_sale"
             android:parentActivityName=".Sales.Sales"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Sales.Sales" />
@@ -147,6 +148,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".AboutUs.AboutUs" />
         </activity>
+
     </application>
 
 </manifest>

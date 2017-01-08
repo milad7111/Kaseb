@@ -308,7 +308,7 @@ CRM یا همان نرم افزار مدیریت ارتباط با مشتری ب
     <string name="title_of_invoice_summary">خلاصه فاکتور</string>
     <string name="save_factor_then_print">ابتدا فاکتور را ذخیره کنید، سپس دوباره سعی کنید.</string>
     <string name="not_itterative">(تکراری نباشد)</string>
-    <string name="title_of_taxes">مالیاتها</string>
+    <string name="title_of_taxes">مالیات ها</string>
     <string name="total_amount_title">مبلغ کل</string>
     <string name="total_discount_title">تخفیف کل</string>
     <string name="total_paied_title">مبلغ کل پرداخت شده</string>
@@ -322,18 +322,23 @@ CRM یا همان نرم افزار مدیریت ارتباط با مشتری ب
     <string name="price_title">قیمت</string>
     <string name="percent_title">درصد</string>
     <string name="payment_model_czech">چک</string>
-    <string name="invoice_date">تاریخ فروش</string>
-    <string name="invoice_sale_code">کد فروش</string>
+    <string name="invoice_date">تاریخ فروش : </string>
+    <string name="invoice_sale_code">کد فروش : </string>
     <string name="good_title">محصول</string>
     <string name="customer_info">مشتری : </string>
     <string name="choose_apropriate_data">داده مناسب وارد کنید</string>
     <string name="buyer_title">خریدار</string>
     <string name="amount_title">مبلغ</string>
-    <string name="seller_address">آدرس کاسب</string>
+    <string name="seller_address">آدرس کاسب : </string>
     <string name="seller_info">فروشنده : </string>
-    <string name="seller_tell">تشماره کاسب : </string>
+    <string name="seller_tell">تلفن کاسب : </string>
     <string name="seller_title">فروشنده</string>
     <string name="stamp_and_signature">مهر و امضا</string>
+    <string name="vas_title">ارزش افزوده</string>
+    <string name="discount_title">تخفیف</string>
+    <string name="passed_cheque_title">" : پاس شده"</string>
+    <string name="not_passed_cheque_title">" : پاس نشده"</string>
+    <string name="check_title">چکی</string>
     //endregion Sales Invoice Print
 
     <string name="date_format_error">(YYYY/M/D : 1395/1/1</string>

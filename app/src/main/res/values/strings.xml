@@ -394,6 +394,15 @@
     <string name="stamp_and_signature">Stamp and Signature</string>
     <string name="seller_title">Seller</string>
     <string name="buyer_title">Buyer</string>
+    <string name="sales_pdf_meta_data_title">Sales Invoice</string>
+    <string name="sales_pdf_meta_data_subject">Kaseb Release 1.0</string>
+    <string name="sales_pdf_meta_data_kew_words">Kaseb, Sales, Invoice</string>
+    <string name="sales_pdf_meta_data_author">Kaseb</string>
+    <string name="sales_pdf_meta_data_creator">Kaseb</string>
+    <string name="vas_title">VAS</string>
+    <string name="discount_title">Discount</string>
+    <string name="passed_cheque_title">" : Passed"</string>
+    <string name="not_passed_cheque_title">" : Not Passed"</string>
     //endregion Sales Invoice Print
 
     <string name="sale_code_prefix">INV- </string>
@@ -418,13 +427,9 @@
     <string name="confirm_delete_product_list_it_has">"This Product Is INUSE In "</string>
     <string name="confirm_delete_product_list">"Do You Really Want to Delete This PRODUCT?\n\nProduct Name : "</string>
     <string name="confirm_delete_tax">"Do You Really Want to Delete This TAX?\n\nTax Amount : "</string>
-    <string name="payment_model_cheque">Czech</string>
-    <string name="sales_pdf_meta_data_title">Sales Invoice</string>
-    <string name="sales_pdf_meta_data_subject">Kaseb Release 1.0</string>
-    <string name="sales_pdf_meta_data_kew_words">Kaseb, Sales, Invoice</string>
-    <string name="sales_pdf_meta_data_author">Kaseb</string>
-    <string name="sales_pdf_meta_data_creator">Kaseb</string>
+    <string name="payment_model_cheque">Cheque</string>
     <string name="date_format_error">\n(YYYY/M/D : 1990/1/1</string>
     <string name="not_minus_number">Can\'t be less than zero.</string>
     <string name="choose_customer_error_for_sale">You must choose a customer from list.</string>
+    <string name="check_title">Cheque</string>
 </resources>

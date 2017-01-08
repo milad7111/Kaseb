@@ -686,10 +686,11 @@ public class DetailSaleView extends AppCompatActivity {
                     mPaymentListView.setEnabled(false);
                     mTaxListView.setEnabled(false);
 
-
                     imageButtonProducts.setEnabled(false);
                     imageButtonPayments.setEnabled(false);
                     imageButtonTaxes.setEnabled(false);
+
+                    finish();
                 }
                 break;
             case R.id.menu_detail_sale_view_edit:
@@ -1014,7 +1015,7 @@ public class DetailSaleView extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable s) {
                 try {
-                    Float percent = Float.valueOf(taxPercent.getText().toString());
+                    Float percent = Utility.createFloatNumberWithString(getBaseContext(), taxPercent.getText().toString());
                     taxAmount.setText(String.format("%.0f", Float.valueOf(percent * sTotalAmount / 100)));
                 } catch (Exception e) {
                     taxAmount.setText("");
@@ -1063,13 +1064,13 @@ public class DetailSaleView extends AppCompatActivity {
                 taxMapRow.put("percent", taxPercent.getText().toString());
 
                 try {
-                    Float amount = Float.valueOf(taxAmount.getText().toString());
+                    Float amount = Utility.createFloatNumberWithString(getBaseContext(), taxAmount.getText().toString());
 
                     if (amount > sTotalAmount) {
-                        Toast.makeText(DetailSaleView.this, "Choose Amount Less Than Total Amount", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(DetailSaleView.this, getString(R.string.not_minus_number), Toast.LENGTH_SHORT).show();
                         return;
                     } else if (taxPercent.getText().toString().length() == 0)
-                        taxMapRow.put("percent", String.format("%.2f", Float.valueOf(String.valueOf(100 * amount / sTotalAmount))));
+                        taxMapRow.put("percent", String.format("%.2f", 100 * amount / sTotalAmount));
 
                     mTaxListMap.add(taxMapRow);
                     mCardViewTaxes.getTaxAdapter(mTaxListMap);
