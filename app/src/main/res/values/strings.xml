@@ -372,9 +372,9 @@
     <string name="save_factor_then_print">Please Save Invoice Then RETRY.</string>
     <string name="not_itterative">(Not Itterative)</string>
     <string name="register_message_copyright">Registered By KASEB. \n@COPYRIGHT</string>
-    <string name="seller_info">"Seller : "</string>
-    <string name="seller_tell">"Seller phone : "</string>
-    <string name="seller_address">"Seller Address : "</string>
+    <string name="seller_info">"Kaseb : "</string>
+    <string name="seller_tell">"Kaseb phone : "</string>
+    <string name="seller_address">"Kaseb Address : "</string>
     <string name="customer_info">"Customer : "</string>
     <string name="invoice_date">"Date : "</string>
     <string name="invoice_sale_code">"Sale Code : "</string>
@@ -431,5 +431,5 @@
     <string name="date_format_error">\n(YYYY/M/D : 1990/1/1</string>
     <string name="not_minus_number">Can\'t be less than zero.</string>
     <string name="choose_customer_error_for_sale">You must choose a customer from list.</string>
-    <string name="check_title">Cheque</string>
+    <string name="cheque_title">Cheque</string>
 </resources>

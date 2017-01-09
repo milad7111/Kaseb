@@ -322,8 +322,8 @@ CRM یا همان نرم افزار مدیریت ارتباط با مشتری ب
     <string name="price_title">قیمت</string>
     <string name="percent_title">درصد</string>
     <string name="payment_model_czech">چک</string>
-    <string name="invoice_date">تاریخ فروش : </string>
-    <string name="invoice_sale_code">کد فروش : </string>
+    <string name="invoice_date">تاریخ فروش :  </string>
+    <string name="invoice_sale_code">کد فروش :  </string>
     <string name="good_title">محصول</string>
     <string name="customer_info">مشتری : </string>
     <string name="choose_apropriate_data">داده مناسب وارد کنید</string>
@@ -338,9 +338,9 @@ CRM یا همان نرم افزار مدیریت ارتباط با مشتری ب
     <string name="discount_title">تخفیف</string>
     <string name="passed_cheque_title">" : پاس شده"</string>
     <string name="not_passed_cheque_title">" : پاس نشده"</string>
-    <string name="check_title">چکی</string>
+    <string name="cheque_title">چکی</string>
     //endregion Sales Invoice Print
 
-    <string name="date_format_error">(YYYY/M/D : 1395/1/1</string>
+    <string name="date_format_error">\n(YYYY/M/D : 1395/1/1)</string>
     <string name="not_minus_number">این مقدار نباید کم تر از صفر باشد.</string>
 </resources>

@@ -185,9 +185,12 @@ public class DetailProducts extends Fragment implements LoaderManager.LoaderCall
                     @Override
                     public void onClick(View v) {
                         if (CheckForValidityInsertProductHistory()) {
-                            productHistoryValues.put(KasebContract.ProductHistory.COLUMN_COST, buyPrice.getText().toString());
-                            productHistoryValues.put(KasebContract.ProductHistory.COLUMN_QUANTITY, quantity.getText().toString());
-                            productHistoryValues.put(KasebContract.ProductHistory.COLUMN_SALE_PRICE, salePrice.getText().toString());
+                            productHistoryValues.put(KasebContract.ProductHistory.COLUMN_COST,
+                                    Utility.convertFarsiNumbersToDecimal(buyPrice.getText().toString()));
+                            productHistoryValues.put(KasebContract.ProductHistory.COLUMN_QUANTITY,
+                                    Utility.convertFarsiNumbersToDecimal(quantity.getText().toString()));
+                            productHistoryValues.put(KasebContract.ProductHistory.COLUMN_SALE_PRICE,
+                                    Utility.convertFarsiNumbersToDecimal(salePrice.getText().toString()));
                             productHistoryValues.put(KasebContract.ProductHistory.COLUMN_DATE, buyDate.getText().toString());
                             productHistoryValues.put(KasebContract.ProductHistory.COLUMN_PRODUCT_ID, productId);
 
