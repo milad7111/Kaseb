@@ -499,6 +499,7 @@ public class DetailSaleView extends AppCompatActivity {
             // Respond to the action bar's Up/Home button
             case R.id.menu_detail_sale_view_print:
                 if (mSaved) {
+                    //region Print
                     ArrayList<Long> mSummaryOfInvoice = new ArrayList<Long>();
                     mSummaryOfInvoice.add(sTotalAmount);
                     mSummaryOfInvoice.add(sTotalTax);
@@ -516,6 +517,7 @@ public class DetailSaleView extends AppCompatActivity {
                     } catch (DocumentException e) {
                         e.printStackTrace();
                     }
+                    //endregion Print
                 } else
                     Toast.makeText(DetailSaleView.this, R.string.save_factor_then_print, Toast.LENGTH_LONG).show();
                 break;
@@ -584,11 +586,16 @@ public class DetailSaleView extends AppCompatActivity {
                     detailSaleValues.put(KasebContract.DetailSale.COLUMN_IS_BALANCED, sFinalAmount.equals(sPaidAmount));
                     detailSaleValues.put(KasebContract.DetailSale.COLUMN_ITEMS_NUMBER, mChosenProductListMap.size());
                     detailSaleValues.put(KasebContract.DetailSale.COLUMN_SALE_ID, whichSaleId);
-                    detailSaleValues.put(KasebContract.DetailSale.COLUMN_SUB_TOTAL, sTotalAmount);
-                    detailSaleValues.put(KasebContract.DetailSale.COLUMN_TOTAL_DISCOUNT, sTotalDiscount);
-                    detailSaleValues.put(KasebContract.DetailSale.COLUMN_TOTAL_DUE, sFinalAmount);
-                    detailSaleValues.put(KasebContract.DetailSale.COLUMN_TOTAL_PAID, sPaidAmount);
-                    detailSaleValues.put(KasebContract.DetailSale.COLUMN_TOTAL_TAX, sTotalTax);
+                    detailSaleValues.put(KasebContract.DetailSale.COLUMN_SUB_TOTAL,
+                            Utility.convertFarsiNumbersToDecimal(String.valueOf(sTotalAmount)));
+                    detailSaleValues.put(KasebContract.DetailSale.COLUMN_TOTAL_DISCOUNT,
+                            Utility.convertFarsiNumbersToDecimal(String.valueOf(sTotalDiscount)));
+                    detailSaleValues.put(KasebContract.DetailSale.COLUMN_TOTAL_DUE,
+                            Utility.convertFarsiNumbersToDecimal(String.valueOf(sFinalAmount)));
+                    detailSaleValues.put(KasebContract.DetailSale.COLUMN_TOTAL_PAID,
+                            Utility.convertFarsiNumbersToDecimal(String.valueOf(sPaidAmount)));
+                    detailSaleValues.put(KasebContract.DetailSale.COLUMN_TOTAL_TAX,
+                            Utility.convertFarsiNumbersToDecimal(String.valueOf(sTotalTax)));
 
                     getContentResolver().update(
                             KasebContract.DetailSale.CONTENT_URI,
@@ -606,12 +613,14 @@ public class DetailSaleView extends AppCompatActivity {
                         itemsValues = new ContentValues();
 
                         itemsValues.put(KasebContract.DetailSaleProducts.COLUMN_AMOUNT,
-                                Long.valueOf(mChosenProductListMap.get(i).get("price").toString()) *
-                                        Long.valueOf(mChosenProductListMap.get(i).get("quantity").toString()));
+                                Utility.convertFarsiNumbersToDecimal(String.valueOf(
+                                        Long.valueOf(mChosenProductListMap.get(i).get("price").toString()) *
+                                                Long.valueOf(mChosenProductListMap.get(i).get("quantity").toString()))));
 
                         itemsValues.put(KasebContract.DetailSaleProducts.COLUMN_DETAIL_SALE_ID, whichDetailSaleId);
                         itemsValues.put(KasebContract.DetailSaleProducts.COLUMN_PRODUCT_ID, mChosenProductListMap.get(i).get("id").toString());
-                        itemsValues.put(KasebContract.DetailSaleProducts.COLUMN_QUANTITY, mChosenProductListMap.get(i).get("quantity").toString());
+                        itemsValues.put(KasebContract.DetailSaleProducts.COLUMN_QUANTITY,
+                                Utility.convertFarsiNumbersToDecimal(mChosenProductListMap.get(i).get("quantity").toString()));
 
                         itemsValuesArray[i] = itemsValues;
                     }
@@ -632,7 +641,9 @@ public class DetailSaleView extends AppCompatActivity {
 
                         paymentValues.put(KasebContract.DetailSalePayments.COLUMN_DUE_DATE, mPaymentListMap.get(i).get("duedate").toString());
                         paymentValues.put(KasebContract.DetailSalePayments.COLUMN_DETAIL_SALE_ID, whichDetailSaleId);
-                        paymentValues.put(KasebContract.DetailSalePayments.COLUMN_AMOUNT, Long.valueOf(mPaymentListMap.get(i).get("amount").toString()));
+                        paymentValues.put(KasebContract.DetailSalePayments.COLUMN_AMOUNT,
+                                Utility.convertFarsiNumbersToDecimal(String.valueOf(
+                                        Long.valueOf(mPaymentListMap.get(i).get("amount").toString()))));
                         paymentValues.put(KasebContract.DetailSalePayments.COLUMN_PAYMENT_METHOD_ID, mPaymentListMap.get(i).get("id").toString());
                         paymentValues.put(KasebContract.DetailSalePayments.COLUMN_IS_PASS, Boolean.parseBoolean(mPaymentListMap.get(i).get("isPass")));
 
@@ -653,7 +664,9 @@ public class DetailSaleView extends AppCompatActivity {
                         taxValues = new ContentValues();
 
                         taxValues.put(KasebContract.DetailSaleTaxes.COLUMN_DETAIL_SALE_ID, whichDetailSaleId);
-                        taxValues.put(KasebContract.DetailSaleTaxes.COLUMN_AMOUNT, Long.valueOf(mTaxListMap.get(i).get("amount").toString()));
+                        taxValues.put(KasebContract.DetailSaleTaxes.COLUMN_AMOUNT,
+                                Utility.convertFarsiNumbersToDecimal(String.valueOf(
+                                        Long.valueOf(mTaxListMap.get(i).get("amount").toString()))));
                         taxValues.put(KasebContract.DetailSaleTaxes.COLUMN_TAX_TYPE_ID, mTaxListMap.get(i).get("id").toString());
 
                         taxValuesArray[i] = taxValues;
@@ -689,6 +702,26 @@ public class DetailSaleView extends AppCompatActivity {
                     imageButtonProducts.setEnabled(false);
                     imageButtonPayments.setEnabled(false);
                     imageButtonTaxes.setEnabled(false);
+
+                    //region Print
+                    ArrayList<Long> mSummaryOfInvoice = new ArrayList<Long>();
+                    mSummaryOfInvoice.add(sTotalAmount);
+                    mSummaryOfInvoice.add(sTotalTax);
+                    mSummaryOfInvoice.add(sTotalDiscount);
+                    mSummaryOfInvoice.add(sPaidAmount);
+                    mSummaryOfInvoice.add(sBalanceAmount);
+
+                    try {
+                        Utility.printInvoice(mContext, saleDate.getText().toString(), saleCode.getText().toString(),
+                                nameCustomer.getText().toString(), familyCustomer.getText().toString(),
+                                mSummaryOfInvoice, customerId, String.valueOf(whichDetailSaleId),
+                                mChosenProductListMap, mTaxListMap, mPaymentListMap);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } catch (DocumentException e) {
+                        e.printStackTrace();
+                    }
+                    //endregion Print
 
                     finish();
                 }

@@ -207,7 +207,8 @@ public class CostSaleProductList extends Fragment implements LoaderManager.Loade
                                     if (CheckForValidity()) {
                                         costValues.put(KasebContract.Costs.COLUMN_COST_NAME, costName.getText().toString());
                                         costValues.put(KasebContract.Costs.COLUMN_COST_CODE, costCode.getText().toString());
-                                        costValues.put(KasebContract.Costs.COLUMN_AMOUNT, costAmount.getText().toString());
+                                        costValues.put(KasebContract.Costs.COLUMN_AMOUNT,
+                                                Utility.convertFarsiNumbersToDecimal(costAmount.getText().toString()));
                                         costValues.put(KasebContract.Costs.COLUMN_DATE, costDate.getText().toString());
                                         costValues.put(KasebContract.Costs.COLUMN_DESCRIPTION, costDescription.getText().toString());
 
