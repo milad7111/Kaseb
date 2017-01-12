@@ -26,7 +26,6 @@
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:fontFamily="sans-serif-condensed"
-                android:text="@string/sample_ali_ghorbani"
                 android:textAppearance="?android:textAppearanceMedium"
                 android:textColor="@color/colorAccent"
                 android:textColorHint="@color/colorAccent"

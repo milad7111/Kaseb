@@ -102,7 +102,7 @@ public class PreferenceHeader extends Fragment {
                             startActivityForResult(contactPickerIntent, RESULT_PICK_CONTACT);
                             break;
                         }
-                        case 4:{
+                        case 4: {
                             new AlertDialog.Builder(getActivity())
                                     .setTitle(getActivity().getResources().getString(R.string.pref_header_backup))
                                     .setMessage(getActivity().getResources().getString(R.string.dialog_select_backup_restore))
@@ -116,19 +116,19 @@ public class PreferenceHeader extends Fragment {
                                             }
                                         }
                                     })
-                                            .setNegativeButton(getActivity().getResources().getString(R.string.dialog_select_restore), new DialogInterface.OnClickListener() {
-                                                @Override
-                                                public void onClick(DialogInterface dialog, int which) {
-                                                    doRestore();
-                                                }
-                                            })
-                                            .setNeutralButton(getActivity().getResources().getString(R.string.dialog_select_cancel), new DialogInterface.OnClickListener() {
-                                                @Override
-                                                public void onClick(DialogInterface dialog, int which) {
-                                                    dialog.dismiss();
-                                                }
-                                            })
-                                            .show();
+                                    .setNegativeButton(getActivity().getResources().getString(R.string.dialog_select_restore), new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            doRestore();
+                                        }
+                                    })
+                                    .setNeutralButton(getActivity().getResources().getString(R.string.dialog_select_cancel), new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            dialog.dismiss();
+                                        }
+                                    })
+                                    .show();
                         }
                     }
                 }
@@ -143,7 +143,7 @@ public class PreferenceHeader extends Fragment {
             File data = Environment.getDataDirectory();
             if (sd.canWrite()) {
                 final String currentDBPath = getActivity().getDatabasePath("kaseb.db").getPath();
-                String backupDBPath = Environment.getExternalStorageDirectory()+"/kaseb_copy.db";
+                String backupDBPath = Environment.getExternalStorageDirectory() + "/kaseb_copy.db";
                 File backupDB = new File(currentDBPath);
                 File currentDB = new File(backupDBPath);
                 FileChannel src = new FileInputStream(currentDB).getChannel();
@@ -168,7 +168,7 @@ public class PreferenceHeader extends Fragment {
         File dbFile = new File(inFileName);
         FileInputStream fis = new FileInputStream(dbFile);
 
-        String outFileName = Environment.getExternalStorageDirectory()+"/kaseb_copy.db";
+        String outFileName = Environment.getExternalStorageDirectory() + "/kaseb_copy.db";
 
         // Open the empty db as the output stream
         OutputStream output = new FileOutputStream(outFileName);
@@ -176,7 +176,7 @@ public class PreferenceHeader extends Fragment {
         // Transfer bytes from the inputfile to the outputfile
         byte[] buffer = new byte[1024];
         int length;
-        while ((length = fis.read(buffer))>0){
+        while ((length = fis.read(buffer)) > 0) {
             output.write(buffer, 0, length);
         }
 
@@ -191,7 +191,7 @@ public class PreferenceHeader extends Fragment {
     public void onActivityResult(int reqCode, int resultCode, Intent data) {
         super.onActivityResult(reqCode, resultCode, data);
         String[] displayName = new String[2];
-        String phoneMobile= null;
+        String phoneMobile = null;
         String phoneHome = null;
         String contactEmail = null;
         String contactId = null;
@@ -204,29 +204,28 @@ public class PreferenceHeader extends Fragment {
                         contactId = contactCursor.getString(contactCursor.getColumnIndex(ContactsContract.Contacts._ID));
                     }
                     displayName = getNames(contactId);
-                    if(displayName[0]==null||displayName[1]==null){
+                    if (displayName[0] == null || displayName[1] == null) {
                         dataError(getActivity().getResources().getString(R.string.dialog_input_import_contact_first_last_name));
                         break;
                     }
-                    if(contactCursor.getString(contactCursor.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER)).equals("1"))
-                    phoneMobile = getMobileNumber(contactId);
+                    if (contactCursor.getString(contactCursor.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER)).equals("1"))
+                        phoneMobile = getMobileNumber(contactId);
                     else {
                         dataError(getActivity().getResources().getString(R.string.dialog_input_import_contact_phone_mobile));
                         break;
                     }
                     contactEmail = getEmail(contactId);
 
-                    if (displayName[0]!=null&&displayName[1]!=null&&phoneMobile!=null){
-                    ContentValues contactValue = new ContentValues();
-                    contactValue.put(KasebContract.Customers.COLUMN_FIRST_NAME,displayName[0]);
-                    contactValue.put(KasebContract.Customers.COLUMN_LAST_NAME,displayName[1]);
-                    contactValue.put(KasebContract.Customers.COLUMN_PHONE_MOBILE,phoneMobile);
-                    contactValue.put(KasebContract.Customers.COLUMN_EMAIL,contactEmail);
-                    Uri insertUri = getActivity().getContentResolver().insert(KasebContract.Customers.CONTENT_URI,contactValue);
-                    Log.v(LOG_TAG, "Contact successfully is imported in: " + insertUri.toString());
-                    }
-                    else {
-                    dataError(getActivity().getResources().getString(R.string.dialog_input_import_contact_general));
+                    if (displayName[0] != null && displayName[1] != null && phoneMobile != null) {
+                        ContentValues contactValue = new ContentValues();
+                        contactValue.put(KasebContract.Customers.COLUMN_FIRST_NAME, displayName[0]);
+                        contactValue.put(KasebContract.Customers.COLUMN_LAST_NAME, displayName[1]);
+                        contactValue.put(KasebContract.Customers.COLUMN_PHONE_MOBILE, phoneMobile);
+                        contactValue.put(KasebContract.Customers.COLUMN_EMAIL, contactEmail);
+                        Uri insertUri = getActivity().getContentResolver().insert(KasebContract.Customers.CONTENT_URI, contactValue);
+                        Log.v(LOG_TAG, "Contact successfully is imported in: " + insertUri.toString());
+                    } else {
+                        dataError(getActivity().getResources().getString(R.string.dialog_input_import_contact_general));
                     }
                     break;
                 }
@@ -241,10 +240,10 @@ public class PreferenceHeader extends Fragment {
                 .setMessage(getActivity().getResources().getString(R.string.dialog_message_import_customer_fail_par1) + name + " " +
                         getActivity().getResources().getString(R.string.dialog_message_import_customer_fail_par2))
                 .setPositiveButton(getActivity().getResources().getString(R.string.dialog_positive_button), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
                 })
                 .show();
 
@@ -252,9 +251,10 @@ public class PreferenceHeader extends Fragment {
 
     private String getEmail(String contactId) {
         Cursor cr = getActivity().getContentResolver().query(ContactsContract.CommonDataKinds.Email.CONTENT_URI,
-                null, ContactsContract.CommonDataKinds.Email.CONTACT_ID + " = ?", new String[]{contactId}, null);;
+                null, ContactsContract.CommonDataKinds.Email.CONTACT_ID + " = ?", new String[]{contactId}, null);
+        ;
         String contactEmail = null;
-        if(cr.moveToFirst())
+        if (cr.moveToFirst())
             contactEmail = cr.getString(cr.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.Email.DATA));
         cr.close();
         return contactEmail;
@@ -264,7 +264,7 @@ public class PreferenceHeader extends Fragment {
         Cursor cr = getActivity().getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, ContactsContract.CommonDataKinds.Phone.CONTACT_ID
                 + " = " + contactId, null, null);
         String contactMobilePhone = null;
-        if(cr.moveToFirst())
+        if (cr.moveToFirst())
             contactMobilePhone = cr.getString(cr.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.Phone.NUMBER));
         cr.close();
         return contactMobilePhone;
@@ -274,7 +274,7 @@ public class PreferenceHeader extends Fragment {
         String firstName = null;
         String family = null;
         String whereName = ContactsContract.Data.MIMETYPE + " = ? AND " + ContactsContract.CommonDataKinds.StructuredName.CONTACT_ID + " = ?";
-        String[] whereNameParams = new String[] { ContactsContract.CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE, contactId };
+        String[] whereNameParams = new String[]{ContactsContract.CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE, contactId};
         Cursor cursor = getActivity().getContentResolver().query(ContactsContract.Data.CONTENT_URI
                 , null, whereName, whereNameParams,
                 ContactsContract.CommonDataKinds.StructuredName.GIVEN_NAME);

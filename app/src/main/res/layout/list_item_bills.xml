@@ -10,13 +10,13 @@
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
         android:layout_marginRight="@dimen/activity_horizontal_margin"
         android:layout_marginTop="@dimen/activity_horizontal_margin"
+        android:baselineAligned="false"
         android:orientation="horizontal">
 
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginRight="@dimen/cardview_default_radius"
             android:layout_weight="6"
             android:gravity="center"
             android:orientation="vertical">
@@ -25,29 +25,29 @@
                 android:id="@+id/item_list_bill_sale_code"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_marginLeft="@dimen/item_horizontal_margin"
-                android:layout_marginStart="@dimen/item_horizontal_margin"
                 android:layout_weight="1"
                 android:text="@string/sample_2_invoice_code"
                 android:textAppearance="?android:textAppearanceMedium"
-                android:textColor="@color/colorPrimary" />
+                android:textColor="@color/colorAccent"
+                android:textColorHint="@color/colorAccent"
+                android:textSize="@dimen/text_size_in_list" />
 
             <TextView
                 android:id="@+id/item_list_bill_due_date"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_marginLeft="@dimen/item_horizontal_margin"
-                android:layout_marginStart="@dimen/item_horizontal_margin"
                 android:layout_weight="1"
                 android:text="@string/sample_due_date_1_day"
-                android:textAppearance="?android:textAppearanceSmall" />
+                android:textAppearance="?android:textAppearanceSmall"
+                android:textColor="@color/colorAccent"
+                android:textColorHint="@color/colorAccent"
+                android:textSize="@dimen/text_size_in_list" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginRight="@dimen/cardview_default_radius"
             android:layout_weight="1"
             android:orientation="vertical">
 
@@ -71,12 +71,15 @@
             <TextView
                 android:id="@+id/item_list_bill_purchase_amount"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:layout_weight="1"
                 android:fontFamily="sans-serif-condensed"
                 android:gravity="center"
                 android:text="@string/sample_text_purchase_of_customer_amount"
-                android:textAppearance="?android:textAppearanceLarge" />
+                android:textAppearance="?android:textAppearanceLarge"
+                android:textColor="@color/colorAccent"
+                android:textColorHint="@color/colorAccent"
+                android:textSize="@dimen/text_size_in_list" />
         </LinearLayout>
     </LinearLayout>
 </FrameLayout>
