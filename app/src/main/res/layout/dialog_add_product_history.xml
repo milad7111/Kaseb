@@ -11,12 +11,14 @@
         android:orientation="vertical">
 
         <EditText
-            android:id="@+id/add_product_history_buy_price"
+            android:id="@+id/add_product_history_sale_price"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/hint_buy_price"
+            android:hint="@string/hint_sale_price"
             android:inputType="numberDecimal"
-            android:maxLength="15" />
+            android:maxLength="15"
+            android:textColor="@color/colorAccent"
+            android:textColorHint="@color/colorAccent" />
 
         <EditText
             android:id="@+id/add_product_history_quantity"
@@ -24,15 +26,19 @@
             android:layout_height="wrap_content"
             android:hint="@string/hint_quantity"
             android:inputType="number"
-            android:maxLength="10" />
+            android:maxLength="10"
+            android:textColor="@color/colorAccent"
+            android:textColorHint="@color/colorAccent" />
 
         <EditText
-            android:id="@+id/add_product_history_sale_price"
+            android:id="@+id/add_product_history_buy_price"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/hint_sale_price"
+            android:hint="@string/hint_buy_price"
             android:inputType="numberDecimal"
-            android:maxLength="15" />
+            android:maxLength="15"
+            android:textColor="@color/colorAccent"
+            android:textColorHint="@color/colorAccent" />
 
         <EditText
             android:id="@+id/add_product_history_buy_date"
@@ -40,7 +46,9 @@
             android:layout_height="wrap_content"
             android:hint="@string/hint_date"
             android:inputType="date"
-            android:maxLength="10" />
+            android:maxLength="10"
+            android:textColor="@color/colorAccent"
+            android:textColorHint="@color/colorAccent" />
 
         <EditText
             android:id="@+id/add_product_history_discount_amount"
@@ -48,7 +56,9 @@
             android:layout_height="wrap_content"
             android:hint="@string/hint_buy_price_discount_amount"
             android:inputType="numberDecimal"
-            android:maxLength="10" />
+            android:maxLength="15"
+            android:textColor="@color/colorAccent"
+            android:textColorHint="@color/colorAccent" />
 
         <EditText
             android:id="@+id/add_product_history_discount_percent"
@@ -56,16 +66,10 @@
             android:layout_height="wrap_content"
             android:hint="@string/hint_buy_price_discount_percent"
             android:inputType="numberDecimal"
-            android:maxLength="10" />
+            android:maxLength="10"
+            android:textColor="@color/colorAccent"
+            android:textColorHint="@color/colorAccent" />
 
-        <Button
-            android:id="@+id/add_product_history_save"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/text1"
-            android:layout_centerHorizontal="true"
-            android:layout_gravity="center_horizontal"
-            android:text="@string/save_button" />
     </LinearLayout>
 
 </LinearLayout>

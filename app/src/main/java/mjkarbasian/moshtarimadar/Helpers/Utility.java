@@ -8,13 +8,11 @@ import android.database.Cursor;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Environment;
-import android.text.InputType;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -110,23 +108,6 @@ public class Utility {
     private static Context _mContext;
     private static Document _mDocument;
 
-
-    public static EditText createCustomDecimalInputEditText(Context mContext, String mHint) {
-        EditText mEditText = new EditText(mContext);
-        mEditText.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
-        mEditText.setHint(mHint);
-        mEditText.setHintTextColor(mContext.getResources().getColor(R.color.colorAccent));
-        mEditText.setTextColor(mContext.getResources().getColor(R.color.colorAccent));
-
-        LinearLayout.LayoutParams mLayoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        int mMargin = dipConverter(24, mContext);
-        mLayoutParams.setMargins(mMargin, mMargin, mMargin, mMargin);
-
-        mEditText.setLayoutParams(mLayoutParams);
-
-        return mEditText;
-    }
-
     public static void printInvoice(Context mContext, String mSaleDate, String mSaleCode, String mNameCustomer,
                                     String mFamilyCustomer, ArrayList<Long> mSummaryOfInvoice,
                                     Long mCustomerId, String mDetailSaleId,
@@ -217,7 +198,7 @@ public class Utility {
         } else if (dateList.length != 3) {
             Utility.setErrorForEditText(mEditText, mContext.getString(R.string.date_format_error));
             return false;
-        } else if (dateList[0].length() != 4) {
+        } else if (dateList[2].length() != 4) {
             Utility.setErrorForEditText(mEditText, mContext.getString(R.string.date_format_error));
             return false;
         } else if (dateList[1].length() == 1 && dateList[1].equals("0")) {
@@ -226,10 +207,10 @@ public class Utility {
         } else if (dateList[1].length() != 1 && dateList[1].length() != 2) {
             Utility.setErrorForEditText(mEditText, mContext.getString(R.string.date_format_error));
             return false;
-        } else if (dateList[2].length() == 1 && dateList[2].equals("0")) {
+        } else if (dateList[0].length() == 1 && dateList[0].equals("0")) {
             Utility.setErrorForEditText(mEditText, mContext.getString(R.string.date_format_error));
             return false;
-        } else if (dateList[2].length() != 1 && dateList[2].length() != 2) {
+        } else if (dateList[0].length() != 1 && dateList[0].length() != 2) {
             Utility.setErrorForEditText(mEditText, mContext.getString(R.string.date_format_error));
             return false;
         }

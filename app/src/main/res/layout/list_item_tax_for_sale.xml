@@ -8,7 +8,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="@dimen/top_of_list_margin_in_row"
+        android:layout_marginTop="@dimen/top_of_list_margin"
         android:orientation="vertical">
 
         <LinearLayout
@@ -30,7 +30,8 @@
                 android:gravity="center"
                 android:hint="@string/sample_text_purchase_of_customer_amount"
                 android:textAppearance="?android:textAppearanceMedium"
-                android:textColor="@color/colorPrimary"
+                android:textColor="@color/colorAccent"
+                android:textColorHint="@color/colorAccent"
                 android:textSize="@dimen/text_size_in_list" />
 
             <TextView
@@ -46,7 +47,8 @@
                 android:gravity="center"
                 android:hint="25 %"
                 android:textAppearance="?android:textAppearanceMedium"
-                android:textColor="@color/colorPrimary"
+                android:textColor="@color/colorAccent"
+                android:textColorHint="@color/colorAccent"
                 android:textSize="@dimen/text_size_in_list" />
 
             <TextView
@@ -62,7 +64,8 @@
                 android:gravity="center"
                 android:hint="VAS"
                 android:textAppearance="?android:textAppearanceMedium"
-                android:textColor="@color/colorPrimary"
+                android:textColor="@color/colorAccent"
+                android:textColorHint="@color/colorAccent"
                 android:textSize="@dimen/text_size_in_list" />
 
         </LinearLayout>

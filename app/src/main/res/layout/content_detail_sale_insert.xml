@@ -40,7 +40,8 @@
                         android:padding="4dp"
                         android:text="@string/detail_sales_info_header"
                         android:textAppearance="?android:textAppearanceMedium"
-                        android:textColor="@color/colorWhite"
+                        android:textColor="@color/colorAccent"
+                        android:textColorHint="@color/colorAccent"
                         android:textSize="@dimen/text_size_in_list" />
 
                     <EditText
@@ -55,7 +56,8 @@
                         android:nestedScrollingEnabled="false"
                         android:paddingLeft="@dimen/padding_left_text_view"
                         android:textAppearance="?android:textAppearanceMedium"
-                        android:textColor="@color/colorPrimary"
+                        android:textColor="@color/colorAccent"
+                        android:textColorHint="@color/colorAccent"
                         android:textSize="@dimen/text_size_in_list_sub_title" />
 
                     <EditText
@@ -70,7 +72,8 @@
                         android:maxLength="10"
                         android:nestedScrollingEnabled="false"
                         android:paddingLeft="@dimen/padding_left_text_view"
-                        android:textColor="@color/colorPrimary"
+                        android:textColor="@color/colorAccent"
+                        android:textColorHint="@color/colorAccent"
                         android:textSize="@dimen/text_size_in_list_sub_title" />
 
                     <LinearLayout
@@ -95,7 +98,8 @@
                             android:hint="@string/detail_sales_info_customer_name"
                             android:paddingLeft="@dimen/padding_left_text_view"
                             android:textAppearance="?android:textAppearanceMedium"
-                            android:textColor="@color/colorPrimary"
+                            android:textColor="@color/colorAccent"
+                            android:textColorHint="@color/colorAccent"
                             android:textSize="@dimen/text_size_in_list_sub_title" />
 
                         <TextView
@@ -108,7 +112,8 @@
                             android:hint="@string/detail_sales_info_customer_family"
                             android:paddingLeft="@dimen/padding_left_text_view"
                             android:textAppearance="?android:textAppearanceMedium"
-                            android:textColor="@color/colorPrimary"
+                            android:textColor="@color/colorAccent"
+                            android:textColorHint="@color/colorAccent"
                             android:textSize="@dimen/text_size_in_list_sub_title" />
                     </LinearLayout>
 
@@ -444,7 +449,8 @@
                         android:padding="4dp"
                         android:text="@string/detail_sales_summary_header"
                         android:textAppearance="?android:textAppearanceMedium"
-                        android:textColor="@color/colorWhite"
+                        android:textColor="@color/colorAccent"
+                        android:textColorHint="@color/colorAccent"
                         android:textSize="@dimen/text_size_in_list" />
 
                     <LinearLayout
@@ -461,7 +467,8 @@
                             android:gravity="start"
                             android:text="@string/detail_sales_summary_total_amount"
                             android:textAppearance="?android:textAppearanceMedium"
-                            android:textColor="@color/colorPrimary"
+                            android:textColor="@color/colorAccent"
+                            android:textColorHint="@color/colorAccent"
                             android:textSize="@dimen/text_size_in_list_sub_title" />
 
                         <TextView
@@ -472,6 +479,8 @@
                             android:layout_weight="1"
                             android:gravity="start"
                             android:textAppearance="?android:textAppearanceMedium"
+                            android:textColor="@color/colorAccent"
+                            android:textColorHint="@color/colorAccent"
                             android:textSize="@dimen/text_size_in_list_sub_title" />
                     </LinearLayout>
 
@@ -489,7 +498,8 @@
                             android:gravity="start"
                             android:text="@string/detail_sales_summary_tax"
                             android:textAppearance="?android:textAppearanceMedium"
-                            android:textColor="@color/colorPrimary"
+                            android:textColor="@color/colorAccent"
+                            android:textColorHint="@color/colorAccent"
                             android:textSize="@dimen/text_size_in_list_sub_title" />
 
                         <TextView
@@ -500,6 +510,8 @@
                             android:layout_weight="1"
                             android:gravity="start"
                             android:textAppearance="?android:textAppearanceMedium"
+                            android:textColor="@color/colorAccent"
+                            android:textColorHint="@color/colorAccent"
                             android:textSize="@dimen/text_size_in_list_sub_title" />
                     </LinearLayout>
 
@@ -517,7 +529,8 @@
                             android:gravity="start"
                             android:text="@string/detail_sales_summary_discount"
                             android:textAppearance="?android:textAppearanceMedium"
-                            android:textColor="@color/colorPrimary"
+                            android:textColor="@color/colorAccent"
+                            android:textColorHint="@color/colorAccent"
                             android:textSize="@dimen/text_size_in_list_sub_title" />
 
                         <TextView
@@ -528,6 +541,8 @@
                             android:layout_weight="1"
                             android:gravity="start"
                             android:textAppearance="?android:textAppearanceMedium"
+                            android:textColor="@color/colorAccent"
+                            android:textColorHint="@color/colorAccent"
                             android:textSize="@dimen/text_size_in_list_sub_title" />
                     </LinearLayout>
 
@@ -546,7 +561,8 @@
                             android:gravity="start"
                             android:text="@string/detail_sales_summary_final_amount"
                             android:textAppearance="?android:textAppearanceMedium"
-                            android:textColor="@color/colorPrimary"
+                            android:textColor="@color/colorAccent"
+                            android:textColorHint="@color/colorAccent"
                             android:textSize="@dimen/text_size_in_list_sub_title" />
 
                         <TextView
@@ -557,6 +573,8 @@
                             android:layout_weight="1"
                             android:gravity="start"
                             android:textAppearance="?android:textAppearanceMedium"
+                            android:textColor="@color/colorAccent"
+                            android:textColorHint="@color/colorAccent"
                             android:textSize="@dimen/text_size_in_list_sub_title" />
                     </LinearLayout>
 
@@ -574,7 +592,8 @@
                             android:gravity="start"
                             android:text="@string/detail_sales_summary_payment"
                             android:textAppearance="?android:textAppearanceMedium"
-                            android:textColor="@color/colorPrimary"
+                            android:textColor="@color/colorAccent"
+                            android:textColorHint="@color/colorAccent"
                             android:textSize="@dimen/text_size_in_list_sub_title" />
 
                         <TextView
@@ -585,6 +604,8 @@
                             android:layout_weight="1"
                             android:gravity="start"
                             android:textAppearance="?android:textAppearanceMedium"
+                            android:textColor="@color/colorAccent"
+                            android:textColorHint="@color/colorAccent"
                             android:textSize="@dimen/text_size_in_list_sub_title" />
                     </LinearLayout>
 
@@ -604,7 +625,8 @@
                             android:gravity="start"
                             android:text="@string/detail_sales_summary_total_balance"
                             android:textAppearance="?android:textAppearanceMedium"
-                            android:textColor="@color/colorPrimary"
+                            android:textColor="@color/colorAccent"
+                            android:textColorHint="@color/colorAccent"
                             android:textSize="@dimen/text_size_in_list_sub_title" />
 
                         <TextView
@@ -615,6 +637,8 @@
                             android:layout_weight="1"
                             android:gravity="start"
                             android:textAppearance="?android:textAppearanceMedium"
+                            android:textColor="@color/colorAccent"
+                            android:textColorHint="@color/colorAccent"
                             android:textSize="@dimen/text_size_in_list_sub_title" />
                     </LinearLayout>
                 </LinearLayout>

@@ -2,7 +2,6 @@ package mjkarbasian.moshtarimadar.Others;
 
 
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -24,7 +23,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
@@ -45,16 +43,19 @@ import mjkarbasian.moshtarimadar.Sales.DetailSaleView;
  */
 public class CostSaleProductList extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
+    //region declare Values
     final static int FRAGMENT_COST_SALE_PRODUCT_LOADER = 1;
     private final String LOG_TAG = CostSaleProductList.class.getSimpleName();
     FragmentManager fragmentManager;
-    Dialog dialog;
 
     DetailProducts productHistory = new DetailProducts();
     Bundle productHistoryBundle = new Bundle();
 
     KasebDbHelper mOpenHelper;
     SQLiteDatabase mDb;
+
+    AlertDialog.Builder builder;
+    AlertDialog dialogView;
 
     CostSaleProductAdapter mAdapter = null;
     ListView mListView;
@@ -69,11 +70,10 @@ public class CostSaleProductList extends Fragment implements LoaderManager.Loade
     TypesSettingAdapter cursorAdapter = null;
     ContentValues costValues = new ContentValues();
     ContentValues saleValues = new ContentValues();
-    Button cancelButton;
-    Button updateButton;
     private String searchQuery;
     private String sortOrder;
     private int sortId;
+    //endregion declare Values
 
     public CostSaleProductList() {
         super();
@@ -83,6 +83,7 @@ public class CostSaleProductList extends Fragment implements LoaderManager.Loade
     public void onCreate(Bundle savedInstanceState) {
         switch (getArguments().getString("witchActivity")) {
             case "cost": {
+                //region cost
                 mProjection = new String[]{
                         null,
                         KasebContract.Costs.COLUMN_COST_NAME,
@@ -92,15 +93,19 @@ public class CostSaleProductList extends Fragment implements LoaderManager.Loade
                         KasebContract.Costs.COLUMN_COST_TYPE_ID,
                         KasebContract.Costs.COLUMN_DATE};
                 break;
+                //endregion cost
             }
             case "sale": {
+                //region sale
                 mProjection = new String[]{
                         null,
                         KasebContract.Sales.COLUMN_CUSTOMER_ID,
                         KasebContract.Sales.COLUMN_SALE_CODE};
                 break;
+                //endregion sale
             }
             case "product": {
+                //region product
                 mProjection = new String[]{
                         null,
                         KasebContract.Products.COLUMN_PRODUCT_NAME,
@@ -109,6 +114,7 @@ public class CostSaleProductList extends Fragment implements LoaderManager.Loade
                 mOpenHelper = KasebProvider.mOpenHelper;
                 mDb = mOpenHelper.getWritableDatabase();
                 break;
+                //endregion product
             }
             default:
                 break;
@@ -139,16 +145,64 @@ public class CostSaleProductList extends Fragment implements LoaderManager.Loade
                         //region Cost
                         mCursor = (Cursor) parent.getItemAtPosition(position);
                         if (mCursor != null) {
-                            dialog = Utility.dialogBuilder(getActivity()
-                                    , R.layout.dialog_edit_cost
-                                    , R.string.title_edit_cost);
+                            //region Create Alert dialog
+                            builder = new AlertDialog.Builder(getActivity())
+                                    .setView(getActivity().getLayoutInflater().inflate(R.layout.dialog_edit_cost, null))
+                                    .setNegativeButton(R.string.discard_button, new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int whichButton) {
+                                            dialogView.dismiss();
+                                        }
+                                    }).setPositiveButton(R.string.update_button, new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int whichButton) {
+                                        }
+                                    })
+                                    .setTitle(R.string.title_edit_cost);
 
-                            costType = (Spinner) dialog.findViewById(R.id.dialog_edit_cost_type_spinner);
-                            costName = (EditText) dialog.findViewById(R.id.dialog_edit_cost_name);
-                            costAmount = (EditText) dialog.findViewById(R.id.dialog_edit_cost_amount);
-                            costCode = (EditText) dialog.findViewById(R.id.dialog_edit_cost_code);
-                            costDate = (EditText) dialog.findViewById(R.id.dialog_edit_cost_date);
-                            costDescription = (EditText) dialog.findViewById(R.id.dialog_edit_cost_description);
+                            dialogView = builder.create();
+                            dialogView.show();
+
+                            dialogView.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    Boolean wantToCloseDialog = false;
+
+                                    //region update cost
+                                    if (CheckForValidity()) {
+                                        costValues.put(KasebContract.Costs.COLUMN_COST_NAME, costName.getText().toString());
+                                        costValues.put(KasebContract.Costs.COLUMN_COST_CODE, costCode.getText().toString());
+                                        costValues.put(KasebContract.Costs.COLUMN_AMOUNT,
+                                                Utility.convertFarsiNumbersToDecimal(costAmount.getText().toString()));
+                                        costValues.put(KasebContract.Costs.COLUMN_DATE, costDate.getText().toString());
+                                        costValues.put(KasebContract.Costs.COLUMN_DESCRIPTION, costDescription.getText().toString());
+
+                                        getActivity().getContentResolver().update(
+                                                KasebContract.Costs.CONTENT_URI,
+                                                costValues,
+                                                KasebContract.Costs._ID + " = ? ",
+                                                new String[]{mCursor.getString(mCursor.getColumnIndex(KasebContract.Costs._ID))}
+                                        );
+
+                                        //just a message to show everything are under control
+                                        Toast.makeText(getContext(),
+                                                getContext().getResources().getString(R.string.msg_update_succeed), Toast.LENGTH_LONG).show();
+
+                                        wantToCloseDialog = true;
+                                    }
+                                    //endregion update cost
+
+                                    if (wantToCloseDialog)
+                                        dialogView.dismiss();
+                                }
+                            });
+                            //endregion Create Alert dialog
+
+                            //region set Values in Alert dialog
+                            costType = (Spinner) dialogView.findViewById(R.id.dialog_edit_cost_type_spinner);
+                            costName = (EditText) dialogView.findViewById(R.id.dialog_edit_cost_name);
+                            costAmount = (EditText) dialogView.findViewById(R.id.dialog_edit_cost_amount);
+                            costCode = (EditText) dialogView.findViewById(R.id.dialog_edit_cost_code);
+                            costDate = (EditText) dialogView.findViewById(R.id.dialog_edit_cost_date);
+                            costDescription = (EditText) dialogView.findViewById(R.id.dialog_edit_cost_description);
 
                             costName.setText(mCursor.getString(mCursor.getColumnIndex(KasebContract.Costs.COLUMN_COST_NAME)));
                             costAmount.setText(mCursor.getString(mCursor.getColumnIndex(KasebContract.Costs.COLUMN_AMOUNT)));
@@ -198,53 +252,7 @@ public class CostSaleProductList extends Fragment implements LoaderManager.Loade
                                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                                         }
                                     });
-
-                            //region update Button
-                            updateButton = (Button) dialog.findViewById(R.id.dialog_edit_cost_button_update);
-                            updateButton.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    if (CheckForValidity()) {
-                                        costValues.put(KasebContract.Costs.COLUMN_COST_NAME, costName.getText().toString());
-                                        costValues.put(KasebContract.Costs.COLUMN_COST_CODE, costCode.getText().toString());
-                                        costValues.put(KasebContract.Costs.COLUMN_AMOUNT,
-                                                Utility.convertFarsiNumbersToDecimal(costAmount.getText().toString()));
-                                        costValues.put(KasebContract.Costs.COLUMN_DATE, costDate.getText().toString());
-                                        costValues.put(KasebContract.Costs.COLUMN_DESCRIPTION, costDescription.getText().toString());
-
-                                        getActivity().getContentResolver().update(
-                                                KasebContract.Costs.CONTENT_URI,
-                                                costValues,
-                                                KasebContract.Costs._ID + " = ? ",
-                                                new String[]{mCursor.getString(mCursor.getColumnIndex(KasebContract.Costs._ID))}
-                                        );
-
-                                        //just a message to show everything are under control
-                                        Toast.makeText(getContext(),
-                                                getContext().getResources().getString(R.string.msg_delete_succeed), Toast.LENGTH_LONG).show();
-
-                                        dialog.dismiss();
-                                    }
-                                }
-                            });
-                            //endregion update Button
-
-                            //region Cancel Button
-                            cancelButton = (Button) dialog
-                                    .findViewById(R.id.dialog_edit_cost_button_cancel);
-
-                            cancelButton.setOnClickListener(
-                                    new View.OnClickListener() {
-                                        @Override
-                                        public void onClick(View v) {
-                                            dialog.dismiss();
-                                        }
-                                    }
-
-                            );
-                            //endregion Cancel Button
-
-                            dialog.show();
+                            //endregion set Values in Alert dialog
                         }
                         //endregion Cost
                         break;

@@ -10,6 +10,7 @@
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
         android:layout_marginRight="@dimen/activity_horizontal_margin"
         android:layout_marginTop="@dimen/activity_horizontal_margin"
+        android:baselineAligned="false"
         android:orientation="horizontal">
 
         <LinearLayout
@@ -27,8 +28,9 @@
                 android:fontFamily="sans-serif-condensed"
                 android:text="@string/sample_ali_ghorbani"
                 android:textAppearance="?android:textAppearanceMedium"
-                android:textColor="@color/cardview_dark_background"
-                />
+                android:textColor="@color/colorAccent"
+                android:textColorHint="@color/colorAccent"
+                android:textSize="@dimen/text_size_in_list" />
 
             <TextView
                 android:id="@+id/item_list_date"
@@ -37,7 +39,10 @@
                 android:layout_marginTop="@dimen/cardview_default_radius"
                 android:layout_weight="1"
                 android:text="@string/sample_due_date_1_day"
-                android:textAppearance="?android:textAppearanceSmall" />
+                android:textAppearance="?android:textAppearanceSmall"
+                android:textColor="@color/colorAccent"
+                android:textColorHint="@color/colorAccent"
+                android:textSize="@dimen/text_size_in_list" />
 
             <TextView
                 android:id="@+id/item_list_code"
@@ -47,7 +52,9 @@
                 android:layout_weight="2"
                 android:text="@string/sample_2_invoice_code"
                 android:textAppearance="?android:textAppearanceMedium"
-                android:textColor="@color/colorPrimary" />
+                android:textColor="@color/colorAccent"
+                android:textColorHint="@color/colorAccent"
+                android:textSize="@dimen/text_size_in_list" />
         </LinearLayout>
 
         <LinearLayout
@@ -62,6 +69,7 @@
                 android:id="@+id/cost_sale_product_tag_image"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:contentDescription="@string/cost_sale_product_tag_image_title"
                 android:src="@drawable/open_marked_circle"
                 android:visibility="invisible" />
         </LinearLayout>
@@ -75,12 +83,15 @@
             <TextView
                 android:id="@+id/item_list_amount"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:layout_weight="6"
                 android:fontFamily="sans-serif-condensed"
                 android:gravity="center"
                 android:text="@string/sample_text_purchase_of_customer_amount"
-                android:textAppearance="?android:textAppearanceLarge" />
+                android:textAppearance="?android:textAppearanceLarge"
+                android:textColor="@color/colorAccent"
+                android:textColorHint="@color/colorAccent"
+                android:textSize="@dimen/text_size_in_list" />
         </LinearLayout>
     </LinearLayout>
 </FrameLayout>

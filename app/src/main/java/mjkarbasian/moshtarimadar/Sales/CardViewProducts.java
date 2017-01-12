@@ -67,11 +67,11 @@ public class CardViewProducts extends Fragment {
                 //region Create AlertDialog
                 builder = new AlertDialog.Builder(getActivity())
                         .setView(getActivity().getLayoutInflater().inflate(R.layout.dialog_edit_chosen_product_for_sale, null))
-                        .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                        .setNegativeButton(R.string.discard_button, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int whichButton) {
                                 dialogView.dismiss();
                             }
-                        }).setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                        }).setPositiveButton(R.string.save, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int whichButton) {
                             }
                         })

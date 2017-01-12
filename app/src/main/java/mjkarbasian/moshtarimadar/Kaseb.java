@@ -20,8 +20,6 @@ public class Kaseb extends DrawerActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         Utility.initializer(this);
         fragmentManager.beginTransaction().replace(R.id.container, kasebDashBoard, "KasebDashBoard").commit();
-
-
     }
 
     @Override
@@ -29,5 +27,4 @@ public class Kaseb extends DrawerActivity {
         super.onStop();
         finish();
     }
-
 }

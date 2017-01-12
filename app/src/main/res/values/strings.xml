@@ -437,4 +437,9 @@
     <string name="not_enough_stock">There is not enough good in stock.</string>
     <string name="less_than_stock_explain_text">Enter quantity/amount of selected product.\ninput must be less than good in stock.</string>
     <string name="edit_quantity">Change quantity</string>
+    <string name="discard_button">Discard</string>
+    <string name="state_type_image_box_title">stateType</string>
+    <string name="not_more_hundred">The percent can\'t be more than hundred.</string>
+    <string name="not_more_than_sale_price">Discount amount can\'t be more than sale price.</string>
+    <string name="cost_sale_product_tag_image_title">costSaleProductTagImage</string>
 </resources>

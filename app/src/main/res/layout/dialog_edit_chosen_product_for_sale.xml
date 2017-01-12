@@ -10,6 +10,8 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/design_snackbar_padding_vertical_2lines"
-        android:inputType="number" />
+        android:inputType="number"
+        android:textColor="@color/colorAccent"
+        android:textColorHint="@color/colorAccent" />
 
 </LinearLayout>

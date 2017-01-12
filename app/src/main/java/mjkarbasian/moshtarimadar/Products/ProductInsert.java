@@ -73,12 +73,20 @@ public class ProductInsert extends Fragment {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 try {
                     Float mDiscountAmount = Float.valueOf(discountAmount.getText().toString());
-                    Float mBuyPrice = Float.valueOf(buyPrice.getText().toString());
+                    Float mSalePrice = Float.valueOf(salePrice.getText().toString());
 
-                    if (mDiscountAmount > mBuyPrice)
-                        discountAmount.setText(buyPrice.getText().toString());
+                    if (mDiscountAmount > mSalePrice) {
+                        discountAmount.setText(salePrice.getText().toString());
+                        Utility.setErrorForEditText(getActivity(), discountAmount,
+                                getResources().getString(R.string.not_more_than_sale_price));
+                        discountAmount.setSelectAllOnFocus(true);
+                        discountAmount.selectAll();
+                    }
                 } catch (Exception e) {
-                    salePrice.setText("");
+                    if (salePrice.getText().toString().equals(null) || salePrice.getText().toString().equals(""))
+                        Utility.setErrorForEditText(getActivity(), salePrice, "");
+                    else
+                        Utility.setErrorForEditText(getActivity(), discountAmount, "");
                 }
             }
 
@@ -86,11 +94,14 @@ public class ProductInsert extends Fragment {
             public void afterTextChanged(Editable s) {
                 try {
                     Float mDiscountAmount = Float.valueOf(discountAmount.getText().toString());
-                    Float mBuyPrice = Float.valueOf(buyPrice.getText().toString());
+                    Float mSalePrice = Float.valueOf(salePrice.getText().toString());
 
-                    salePrice.setText(String.format("%.0f", Float.valueOf(mBuyPrice - mDiscountAmount)));
+                    buyPrice.setText(String.format("%.2f", Float.valueOf(mSalePrice - mDiscountAmount)));
                 } catch (Exception e) {
-                    salePrice.setText("");
+                    if (salePrice.getText().toString().equals(null) || salePrice.getText().toString().equals(""))
+                        Utility.setErrorForEditText(getActivity(), salePrice, "");
+                    else
+                        Utility.setErrorForEditText(getActivity(), discountAmount, "");
                 }
             }
         });
@@ -104,11 +115,22 @@ public class ProductInsert extends Fragment {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 try {
                     Float mDiscountPercent = Float.valueOf(discountPercent.getText().toString());
+                    Float mSalePrice = Float.valueOf(salePrice.getText().toString());
 
-                    if (mDiscountPercent > 100)
-                        discountPercent.setText("100");
+                    if (mDiscountPercent > 100) {
+                        discountAmount.setText(String.format("%.2f", Float.valueOf(mDiscountPercent * mSalePrice / 100)));
+
+                        discountPercent.setText(Utility.doubleFormatter(100));
+                        Utility.setErrorForEditText(getActivity(), discountPercent,
+                                getResources().getString(R.string.not_more_hundred));
+                        discountPercent.setSelectAllOnFocus(true);
+                        discountPercent.selectAll();
+                    }
                 } catch (Exception e) {
-                    salePrice.setText("");
+                    if (salePrice.getText().toString().equals(null) || salePrice.getText().toString().equals(""))
+                        Utility.setErrorForEditText(getActivity(), salePrice, "");
+                    else
+                        Utility.setErrorForEditText(getActivity(), discountPercent, "");
                 }
             }
 
@@ -116,11 +138,16 @@ public class ProductInsert extends Fragment {
             public void afterTextChanged(Editable s) {
                 try {
                     Float mDiscountPercent = Float.valueOf(discountPercent.getText().toString());
-                    Float mBuyPrice = Float.valueOf(buyPrice.getText().toString());
+                    Float mSalePrice = Float.valueOf(salePrice.getText().toString());
 
-                    salePrice.setText(String.format("%.0f", Float.valueOf((100 - mDiscountPercent) * mBuyPrice / 100)));
+                    buyPrice.setText(String.format("%.2f",
+                            Float.valueOf((float) ((Float.valueOf(100 - mDiscountPercent) / 100.0) * mSalePrice))));
+                    discountAmount.setText(String.format("%.2f", Float.valueOf(mDiscountPercent * mSalePrice / 100)));
                 } catch (Exception e) {
-                    salePrice.setText("");
+                    if (salePrice.getText().toString().equals(null) || salePrice.getText().toString().equals(""))
+                        Utility.setErrorForEditText(getActivity(), salePrice, "");
+                    else
+                        Utility.setErrorForEditText(getActivity(), discountPercent, "");
                 }
             }
         });
@@ -192,11 +219,11 @@ public class ProductInsert extends Fragment {
 
     // this method check the validation and correct entries. its check fill first and then check the validation rules.
     private boolean CheckForValidity() {
-        if (!Utility.checkForValidityForEditTextNullOrEmpty(getActivity(), buyPrice))
+        if (!Utility.checkForValidityForEditTextNullOrEmpty(getActivity(), salePrice))
             return false;
         else if (!Utility.checkForValidityForEditTextNullOrEmpty(getActivity(), quantity))
             return false;
-        else if (!Utility.checkForValidityForEditTextNullOrEmpty(getActivity(), salePrice))
+        else if (!Utility.checkForValidityForEditTextNullOrEmpty(getActivity(), buyPrice))
             return false;
         else if (!Utility.checkForValidityForEditTextNullOrEmpty(getActivity(), buyDate))
             return false;

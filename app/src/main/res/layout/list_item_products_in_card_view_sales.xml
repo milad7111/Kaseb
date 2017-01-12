@@ -8,7 +8,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/top_of_list_margin_in_row"
+        android:layout_marginTop="@dimen/top_of_list_margin"
+        android:baselineAligned="false"
         android:gravity="center"
         android:orientation="horizontal">
 
@@ -28,7 +29,8 @@
                 android:fontFamily="sans-serif-condensed"
                 android:hint="@string/sample_product_name"
                 android:textAppearance="?android:textAppearanceMedium"
-                android:textColor="@color/colorPrimary"
+                android:textColor="@color/colorAccent"
+                android:textColorHint="@color/colorAccent"
                 android:textSize="@dimen/text_size_in_list" />
 
             <TextView
@@ -41,7 +43,8 @@
                 android:gravity="left"
                 android:hint="@string/sample_2_invoice_code"
                 android:textAppearance="?android:textAppearanceMedium"
-                android:textColor="@color/colorPrimary"
+                android:textColor="@color/colorAccent"
+                android:textColorHint="@color/colorAccent"
                 android:textSize="@dimen/text_size_in_list" />
         </LinearLayout>
 
@@ -60,7 +63,8 @@
                 android:fontFamily="sans-serif-condensed"
                 android:gravity="center"
                 android:textAppearance="?android:textAppearanceMedium"
-                android:textColor="@color/colorPrimary"
+                android:textColor="@color/colorAccent"
+                android:textColorHint="@color/colorAccent"
                 android:textSize="@dimen/text_size_in_list" />
         </LinearLayout>
 
@@ -80,7 +84,8 @@
                 android:gravity="center"
                 android:hint="@string/sample_text_purchase_of_customer_amount"
                 android:textAppearance="?android:textAppearanceMedium"
-                android:textColor="@color/colorPrimary"
+                android:textColor="@color/colorAccent"
+                android:textColorHint="@color/colorAccent"
                 android:textSize="@dimen/text_size_in_list" />
         </LinearLayout>
     </LinearLayout>

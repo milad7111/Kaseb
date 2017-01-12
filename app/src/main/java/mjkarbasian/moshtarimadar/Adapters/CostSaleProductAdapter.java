@@ -18,7 +18,6 @@ import mjkarbasian.moshtarimadar.R;
  */
 public class CostSaleProductAdapter extends CursorAdapter {
 
-
     String witchActivity;
     String firstName;
     String lastName;
@@ -103,8 +102,6 @@ public class CostSaleProductAdapter extends CursorAdapter {
                 //endregion
 
                 code = cursor.getString(cursor.getColumnIndex(KasebContract.Sales.COLUMN_SALE_CODE));
-
-
 
                 break;
             }

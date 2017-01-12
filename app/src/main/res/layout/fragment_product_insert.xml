@@ -46,13 +46,13 @@
         android:maxLength="50" />
 
     <EditText
-        android:id="@+id/input_buy_price"
+        android:id="@+id/input_sale_price"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:layout_marginTop="4dp"
-        android:hint="@string/hint_buy_price"
+        android:hint="@string/hint_sale_price"
         android:inputType="numberDecimal"
         android:maxLength="15" />
 
@@ -68,13 +68,13 @@
         android:maxLength="10" />
 
     <EditText
-        android:id="@+id/input_sale_price"
+        android:id="@+id/input_buy_price"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:layout_marginTop="4dp"
-        android:hint="@string/hint_sale_price"
+        android:hint="@string/hint_buy_price"
         android:inputType="numberDecimal"
         android:maxLength="15" />
 

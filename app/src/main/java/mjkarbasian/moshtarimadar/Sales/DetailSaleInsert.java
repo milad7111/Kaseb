@@ -425,11 +425,11 @@ public class DetailSaleInsert extends AppCompatActivity {
         //region List all products
         builder = new AlertDialog.Builder(DetailSaleInsert.this)
                 .setView(getLayoutInflater().inflate(R.layout.dialog_add_number_of_product_for_sale, null))
-                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                .setNegativeButton(R.string.discard_button, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         dialogView.dismiss();
                     }
-                }).setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                }).setPositiveButton(R.string.save, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
                     }
                 })
@@ -558,11 +558,11 @@ public class DetailSaleInsert extends AppCompatActivity {
         //region create payment dialog
         builder = new AlertDialog.Builder(DetailSaleInsert.this)
                 .setView(getLayoutInflater().inflate(R.layout.dialog_add_payment_for_sale, null))
-                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                .setNegativeButton(R.string.discard_button, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         dialogView.dismiss();
                     }
-                }).setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                }).setPositiveButton(R.string.save, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         //region insert payment
                         paymentMapRow.put("amount", paymentAmount.getText().toString());
@@ -652,11 +652,11 @@ public class DetailSaleInsert extends AppCompatActivity {
         //region create payment dialog
         builder = new AlertDialog.Builder(DetailSaleInsert.this)
                 .setView(getLayoutInflater().inflate(R.layout.dialog_add_tax_for_sale, null))
-                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                .setNegativeButton(R.string.discard_button, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         dialogView.dismiss();
                     }
-                }).setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                }).setPositiveButton(R.string.save, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         //region insert payment
                         taxMapRow.put("amount", taxAmount.getText().toString());
