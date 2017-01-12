@@ -1,65 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical">
 
 
-    <EditText
-        android:id="@+id/dialog_edit_cost_name"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/hint_cost_name"
-        android:maxLength="30" />
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/design_snackbar_padding_vertical_2lines"
+        android:orientation="vertical">
 
-    <EditText
-        android:id="@+id/dialog_edit_cost_code"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/hint_cost_code"
-        android:maxLength="15" />
+        <EditText
+            android:id="@+id/dialog_edit_cost_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/hint_cost_name"
+            android:maxLength="30" />
 
-    <EditText
-        android:id="@+id/dialog_edit_cost_amount"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/hint_cost_amount"
-        android:inputType="number"
-        android:maxLength="15" />
+        <EditText
+            android:id="@+id/dialog_edit_cost_code"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/hint_cost_code"
+            android:maxLength="15" />
 
-    <Spinner
-        android:id="@+id/dialog_edit_cost_type_spinner"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:spinnerMode="dropdown" />
+        <EditText
+            android:id="@+id/dialog_edit_cost_amount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/hint_cost_amount"
+            android:inputType="number"
+            android:maxLength="15" />
 
-    <EditText
-        android:id="@+id/dialog_edit_cost_date"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/hint_date_picker"
-        android:inputType="date"
-        android:maxLength="10" />
+        <Spinner
+            android:id="@+id/dialog_edit_cost_type_spinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:spinnerMode="dropdown" />
 
-    <EditText
-        android:id="@+id/dialog_edit_cost_description"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/hint_description"
-        android:inputType="textMultiLine"
-        android:maxLength="15" />
+        <EditText
+            android:id="@+id/dialog_edit_cost_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/hint_date_picker"
+            android:inputType="date"
+            android:maxLength="10" />
 
-    <Button
-        android:id="@+id/dialog_edit_cost_button_update"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:text="@string/update_button" />
+        <EditText
+            android:id="@+id/dialog_edit_cost_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/hint_description"
+            android:inputType="textMultiLine"
+            android:maxLength="15" />
 
-    <Button
-        android:id="@+id/dialog_edit_cost_button_cancel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:text="@string/cancel_button" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/dialog_edit_cost_button_update"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_weight="1"
+                android:text="@string/update_button" />
+
+            <Button
+                android:id="@+id/dialog_edit_cost_button_cancel"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_weight="1"
+                android:text="@string/cancel_button" />
+        </LinearLayout>
+    </LinearLayout>
+
 </LinearLayout>

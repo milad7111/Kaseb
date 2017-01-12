@@ -181,7 +181,7 @@ public class ProductInsert extends Fragment {
                     Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.msg_insert_succeed),
                             Toast.LENGTH_LONG).show();
 
-                    getFragmentManager().popBackStackImmediate();
+                    backToLastPage();
                 }
 
                 break;

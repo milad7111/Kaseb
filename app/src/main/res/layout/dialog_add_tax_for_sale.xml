@@ -1,39 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical">
 
 
-    <EditText
-        android:id="@+id/add_tax_for_sale_text1"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/hint_tax_amount"
-        android:inputType="number|numberDecimal" />
-
-    <EditText
-        android:id="@+id/add_tax_for_sale_text2"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:allowUndo="false"
-        android:hint="@string/hint_tax_percent"
-        android:inputType="number|numberDecimal" />
-
-    <Spinner
-        android:id="@+id/input_tax_type_spinner"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:spinnerMode="dropdown" />
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/design_snackbar_padding_vertical_2lines"
+        android:orientation="vertical">
 
-    <Button
-        android:id="@+id/add_tax_for_sale_button1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/add_tax_for_sale_text1"
-        android:layout_centerHorizontal="true"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="51dp"
-        android:text="Save" />
+        <EditText
+            android:id="@+id/add_tax_for_sale_text1"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/hint_tax_amount"
+            android:inputType="number|numberDecimal" />
+
+        <EditText
+            android:id="@+id/add_tax_for_sale_text2"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:allowUndo="false"
+            android:hint="@string/hint_tax_percent"
+            android:inputType="number|numberDecimal" />
+
+        <Spinner
+            android:id="@+id/input_tax_type_spinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:spinnerMode="dropdown" />
+
+    </LinearLayout>
 
 </LinearLayout>

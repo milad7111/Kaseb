@@ -37,5 +37,14 @@
         <item name="android:textSize">18sp</item>
     </style>
 
+    <style name="card_view">
+
+        <item name="android:layout_marginLeft">@dimen/activity_horizontal_margin</item>
+        <item name="android:layout_marginRight">@dimen/activity_horizontal_margin</item>
+        <item name="android:nestedScrollingEnabled">true</item>
+        <item name="android:layout_marginTop">@dimen/activity_horizontal_margin</item>
+
+    </style>
+
 </resources>
 

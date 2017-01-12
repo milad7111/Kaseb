@@ -56,10 +56,8 @@ public class TaxAdapter extends BaseAdapter {
         TextView percentText = (TextView) view.findViewById(R.id.tax_list_for_sale_tax_percent);
         TextView typeText = (TextView) view.findViewById(R.id.tax_list_for_sale_tax_type);
 
-        amountText.setText(
-                Utility.doubleFormatter(
-                        Long.parseLong(
-                                mTaxDetailsListHashMap.get(position).get("amount"))));
+        amountText.setText(Utility.DecimalSeperation(mContext,
+                Long.parseLong(mTaxDetailsListHashMap.get(position).get("amount"))));
 
         percentText.setText(
                 mTaxDetailsListHashMap.get(position).get("percent") + " %");

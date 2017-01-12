@@ -71,8 +71,8 @@ public class CardViewPayments extends Fragment {
                     _amount = cursor.get("amount");
 
                     new AlertDialog.Builder(getActivity())
-                            .setTitle("Confirmation ...")
-                            .setMessage("Do You Really Want to Delete This PAYMENT?\n\nPayment Amount : " + _amount)
+                            .setTitle(getActivity().getResources().getString(R.string.confirm_title))
+                            .setMessage(getActivity().getString(R.string.confirm_delete_payment) + _amount)
                             .setIcon(android.R.drawable.ic_dialog_alert)
                             .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
 

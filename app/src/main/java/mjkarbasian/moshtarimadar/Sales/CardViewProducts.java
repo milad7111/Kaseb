@@ -1,7 +1,6 @@
 package mjkarbasian.moshtarimadar.Sales;
 
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -10,10 +9,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -30,11 +27,19 @@ public class CardViewProducts extends Fragment {
     ProductAdapter mChosenProductAdapter;
     ArrayList<Map<String, String>> mProductListHashMap;
     View view;
+    Map<String, String> cursor;
+    EditText howManyEditTextForEdit;
+    int index;
+
     String _id;
     String _nameOfProduct;
     String activity;
+
     Long differneceOfBuy_Sale;
     Long mDetailSaleId = 0l;
+
+    AlertDialog.Builder builder;
+    AlertDialog dialogView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -56,11 +61,65 @@ public class CardViewProducts extends Fragment {
         productListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                final Map<String, String> cursor = (Map<String, String>) parent.getItemAtPosition(position);
+
+                cursor = (Map<String, String>) parent.getItemAtPosition(position);
+
+                //region Create AlertDialog
+                builder = new AlertDialog.Builder(getActivity())
+                        .setView(getActivity().getLayoutInflater().inflate(R.layout.dialog_edit_chosen_product_for_sale, null))
+                        .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                dialogView.dismiss();
+                            }
+                        }).setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                            }
+                        })
+                        .setTitle(R.string.edit_quantity)
+                        .setMessage(R.string.less_than_stock_explain_text);
+
+                dialogView = builder.create();
+                dialogView.show();
+
+                dialogView.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Boolean wantToCloseDialog = false;
+
+                        Long num = Long.parseLong(howManyEditTextForEdit.getText().toString());
+
+                        if (differneceOfBuy_Sale >= num) {
+                            mProductListHashMap.set(index,
+                                    Utility.setValueWithIndexInKeyOfMapRow(
+                                            cursor,
+                                            "quantity",
+                                            String.valueOf(num)
+                                    ));
+
+                            productListView.setAdapter(mChosenProductAdapter);
+
+                            if (activity.equals("insert"))
+                                ((DetailSaleInsert) getActivity()).setValuesOfFactor();
+                            else if (activity.equals("view"))
+                                ((DetailSaleView) getActivity()).setValuesOfFactor();
+
+                            Utility.setHeightOfListView(productListView);
+
+                            wantToCloseDialog = true;
+                        } else
+                            Utility.setErrorForEditText(getActivity(), howManyEditTextForEdit, getResources().getString(R.string.not_enough_stock));
+
+                        if (wantToCloseDialog)
+                            dialogView.dismiss();
+                    }
+                });
+                //endregion Create AlertDialog
+
+                //region Set Views To Dialog
                 if (cursor != null) {
                     _id = cursor.get("id");
 
-                    final int index = Utility.indexOfRowsInMap(mProductListHashMap, "id", _id);
+                    index = Utility.indexOfRowsInMap(mProductListHashMap, "id", _id);
 
                     if (activity.equals("insert"))
                         //in this line does not matter post 0l to second parameter of function because not use in this case
@@ -70,61 +129,12 @@ public class CardViewProducts extends Fragment {
                         differneceOfBuy_Sale = Utility.checkNumberOfProductsForDetailSale(getActivity(),
                                 mDetailSaleId, "SaleView", Long.parseLong(_id));
 
-                    //region Show Dialog To Edit Number Of Product
-                    final Dialog howManyOfThatForEdit = Utility.dialogBuilder(getActivity()
-                            , R.layout.dialog_edit_chosen_product_for_sale
-                            , R.string.how_many);
-
-                    final EditText howManyEditTextForEdit = (EditText) howManyOfThatForEdit
+                    howManyEditTextForEdit = (EditText) dialogView
                             .findViewById(R.id.edit_chosen_product_for_sale_number);
 
-                    howManyEditTextForEdit.setHint("Stock is : " + differneceOfBuy_Sale);
-
-                    Button saveButtonForEdit = (Button) howManyOfThatForEdit
-                            .findViewById(R.id.edit_chosen_product_for_sale_save);
-
-                    saveButtonForEdit.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Long num = Long.parseLong(howManyEditTextForEdit.getText().toString());
-
-                            if (differneceOfBuy_Sale >= num) {
-                                mProductListHashMap.set(index,
-                                        Utility.setValueWithIndexInKeyOfMapRow(
-                                                cursor,
-                                                "quantity",
-                                                String.valueOf(num)
-                                        ));
-
-                                productListView.setAdapter(mChosenProductAdapter);
-
-                                if (activity.equals("insert"))
-                                    ((DetailSaleInsert) getActivity()).setValuesOfFactor();
-                                else if (activity.equals("view"))
-                                    ((DetailSaleView) getActivity()).setValuesOfFactor();
-
-                                Utility.setHeightOfListView(productListView);
-
-                                howManyOfThatForEdit.dismiss();
-                            } else
-                                Toast.makeText(getContext(), "There is not enough good in stock.",
-                                        Toast.LENGTH_SHORT).show();
-                        }
-                    });
-
-                    Button cancelButtonForEdit = (Button) howManyOfThatForEdit
-                            .findViewById(R.id.edit_chosen_product_for_sale_cancel);
-
-                    cancelButtonForEdit.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            howManyOfThatForEdit.dismiss();
-                        }
-                    });
-
-                    howManyOfThatForEdit.show();
-                    //endregion Show Dialog To Edit Number Of Product
+                    howManyEditTextForEdit.setHint(getString(R.string.stock_product) + differneceOfBuy_Sale);
                 }
+                //endregion Set Views To Dialog
             }
         });
         //endregion ProductListView OnItemClickListener
@@ -158,7 +168,6 @@ public class CardViewProducts extends Fragment {
                                 }
                             })
                             .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-
                                 public void onClick(DialogInterface dialog, int whichButton) {
                                 }
                             }).show();

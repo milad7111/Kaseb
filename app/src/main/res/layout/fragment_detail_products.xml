@@ -8,20 +8,17 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
         android:orientation="vertical">
-
-        <ImageView
-            android:id="@+id/image_product"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:elevation="8dp"
-            android:scaleType="center" />
 
         <android.support.v7.widget.CardView
             android:id="@+id/card_product_detail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/activity_horizontal_margin"
+            android:layout_gravity="center"
+            android:layout_marginTop="6dp"
             android:elevation="8dp">
 
             <LinearLayout
@@ -34,6 +31,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
                     android:background="@color/colorPrimary"
                     android:gravity="center"
                     android:padding="4dp"
@@ -44,14 +42,17 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="3dp"
                     android:orientation="horizontal"
                     android:padding="4dp">
 
                     <TextView
                         android:layout_width="0dp"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginRight="1dp"
                         android:layout_weight="1"
-                        android:gravity="start|left"
+                        android:gravity="left"
                         android:text="@string/title_product_name"
                         android:textAppearance="?android:textAppearanceMedium"
                         android:textColor="@color/colorPrimary" />
@@ -59,9 +60,9 @@
                     <EditText
                         android:id="@+id/detail_product_name"
                         android:layout_width="0dp"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:gravity="center"
+                        android:gravity="left"
                         android:textAppearance="?android:textAppearanceMedium"
                         android:textColor="@color/colorPrimary" />
                 </LinearLayout>
@@ -69,14 +70,17 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="3dp"
                     android:orientation="horizontal"
                     android:padding="4dp">
 
                     <TextView
                         android:layout_width="0dp"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginRight="1dp"
                         android:layout_weight="1"
-                        android:gravity="start|left"
+                        android:gravity="left"
                         android:text="@string/title_product_code"
                         android:textAppearance="?android:textAppearanceMedium"
                         android:textColor="@color/colorPrimary" />
@@ -84,9 +88,9 @@
                     <EditText
                         android:id="@+id/detail_product_code"
                         android:layout_width="0dp"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:gravity="center"
+                        android:gravity="left"
                         android:textAppearance="?android:textAppearanceMedium"
                         android:textColor="@color/colorPrimary" />
                 </LinearLayout>
@@ -94,14 +98,17 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="3dp"
                     android:orientation="horizontal"
                     android:padding="4dp">
 
                     <TextView
                         android:layout_width="0dp"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginRight="1dp"
                         android:layout_weight="1"
-                        android:gravity="start|left"
+                        android:gravity="left"
                         android:text="@string/title_product_unit"
                         android:textAppearance="?android:textAppearanceMedium"
                         android:textColor="@color/colorPrimary" />
@@ -109,9 +116,9 @@
                     <EditText
                         android:id="@+id/detail_product_unit"
                         android:layout_width="0dp"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:gravity="center"
+                        android:gravity="left"
                         android:textAppearance="?android:textAppearanceMedium"
                         android:textColor="@color/colorPrimary" />
                 </LinearLayout>
@@ -119,14 +126,17 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="3dp"
                     android:orientation="horizontal"
                     android:padding="4dp">
 
                     <TextView
                         android:layout_width="0dp"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginRight="1dp"
                         android:layout_weight="1"
-                        android:gravity="start|left"
+                        android:gravity="left"
                         android:text="@string/title_product_description"
                         android:textAppearance="?android:textAppearanceMedium"
                         android:textColor="@color/colorPrimary" />
@@ -134,9 +144,9 @@
                     <EditText
                         android:id="@+id/detail_product_description"
                         android:layout_width="0dp"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:gravity="center"
+                        android:gravity="left"
                         android:textAppearance="?android:textAppearanceMedium"
                         android:textColor="@color/colorPrimary" />
                 </LinearLayout>
@@ -147,7 +157,8 @@
             android:id="@+id/card_detail_price_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/activity_horizontal_margin"
+            android:layout_gravity="center"
+            android:layout_marginTop="8dp"
             android:elevation="8dp">
 
             <LinearLayout
@@ -163,6 +174,7 @@
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_marginRight="1dp"
                         android:layout_weight="1"
                         android:background="@color/colorPrimary"
                         android:gravity="center"
@@ -197,6 +209,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="false"
         android:layout_gravity="bottom|end"
+        android:layout_marginBottom="16dp"
+        android:layout_marginRight="16dp"
         android:gravity="bottom|right"
         android:onClick="fab_detail_product"
         android:src="@android:drawable/ic_input_add" />

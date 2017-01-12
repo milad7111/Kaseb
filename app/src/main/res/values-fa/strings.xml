@@ -189,7 +189,6 @@ CRM یا همان نرم افزار مدیریت ارتباط با مشتری ب
     <string name="hint_email">ایمیل</string>
     <string name="hint_first_name">نام</string>
     <string name="hint_last_name">نام خانوادگی</string>
-    <string name="hint_number_product">تعداد</string>
     <string name="hint_payment_amount">مبلغ پرداخت</string>
     <string name="hint_phone_fax">فکس</string>
     <string name="hint_phone_home">شماره تماس منزل</string>
@@ -291,14 +290,15 @@ CRM یا همان نرم افزار مدیریت ارتباط با مشتری ب
     <string name="validity_error_dsale_select_product">برای ثبت فروش باید محصول وارد کنی</string>
     <string name="confirm_delete_customer_list_factors">فاکتور ثبت شده </string>
     <string name="confirm_delete_customer_list_it_has">نمیتونی پاکش کنی، چون این مشتری در </string>
-    <string name="confirm_delete_product_list"> میخوای این محصول رو پاک کنی؟</string>
+    <string name="confirm_delete_product_list">میخوای این محصول رو پاک کنی؟\n</string>
     <string name="confirm_delete_product_list_it_has">نمی تونی پاکش کنی، چون این در </string>
-    <string name="confirm_message_delete_customer_image"> میخوای عکس این مشتری رو پاک کنی؟</string>
-    <string name="confirm_message_delete_sale"> می خوای این فروش رو پاک کنی؟</string>
-    <string name="confirm_message_delete_this_cost">میخوای این هزینه رو پاک کنی؟</string>
-    <string name="confirm_title">واقعا.....</string>
-    <string name="confirm_want_delete_customer_info">میخوای اطلاعات این مشتری رو پاک کنی؟</string>
-    <string name="confirm_delete_tax">میخوای این تخفیف یا مالیات رو پاک کنی</string>
+    <string name="confirm_message_delete_customer_image">میخوای عکس این مشتری رو پاک کنی؟\n</string>
+    <string name="confirm_message_delete_sale">می خوای این فروش رو پاک کنی؟\n</string>
+    <string name="confirm_message_delete_this_cost">می خوای این هزینه رو پاک کنی؟\n</string>
+    <string name="confirm_title">پیغام تأیید</string>
+    <string name="confirm_want_delete_customer_info">می خوای اطلاعات این مشتری رو پاک کنی؟\n</string>
+    <string name="confirm_delete_tax">می خوای این تخفیف/مالیات رو پاک کنی؟\n</string>
+    <string name="confirm_delete_payment">می خوای این پرداخت رو پاک کنی؟\n</string>
 
     //region Sales Invoice Print
     <string name="title_of_print_invoice">فاکتور فروش</string>
@@ -326,11 +326,11 @@ CRM یا همان نرم افزار مدیریت ارتباط با مشتری ب
     <string name="invoice_sale_code">کد فروش :  </string>
     <string name="good_title">محصول</string>
     <string name="customer_info">مشتری : </string>
-    <string name="choose_apropriate_data">داده مناسب وارد کنید</string>
+    <string name="choose_appropriate_data">داده مناسب وارد کنید</string>
     <string name="buyer_title">خریدار</string>
     <string name="amount_title">مبلغ</string>
     <string name="seller_address">آدرس کاسب : </string>
-    <string name="seller_info">فروشنده : </string>
+    <string name="seller_info">کاسب : </string>
     <string name="seller_tell">تلفن کاسب : </string>
     <string name="seller_title">فروشنده</string>
     <string name="stamp_and_signature">مهر و امضا</string>
@@ -343,4 +343,9 @@ CRM یا همان نرم افزار مدیریت ارتباط با مشتری ب
 
     <string name="date_format_error">\n(YYYY/M/D : 1395/1/1)</string>
     <string name="not_minus_number">این مقدار نباید کم تر از صفر باشد.</string>
+    <string name="more_than_balance_amount">این مقدار نباید از مانده فاکتور بیشتر باشد.</string>
+    <string name="stock_product">تعداد (مقدار) موجود : </string>
+    <string name="not_enough_stock">متعداد (مقدار) کافی موجود نیست.</string>
+    <string name="less_than_stock_explain_text">تعداد (مقدار) کالای انتخاب شده را وارد کنید.\nاین عدد نباید از موجودی انبار بیشتر باسد.</string>
+    <string name="edit_quantity">تغغیر تعداد (مقدار)</string>
 </resources>

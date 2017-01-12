@@ -8,11 +8,13 @@ import android.database.Cursor;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Environment;
+import android.text.InputType;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -107,6 +109,23 @@ public class Utility {
     private static BaseColor mainTitleColorTables = new BaseColor(255, 255, 255);
     private static Context _mContext;
     private static Document _mDocument;
+
+
+    public static EditText createCustomDecimalInputEditText(Context mContext, String mHint) {
+        EditText mEditText = new EditText(mContext);
+        mEditText.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
+        mEditText.setHint(mHint);
+        mEditText.setHintTextColor(mContext.getResources().getColor(R.color.colorAccent));
+        mEditText.setTextColor(mContext.getResources().getColor(R.color.colorAccent));
+
+        LinearLayout.LayoutParams mLayoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        int mMargin = dipConverter(24, mContext);
+        mLayoutParams.setMargins(mMargin, mMargin, mMargin, mMargin);
+
+        mEditText.setLayoutParams(mLayoutParams);
+
+        return mEditText;
+    }
 
     public static void printInvoice(Context mContext, String mSaleDate, String mSaleCode, String mNameCustomer,
                                     String mFamilyCustomer, ArrayList<Long> mSummaryOfInvoice,
@@ -224,12 +243,17 @@ public class Utility {
     }
 
     private static void setErrorForEditText(EditText mEditText) {
-        mEditText.setError(_mContext.getString(R.string.choose_apropriate_data));
+        mEditText.setError(_mContext.getString(R.string.choose_appropriate_data));
         mEditText.requestFocus();
     }
 
     public static void setErrorForEditText(EditText mEditText, String mMessage) {
-        mEditText.setError(_mContext.getString(R.string.choose_apropriate_data) + mMessage);
+        mEditText.setError(_mContext.getString(R.string.choose_appropriate_data) + mMessage);
+        mEditText.requestFocus();
+    }
+
+    public static void setErrorForEditText(Context mContext, EditText mEditText, String mMessage) {
+        mEditText.setError(mContext.getString(R.string.choose_appropriate_data) + mMessage);
         mEditText.requestFocus();
     }
 
@@ -1310,7 +1334,8 @@ public class Utility {
                                 )), createFontWithSize(mSmallSize)));
                 setBackGroundColor_P_BW_HA_VA(mCell2, mainTitleColorTables, 5, 3, Element.ALIGN_CENTER, Element.ALIGN_CENTER);
 
-                mCell3 = new PdfPCell(new Phrase(createFloatNumberWithString(_mContext, mTaxListMap.get(i).get("percent").toString())
+                mCell3 = new PdfPCell(new Phrase(String.format("%.2f",
+                        createFloatNumberWithString(_mContext, mTaxListMap.get(i).get("percent").toString()))
                         + " %", createFontWithSize(mSmallSize)));
 
                 setBackGroundColor_P_BW_HA_VA(mCell3, mainTitleColorTables, 5, 3, Element.ALIGN_CENTER, Element.ALIGN_CENTER);
@@ -1326,8 +1351,7 @@ public class Utility {
                     table.addCell(mCell3);
                 }
                 //endregion Add Columns
-            } else
-                continue;
+            }
         }
         //endregion Add Data For Taxes In Invoice
 
@@ -1371,7 +1395,7 @@ public class Utility {
         int j = 0;
         for (int i = 0; i < mTaxListMap.size(); i++) {
 
-            if (mTaxListMap.get(i).get("type").toString().equals(_mContext.getString(R.string.discount_title))) {
+            if (mTaxListMap.get(i).get("type").equals(_mContext.getString(R.string.discount_title))) {
                 mCell1 = new PdfPCell(new Phrase(String.valueOf(j++ + 1), createFontWithSize(mSmallSize)));
                 setBackGroundColor_P_BW_HA_VA(mCell1, mainTitleColorTables, 5, 3, Element.ALIGN_CENTER, Element.ALIGN_CENTER);
 
@@ -1379,11 +1403,12 @@ public class Utility {
                         Utility.formatPurchase(
                                 _mContext,
                                 Utility.DecimalSeperation(_mContext,
-                                        Double.parseDouble(mTaxListMap.get(i).get("amount").toString())
+                                        Double.parseDouble(mTaxListMap.get(i).get("amount"))
                                 )), createFontWithSize(mSmallSize)));
                 setBackGroundColor_P_BW_HA_VA(mCell2, mainTitleColorTables, 5, 3, Element.ALIGN_CENTER, Element.ALIGN_CENTER);
 
-                mCell3 = new PdfPCell(new Phrase(createFloatNumberWithString(_mContext, mTaxListMap.get(i).get("percent").toString())
+                mCell3 = new PdfPCell(new Phrase(String.format("%.2f",
+                        createFloatNumberWithString(_mContext, mTaxListMap.get(i).get("percent")))
                         + " %", createFontWithSize(mSmallSize)));
 
                 mCell3.setHorizontalAlignment(Element.ALIGN_CENTER);
@@ -1402,8 +1427,7 @@ public class Utility {
                     table.addCell(mCell3);
                 }
                 //endregion Add Columns
-            } else
-                continue;
+            }
         }
         //endregion Add Data For Discounts In Invoice
 
