@@ -58,7 +58,7 @@ public class HeaderAdapter extends BaseAdapter {
             holder = new HeaderViewHolder();
             holder.icon = (ImageView) view.findViewById(R.id.pref_header_icon);
             holder.title = (TextView) view.findViewById(R.id.pref_header_title);
-            holder.summary = (TextView) view.findViewById(R.id.pref_header_summary);
+//            holder.summary = (TextView) view.findViewById(R.id.pref_header_summary);
             view.setTag(holder);
         } else {
             view = convertView;

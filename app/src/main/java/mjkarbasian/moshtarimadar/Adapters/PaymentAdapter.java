@@ -68,6 +68,7 @@ public class PaymentAdapter extends BaseAdapter {
 
         typeText.setText(
                 mPaymentDetailsListHashMap.get(position).get("type"));
+
         if(mPaymentDetailsListHashMap.get(position).get("type").equals("Cheque"))
         {    isPassCheckBox.setVisibility(View.VISIBLE);
              isPassCheckBox.setChecked(Boolean.parseBoolean(mPaymentDetailsListHashMap.get(position).get("isPass")));

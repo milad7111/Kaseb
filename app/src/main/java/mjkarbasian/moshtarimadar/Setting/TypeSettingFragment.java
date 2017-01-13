@@ -1,7 +1,8 @@
 package mjkarbasian.moshtarimadar.Setting;
 
-import android.app.Dialog;
+import android.app.AlertDialog;
 import android.content.ContentValues;
+import android.content.DialogInterface;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -26,7 +27,6 @@ import com.pes.androidmaterialcolorpickerdialog.ColorPicker;
 
 import mjkarbasian.moshtarimadar.Adapters.TypesSettingAdapter;
 import mjkarbasian.moshtarimadar.Data.KasebContract;
-import mjkarbasian.moshtarimadar.Helpers.Utility;
 import mjkarbasian.moshtarimadar.R;
 
 import static mjkarbasian.moshtarimadar.Data.KasebContract.CostTypes;
@@ -47,6 +47,8 @@ public class TypeSettingFragment extends Fragment implements LoaderManager.Loade
     int mColor;
     String mType;
     Uri mCursoruri;
+    AlertDialog.Builder builder;
+    AlertDialog dialogView;
 
     public TypeSettingFragment() {
         super();
@@ -80,28 +82,132 @@ public class TypeSettingFragment extends Fragment implements LoaderManager.Loade
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        Dialog typeInsert = null;
+
+        //region create alertdialog
+        builder = new AlertDialog.Builder(getActivity())
+                .setNegativeButton(R.string.discard_button, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        dialogView.dismiss();
+                    }
+                }).setPositiveButton(R.string.save, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                    }
+                });
+        //endregion create alertdialog
+
+        final EditText typeTitle;
         switch (mColumnName) {
-            case CostTypes.COLUMN_COST_TYPE_POINTER:
-                typeInsert = Utility.dialogBuilder(getActivity(), R.layout.dialog_add_type_setting, R.string.title_dialog_add_cost_type);
-                break;
-            case PaymentMethods.COLUMN_PAYMENT_METHOD_POINTER:
-                typeInsert = Utility.dialogBuilder(getActivity(), R.layout.dialog_add_type_setting, R.string.title_dialog_add_payment_methods);
-                break;
-            case TaxTypes.COLUMN_TAX_TYPE_POINTER:
-                typeInsert = Utility.dialogBuilder(getActivity(), R.layout.dialog_add_type_setting, R.string.title_dialog_add_tax_types);
-                break;
-            case State.COLUMN_STATE_POINTER:
-                typeInsert = Utility.dialogBuilder(getActivity(), R.layout.dialog_add_state_type_setting, R.string.title_dialog_add_state);
-                break;
-        }
-        if (typeInsert != null) {
-            typeInsert.show();
-            Button dialogButton = (Button) typeInsert.findViewById(R.id.button_add_type_setting);
-            final EditText typeTitle = (EditText) typeInsert.findViewById(R.id.add_types_setting_name);
-            if(mColumnName.equals(State.COLUMN_STATE_POINTER)){
-                final ImageView starImage = (ImageView)typeInsert.findViewById(R.id.dialog_state_color_selection);
+            case CostTypes.COLUMN_COST_TYPE_POINTER: {
+                //region dialog_add_type_setting
+                builder.setView(getActivity().getLayoutInflater().inflate(R.layout.dialog_add_type_setting, null));
+                builder.setTitle(R.string.title_dialog_add_cost_type);
+                dialogView = builder.create();
+                dialogView.show();
+
+                typeTitle = (EditText) dialogView.findViewById(R.id.add_types_setting_name);
+
+                dialogView.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Boolean wantToCloseDialog = false;
+
+                        //region insert CostTypes
+                        mType = typeTitle.getText().toString();
+                        insertData();
+
+                        wantToCloseDialog = true;
+                        //endregion insert CostTypes
+
+                        if (wantToCloseDialog)
+                            dialogView.dismiss();
+                    }
+                });
+                //endregion dialog_add_type_setting
+            }
+            break;
+            case PaymentMethods.COLUMN_PAYMENT_METHOD_POINTER: {
+                //region dialog_add_type_setting
+                builder.setView(getActivity().getLayoutInflater().inflate(R.layout.dialog_add_type_setting, null));
+                builder.setTitle(R.string.title_dialog_add_payment_methods);
+                dialogView = builder.create();
+                dialogView.show();
+
+                typeTitle = (EditText) dialogView.findViewById(R.id.add_types_setting_name);
+
+                dialogView.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Boolean wantToCloseDialog = false;
+
+                        //region insert CostTypes
+                        mType = typeTitle.getText().toString();
+                        insertData();
+
+                        wantToCloseDialog = true;
+                        //endregion insert CostTypes
+
+                        if (wantToCloseDialog)
+                            dialogView.dismiss();
+                    }
+                });
+                //endregion dialog_add_type_setting
+            }
+            break;
+            case TaxTypes.COLUMN_TAX_TYPE_POINTER: {
+                //region dialog_add_type_setting
+                builder.setView(getActivity().getLayoutInflater().inflate(R.layout.dialog_add_type_setting, null));
+                builder.setTitle(R.string.title_dialog_add_tax_types);
+                dialogView = builder.create();
+                dialogView.show();
+
+                typeTitle = (EditText) dialogView.findViewById(R.id.add_types_setting_name);
+
+                dialogView.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Boolean wantToCloseDialog = false;
+
+                        //region insert CostTypes
+                        mType = typeTitle.getText().toString();
+                        insertData();
+
+                        wantToCloseDialog = true;
+                        //endregion insert CostTypes
+
+                        if (wantToCloseDialog)
+                            dialogView.dismiss();
+                    }
+                });
+                //endregion dialog_add_type_setting
+            }
+            break;
+            case State.COLUMN_STATE_POINTER: {
+                //region dialog_add_state_type_setting
+                builder.setView(getActivity().getLayoutInflater().inflate(R.layout.dialog_add_state_type_setting, null));
+                builder.setTitle(R.string.title_dialog_add_state);
+                dialogView = builder.create();
+                dialogView.show();
+
+                typeTitle = (EditText) dialogView.findViewById(R.id.add_types_setting_name);
+
+                dialogView.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Boolean wantToCloseDialog = false;
+
+                        //region insert CostTypes
+                        mType = typeTitle.getText().toString();
+                        insertData();
+
+                        wantToCloseDialog = true;
+                        //endregion insert CostTypes
+
+                        if (wantToCloseDialog)
+                            dialogView.dismiss();
+                    }
+                });
+
+                final ImageView starImage = (ImageView) dialogView.findViewById(R.id.dialog_state_color_selection);
                 starImage.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -118,25 +224,19 @@ public class TypeSettingFragment extends Fragment implements LoaderManager.Loade
                         });
                     }
                 });
+                //endregion dialog_add_state_type_setting
             }
-            final Dialog finalTypeInsert = typeInsert;
-            dialogButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    mType = typeTitle.getText().toString();
-                    Uri insertUri = insertData();
-                    finalTypeInsert.dismiss();
-                }
-            });
-        } else Log.d(LOG_TAG, " Insert Dialog is null..! ");
+            break;
+        }
         return super.onOptionsItemSelected(item);
     }
 
     private Uri insertData() {
         ContentValues contentValues = new ContentValues();
-        contentValues.put(mColumnName,mType);
-        if(mColumnName.equals(State.COLUMN_STATE_POINTER)) contentValues.put(State.COLUMN_STATE_COLOR,mColor);
-        Uri insertUri = getContext().getContentResolver().insert(mCursoruri,contentValues);
+        contentValues.put(mColumnName, mType);
+        if (mColumnName.equals(State.COLUMN_STATE_POINTER))
+            contentValues.put(State.COLUMN_STATE_COLOR, mColor);
+        Uri insertUri = getContext().getContentResolver().insert(mCursoruri, contentValues);
         return insertUri;
     }
 

@@ -6,6 +6,10 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/activity_horizontal_margin"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="@dimen/activity_horizontal_margin"
         android:orientation="vertical">
 
         <LinearLayout
@@ -17,9 +21,12 @@
                 android:id="@+id/price_list_buy_price"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/top_of_list_margin_in_row"
                 android:layout_weight="1"
                 android:gravity="center_vertical|center_horizontal"
-                android:textAppearance="?android:textAppearanceMedium" />
+                android:textAppearance="?android:textAppearanceMedium"
+                android:textColor="@color/colorAccent"
+                android:textColorHint="@color/colorAccent" />
 
             <TextView
                 android:id="@+id/price_list_sale_price"
@@ -27,67 +34,63 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center_vertical|center_horizontal"
-                android:textAppearance="?android:textAppearanceMedium" />
+                android:textAppearance="?android:textAppearanceMedium"
+                android:textColor="@color/colorAccent"
+                android:textColorHint="@color/colorAccent" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/top_of_list_margin_in_row"
+            android:gravity="center"
             android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginRight="@dimen/top_of_list_margin_in_row"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/price_list_date_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="right"
+                    android:text="@string/sale_date"
+                    android:textColor="@color/colorAccent"
+                    android:textColorHint="@color/colorAccent" />
+
+                <TextView
+                    android:id="@+id/price_list_quantity_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/top_of_list_margin_in_row"
+                    android:gravity="right"
+                    android:text="@string/quantity"
+                    android:textColor="@color/colorAccent"
+                    android:textColorHint="@color/colorAccent" />
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:gravity="center"
-                android:orientation="horizontal">
+                android:orientation="vertical">
 
-                <LinearLayout
+                <TextView
+                    android:id="@+id/price_list_date"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorAccent"
+                    android:textColorHint="@color/colorAccent" />
 
-                    <TextView
-                        android:id="@+id/price_list_date_title"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                        android:layout_marginRight="10dp"
-                        android:layout_marginStart="@dimen/activity_horizontal_margin"
-                        android:gravity="right"
-                        android:text="@string/sale_date"
-                        android:textColor="@color/colorPrimary" />
-
-                    <TextView
-                        android:id="@+id/price_list_quantity_title"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                        android:layout_marginStart="@dimen/activity_horizontal_margin"
-                        android:gravity="right"
-                        android:text="@string/quantity"
-                        android:textColor="@color/colorPrimary" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/price_list_date"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                        android:layout_marginRight="10dp"
-                        android:layout_marginStart="@dimen/activity_horizontal_margin" />
-
-                    <TextView
-                        android:id="@+id/price_list_quantity"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                        android:layout_marginStart="@dimen/activity_horizontal_margin" />
-                </LinearLayout>
+                <TextView
+                    android:id="@+id/price_list_quantity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/top_of_list_margin_in_row"
+                    android:textColor="@color/colorAccent"
+                    android:textColorHint="@color/colorAccent" />
             </LinearLayout>
         </LinearLayout>
 

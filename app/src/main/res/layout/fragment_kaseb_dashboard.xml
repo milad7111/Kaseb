@@ -20,7 +20,9 @@
             android:id="@+id/card_dashboard_customers"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="6dp"
             android:nestedScrollingEnabled="true">
 
             <LinearLayout
@@ -47,6 +49,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
+                        android:layout_marginRight="1dp"
                         android:layout_weight="1"
                         android:gravity="center"
                         android:orientation="vertical">
@@ -55,6 +58,7 @@
                             android:id="@+id/kaseb_dashboard_customer_qty"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginBottom="3dp"
                             android:text="41"
                             android:textAppearance="?android:textAppearanceLarge" />
 
@@ -69,19 +73,23 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
+                        android:layout_marginRight="1dp"
                         android:layout_weight="1"
+                        android:gravity="center"
                         android:orientation="vertical">
 
                         <TextView
                             android:id="@+id/kaseb_dashboard_customer_qty_gold"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
                             android:text="3"
                             android:textAppearance="?android:textAppearanceMedium" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
                             android:text="@string/kaseb_dashboard_customer_qty_gold"
                             android:textAppearance="?android:textAppearanceSmall" />
 
@@ -89,12 +97,14 @@
                             android:id="@+id/kaseb_dashboard_customer_qty_silver"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
                             android:text="8"
                             android:textAppearance="?android:textAppearanceMedium" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
                             android:text="@string/kaseb_dashboard_customer_qty_silver"
                             android:textAppearance="?android:textAppearanceSmall" />
 
@@ -102,12 +112,14 @@
                             android:id="@+id/kaseb_dashboard_customer_qty_bronze"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
                             android:text="5"
                             android:textAppearance="?android:textAppearanceMedium" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
                             android:text="@string/kaseb_dashboard_customer_qty_bronze"
                             android:textAppearance="?android:textAppearanceSmall" />
 
@@ -115,12 +127,15 @@
                             android:id="@+id/kaseb_dashboard_customer_qty_instart"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
                             android:text="10"
                             android:textAppearance="?android:textAppearanceMedium" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginBottom="2dp"
+                            android:layout_marginTop="2dp"
                             android:text="@string/kaseb_dashboard_customer_qty_instart"
                             android:textAppearance="?android:textAppearanceSmall" />
                     </LinearLayout>
@@ -134,7 +149,9 @@
             android:id="@+id/card_dashboard_sales"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="6dp"
             android:nestedScrollingEnabled="true">
 
             <LinearLayout
@@ -161,6 +178,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
+                        android:layout_marginRight="1dp"
                         android:layout_weight="1"
                         android:gravity="center"
                         android:orientation="vertical">
@@ -169,6 +187,7 @@
                             android:id="@+id/kaseb_dashboard_sale_total"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginBottom="3dp"
                             android:text="41"
                             android:textAppearance="?android:textAppearanceLarge" />
 
@@ -183,19 +202,23 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
+                        android:layout_marginRight="1dp"
                         android:layout_weight="1"
+                        android:gravity="center"
                         android:orientation="vertical">
 
                         <TextView
                             android:id="@+id/kaseb_dashboard_Sale_total_gold"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
                             android:text="3"
                             android:textAppearance="?android:textAppearanceMedium" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
                             android:text="@string/kaseb_dashboard_customer_qty_gold"
                             android:textAppearance="?android:textAppearanceSmall" />
 
@@ -203,12 +226,14 @@
                             android:id="@+id/kaseb_dashboard_Sale_total_silver"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
                             android:text="8"
                             android:textAppearance="?android:textAppearanceMedium" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
                             android:text="@string/kaseb_dashboard_customer_qty_silver"
                             android:textAppearance="?android:textAppearanceSmall" />
 
@@ -216,12 +241,14 @@
                             android:id="@+id/kaseb_dashboard_Sale_total_bronze"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
                             android:text="5"
                             android:textAppearance="?android:textAppearanceMedium" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
                             android:text="@string/kaseb_dashboard_customer_qty_bronze"
                             android:textAppearance="?android:textAppearanceSmall" />
 
@@ -229,12 +256,15 @@
                             android:id="@+id/kaseb_dashboard_Sale_total_instart"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
                             android:text="10"
                             android:textAppearance="?android:textAppearanceMedium" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginBottom="2dp"
+                            android:layout_marginTop="2dp"
                             android:text="@string/kaseb_dashboard_customer_qty_instart"
                             android:textAppearance="?android:textAppearanceSmall" />
                     </LinearLayout>
@@ -246,7 +276,9 @@
             android:id="@+id/card_dashboard_others"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="6dp"
             android:nestedScrollingEnabled="true">
 
             <LinearLayout
@@ -273,6 +305,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
+                        android:layout_marginRight="1dp"
                         android:layout_weight="1"
                         android:gravity="center"
                         android:orientation="vertical">
@@ -281,6 +314,7 @@
                             android:id="@+id/kaseb_dashboard_others_total_recievables"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginBottom="3dp"
                             android:text="41"
                             android:textAppearance="?android:textAppearanceLarge" />
 
@@ -295,19 +329,23 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
+                        android:layout_marginRight="1dp"
                         android:layout_weight="1"
+                        android:gravity="center"
                         android:orientation="vertical">
 
                         <TextView
                             android:id="@+id/kaseb_dashboard_others_total_recievables_gold"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
                             android:text="3"
                             android:textAppearance="?android:textAppearanceMedium" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
                             android:text="@string/kaseb_dashboard_others_total_recievables_gold"
                             android:textAppearance="?android:textAppearanceSmall" />
 
@@ -315,12 +353,14 @@
                             android:id="@+id/kaseb_dashboard_others_total_recievables_silver"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
                             android:text="8"
                             android:textAppearance="?android:textAppearanceMedium" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
                             android:text="@string/kaseb_dashboard_others_total_recievables_silver"
                             android:textAppearance="?android:textAppearanceSmall" />
 
@@ -328,12 +368,14 @@
                             android:id="@+id/kaseb_dashboard_others_total_recievables_bronze"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
                             android:text="5"
                             android:textAppearance="?android:textAppearanceMedium" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
                             android:text="@string/kaseb_dashboard_others_total_recievables_bronze"
                             android:textAppearance="?android:textAppearanceSmall" />
 
@@ -341,12 +383,15 @@
                             android:id="@+id/kaseb_dashboard_others_total_recievables_instart"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
                             android:text="10"
                             android:textAppearance="?android:textAppearanceMedium" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginBottom="2dp"
+                            android:layout_marginTop="2dp"
                             android:text="@string/kaseb_dashboard_others_total_recievables_instart"
                             android:textAppearance="?android:textAppearanceSmall" />
                     </LinearLayout>

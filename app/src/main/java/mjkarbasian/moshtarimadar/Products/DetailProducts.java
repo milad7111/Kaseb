@@ -1,7 +1,8 @@
 package mjkarbasian.moshtarimadar.Products;
 
-import android.app.Dialog;
+import android.app.AlertDialog;
 import android.content.ContentValues;
+import android.content.DialogInterface;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -21,7 +22,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -43,8 +43,10 @@ public class DetailProducts extends Fragment implements LoaderManager.LoaderCall
     DetailProductAdapter mAdapter = null;
     Long productId;
     FloatingActionButton fab;
+
     ContentValues productHistoryValues = new ContentValues();
     ContentValues productValues = new ContentValues();
+
     EditText productName;
     EditText productCode;
     EditText productUnit;
@@ -55,8 +57,13 @@ public class DetailProducts extends Fragment implements LoaderManager.LoaderCall
     EditText buyDate;
     EditText discountAmount;
     EditText discountPercent;
+
     MenuItem saveItem;
     MenuItem editItem;
+
+    AlertDialog.Builder builder;
+    AlertDialog dialogView;
+
     private Uri insertUri;
     //endregion Declare Values & Views
 
@@ -102,88 +109,32 @@ public class DetailProducts extends Fragment implements LoaderManager.LoaderCall
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final Dialog dialog = Utility.dialogBuilder(getActivity()
-                        , R.layout.dialog_add_product_history
-                        , R.string.title_add_product_history);
+//                final Dialog dialog = Utility.dialogBuilder(getActivity()
+//                        , R.layout.dialog_add_product_history
+//                        , R.string.title_add_product_history);
 
-                //region Declare Views
-                buyPrice = (EditText) dialog.findViewById(R.id.add_product_history_buy_price);
-                quantity = (EditText) dialog.findViewById(R.id.add_product_history_quantity);
-                salePrice = (EditText) dialog.findViewById(R.id.add_product_history_sale_price);
-                buyDate = (EditText) dialog.findViewById(R.id.add_product_history_buy_date);
-                discountAmount = (EditText) dialog.findViewById(R.id.add_product_history_discount_amount);
-                discountPercent = (EditText) dialog.findViewById(R.id.add_product_history_discount_percent);
-                //endregion Declare Views
+                //region create alert dialog
+                builder = new AlertDialog.Builder(getActivity())
+                        .setView(getActivity().getLayoutInflater().inflate(R.layout.dialog_add_product_history, null))
+                        .setNegativeButton(R.string.discard_button, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                dialogView.dismiss();
+                            }
+                        }).setPositiveButton(R.string.save, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                            }
+                        })
+                        .setTitle(R.string.title_add_product_history);
 
-                buyDate.setText(Utility.preInsertDate(getActivity()));
+                dialogView = builder.create();
+                dialogView.show();
 
-                discountAmount.addTextChangedListener(new TextWatcher() {
-                    @Override
-                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                    }
-
-                    @Override
-                    public void onTextChanged(CharSequence s, int start, int before, int count) {
-                        try {
-                            Float mDiscountAmount = Float.valueOf(discountAmount.getText().toString());
-                            Float mBuyPrice = Float.valueOf(buyPrice.getText().toString());
-
-                            if (mDiscountAmount > mBuyPrice)
-                                discountAmount.setText(buyPrice.getText().toString());
-                        } catch (Exception e) {
-                            salePrice.setText("");
-                        }
-                    }
-
-                    @Override
-                    public void afterTextChanged(Editable s) {
-                        try {
-                            Float mDiscountAmount = Float.valueOf(discountAmount.getText().toString());
-                            Float mBuyPrice = Float.valueOf(buyPrice.getText().toString());
-
-                            salePrice.setText(String.format("%.0f", Float.valueOf(mBuyPrice - mDiscountAmount)));
-                        } catch (Exception e) {
-                            salePrice.setText("");
-                        }
-                    }
-                });
-
-                discountPercent.addTextChangedListener(new TextWatcher() {
-                    @Override
-                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                    }
-
-                    @Override
-                    public void onTextChanged(CharSequence s, int start, int before, int count) {
-                        try {
-                            Float mDiscountPercent = Float.valueOf(discountPercent.getText().toString());
-
-                            if (mDiscountPercent > 100)
-                                discountPercent.setText(Utility.doubleFormatter(100));
-                        } catch (Exception e) {
-                            salePrice.setText("");
-                        }
-                    }
-
-                    @Override
-                    public void afterTextChanged(Editable s) {
-                        try {
-                            Float mDiscountPercent = Float.valueOf(discountPercent.getText().toString());
-                            Float mBuyPrice = Float.valueOf(buyPrice.getText().toString());
-
-                            salePrice.setText(String.format("%.0f", Float.valueOf((100 - mDiscountPercent) * mBuyPrice / 100)));
-                        } catch (Exception e) {
-                            salePrice.setText("");
-                        }
-                    }
-                });
-
-                //region button save
-                Button dialogButton = (Button) dialog.findViewById(R.id.add_product_history_save);
-
-                dialogButton.setOnClickListener(new View.OnClickListener() {
+                dialogView.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        Boolean wantToCloseDialog = false;
+
+                        //region edit product
                         if (CheckForValidityInsertProductHistory()) {
                             productHistoryValues.put(KasebContract.ProductHistory.COLUMN_COST,
                                     Utility.convertFarsiNumbersToDecimal(buyPrice.getText().toString()));
@@ -199,13 +150,118 @@ public class DetailProducts extends Fragment implements LoaderManager.LoaderCall
                                     productHistoryValues
                             );
                             Toast.makeText(getActivity(), getResources().getString(R.string.msg_insert_succeed), Toast.LENGTH_LONG).show();
-                            dialog.dismiss();
+
+                            wantToCloseDialog = true;
+                        }
+                        //endregion edit product
+
+                        if (wantToCloseDialog)
+                            dialogView.dismiss();
+                    }
+                });
+                //endregion create alert dialog
+
+                //region Declare Views in dialog
+                buyPrice = (EditText) dialogView.findViewById(R.id.add_product_history_buy_price);
+                quantity = (EditText) dialogView.findViewById(R.id.add_product_history_quantity);
+                salePrice = (EditText) dialogView.findViewById(R.id.add_product_history_sale_price);
+                buyDate = (EditText) dialogView.findViewById(R.id.add_product_history_buy_date);
+                discountAmount = (EditText) dialogView.findViewById(R.id.add_product_history_discount_amount);
+                discountPercent = (EditText) dialogView.findViewById(R.id.add_product_history_discount_percent);
+
+                buyDate.setText(Utility.preInsertDate(getActivity()));
+
+                //region discountAmount addTextChangedListener
+                discountAmount.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence s, int start, int before, int count) {
+                        try {
+                            Float mDiscountAmount = Float.valueOf(discountAmount.getText().toString());
+                            Float mSalePrice = Float.valueOf(salePrice.getText().toString());
+
+                            if (mDiscountAmount > mSalePrice) {
+                                discountAmount.setText(salePrice.getText().toString());
+                                Utility.setErrorForEditText(getActivity(), discountAmount,
+                                        getResources().getString(R.string.not_more_than_sale_price));
+                                discountAmount.setSelectAllOnFocus(true);
+                                discountAmount.selectAll();
+                            }
+                        } catch (Exception e) {
+                            if (salePrice.getText().toString().equals(null) || salePrice.getText().toString().equals(""))
+                                Utility.setErrorForEditText(getActivity(), salePrice, "");
+                            else
+                                Utility.setErrorForEditText(getActivity(), discountAmount, "");
+                        }
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable s) {
+                        try {
+                            Float mDiscountAmount = Float.valueOf(discountAmount.getText().toString());
+                            Float mSalePrice = Float.valueOf(salePrice.getText().toString());
+
+                            buyPrice.setText(String.format("%.2f", Float.valueOf(mSalePrice - mDiscountAmount)));
+                        } catch (Exception e) {
+                            if (salePrice.getText().toString().equals(null) || salePrice.getText().toString().equals(""))
+                                Utility.setErrorForEditText(getActivity(), salePrice, "");
+                            else
+                                Utility.setErrorForEditText(getActivity(), discountAmount, "");
                         }
                     }
                 });
-                //endregion button save
 
-                dialog.show();
+                discountPercent.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence s, int start, int before, int count) {
+                        try {
+                            Float mDiscountPercent = Float.valueOf(discountPercent.getText().toString());
+                            Float mSalePrice = Float.valueOf(salePrice.getText().toString());
+
+                            if (mDiscountPercent > 100) {
+                                discountAmount.setText(String.format("%.2f", Float.valueOf(mDiscountPercent * mSalePrice / 100)));
+
+                                discountPercent.setText(Utility.doubleFormatter(100));
+                                Utility.setErrorForEditText(getActivity(), discountPercent,
+                                        getResources().getString(R.string.not_more_hundred));
+                                discountPercent.setSelectAllOnFocus(true);
+                                discountPercent.selectAll();
+                            }
+                        } catch (Exception e) {
+                            if (salePrice.getText().toString().equals(null) || salePrice.getText().toString().equals(""))
+                                Utility.setErrorForEditText(getActivity(), salePrice, "");
+                            else
+                                Utility.setErrorForEditText(getActivity(), discountPercent, "");
+                        }
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable s) {
+                        try {
+                            Float mDiscountPercent = Float.valueOf(discountPercent.getText().toString());
+                            Float mSalePrice = Float.valueOf(salePrice.getText().toString());
+
+                            buyPrice.setText(String.format("%.2f",
+                                    Float.valueOf((float) ((Float.valueOf(100 - mDiscountPercent) / 100.0) * mSalePrice))));
+                            discountAmount.setText(String.format("%.2f", Float.valueOf(mDiscountPercent * mSalePrice / 100)));
+                        } catch (Exception e) {
+                            if (salePrice.getText().toString().equals(null) || salePrice.getText().toString().equals(""))
+                                Utility.setErrorForEditText(getActivity(), salePrice, "");
+                            else
+                                Utility.setErrorForEditText(getActivity(), discountPercent, "");
+                        }
+                    }
+                });
+                //endregion discountAmount addTextChangedListener
+
+                //endregion Declare Views in dialog
             }
         });
         //endregion Fab Add ProductHistory
@@ -268,12 +324,8 @@ public class DetailProducts extends Fragment implements LoaderManager.LoaderCall
                     productUnit.setEnabled(false);
                     productDescription.setEnabled(false);
                     fab.hide();
-
-//                    getFragmentManager().popBackStackImmediate();
                 }
                 break;
-//            case R.id.action_detail_product_share: {
-//            }
             default:
                 return true;
         }
@@ -356,11 +408,11 @@ public class DetailProducts extends Fragment implements LoaderManager.LoaderCall
 
     // this method check the validation and correct entries. its check fill first and then check the validation rules.
     private boolean CheckForValidityInsertProductHistory() {
-        if (!Utility.checkForValidityForEditTextNullOrEmpty(getActivity(), buyPrice))
+        if (!Utility.checkForValidityForEditTextNullOrEmpty(getActivity(), salePrice))
             return false;
         else if (!Utility.checkForValidityForEditTextNullOrEmpty(getActivity(), quantity))
             return false;
-        else if (!Utility.checkForValidityForEditTextNullOrEmpty(getActivity(), salePrice))
+        else if (!Utility.checkForValidityForEditTextNullOrEmpty(getActivity(), buyPrice))
             return false;
         else if (!Utility.checkForValidityForEditTextNullOrEmpty(getActivity(), buyDate))
             return false;
