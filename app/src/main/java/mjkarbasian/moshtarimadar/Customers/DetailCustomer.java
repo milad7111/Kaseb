@@ -16,7 +16,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -245,9 +244,6 @@ public class DetailCustomer extends AppCompatActivity {
                     Toast.makeText(getBaseContext(), getBaseContext().getResources().getString(R.string.msg_update_succeed),
                             Toast.LENGTH_LONG).show();
 
-                    customerFirstName.setVisibility(View.GONE);
-                    customerLastName.setVisibility(View.GONE);
-
                     customerFirstName.setEnabled(false);
                     customerLastName.setEnabled(false);
                     customerBirthDay.setEnabled(false);
@@ -282,9 +278,6 @@ public class DetailCustomer extends AppCompatActivity {
                 customerAddressCity = (EditText) findViewById(R.id.customer_address_city);
                 customerAddressStreet = (EditText) findViewById(R.id.customer_address_street);
                 customerAddressPostalCode = (EditText) findViewById(R.id.customer_address_postal_code);
-
-                customerFirstName.setVisibility(View.VISIBLE);
-                customerLastName.setVisibility(View.VISIBLE);
 
                 customerFirstName.setEnabled(true);
                 customerLastName.setEnabled(true);
