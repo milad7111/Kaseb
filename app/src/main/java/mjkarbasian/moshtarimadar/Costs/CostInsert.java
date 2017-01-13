@@ -81,7 +81,8 @@ public class CostInsert extends Fragment {
                 if (CheckForValidity()) {
                     costValues.put(KasebContract.Costs.COLUMN_COST_NAME, costName.getText().toString());
                     costValues.put(KasebContract.Costs.COLUMN_COST_CODE, costCode.getText().toString());
-                    costValues.put(KasebContract.Costs.COLUMN_AMOUNT, costAmount.getText().toString());
+                    costValues.put(KasebContract.Costs.COLUMN_AMOUNT,
+                            Utility.convertFarsiNumbersToDecimal(costAmount.getText().toString()));
                     costValues.put(KasebContract.Costs.COLUMN_DATE, costDate.getText().toString());
                     costValues.put(KasebContract.Costs.COLUMN_DESCRIPTION, costDescription.getText().toString());
                     costValues.put(KasebContract.Costs.COLUMN_COST_TYPE_ID, costType.getSelectedItemPosition() + 1);
@@ -115,7 +116,7 @@ public class CostInsert extends Fragment {
             return false;
         else if (!Utility.checkForValidityForEditTextNullOrEmpty(getActivity(), costAmount))
             return false;
-        else if (!Utility.checkForValidityForEditTextNullOrEmpty(getActivity(), costDate))
+        else if (!Utility.checkForValidityForEditTextDate(getActivity(), costDate))
             return false;
 
         return true;

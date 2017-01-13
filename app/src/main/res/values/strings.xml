@@ -372,9 +372,9 @@
     <string name="save_factor_then_print">Please Save Invoice Then RETRY.</string>
     <string name="not_itterative">(Not Itterative)</string>
     <string name="register_message_copyright">Registered By KASEB. \n@COPYRIGHT</string>
-    <string name="seller_info">"Seller : "</string>
-    <string name="seller_tell">"Seller phone : "</string>
-    <string name="seller_address">"Seller Address : "</string>
+    <string name="seller_info">"Kaseb : "</string>
+    <string name="seller_tell">"Kaseb phone : "</string>
+    <string name="seller_address">"Kaseb Address : "</string>
     <string name="customer_info">"Customer : "</string>
     <string name="invoice_date">"Date : "</string>
     <string name="invoice_sale_code">"Sale Code : "</string>
@@ -394,6 +394,15 @@
     <string name="stamp_and_signature">Stamp and Signature</string>
     <string name="seller_title">Seller</string>
     <string name="buyer_title">Buyer</string>
+    <string name="sales_pdf_meta_data_title">Sales Invoice</string>
+    <string name="sales_pdf_meta_data_subject">Kaseb Release 1.0</string>
+    <string name="sales_pdf_meta_data_kew_words">Kaseb, Sales, Invoice</string>
+    <string name="sales_pdf_meta_data_author">Kaseb</string>
+    <string name="sales_pdf_meta_data_creator">Kaseb</string>
+    <string name="vas_title">VAS</string>
+    <string name="discount_title">Discount</string>
+    <string name="passed_cheque_title">" : Passed"</string>
+    <string name="not_passed_cheque_title">" : Not Passed"</string>
     //endregion Sales Invoice Print
 
     <string name="sale_code_prefix">INV- </string>
@@ -404,26 +413,10 @@
     <string name="title_dialog_add_state">Add state type</string>
     <string name="cost_code_prefix">C-</string>
     <string name="product_code_prefix">P-</string>
-    <string name="validity_error_cost_name">Choose apropriate name for COST.</string>
-    <string name="validity_error_cost_amount">Choose apropriate amount for COST.</string>
-    <string name="validity_error_date_cost">Choose apropriate date for COST.</string>
-    <string name="validity_error_customer_name">Choose apropriate name for CUSTOMER.</string>
-    <string name="validity_error_customer_last_name">Choose apropriate last name for CUSTOMER.</string>
-    <string name="validity_error_customer_phone_mobile">Choose apropriate phone mobile for CUSTOMER.</string>
     <string name="validity_error_customer_phone_mobile_duplicate">Entered mobile number is duplicate.</string>
-    <string name="validity_error_product_name">Choose apropriate name for PRODUCT.</string>
     <string name="validity_error_product_name_duplicate">Entered Product name is duplicate</string>
-    <string name="validity_error_product_buy_price">Choose apropriate buy price for PRODUCT.</string>
-    <string name="validity_error_product_qty">Choose apropriate quantity for PRODUCT.</string>
-    <string name="validity_error_product_sale_price">Choose apropriate sale price for PRODUCT.</string>
-    <string name="validity_error_product_buy_date">Choose apropriate buy date for PRODUCT.</string>
-    <string name="validity_error_dsale_code">Choose apropriate sale code for SALE.</string>
     <string name="validity_error_dsale_code_duplicate">Entered sale code is duplicate</string>
-    <string name="validity_error_dsale_select_customer">Choose A customer for SALE.</string>
-    <string name="validity_error_dsale_date">Choose apropriate sale date for SALE.</string>
     <string name="validity_error_dsale_select_product">Choose some PRODUCTS for SALE.</string>
-    <string name="validity_error_dsale_minus_amount">Final Amount is less than zero?!!!</string>
-    <string name="validity_error_dsale_minus_balance">Balance Amount is less than zero?!!!</string>
     <string name="confirm_title">Confirmation ...</string>
     <string name="confirm_message_delete_customer_image">"Do You Really Want to Delete This Customer's Image?\n\nCustomer Name : "</string>
     <string name="confirm_delete_customer_list_it_has">"This Customer Has "</string>
@@ -433,13 +426,10 @@
     <string name="confirm_message_delete_sale">"Do You Really Want to Delete This Sale?\n\nSale Code : "</string>
     <string name="confirm_delete_product_list_it_has">"This Product Is INUSE In "</string>
     <string name="confirm_delete_product_list">"Do You Really Want to Delete This PRODUCT?\n\nProduct Name : "</string>
-    <string name="validity_choose_cost_name">Choose apropriate name for COST.</string>
-    <string name="validity_enter_cost_amount">Choose apropriate amount for COST.</string>
-    <string name="validity_enter_cost_date">Choose apropriate date for COST.</string>
-    <string name="validity_error_product_history_buy_price">Choose apropriate buy price for PRODUCT.</string>
-    <string name="validity_error_product_history_quantity">Choose apropriate quantity for PRODUCT.</string>
-    <string name="validity_error_product_history_sale_price">Choose apropriate sale price for PRODUCT.</string>
-    <string name="validity_error_product_history_buy_date">Choose apropriate buy date for PRODUCT.</string>
     <string name="confirm_delete_tax">"Do You Really Want to Delete This TAX?\n\nTax Amount : "</string>
-    <string name="payment_model_cheque">Czech</string>
+    <string name="payment_model_cheque">Cheque</string>
+    <string name="date_format_error">\n(YYYY/M/D : 1990/1/1</string>
+    <string name="not_minus_number">Can\'t be less than zero.</string>
+    <string name="choose_customer_error_for_sale">You must choose a customer from list.</string>
+    <string name="cheque_title">Cheque</string>
 </resources>

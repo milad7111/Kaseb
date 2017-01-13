@@ -51,6 +51,176 @@ public class TestKasebProvider extends AndroidTestCase {
     }
 
     private void deleteAllRecordsFromProvider() {
+        //region 4 Delete records & Check Deleted records -Costs table-
+        mContext.getContentResolver().delete(
+                KasebContract.Costs.CONTENT_URI,
+                null,
+                null
+        );
+
+        Cursor costsCursor = mContext.getContentResolver().query(
+                KasebContract.Costs.CONTENT_URI,
+                null,
+                null,
+                null,
+                null
+        );
+
+        assertEquals("Error: Records not deleted from -Costs table- during delete", 0, costsCursor.getCount());
+        costsCursor.close();
+        //endregion
+
+        //region 10 Delete records & Check Deleted records -DetailSalePayments table-
+        mContext.getContentResolver().delete(
+                KasebContract.DetailSalePayments.CONTENT_URI,
+                null,
+                null
+        );
+
+        Cursor detailSalePaymentsCursor = mContext.getContentResolver().query(
+                KasebContract.DetailSalePayments.CONTENT_URI,
+                null,
+                null,
+                null,
+                null
+        );
+
+        assertEquals("Error: Records not deleted from -DetailSalePayments table- during delete", 0, detailSalePaymentsCursor.getCount());
+        detailSalePaymentsCursor.close();
+        //endregion
+
+        //region 12 Delete records & Check Deleted records -DetailSaleTaxes table-
+        mContext.getContentResolver().delete(
+                KasebContract.DetailSaleTaxes.CONTENT_URI,
+                null,
+                null
+        );
+
+        Cursor detailSaleTaxesCursor = mContext.getContentResolver().query(
+                KasebContract.DetailSaleTaxes.CONTENT_URI,
+                null,
+                null,
+                null,
+                null
+        );
+
+        assertEquals("Error: Records not deleted from -DetailSaleTaxes table- during delete", 0, detailSaleTaxesCursor.getCount());
+        detailSaleTaxesCursor.close();
+        //endregion
+
+        //region 11 Delete records & Check Deleted records -ProductHistory table-
+        mContext.getContentResolver().delete(
+                KasebContract.ProductHistory.CONTENT_URI,
+                null,
+                null
+        );
+
+        Cursor productHistoryCursor = mContext.getContentResolver().query(
+                KasebContract.ProductHistory.CONTENT_URI,
+                null,
+                null,
+                null,
+                null
+        );
+
+        assertEquals("Error: Records not deleted from -ProductHistory table- during delete", 0, productHistoryCursor.getCount());
+        productHistoryCursor.close();
+        //endregion
+
+        //region 13 Delete records & Check Deleted records -DetailSaleProducts table-
+        mContext.getContentResolver().delete(
+                KasebContract.DetailSaleProducts.CONTENT_URI,
+                null,
+                null
+        );
+
+        Cursor detailSaleProductsCursor = mContext.getContentResolver().query(
+                KasebContract.DetailSaleProducts.CONTENT_URI,
+                null,
+                null,
+                null,
+                null
+        );
+
+        assertEquals("Error: Records not deleted from -DetailSaleProducts table- during delete", 0, detailSaleProductsCursor.getCount());
+        detailSaleProductsCursor.close();
+        //endregion
+
+        //region 9 Delete records & Check Deleted records -DetailSale table-
+        mContext.getContentResolver().delete(
+                KasebContract.DetailSale.CONTENT_URI,
+                null,
+                null
+        );
+
+        Cursor detailSaleCursor = mContext.getContentResolver().query(
+                KasebContract.DetailSale.CONTENT_URI,
+                null,
+                null,
+                null,
+                null
+        );
+
+        assertEquals("Error: Records not deleted from -DetailSale table- during delete", 0, detailSaleCursor.getCount());
+        detailSaleCursor.close();
+        //endregion
+
+        //region 8 Delete records & Check Deleted records -Sales table-
+        mContext.getContentResolver().delete(
+                KasebContract.Sales.CONTENT_URI,
+                null,
+                null
+        );
+
+        Cursor salesCursor = mContext.getContentResolver().query(
+                KasebContract.Sales.CONTENT_URI,
+                null,
+                null,
+                null,
+                null
+        );
+
+        assertEquals("Error: Records not deleted from -Sales table- during delete", 0, salesCursor.getCount());
+        salesCursor.close();
+        //endregion
+
+        //region 3 Delete records & Check Deleted records -Customers table-
+        mContext.getContentResolver().delete(
+                KasebContract.Customers.CONTENT_URI,
+                null,
+                null
+        );
+
+        Cursor customersCursor = mContext.getContentResolver().query(
+                KasebContract.Customers.CONTENT_URI,
+                null,
+                null,
+                null,
+                null
+        );
+
+        assertEquals("Error: Records not deleted from -Customers table- during delete", 0, customersCursor.getCount());
+        customersCursor.close();
+        //endregion
+
+        //region 7 Delete records & Check Deleted records -Products table-
+        mContext.getContentResolver().delete(
+                KasebContract.Products.CONTENT_URI,
+                null,
+                null
+        );
+
+        Cursor productsCursor = mContext.getContentResolver().query(
+                KasebContract.Products.CONTENT_URI,
+                null,
+                null,
+                null,
+                null
+        );
+
+        assertEquals("Error: Records not deleted from -Products table- during delete", 0, productsCursor.getCount());
+        productsCursor.close();
+        //endregion
 
         //region 1 Delete records & Check Deleted records -State table-
         mContext.getContentResolver().delete(
@@ -90,44 +260,6 @@ public class TestKasebProvider extends AndroidTestCase {
         costTypesCursor.close();
         //endregion
 
-        //region 3 Delete records & Check Deleted records -Customers table-
-        mContext.getContentResolver().delete(
-                KasebContract.Customers.CONTENT_URI,
-                null,
-                null
-        );
-
-        Cursor customersCursor = mContext.getContentResolver().query(
-                KasebContract.Customers.CONTENT_URI,
-                null,
-                null,
-                null,
-                null
-        );
-
-        assertEquals("Error: Records not deleted from -Customers table- during delete", 0, customersCursor.getCount());
-        customersCursor.close();
-        //endregion
-
-        //region 4 Delete records & Check Deleted records -Costs table-
-        mContext.getContentResolver().delete(
-                KasebContract.Costs.CONTENT_URI,
-                null,
-                null
-        );
-
-        Cursor costsCursor = mContext.getContentResolver().query(
-                KasebContract.Costs.CONTENT_URI,
-                null,
-                null,
-                null,
-                null
-        );
-
-        assertEquals("Error: Records not deleted from -Costs table- during delete", 0, costsCursor.getCount());
-        costsCursor.close();
-        //endregion
-
         //region 5 Delete records & Check Deleted records -PaymentMethods table-
         mContext.getContentResolver().delete(
                 KasebContract.PaymentMethods.CONTENT_URI,
@@ -164,139 +296,6 @@ public class TestKasebProvider extends AndroidTestCase {
 
         assertEquals("Error: Records not deleted from -TaxTypes table- during delete", 0, taxTypesCursor.getCount());
         taxTypesCursor.close();
-        //endregion
-
-        //region 7 Delete records & Check Deleted records -Products table-
-        mContext.getContentResolver().delete(
-                KasebContract.Products.CONTENT_URI,
-                null,
-                null
-        );
-
-        Cursor productsCursor = mContext.getContentResolver().query(
-                KasebContract.Products.CONTENT_URI,
-                null,
-                null,
-                null,
-                null
-        );
-
-        assertEquals("Error: Records not deleted from -Products table- during delete", 0, productsCursor.getCount());
-        productsCursor.close();
-        //endregion
-
-        //region 8 Delete records & Check Deleted records -Sales table-
-        mContext.getContentResolver().delete(
-                KasebContract.Sales.CONTENT_URI,
-                null,
-                null
-        );
-
-        Cursor salesCursor = mContext.getContentResolver().query(
-                KasebContract.Sales.CONTENT_URI,
-                null,
-                null,
-                null,
-                null
-        );
-
-        assertEquals("Error: Records not deleted from -Sales table- during delete", 0, salesCursor.getCount());
-        salesCursor.close();
-        //endregion
-
-        //region 9 Delete records & Check Deleted records -DetailSale table-
-        mContext.getContentResolver().delete(
-                KasebContract.DetailSale.CONTENT_URI,
-                null,
-                null
-        );
-
-        Cursor detailSaleCursor = mContext.getContentResolver().query(
-                KasebContract.DetailSale.CONTENT_URI,
-                null,
-                null,
-                null,
-                null
-        );
-
-        assertEquals("Error: Records not deleted from -DetailSale table- during delete", 0, detailSaleCursor.getCount());
-        detailSaleCursor.close();
-        //endregion
-
-        //region 10 Delete records & Check Deleted records -DetailSalePayments table-
-        mContext.getContentResolver().delete(
-                KasebContract.DetailSalePayments.CONTENT_URI,
-                null,
-                null
-        );
-
-        Cursor detailSalePaymentsCursor = mContext.getContentResolver().query(
-                KasebContract.DetailSalePayments.CONTENT_URI,
-                null,
-                null,
-                null,
-                null
-        );
-
-        assertEquals("Error: Records not deleted from -DetailSalePayments table- during delete", 0, detailSalePaymentsCursor.getCount());
-        detailSalePaymentsCursor.close();
-        //endregion
-
-        //region 11 Delete records & Check Deleted records -ProductHistory table-
-        mContext.getContentResolver().delete(
-                KasebContract.ProductHistory.CONTENT_URI,
-                null,
-                null
-        );
-
-        Cursor productHistoryCursor = mContext.getContentResolver().query(
-                KasebContract.ProductHistory.CONTENT_URI,
-                null,
-                null,
-                null,
-                null
-        );
-
-        assertEquals("Error: Records not deleted from -ProductHistory table- during delete", 0, productHistoryCursor.getCount());
-        productHistoryCursor.close();
-        //endregion
-
-        //region 12 Delete records & Check Deleted records -DetailSaleTaxes table-
-        mContext.getContentResolver().delete(
-                KasebContract.DetailSaleTaxes.CONTENT_URI,
-                null,
-                null
-        );
-
-        Cursor detailSaleTaxesCursor = mContext.getContentResolver().query(
-                KasebContract.DetailSaleTaxes.CONTENT_URI,
-                null,
-                null,
-                null,
-                null
-        );
-
-        assertEquals("Error: Records not deleted from -DetailSaleTaxes table- during delete", 0, detailSaleTaxesCursor.getCount());
-        detailSaleTaxesCursor.close();
-        //endregion
-
-        //region 13 Delete records & Check Deleted records -DetailSaleProducts table-
-        mContext.getContentResolver().delete(
-                KasebContract.DetailSaleProducts.CONTENT_URI,
-                null,
-                null
-        );
-
-        Cursor detailSaleProductsCursor = mContext.getContentResolver().query(
-                KasebContract.DetailSaleProducts.CONTENT_URI,
-                null,
-                null,
-                null,
-                null
-        );
-
-        assertEquals("Error: Records not deleted from -DetailSaleProducts table- during delete", 0, detailSaleProductsCursor.getCount());
-        detailSaleProductsCursor.close();
         //endregion
     }
 
@@ -1927,7 +1926,10 @@ public class TestKasebProvider extends AndroidTestCase {
         ContentValues testValuesCustomers = TestUtilities.createCustomersValues(stateRowId);
         long customersRowId = db.insert(KasebContract.Customers.TABLE_NAME, null, testValuesCustomers);
 
-        ContentValues testValuesDetailSale = TestUtilities.createDetailSaleValues(customersRowId);
+        ContentValues testValuesSales = TestUtilities.createSalesValues(customersRowId);
+        long salesRowId = db.insert(KasebContract.Sales.TABLE_NAME, null, testValuesSales);
+
+        ContentValues testValuesDetailSale = TestUtilities.createDetailSaleValues(salesRowId);
         long detailSaleRowId = db.insert(KasebContract.DetailSale.TABLE_NAME, null, testValuesDetailSale);
 
         ContentValues testValuesPaymentMethods = TestUtilities.createPaymentMethodsValues();
@@ -1983,7 +1985,10 @@ public class TestKasebProvider extends AndroidTestCase {
         ContentValues testValuesCustomers = TestUtilities.createCustomersValues(stateRowId);
         long customersRowId = db.insert(KasebContract.Customers.TABLE_NAME, null, testValuesCustomers);
 
-        ContentValues testValuesDetailSale = TestUtilities.createDetailSaleValues(customersRowId);
+        ContentValues testValuesSales = TestUtilities.createSalesValues(customersRowId);
+        long salesRowId = db.insert(KasebContract.Sales.TABLE_NAME, null, testValuesSales);
+
+        ContentValues testValuesDetailSale = TestUtilities.createDetailSaleValues(salesRowId);
         long detailSaleRowId = db.insert(KasebContract.DetailSale.TABLE_NAME, null, testValuesDetailSale);
 
         ContentValues testValuesTaxTypes = TestUtilities.createTaxTypesValues();
@@ -2013,8 +2018,10 @@ public class TestKasebProvider extends AndroidTestCase {
         ContentValues testValuesCustomers = TestUtilities.createCustomersValues(stateRowId);
         long customersRowId = db.insert(KasebContract.Customers.TABLE_NAME, null, testValuesCustomers);
 
+        ContentValues testValuesSales = TestUtilities.createSalesValues(customersRowId);
+        long salesRowId = db.insert(KasebContract.Sales.TABLE_NAME, null, testValuesSales);
 
-        ContentValues testValuesDetailSale = TestUtilities.createDetailSaleValues(customersRowId);
+        ContentValues testValuesDetailSale = TestUtilities.createDetailSaleValues(salesRowId);
         long detailSaleRowId = db.insert(KasebContract.DetailSale.TABLE_NAME, null, testValuesDetailSale);
 
         ContentValues testValuesProducts = TestUtilities.createProductsValues();
