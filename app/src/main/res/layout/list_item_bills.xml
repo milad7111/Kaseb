@@ -28,8 +28,8 @@
                 android:layout_weight="1"
                 android:text="@string/sample_2_invoice_code"
                 android:textAppearance="?android:textAppearanceMedium"
-                android:textColor="@color/colorAccent"
-                android:textColorHint="@color/colorAccent"
+                android:textColor="@color/colorBlack"
+                android:textColorHint="@color/colorBlack"
                 android:textSize="@dimen/text_size_in_list" />
 
             <TextView
@@ -39,8 +39,8 @@
                 android:layout_weight="1"
                 android:text="@string/sample_due_date_1_day"
                 android:textAppearance="?android:textAppearanceSmall"
-                android:textColor="@color/colorAccent"
-                android:textColorHint="@color/colorAccent"
+                android:textColor="@color/colorBlack"
+                android:textColorHint="@color/colorBlack"
                 android:textSize="@dimen/text_size_in_list" />
         </LinearLayout>
 
@@ -77,8 +77,8 @@
                 android:gravity="center"
                 android:text="@string/sample_text_purchase_of_customer_amount"
                 android:textAppearance="?android:textAppearanceLarge"
-                android:textColor="@color/colorAccent"
-                android:textColorHint="@color/colorAccent"
+                android:textColor="@color/colorBlack"
+                android:textColorHint="@color/colorBlack"
                 android:textSize="@dimen/text_size_in_list" />
         </LinearLayout>
     </LinearLayout>

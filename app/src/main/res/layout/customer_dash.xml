@@ -21,8 +21,8 @@
             android:layout_weight="5"
             android:text="@string/customer_dash_membership"
             android:textAppearance="?android:textAppearanceMedium"
-            android:textColor="@color/colorAccent"
-            android:textColorHint="@color/colorAccent" />
+            android:textColor="@color/colorBlack"
+            android:textColorHint="@color/colorBlack" />
 
         <ImageView
             android:id="@+id/customer_dash_membership"
@@ -52,8 +52,8 @@
             android:layout_weight="5"
             android:text="@string/customer_dash_purchase_amount"
             android:textAppearance="?android:textAppearanceMedium"
-            android:textColor="@color/colorAccent"
-            android:textColorHint="@color/colorAccent" />
+            android:textColor="@color/colorBlack"
+            android:textColorHint="@color/colorBlack" />
 
         <TextView
             android:id="@+id/customer_dash_total_purchase"
@@ -63,8 +63,8 @@
             android:layout_marginLeft="4dp"
             android:layout_weight="5"
             android:textAppearance="?android:textAppearanceMedium"
-            android:textColor="@color/colorAccent"
-            android:textColorHint="@color/colorAccent" />
+            android:textColor="@color/colorBlack"
+            android:textColorHint="@color/colorBlack" />
 
     </LinearLayout>
 
@@ -84,8 +84,8 @@
             android:layout_weight="5"
             android:text="@string/customer_dash_total_balance"
             android:textAppearance="?android:textAppearanceMedium"
-            android:textColor="@color/colorAccent"
-            android:textColorHint="@color/colorAccent" />
+            android:textColor="@color/colorBlack"
+            android:textColorHint="@color/colorBlack" />
 
         <TextView
             android:id="@+id/customer_dash_total_balance"
@@ -95,8 +95,8 @@
             android:layout_marginLeft="4dp"
             android:layout_weight="5"
             android:textAppearance="?android:textAppearanceMedium"
-            android:textColor="@color/colorAccent"
-            android:textColorHint="@color/colorAccent" />
+            android:textColor="@color/colorBlack"
+            android:textColorHint="@color/colorBlack" />
     </LinearLayout>
 
     <LinearLayout
@@ -116,8 +116,8 @@
             android:layout_weight="5"
             android:text="@string/customer_dash_number_purchase"
             android:textAppearance="?android:textAppearanceMedium"
-            android:textColor="@color/colorAccent"
-            android:textColorHint="@color/colorAccent" />
+            android:textColor="@color/colorBlack"
+            android:textColorHint="@color/colorBlack" />
 
         <TextView
             android:id="@+id/customer_dash_number_purchase"
@@ -127,8 +127,8 @@
             android:layout_marginLeft="4dp"
             android:layout_weight="5"
             android:textAppearance="?android:textAppearanceMedium"
-            android:textColor="@color/colorAccent"
-            android:textColorHint="@color/colorAccent" />
+            android:textColor="@color/colorBlack"
+            android:textColorHint="@color/colorBlack" />
     </LinearLayout>
 
 </LinearLayout>

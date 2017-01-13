@@ -23,8 +23,8 @@
                 android:hint="@string/hint_payment_amount"
                 android:inputType="numberDecimal"
                 android:maxLength="15"
-                android:textColor="@color/colorAccent"
-                android:textColorHint="@color/colorAccent" />
+                android:textColor="@color/colorBlack"
+                android:textColorHint="@color/colorBlack" />
 
         </android.support.design.widget.TextInputLayout>
 
@@ -41,8 +41,8 @@
                 android:hint="@string/hint_due_date"
                 android:inputType="date"
                 android:maxLength="10"
-                android:textColor="@color/colorAccent"
-                android:textColorHint="@color/colorAccent" />
+                android:textColor="@color/colorBlack"
+                android:textColorHint="@color/colorBlack" />
 
         </android.support.design.widget.TextInputLayout>
 
@@ -68,8 +68,8 @@
                 android:gravity="left"
                 android:text="@string/dialog_add_payment_is_pass"
                 android:textAppearance="?android:textAppearanceLarge"
-                android:textColor="@color/colorAccent"
-                android:textColorHint="@color/colorAccent" />
+                android:textColor="@color/colorBlack"
+                android:textColorHint="@color/colorBlack" />
 
             <CheckBox
                 android:id="@+id/dialog_add_payment_is_passed_check_box"
@@ -77,8 +77,8 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:textColor="@color/colorAccent"
-                android:textColorHint="@color/colorAccent" />
+                android:textColor="@color/colorBlack"
+                android:textColorHint="@color/colorBlack" />
         </LinearLayout>
 
     </LinearLayout>

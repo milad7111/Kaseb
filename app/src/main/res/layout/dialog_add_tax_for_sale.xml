@@ -22,8 +22,8 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/hint_tax_amount"
                 android:inputType="number|numberDecimal"
-                android:textColor="@color/colorAccent"
-                android:textColorHint="@color/colorAccent" />
+                android:textColor="@color/colorBlack"
+                android:textColorHint="@color/colorBlack" />
 
         </android.support.design.widget.TextInputLayout>
 
@@ -39,8 +39,8 @@
                 android:allowUndo="false"
                 android:hint="@string/hint_tax_percent"
                 android:inputType="number|numberDecimal"
-                android:textColor="@color/colorAccent"
-                android:textColorHint="@color/colorAccent" />
+                android:textColor="@color/colorBlack"
+                android:textColorHint="@color/colorBlack" />
 
         </android.support.design.widget.TextInputLayout>
 

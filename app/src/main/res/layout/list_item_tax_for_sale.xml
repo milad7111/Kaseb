@@ -30,8 +30,8 @@
                 android:gravity="center"
                 android:hint="@string/sample_text_purchase_of_customer_amount"
                 android:textAppearance="?android:textAppearanceMedium"
-                android:textColor="@color/colorAccent"
-                android:textColorHint="@color/colorAccent"
+                android:textColor="@color/colorBlack"
+                android:textColorHint="@color/colorBlack"
                 android:textSize="@dimen/text_size_in_list" />
 
             <TextView
@@ -47,8 +47,8 @@
                 android:gravity="center"
                 android:hint="25 %"
                 android:textAppearance="?android:textAppearanceMedium"
-                android:textColor="@color/colorAccent"
-                android:textColorHint="@color/colorAccent"
+                android:textColor="@color/colorBlack"
+                android:textColorHint="@color/colorBlack"
                 android:textSize="@dimen/text_size_in_list" />
 
             <TextView
@@ -64,8 +64,8 @@
                 android:gravity="center"
                 android:hint="VAS"
                 android:textAppearance="?android:textAppearanceMedium"
-                android:textColor="@color/colorAccent"
-                android:textColorHint="@color/colorAccent"
+                android:textColor="@color/colorBlack"
+                android:textColorHint="@color/colorBlack"
                 android:textSize="@dimen/text_size_in_list" />
 
         </LinearLayout>

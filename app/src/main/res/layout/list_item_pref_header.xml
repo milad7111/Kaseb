@@ -40,8 +40,8 @@
                 android:layout_height="wrap_content"
                 android:text="@string/pref_header_cost"
                 android:textAppearance="?android:textAppearanceMedium"
-                android:textColor="@color/colorAccent"
-                android:textColorHint="@color/colorAccent" />
+                android:textColor="@color/colorBlack"
+                android:textColorHint="@color/colorBlack" />
 
             <TextView
                 android:id="@+id/pref_header_summary"
@@ -50,8 +50,8 @@
                 android:layout_marginTop="@dimen/top_of_list_margin_in_row"
                 android:text="@string/pref_header_cost"
                 android:textAppearance="?android:textAppearanceMedium"
-                android:textColor="@color/colorAccent"
-                android:textColorHint="@color/colorAccent"
+                android:textColor="@color/colorBlack"
+                android:textColorHint="@color/colorBlack"
                 android:visibility="gone" />
         </LinearLayout>
     </LinearLayout>

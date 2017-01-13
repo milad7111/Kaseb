@@ -19,8 +19,8 @@
             android:layout_height="wrap_content"
             android:hint="@string/hint_product_name"
             android:maxLength="30"
-            android:textColor="@color/colorAccent"
-            android:textColorHint="@color/colorAccent" />
+            android:textColor="@color/colorBlack"
+            android:textColorHint="@color/colorBlack" />
 
     </android.support.design.widget.TextInputLayout>
 
@@ -36,8 +36,8 @@
             android:hint="@string/hint_product_code"
             android:inputType="number"
             android:maxLength="15"
-            android:textColor="@color/colorAccent"
-            android:textColorHint="@color/colorAccent" />
+            android:textColor="@color/colorBlack"
+            android:textColorHint="@color/colorBlack" />
 
     </android.support.design.widget.TextInputLayout>
 
@@ -52,8 +52,8 @@
             android:layout_height="wrap_content"
             android:hint="@string/hint_product_unit"
             android:maxLength="15"
-            android:textColor="@color/colorAccent"
-            android:textColorHint="@color/colorAccent" />
+            android:textColor="@color/colorBlack"
+            android:textColorHint="@color/colorBlack" />
 
     </android.support.design.widget.TextInputLayout>
 
@@ -68,8 +68,8 @@
             android:layout_height="wrap_content"
             android:hint="@string/hint_product_description"
             android:maxLength="50"
-            android:textColor="@color/colorAccent"
-            android:textColorHint="@color/colorAccent" />
+            android:textColor="@color/colorBlack"
+            android:textColorHint="@color/colorBlack" />
 
     </android.support.design.widget.TextInputLayout>
 
@@ -85,8 +85,8 @@
             android:hint="@string/hint_sale_price"
             android:inputType="numberDecimal"
             android:maxLength="15"
-            android:textColor="@color/colorAccent"
-            android:textColorHint="@color/colorAccent" />
+            android:textColor="@color/colorBlack"
+            android:textColorHint="@color/colorBlack" />
 
     </android.support.design.widget.TextInputLayout>
 
@@ -102,8 +102,8 @@
             android:hint="@string/hint_quantity"
             android:inputType="number"
             android:maxLength="10"
-            android:textColor="@color/colorAccent"
-            android:textColorHint="@color/colorAccent" />
+            android:textColor="@color/colorBlack"
+            android:textColorHint="@color/colorBlack" />
 
     </android.support.design.widget.TextInputLayout>
 
@@ -119,8 +119,8 @@
             android:hint="@string/hint_buy_price"
             android:inputType="numberDecimal"
             android:maxLength="15"
-            android:textColor="@color/colorAccent"
-            android:textColorHint="@color/colorAccent" />
+            android:textColor="@color/colorBlack"
+            android:textColorHint="@color/colorBlack" />
 
     </android.support.design.widget.TextInputLayout>
 
@@ -136,8 +136,8 @@
             android:hint="@string/hint_date"
             android:inputType="date"
             android:maxLength="10"
-            android:textColor="@color/colorAccent"
-            android:textColorHint="@color/colorAccent" />
+            android:textColor="@color/colorBlack"
+            android:textColorHint="@color/colorBlack" />
 
     </android.support.design.widget.TextInputLayout>
 
@@ -153,8 +153,8 @@
             android:hint="@string/hint_buy_price_discount_amount"
             android:inputType="numberDecimal"
             android:maxLength="10"
-            android:textColor="@color/colorAccent"
-            android:textColorHint="@color/colorAccent" />
+            android:textColor="@color/colorBlack"
+            android:textColorHint="@color/colorBlack" />
 
     </android.support.design.widget.TextInputLayout>
 
@@ -171,8 +171,8 @@
             android:hint="@string/hint_buy_price_discount_percent"
             android:inputType="numberDecimal"
             android:maxLength="10"
-            android:textColor="@color/colorAccent"
-            android:textColorHint="@color/colorAccent" />
+            android:textColor="@color/colorBlack"
+            android:textColorHint="@color/colorBlack" />
 
     </android.support.design.widget.TextInputLayout>
 

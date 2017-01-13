@@ -11,7 +11,7 @@
         android:id="@+id/list_view_customers"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:divider="@null"></ListView>
+        android:divider="@null" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab_customers"
@@ -20,6 +20,6 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
         android:onClick="fab_customers"
-        android:src="@android:drawable/ic_input_add" />
+        android:src="@drawable/plus" />
 
 </FrameLayout>

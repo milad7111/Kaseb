@@ -22,8 +22,8 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/hint_cost_name"
                 android:maxLength="30"
-                android:textColor="@color/colorAccent"
-                android:textColorHint="@color/colorAccent" />
+                android:textColor="@color/colorBlack"
+                android:textColorHint="@color/colorBlack" />
 
         </android.support.design.widget.TextInputLayout>
 
@@ -38,8 +38,8 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/hint_cost_code"
                 android:maxLength="15"
-                android:textColor="@color/colorAccent"
-                android:textColorHint="@color/colorAccent" />
+                android:textColor="@color/colorBlack"
+                android:textColorHint="@color/colorBlack" />
 
         </android.support.design.widget.TextInputLayout>
 
@@ -55,8 +55,8 @@
                 android:hint="@string/hint_cost_amount"
                 android:inputType="number"
                 android:maxLength="15"
-                android:textColor="@color/colorAccent"
-                android:textColorHint="@color/colorAccent" />
+                android:textColor="@color/colorBlack"
+                android:textColorHint="@color/colorBlack" />
 
         </android.support.design.widget.TextInputLayout>
 
@@ -78,8 +78,8 @@
                 android:hint="@string/hint_date_picker"
                 android:inputType="date"
                 android:maxLength="10"
-                android:textColor="@color/colorAccent"
-                android:textColorHint="@color/colorAccent" />
+                android:textColor="@color/colorBlack"
+                android:textColorHint="@color/colorBlack" />
 
         </android.support.design.widget.TextInputLayout>
 
@@ -95,8 +95,8 @@
                 android:hint="@string/hint_description"
                 android:inputType="textMultiLine"
                 android:maxLength="15"
-                android:textColor="@color/colorAccent"
-                android:textColorHint="@color/colorAccent" />
+                android:textColor="@color/colorBlack"
+                android:textColorHint="@color/colorBlack" />
 
         </android.support.design.widget.TextInputLayout>
 
