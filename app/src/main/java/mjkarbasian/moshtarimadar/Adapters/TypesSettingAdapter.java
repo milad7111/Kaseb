@@ -2,6 +2,7 @@ package mjkarbasian.moshtarimadar.Adapters;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,7 +32,11 @@ public class TypesSettingAdapter extends CursorAdapter {
     public View newView(Context context, Cursor cursor, ViewGroup parent) {
         View view = mInflater.inflate(R.layout.list_item_state_type_setting, parent, false);
         TextView typeView = new TextView(context);
-        if (columnName.equals(KasebContract.State.COLUMN_STATE_POINTER)) return view;
+        typeView.setTextColor(context.getResources().getColor(R.color.colorAccent));
+        typeView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
+
+        if (columnName.equals(KasebContract.State.COLUMN_STATE_POINTER))
+            return view;
         return typeView;
     }
 

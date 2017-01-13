@@ -10,27 +10,41 @@
         android:layout_margin="@dimen/design_snackbar_padding_vertical_2lines"
         android:orientation="vertical">
 
-        <EditText
-            android:id="@+id/add_payment_for_sale_text1"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:gravity="left"
-            android:hint="@string/hint_payment_amount"
-            android:inputType="numberDecimal"
-            android:maxLength="15"
-            android:textColor="@color/colorAccent"
-            android:textColorHint="@color/colorAccent" />
-
-        <EditText
-            android:id="@+id/input_buy_date"
+        <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="left"
-            android:hint="@string/hint_due_date"
-            android:inputType="date"
-            android:maxLength="10"
-            android:textColor="@color/colorAccent"
-            android:textColorHint="@color/colorAccent" />
+            android:textColorHint="@color/colorAccent">
+
+            <EditText
+                android:id="@+id/add_payment_for_sale_text1"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:hint="@string/hint_payment_amount"
+                android:inputType="numberDecimal"
+                android:maxLength="15"
+                android:textColor="@color/colorAccent"
+                android:textColorHint="@color/colorAccent" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColorHint="@color/colorAccent">
+
+            <EditText
+                android:id="@+id/input_buy_date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:hint="@string/hint_due_date"
+                android:inputType="date"
+                android:maxLength="10"
+                android:textColor="@color/colorAccent"
+                android:textColorHint="@color/colorAccent" />
+
+        </android.support.design.widget.TextInputLayout>
 
         <Spinner
             android:id="@+id/input_payment_method_spinner"

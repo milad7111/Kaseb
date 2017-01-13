@@ -40,41 +40,57 @@
                         android:padding="4dp"
                         android:text="@string/detail_sales_info_header"
                         android:textAppearance="?android:textAppearanceMedium"
-                        android:textColor="@color/colorAccent"
-                        android:textColorHint="@color/colorAccent"
+                        android:textColor="@color/colorWhite"
+                        android:textColorHint="@color/colorWhite"
                         android:textSize="@dimen/text_size_in_list" />
 
-                    <EditText
-                        android:id="@+id/detail_sales_info_sale_code"
+                    <android.support.design.widget.TextInputLayout
                         android:layout_width="match_parent"
-                        android:layout_height="56dp"
+                        android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/top_of_list_margin"
-                        android:gravity="center_vertical|start"
-                        android:hint="@string/detail_sales_info_sale_code"
-                        android:inputType="text"
-                        android:maxLength="15"
-                        android:nestedScrollingEnabled="false"
-                        android:paddingLeft="@dimen/padding_left_text_view"
-                        android:textAppearance="?android:textAppearanceMedium"
-                        android:textColor="@color/colorAccent"
-                        android:textColorHint="@color/colorAccent"
-                        android:textSize="@dimen/text_size_in_list_sub_title" />
+                        android:textColorHint="@color/colorAccent">
 
-                    <EditText
-                        android:id="@+id/detail_sales_info_sale_date"
+                        <EditText
+                            android:id="@+id/detail_sales_info_sale_code"
+                            android:layout_width="match_parent"
+                            android:layout_height="56dp"
+                            android:layout_marginTop="@dimen/top_of_list_margin"
+                            android:gravity="center_vertical|start"
+                            android:hint="@string/detail_sales_info_sale_code"
+                            android:inputType="text"
+                            android:maxLength="15"
+                            android:nestedScrollingEnabled="false"
+                            android:paddingLeft="@dimen/padding_left_text_view"
+                            android:textAppearance="?android:textAppearanceMedium"
+                            android:textColor="@color/colorAccent"
+                            android:textColorHint="@color/colorAccent"
+                            android:textSize="@dimen/text_size_in_list_sub_title" />
+
+                    </android.support.design.widget.TextInputLayout>
+
+                    <android.support.design.widget.TextInputLayout
                         android:layout_width="match_parent"
-                        android:layout_height="56dp"
-                        android:layout_marginTop="@dimen/top_of_list_margin"
-                        android:ems="10"
-                        android:gravity="center_vertical|start"
-                        android:hint="@string/hint_date"
-                        android:inputType="date"
-                        android:maxLength="10"
-                        android:nestedScrollingEnabled="false"
-                        android:paddingLeft="@dimen/padding_left_text_view"
-                        android:textColor="@color/colorAccent"
-                        android:textColorHint="@color/colorAccent"
-                        android:textSize="@dimen/text_size_in_list_sub_title" />
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/top_of_list_margin_in_row"
+                        android:textColorHint="@color/colorAccent">
+
+                        <EditText
+                            android:id="@+id/detail_sales_info_sale_date"
+                            android:layout_width="match_parent"
+                            android:layout_height="56dp"
+                            android:layout_marginTop="@dimen/top_of_list_margin"
+                            android:ems="10"
+                            android:gravity="center_vertical|start"
+                            android:hint="@string/hint_date"
+                            android:inputType="date"
+                            android:maxLength="10"
+                            android:nestedScrollingEnabled="false"
+                            android:paddingLeft="@dimen/padding_left_text_view"
+                            android:textColor="@color/colorAccent"
+                            android:textColorHint="@color/colorAccent"
+                            android:textSize="@dimen/text_size_in_list_sub_title" />
+
+                    </android.support.design.widget.TextInputLayout>
 
                     <LinearLayout
                         android:id="@+id/content_detail_sale_insert_linear_layout_add_customer"
@@ -152,6 +168,7 @@
                             android:text="@string/detail_sales_products_items_header"
                             android:textAppearance="?android:textAppearanceMedium"
                             android:textColor="@color/colorWhite"
+                            android:textColorHint="@color/colorWhite"
                             android:textSize="@dimen/text_size_in_list" />
 
                         <ImageButton
@@ -168,7 +185,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
-                        android:background="#2c96e2"
+                        android:background="@color/colorPrimaryLight"
                         android:orientation="vertical">
 
                         <LinearLayout
@@ -186,6 +203,7 @@
                                 android:text="@string/detail_sales_products_items_name"
                                 android:textAppearance="?android:textAppearanceMedium"
                                 android:textColor="@color/colorWhite"
+                                android:textColorHint="@color/colorWhite"
                                 android:textSize="@dimen/text_size_in_list" />
 
                             <TextView
@@ -197,6 +215,7 @@
                                 android:text="@string/detail_sales_products_items_quantity"
                                 android:textAppearance="?android:textAppearanceMedium"
                                 android:textColor="@color/colorWhite"
+                                android:textColorHint="@color/colorWhite"
                                 android:textSize="@dimen/text_size_in_list" />
 
                             <TextView
@@ -208,6 +227,7 @@
                                 android:text="@string/detail_sales_products_items_price"
                                 android:textAppearance="?android:textAppearanceMedium"
                                 android:textColor="@color/colorWhite"
+                                android:textColorHint="@color/colorWhite"
                                 android:textSize="@dimen/text_size_in_list" />
 
                         </LinearLayout>
@@ -250,6 +270,7 @@
                             android:text="@string/detail_sales_payment_header"
                             android:textAppearance="?android:textAppearanceMedium"
                             android:textColor="@color/colorWhite"
+                            android:textColorHint="@color/colorWhite"
                             android:textSize="@dimen/text_size_in_list" />
 
                         <ImageButton
@@ -266,7 +287,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
-                        android:background="#2c96e2"
+                        android:background="@color/colorPrimaryLight"
                         android:orientation="vertical">
 
                         <LinearLayout
@@ -285,6 +306,7 @@
                                 android:text="@string/detail_sales_payment_amount"
                                 android:textAppearance="?android:textAppearanceMedium"
                                 android:textColor="@color/colorWhite"
+                                android:textColorHint="@color/colorWhite"
                                 android:textSize="@dimen/text_size_in_list" />
 
                             <TextView
@@ -296,6 +318,7 @@
                                 android:text="@string/detail_sales_payment_due_date"
                                 android:textAppearance="?android:textAppearanceMedium"
                                 android:textColor="@color/colorWhite"
+                                android:textColorHint="@color/colorWhite"
                                 android:textSize="@dimen/text_size_in_list" />
 
                             <TextView
@@ -307,6 +330,7 @@
                                 android:text="@string/detail_sales_payment_type"
                                 android:textAppearance="?android:textAppearanceMedium"
                                 android:textColor="@color/colorWhite"
+                                android:textColorHint="@color/colorWhite"
                                 android:textSize="@dimen/text_size_in_list" />
 
                         </LinearLayout>
@@ -350,6 +374,7 @@
                             android:text="@string/detail_sales_taxDiscount_header"
                             android:textAppearance="?android:textAppearanceMedium"
                             android:textColor="@color/colorWhite"
+                            android:textColorHint="@color/colorWhite"
                             android:textSize="@dimen/text_size_in_list" />
 
                         <ImageButton
@@ -366,7 +391,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
-                        android:background="#2c96e2"
+                        android:background="@color/colorPrimaryLight"
                         android:orientation="vertical">
 
                         <LinearLayout
@@ -385,6 +410,7 @@
                                 android:text="@string/detail_sales_taxDiscount_amount"
                                 android:textAppearance="?android:textAppearanceMedium"
                                 android:textColor="@color/colorWhite"
+                                android:textColorHint="@color/colorWhite"
                                 android:textSize="@dimen/text_size_in_list" />
 
                             <TextView
@@ -396,6 +422,7 @@
                                 android:text="@string/detail_sales_taxDiscount_percent"
                                 android:textAppearance="?android:textAppearanceMedium"
                                 android:textColor="@color/colorWhite"
+                                android:textColorHint="@color/colorWhite"
                                 android:textSize="@dimen/text_size_in_list" />
 
                             <TextView
@@ -407,6 +434,7 @@
                                 android:text="@string/detail_sales_taxDiscount_type"
                                 android:textAppearance="?android:textAppearanceMedium"
                                 android:textColor="@color/colorWhite"
+                                android:textColorHint="@color/colorWhite"
                                 android:textSize="@dimen/text_size_in_list" />
 
                         </LinearLayout>
@@ -449,8 +477,8 @@
                         android:padding="4dp"
                         android:text="@string/detail_sales_summary_header"
                         android:textAppearance="?android:textAppearanceMedium"
-                        android:textColor="@color/colorAccent"
-                        android:textColorHint="@color/colorAccent"
+                        android:textColor="@color/colorWhite"
+                        android:textColorHint="@color/colorWhite"
                         android:textSize="@dimen/text_size_in_list" />
 
                     <LinearLayout

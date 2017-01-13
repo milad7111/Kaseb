@@ -19,16 +19,24 @@
             android:text="@string/about_us_my_info"
             android:textSize="15dp"></TextView>
 
-        <EditText
-            android:id="@+id/about_us_your_text"
+        <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="@dimen/top_of_list_margin"
-            android:gravity="top|left"
-            android:hint="@string/about_us_hint_your_text"
-            android:textIsSelectable="false"
-            android:textSize="15dp" />
+            android:layout_height="wrap_content"
+            android:textColorHint="@color/colorAccent">
+
+            <EditText
+                android:id="@+id/about_us_your_text"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/top_of_list_margin"
+                android:gravity="top|left"
+                android:hint="@string/about_us_hint_your_text"
+                android:textIsSelectable="false"
+                android:textSize="15dp" />
+
+        </android.support.design.widget.TextInputLayout>
+
     </LinearLayout>
 
 </LinearLayout>

@@ -32,17 +32,24 @@
                 android:gravity="left"
                 android:src="@drawable/ic_phone" />
 
-            <EditText
-                android:id="@+id/customer_phone_mobile"
+            <android.support.design.widget.TextInputLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginLeft="4dp"
-                android:layout_marginRight="4dp"
                 android:layout_weight="8"
-                android:hint="@string/hint_phone_mobile"
-                android:inputType="phone"
-                android:textAppearance="?android:textAppearanceMedium" />
+                android:textColorHint="@color/colorAccent">
+
+                <EditText
+                    android:id="@+id/customer_phone_mobile"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="4dp"
+                    android:layout_marginRight="4dp"
+                    android:hint="@string/hint_phone_mobile"
+                    android:inputType="phone"
+                    android:textAppearance="?android:textAppearanceMedium" />
+
+            </android.support.design.widget.TextInputLayout>
 
             <ImageView
                 android:id="@+id/customer_sms_btn_phone_mobile"
@@ -52,6 +59,7 @@
                 android:layout_marginRight="16dp"
                 android:layout_weight="2"
                 android:src="@drawable/message" />
+
         </LinearLayout>
 
         <LinearLayout
@@ -71,16 +79,24 @@
                 android:onClick="email_customer"
                 android:src="@drawable/email" />
 
-            <EditText
-                android:id="@+id/customer_email_txt"
+            <android.support.design.widget.TextInputLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginLeft="4dp"
-                android:layout_marginRight="4dp"
                 android:layout_weight="8"
-                android:hint="@string/hint_email"
-                android:textAppearance="?android:textAppearanceMedium" />
+                android:textColorHint="@color/colorAccent">
+
+                <EditText
+                    android:id="@+id/customer_email_txt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="4dp"
+                    android:layout_marginRight="4dp"
+                    android:layout_weight="8"
+                    android:hint="@string/hint_email"
+                    android:textAppearance="?android:textAppearanceMedium" />
+
+            </android.support.design.widget.TextInputLayout>
 
             <ImageView
                 android:id="@+id/customer_share_btn"
@@ -91,28 +107,6 @@
                 android:layout_weight="2"
                 android:onClick="share_customer"
                 android:src="@drawable/share_variant" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="6dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:orientation="horizontal">
-
-            <EditText
-                android:id="@+id/customer_first_name"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginLeft="4dp"
-                android:layout_marginRight="4dp"
-                android:layout_weight="8"
-                android:hint="@string/hint_first_name"
-                android:inputType="textPersonName"
-                android:maxLength="30"
-                android:textAppearance="?android:textAppearanceMedium" />
 
         </LinearLayout>
 
@@ -124,18 +118,26 @@
             android:layout_marginRight="16dp"
             android:orientation="horizontal">
 
-            <EditText
-                android:id="@+id/customer_last_name"
+            <android.support.design.widget.TextInputLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginLeft="4dp"
-                android:layout_marginRight="4dp"
                 android:layout_weight="8"
-                android:hint="@string/hint_last_name"
-                android:inputType="textPersonName"
-                android:maxLength="30"
-                android:textAppearance="?android:textAppearanceMedium" />
+                android:textColorHint="@color/colorAccent">
+
+                <EditText
+                    android:id="@+id/customer_first_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="4dp"
+                    android:layout_marginRight="4dp"
+                    android:layout_weight="8"
+                    android:hint="@string/hint_first_name"
+                    android:inputType="textPersonName"
+                    android:maxLength="30"
+                    android:textAppearance="?android:textAppearanceMedium" />
+
+            </android.support.design.widget.TextInputLayout>
 
         </LinearLayout>
 
@@ -147,18 +149,26 @@
             android:layout_marginRight="16dp"
             android:orientation="horizontal">
 
-            <EditText
-                android:id="@+id/customer_birth_day"
+            <android.support.design.widget.TextInputLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginLeft="4dp"
-                android:layout_marginRight="4dp"
                 android:layout_weight="8"
-                android:hint="@string/hint_birth_day"
-                android:inputType="date"
-                android:maxLength="10"
-                android:textAppearance="?android:textAppearanceMedium" />
+                android:textColorHint="@color/colorAccent">
+
+                <EditText
+                    android:id="@+id/customer_last_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="4dp"
+                    android:layout_marginRight="4dp"
+                    android:layout_weight="8"
+                    android:hint="@string/hint_last_name"
+                    android:inputType="textPersonName"
+                    android:maxLength="30"
+                    android:textAppearance="?android:textAppearanceMedium" />
+
+            </android.support.design.widget.TextInputLayout>
 
         </LinearLayout>
 
@@ -170,17 +180,56 @@
             android:layout_marginRight="16dp"
             android:orientation="horizontal">
 
-            <EditText
-                android:id="@+id/customer_description"
+            <android.support.design.widget.TextInputLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginLeft="4dp"
-                android:layout_marginRight="4dp"
                 android:layout_weight="8"
-                android:hint="@string/hint_description"
-                android:inputType="text"
-                android:textAppearance="?android:textAppearanceMedium" />
+                android:textColorHint="@color/colorAccent">
+
+                <EditText
+                    android:id="@+id/customer_birth_day"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="4dp"
+                    android:layout_marginRight="4dp"
+                    android:layout_weight="8"
+                    android:hint="@string/hint_birth_day"
+                    android:inputType="date"
+                    android:maxLength="10"
+                    android:textAppearance="?android:textAppearanceMedium" />
+
+            </android.support.design.widget.TextInputLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="6dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:orientation="horizontal">
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="8"
+                android:textColorHint="@color/colorAccent">
+
+                <EditText
+                    android:id="@+id/customer_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="4dp"
+                    android:layout_marginRight="4dp"
+                    android:layout_weight="8"
+                    android:hint="@string/hint_description"
+                    android:inputType="text"
+                    android:textAppearance="?android:textAppearanceMedium" />
+
+            </android.support.design.widget.TextInputLayout>
 
         </LinearLayout>
 
@@ -201,17 +250,25 @@
                 android:gravity="left"
                 android:src="@drawable/ic_phone" />
 
-            <EditText
-                android:id="@+id/customer_phone_work"
+            <android.support.design.widget.TextInputLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginLeft="4dp"
-                android:layout_marginRight="4dp"
                 android:layout_weight="8"
-                android:hint="@string/hint_phone_work"
-                android:inputType="phone"
-                android:textAppearance="?android:textAppearanceMedium" />
+                android:textColorHint="@color/colorAccent">
+
+                <EditText
+                    android:id="@+id/customer_phone_work"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="4dp"
+                    android:layout_marginRight="4dp"
+                    android:layout_weight="8"
+                    android:hint="@string/hint_phone_work"
+                    android:inputType="phone"
+                    android:textAppearance="?android:textAppearanceMedium" />
+
+            </android.support.design.widget.TextInputLayout>
 
             <ImageView
                 android:id="@+id/customer_sms_btn_phone_work"
@@ -221,6 +278,7 @@
                 android:layout_marginRight="16dp"
                 android:layout_weight="2"
                 android:src="@drawable/message" />
+
         </LinearLayout>
 
         <LinearLayout
@@ -240,17 +298,25 @@
                 android:gravity="left"
                 android:src="@drawable/ic_phone" />
 
-            <EditText
-                android:id="@+id/customer_phone_home"
+            <android.support.design.widget.TextInputLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginLeft="4dp"
-                android:layout_marginRight="4dp"
                 android:layout_weight="8"
-                android:hint="@string/hint_phone_home"
-                android:inputType="phone"
-                android:textAppearance="?android:textAppearanceMedium" />
+                android:textColorHint="@color/colorAccent">
+
+                <EditText
+                    android:id="@+id/customer_phone_home"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="4dp"
+                    android:layout_marginRight="4dp"
+                    android:layout_weight="8"
+                    android:hint="@string/hint_phone_home"
+                    android:inputType="phone"
+                    android:textAppearance="?android:textAppearanceMedium" />
+
+            </android.support.design.widget.TextInputLayout>
 
             <ImageView
                 android:id="@+id/customer_sms_btn_phone_home"
@@ -260,6 +326,7 @@
                 android:layout_marginRight="16dp"
                 android:layout_weight="2"
                 android:src="@drawable/message" />
+
         </LinearLayout>
 
         <LinearLayout
@@ -279,17 +346,25 @@
                 android:gravity="left"
                 android:src="@drawable/ic_phone" />
 
-            <EditText
-                android:id="@+id/customer_phone_other"
+            <android.support.design.widget.TextInputLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginLeft="4dp"
-                android:layout_marginRight="4dp"
                 android:layout_weight="8"
-                android:hint="@string/hint_phone_other"
-                android:inputType="phone"
-                android:textAppearance="?android:textAppearanceMedium" />
+                android:textColorHint="@color/colorAccent">
+
+                <EditText
+                    android:id="@+id/customer_phone_other"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="4dp"
+                    android:layout_marginRight="4dp"
+                    android:layout_weight="8"
+                    android:hint="@string/hint_phone_other"
+                    android:inputType="phone"
+                    android:textAppearance="?android:textAppearanceMedium" />
+
+            </android.support.design.widget.TextInputLayout>
 
             <ImageView
                 android:id="@+id/customer_sms_btn_phone_other"
@@ -299,6 +374,7 @@
                 android:layout_marginRight="16dp"
                 android:layout_weight="2"
                 android:src="@drawable/message" />
+
         </LinearLayout>
 
         <LinearLayout
@@ -318,17 +394,25 @@
                 android:gravity="left"
                 android:src="@drawable/ic_phone" />
 
-            <EditText
-                android:id="@+id/customer_phone_fax"
+            <android.support.design.widget.TextInputLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginLeft="4dp"
-                android:layout_marginRight="4dp"
                 android:layout_weight="8"
-                android:hint="@string/hint_phone_fax"
-                android:inputType="phone"
-                android:textAppearance="?android:textAppearanceMedium" />
+                android:textColorHint="@color/colorAccent">
+
+                <EditText
+                    android:id="@+id/customer_phone_fax"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="4dp"
+                    android:layout_marginRight="4dp"
+                    android:layout_weight="8"
+                    android:hint="@string/hint_phone_fax"
+                    android:inputType="phone"
+                    android:textAppearance="?android:textAppearanceMedium" />
+
+            </android.support.design.widget.TextInputLayout>
 
             <ImageView
                 android:id="@+id/customer_sms_btn_phone_fax"
@@ -338,27 +422,6 @@
                 android:layout_marginRight="16dp"
                 android:layout_weight="2"
                 android:src="@drawable/message" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="6dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:orientation="horizontal">
-
-            <EditText
-                android:id="@+id/customer_address_country"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginLeft="4dp"
-                android:layout_marginRight="4dp"
-                android:layout_weight="8"
-                android:hint="@string/hint_address_country"
-                android:inputType="text"
-                android:textAppearance="?android:textAppearanceMedium" />
 
         </LinearLayout>
 
@@ -370,38 +433,25 @@
             android:layout_marginRight="16dp"
             android:orientation="horizontal">
 
-            <EditText
-                android:id="@+id/customer_address_city"
+            <android.support.design.widget.TextInputLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginLeft="4dp"
-                android:layout_marginRight="4dp"
                 android:layout_weight="8"
-                android:hint="@string/hint_address_city"
-                android:inputType="text"
-                android:textAppearance="?android:textAppearanceMedium" />
-        </LinearLayout>
+                android:textColorHint="@color/colorAccent">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="6dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:orientation="horizontal">
+                <EditText
+                    android:id="@+id/customer_address_country"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="4dp"
+                    android:layout_marginRight="4dp"
+                    android:layout_weight="8"
+                    android:hint="@string/hint_address_country"
+                    android:inputType="text"
+                    android:textAppearance="?android:textAppearanceMedium" />
 
-            <EditText
-                android:id="@+id/customer_address_street"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginLeft="4dp"
-                android:layout_marginRight="4dp"
-                android:layout_weight="8"
-                android:hint="@string/hint_address_street"
-                android:inputType="text"
-                android:textAppearance="?android:textAppearanceMedium" />
+            </android.support.design.widget.TextInputLayout>
 
         </LinearLayout>
 
@@ -413,19 +463,88 @@
             android:layout_marginRight="16dp"
             android:orientation="horizontal">
 
-            <EditText
-                android:id="@+id/customer_address_postal_code"
+            <android.support.design.widget.TextInputLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginLeft="4dp"
-                android:layout_marginRight="4dp"
                 android:layout_weight="8"
-                android:hint="@string/hint_address_postal_code"
-                android:inputType="textPostalAddress"
-                android:textAppearance="?android:textAppearanceMedium" />
+                android:textColorHint="@color/colorAccent">
+
+                <EditText
+                    android:id="@+id/customer_address_city"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="4dp"
+                    android:layout_marginRight="4dp"
+                    android:layout_weight="8"
+                    android:hint="@string/hint_address_city"
+                    android:inputType="text"
+                    android:textAppearance="?android:textAppearanceMedium" />
+
+            </android.support.design.widget.TextInputLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="6dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:orientation="horizontal">
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="8"
+                android:textColorHint="@color/colorAccent">
+
+                <EditText
+                    android:id="@+id/customer_address_street"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="4dp"
+                    android:layout_marginRight="4dp"
+                    android:layout_weight="8"
+                    android:hint="@string/hint_address_street"
+                    android:inputType="text"
+                    android:textAppearance="?android:textAppearanceMedium" />
+
+            </android.support.design.widget.TextInputLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="6dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:orientation="horizontal">
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="8"
+                android:textColorHint="@color/colorAccent">
+
+                <EditText
+                    android:id="@+id/customer_address_postal_code"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="4dp"
+                    android:layout_marginRight="4dp"
+                    android:layout_weight="8"
+                    android:hint="@string/hint_address_postal_code"
+                    android:inputType="textPostalAddress"
+                    android:textAppearance="?android:textAppearanceMedium" />
+
+            </android.support.design.widget.TextInputLayout>
 
         </LinearLayout>
 
     </LinearLayout>
+
 </ScrollView>

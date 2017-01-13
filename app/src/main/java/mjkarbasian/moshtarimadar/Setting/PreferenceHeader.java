@@ -305,12 +305,12 @@ public class PreferenceHeader extends Fragment {
 
     private ArrayList<Integer> initHeaderIcon() {
         ArrayList<Integer> headerIcons = new ArrayList<>();
-        headerIcons.add(R.drawable.information);
-        headerIcons.add(R.drawable.information);
-        headerIcons.add(R.drawable.information);
-        headerIcons.add(R.drawable.information);
-        headerIcons.add(R.drawable.information);
-        headerIcons.add(R.drawable.information);
+        headerIcons.add(R.drawable.coin);
+        headerIcons.add(R.drawable.taxtype);
+        headerIcons.add(R.drawable.paymentmethod);
+        headerIcons.add(R.drawable.statetype);
+        headerIcons.add(R.drawable.backuprestore);
+        headerIcons.add(R.drawable.importcontact);
 //        headerIcons.add(R.drawable.information);
 //        headerIcons.add(R.drawable.information);
         return headerIcons;

@@ -11,33 +11,54 @@
         android:layout_margin="@dimen/design_snackbar_padding_vertical_2lines"
         android:orientation="vertical">
 
-        <EditText
-            android:id="@+id/dialog_edit_cost_name"
+        <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/hint_cost_name"
-            android:maxLength="30"
-            android:textColor="@color/colorAccent"
-            android:textColorHint="@color/colorAccent" />
+            android:textColorHint="@color/colorAccent">
 
-        <EditText
-            android:id="@+id/dialog_edit_cost_code"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/hint_cost_code"
-            android:maxLength="15"
-            android:textColor="@color/colorAccent"
-            android:textColorHint="@color/colorAccent" />
+            <EditText
+                android:id="@+id/dialog_edit_cost_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/hint_cost_name"
+                android:maxLength="30"
+                android:textColor="@color/colorAccent"
+                android:textColorHint="@color/colorAccent" />
 
-        <EditText
-            android:id="@+id/dialog_edit_cost_amount"
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/hint_cost_amount"
-            android:inputType="number"
-            android:maxLength="15"
-            android:textColor="@color/colorAccent"
-            android:textColorHint="@color/colorAccent" />
+            android:textColorHint="@color/colorAccent">
+
+            <EditText
+                android:id="@+id/dialog_edit_cost_code"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/hint_cost_code"
+                android:maxLength="15"
+                android:textColor="@color/colorAccent"
+                android:textColorHint="@color/colorAccent" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColorHint="@color/colorAccent">
+
+            <EditText
+                android:id="@+id/dialog_edit_cost_amount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/hint_cost_amount"
+                android:inputType="number"
+                android:maxLength="15"
+                android:textColor="@color/colorAccent"
+                android:textColorHint="@color/colorAccent" />
+
+        </android.support.design.widget.TextInputLayout>
 
         <Spinner
             android:id="@+id/dialog_edit_cost_type_spinner"
@@ -45,25 +66,39 @@
             android:layout_height="wrap_content"
             android:spinnerMode="dropdown" />
 
-        <EditText
-            android:id="@+id/dialog_edit_cost_date"
+        <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/hint_date_picker"
-            android:inputType="date"
-            android:maxLength="10"
-            android:textColor="@color/colorAccent"
-            android:textColorHint="@color/colorAccent" />
+            android:textColorHint="@color/colorAccent">
 
-        <EditText
-            android:id="@+id/dialog_edit_cost_description"
+            <EditText
+                android:id="@+id/dialog_edit_cost_date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/hint_date_picker"
+                android:inputType="date"
+                android:maxLength="10"
+                android:textColor="@color/colorAccent"
+                android:textColorHint="@color/colorAccent" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/hint_description"
-            android:inputType="textMultiLine"
-            android:maxLength="15"
-            android:textColor="@color/colorAccent"
-            android:textColorHint="@color/colorAccent" />
+            android:textColorHint="@color/colorAccent">
+
+            <EditText
+                android:id="@+id/dialog_edit_cost_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/hint_description"
+                android:inputType="textMultiLine"
+                android:maxLength="15"
+                android:textColor="@color/colorAccent"
+                android:textColorHint="@color/colorAccent" />
+
+        </android.support.design.widget.TextInputLayout>
 
     </LinearLayout>
 

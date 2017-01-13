@@ -702,7 +702,7 @@ public class Utility {
                 context.getResources().getString(R.string.states_silver),
                 context.getResources().getString(R.string.states_bronze, R.string.states_instart),
                 context.getResources().getString(R.string.states_instart)};
-        int[] colors = new int[]{Color.rgb(255, 215, 0), Color.rgb(192, 192, 192), Color.rgb(218, 165, 32), Color.rgb(176, 224, 230)};
+        int[] colors = new int[]{R.color.gold, R.color.silver, R.color.bronze, R.color.normalstate};
         for (int i = 0; i < ids.length; i++) {
             ContentValues states = new ContentValues();
             states.put(KasebContract.State.COLUMN_STATE_POINTER, ids[i]);

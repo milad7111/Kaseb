@@ -10,13 +10,20 @@
         android:layout_margin="@dimen/design_snackbar_padding_vertical_2lines"
         android:orientation="vertical">
 
-        <EditText
-            android:id="@+id/add_types_setting_name"
-            android:layout_width="fill_parent"
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/add_new_type"
-            android:textColor="@color/colorAccent"
-            android:textColorHint="@color/colorAccent" />
+            android:textColorHint="@color/colorAccent">
+
+            <EditText
+                android:id="@+id/add_types_setting_name"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/add_new_type"
+                android:textColor="@color/colorAccent"
+                android:textColorHint="@color/colorAccent" />
+
+        </android.support.design.widget.TextInputLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
