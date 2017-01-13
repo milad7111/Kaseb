@@ -1,51 +1,105 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical">
 
-
-    <EditText
-        android:id="@+id/input_cost_name"
+    <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/hint_cost_name"
-        android:maxLength="30" />
+        android:textColorHint="@color/colorAccent">
 
-    <EditText
-        android:id="@+id/input_cost_code"
+        <EditText
+            android:id="@+id/input_cost_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="6dp"
+            android:hint="@string/hint_cost_name"
+            android:maxLength="30" />
+
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/hint_cost_code"
-        android:maxLength="15" />
+        android:textColorHint="@color/colorAccent">
 
-    <EditText
-        android:id="@+id/input_cost_amount"
+        <EditText
+            android:id="@+id/input_cost_code"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="6dp"
+            android:hint="@string/hint_cost_code"
+            android:maxLength="15" />
+
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/hint_cost_amount"
-        android:inputType="number"
-        android:maxLength="15" />
+        android:textColorHint="@color/colorAccent">
+
+        <EditText
+            android:id="@+id/input_cost_amount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="6dp"
+            android:hint="@string/hint_cost_amount"
+            android:inputType="number"
+            android:maxLength="15" />
+
+    </android.support.design.widget.TextInputLayout>
 
     <Spinner
         android:id="@+id/input_cost_type_spinner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="6dp"
         android:spinnerMode="dropdown" />
 
-    <EditText
-        android:id="@+id/input_cost_date"
+    <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/hint_date_picker"
-        android:inputType="date"
-        android:maxLength="10" />
+        android:textColorHint="@color/colorAccent">
 
-    <EditText
-        android:id="@+id/input_cost_description"
+        <EditText
+            android:id="@+id/input_cost_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="6dp"
+            android:hint="@string/hint_date_picker"
+            android:inputType="date"
+            android:maxLength="10" />
+
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/hint_description"
-        android:inputType="textMultiLine"
-        android:maxLength="50" />
+        android:textColorHint="@color/colorAccent">
+
+        <EditText
+            android:id="@+id/input_cost_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="3dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="6dp"
+            android:hint="@string/hint_description"
+            android:inputType="textMultiLine"
+            android:maxLength="50" />
+
+    </android.support.design.widget.TextInputLayout>
+
 </LinearLayout>

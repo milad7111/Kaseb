@@ -43,17 +43,18 @@ public class DebaterAdapter extends CursorAdapter {
         String[] customersProjection = new String[]{
                 KasebContract.Customers.COLUMN_FIRST_NAME,
                 KasebContract.Customers.COLUMN_LAST_NAME,
-                KasebContract.Customers.COLUMN_CUSTOMER_PICTURE
+                KasebContract.Customers.COLUMN_CUSTOMER_PICTURE,
+                KasebContract.Customers.COLUMN_PHONE_MOBILE
         };
         Uri customerUri = KasebContract.Customers.buildCustomerUri(cursor.
-                getLong(cursor.getColumnIndex(KasebContract.Sales.TABLE_NAME + "." + KasebContract.Sales.COLUMN_CUSTOMER_ID)));
-        Cursor adapterCursor = mContext.getContentResolver().query(customerUri, null, null, null, null);
+                getLong(cursor.getColumnIndex(KasebContract.Sales.COLUMN_CUSTOMER_ID)));
+        final Cursor adapterCursor = mContext.getContentResolver().query(customerUri, null, null, null, null);
         String firstName = null;
         String lastName = null;
         byte[] imagegBytes = null;
         if (adapterCursor.moveToFirst()) {
-            firstName = adapterCursor.getString(adapterCursor.getColumnIndex(customersProjection[0]));
-            lastName = adapterCursor.getString(adapterCursor.getColumnIndex(customersProjection[1]));
+            firstName = adapterCursor.getString(adapterCursor.getColumnIndex(KasebContract.Customers.COLUMN_FIRST_NAME));
+            lastName = adapterCursor.getString(adapterCursor.getColumnIndex(KasebContract.Customers.COLUMN_LAST_NAME));
             imagegBytes = adapterCursor.getBlob(adapterCursor.getColumnIndex(KasebContract.Customers.COLUMN_CUSTOMER_PICTURE));
         }
 
@@ -94,7 +95,8 @@ public class DebaterAdapter extends CursorAdapter {
         phoneImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", "01", null));
+                Intent intent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel",
+                        adapterCursor.getString(adapterCursor.getColumnIndex(KasebContract.Customers.COLUMN_PHONE_MOBILE)), null));
                 mContext.startActivity(intent);
             }
         });
@@ -103,7 +105,8 @@ public class DebaterAdapter extends CursorAdapter {
         messageImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.fromParts("sms", "01", null));
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.fromParts("sms",
+                        adapterCursor.getString(adapterCursor.getColumnIndex(KasebContract.Customers.COLUMN_PHONE_MOBILE)), null));
                 mContext.startActivity(intent);
             }
         });
@@ -120,8 +123,6 @@ public class DebaterAdapter extends CursorAdapter {
                 mContext.startActivity(Intent.createChooser(intent, "Share with"));
             }
         });
-
+        //endCard actions click handler
     }
-
-
 }

@@ -1,30 +1,42 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical"
     tools:context="mjkarbasian.moshtarimadar.AboutUs.AboutUsFragment">
 
-    <TextView
-        android:id="@+id/about_us_my_info"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="20dp"
-        android:text="@string/about_us_my_info"></TextView>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/activity_horizontal_margin"
+        android:orientation="vertical">
 
-    <EditText
-        android:id="@+id/about_us_your_text"
-        android:layout_width="300dp"
-        android:layout_height="200dp"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="20dp"
-        android:gravity="top|left"
-        android:hint="@string/about_us_hint_your_text"
-        android:textIsSelectable="false"
-        android:textSize="15dp" />
+        <TextView
+            android:id="@+id/about_us_my_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="top|left"
+            android:text="@string/about_us_my_info"
+            android:textSize="15dp"></TextView>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColorHint="@color/colorAccent">
+
+            <EditText
+                android:id="@+id/about_us_your_text"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/top_of_list_margin"
+                android:gravity="top|left"
+                android:hint="@string/about_us_hint_your_text"
+                android:textIsSelectable="false"
+                android:textSize="15dp" />
+
+        </android.support.design.widget.TextInputLayout>
+
+    </LinearLayout>
 
 </LinearLayout>

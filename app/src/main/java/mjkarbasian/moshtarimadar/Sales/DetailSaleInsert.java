@@ -1,9 +1,9 @@
 package mjkarbasian.moshtarimadar.Sales;
 
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
@@ -18,7 +18,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -51,12 +50,20 @@ public class DetailSaleInsert extends AppCompatActivity {
     SQLiteDatabase mDb;
     FragmentManager frm;
     Bundle bundleCardViewFragments;
-    AlertDialog.Builder builder;
-    Dialog dialog;
     Uri insertUri;
     String mWhereStatement;
     int mNumberOfChooseProduct = 0;
-    Button dialogButton;
+    CheckBox isPassCheckBox;
+    ListView modeList;
+
+    AlertDialog.Builder builder;
+    AlertDialog dialogView;
+
+    Map<String, String> paymentMapRow;
+    Map<String, String> taxMapRow;
+
+    String _idOfProduct;
+    String _nameOfProduct;
 
     CardViewProducts mCardViewProducts;
     CardViewPayments mCardViewPayments;
@@ -88,6 +95,7 @@ public class DetailSaleInsert extends AppCompatActivity {
     Long sBalanceAmount = 0l;
     Long customerId = 0l;
     Long cost = 0l;
+    Long differneceOfBuy_Sale;
 
     Cursor mCursor1;
     Cursor mCursor2;
@@ -111,9 +119,7 @@ public class DetailSaleInsert extends AppCompatActivity {
     EditText paymentDueDate;
     EditText taxAmount;
     EditText taxPercent;
-    CheckBox isPassCheckBox;
-
-    ListView modeList;
+    EditText quantityEditText;
 
     TypesSettingAdapter cursorAdapter = null;
     CostSaleProductAdapter mAdapter = null;
@@ -326,7 +332,7 @@ public class DetailSaleInsert extends AppCompatActivity {
                     //endregion Insert DetailSaleTaxes
 
                     //just a message to show everything are under control
-                    Toast.makeText(getBaseContext(),
+                    Toast.makeText(DetailSaleInsert.this,
                             getApplicationContext().getResources().getString(R.string.msg_insert_succeed), Toast.LENGTH_LONG).show();
 
                     mDb.setTransactionSuccessful();
@@ -380,7 +386,12 @@ public class DetailSaleInsert extends AppCompatActivity {
                 0);
         modeList.setAdapter(mCAdapter);
 
-        builder = new AlertDialog.Builder(DetailSaleInsert.this);
+        builder = new AlertDialog.Builder(DetailSaleInsert.this)
+                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        dialog.dismiss();
+                    }
+                });
         builder.setTitle(R.string.fab_add_customer);
 
         modeList.setOnItemClickListener(
@@ -394,7 +405,7 @@ public class DetailSaleInsert extends AppCompatActivity {
                             nameCustomer.setText(cursor.getString(cursor.getColumnIndex(KasebContract.Customers.COLUMN_FIRST_NAME)));
                             familyCustomer.setText(cursor.getString(cursor.getColumnIndex(KasebContract.Customers.COLUMN_LAST_NAME)));
                             customerId = Long.parseLong(cursor.getString(cursor.getColumnIndex(KasebContract.Customers._ID)));
-                            dialog.dismiss();
+                            dialogView.dismiss();
                         }
                         cursor.close();
 
@@ -404,14 +415,69 @@ public class DetailSaleInsert extends AppCompatActivity {
         );
 
         builder.setView(modeList);
-        dialog = builder.create();
+        dialogView = builder.create();
 
-        dialog.show();
+        dialogView.show();
     }
 
     public void fab_detail_sale_add_product(View v) {
-        builder = new AlertDialog.Builder(DetailSaleInsert.this);
-        builder.setTitle(R.string.fab_add_product);
+
+        //region List all products
+        builder = new AlertDialog.Builder(DetailSaleInsert.this)
+                .setView(getLayoutInflater().inflate(R.layout.dialog_add_number_of_product_for_sale, null))
+                .setNegativeButton(R.string.discard_button, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        dialogView.dismiss();
+                    }
+                }).setPositiveButton(R.string.save, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                    }
+                })
+                .setTitle(R.string.fab_add_product)
+                .setMessage(R.string.less_than_stock_explain_text);
+
+        dialogView = builder.create();
+        dialogView.show();
+
+        dialogView.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Boolean wantToCloseDialog = false;
+
+                //region insert product
+                if (!quantityEditText.getText().toString().equals("") && !quantityEditText.getText().toString().equals(null)) {
+                    String num = quantityEditText.getText().toString();
+
+                    if (differneceOfBuy_Sale >= Long.valueOf(num)) {
+                        Map<String, String> mProductsRowMap = new HashMap<>();
+
+                        mProductsRowMap.put("id", _idOfProduct);
+                        mProductsRowMap.put("name", _nameOfProduct);
+                        mProductsRowMap.put("quantity", num);
+                        mProductsRowMap.put("price", String.valueOf(cost));
+
+                        sTotalAmount += cost * Long.valueOf(num);
+
+                        int mIndex = Utility.
+                                indexOfRowsInMap(mChosenProductListMap, "id", _idOfProduct);
+
+                        if (mIndex == -1) {
+                            mChosenProductListMap.add(mProductsRowMap);
+                            mCardViewProducts.getChosenProductAdapter(mChosenProductListMap);
+
+                            wantToCloseDialog = true;
+                        }
+                    } else
+                        Utility.setErrorForEditText(DetailSaleInsert.this, quantityEditText, getResources().getString(R.string.not_enough_stock));
+                } else
+                    Utility.setErrorForEditText(DetailSaleInsert.this, quantityEditText, "");
+                //endregion insert product
+
+                if (wantToCloseDialog)
+                    dialogView.dismiss();
+            }
+        });
+        //endregion List all products
 
         //region Set Adapter To Dialog
         mProjection = new String[]{
@@ -431,7 +497,7 @@ public class DetailSaleInsert extends AppCompatActivity {
         mWhereStatement = KasebContract.Products._ID + " NOT IN (" +
                 Utility.makePlaceholders((mNumberOfChooseProduct > 0 ? mNumberOfChooseProduct : 1)) + ")";
 
-        modeList = new ListView(DetailSaleInsert.this);
+        modeList = (ListView) dialogView.findViewById(R.id.list_view_product_for_sale_number);
         mAdapter = new CostSaleProductAdapter(
                 DetailSaleInsert.this,
                 getContentResolver().query(
@@ -443,6 +509,8 @@ public class DetailSaleInsert extends AppCompatActivity {
                 0,
                 "product");
         modeList.setAdapter(mAdapter);
+
+        quantityEditText = (EditText) dialogView.findViewById(R.id.add_number_of_product_for_sale_number);
         //endregion Set Adapter To Dialog
 
         //region ClickListener ListView Dialog
@@ -452,124 +520,92 @@ public class DetailSaleInsert extends AppCompatActivity {
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         Cursor cursor = (Cursor) parent.getItemAtPosition(position);
                         if (cursor != null) {
-                            final String _id = cursor.getString(
+                            _idOfProduct = cursor.getString(
                                     cursor.getColumnIndex(KasebContract.Products._ID));
 
-                            final Long differneceOfBuy_Sale = Utility.checkNumberOfProductsForDetailSale(getBaseContext(),
-                                    0l, "SaleInsert", Long.parseLong(_id));
+                            differneceOfBuy_Sale = Utility.checkNumberOfProductsForDetailSale(DetailSaleInsert.this,
+                                    0l, "SaleInsert", Long.parseLong(_idOfProduct));
 
-                            final String _name = cursor.getString(
+                            _nameOfProduct = cursor.getString(
                                     cursor.getColumnIndex(KasebContract.Products.COLUMN_PRODUCT_NAME));
 
-                            //region NumberOfChosenProduct
                             mProjectionProductHistory = new String[]{
                                     KasebContract.ProductHistory._ID,
                                     KasebContract.ProductHistory.COLUMN_SALE_PRICE};
 
                             Cursor mCursor = getContentResolver().query(
-                                    KasebContract.ProductHistory.aProductHistory(Long.parseLong(_id)),
+                                    KasebContract.ProductHistory.aProductHistory(Long.parseLong(_idOfProduct)),
                                     mProjectionProductHistory,
                                     null,
                                     null,
                                     null);
 
-                            if (mCursor != null) {
-                                if (mCursor.moveToLast()) {
+                            if (mCursor != null)
+                                if (mCursor.moveToLast())
                                     cost = mCursor.getLong(mCursor.getColumnIndex(KasebContract.ProductHistory.COLUMN_SALE_PRICE));
-                                }
-                            }
 
-                            final Dialog howManyOfThat = Utility.dialogBuilder(DetailSaleInsert.this
-                                    , R.layout.dialog_add_number_of_product_for_sale
-                                    , R.string.how_many);
-
-                            final EditText howManyEditText = (EditText) howManyOfThat
-                                    .findViewById(R.id.add_number_of_product_for_sale_number);
-
-                            howManyEditText.setHint("Stock is : " + differneceOfBuy_Sale);
-
-                            //region Save Button
-                            Button saveButton = (Button) howManyOfThat
-                                    .findViewById(R.id.add_number_of_product_for_sale_save);
-
-                            saveButton.setOnClickListener(
-                                    new View.OnClickListener() {
-                                        @Override
-                                        public void onClick(View v) {
-                                            String num = howManyEditText.getText().toString();
-
-                                            if (differneceOfBuy_Sale >= Long.parseLong(num)) {
-                                                Map<String, String> mProductsRowMap = new HashMap<>();
-
-                                                mProductsRowMap.put("id", _id);
-                                                mProductsRowMap.put("name", _name);
-                                                mProductsRowMap.put("quantity", num);
-                                                mProductsRowMap.put("price", String.valueOf(cost));
-
-                                                sTotalAmount += cost * Long.valueOf(num);
-
-                                                int mIndex = Utility.
-                                                        indexOfRowsInMap(mChosenProductListMap, "id", _id);
-
-                                                if (mIndex == -1) {
-                                                    //region Add Product To Sale
-                                                    mChosenProductListMap.add(mProductsRowMap);
-                                                    mCardViewProducts.getChosenProductAdapter(mChosenProductListMap);
-
-                                                    howManyOfThat.dismiss();
-                                                    dialog.dismiss();
-                                                }
-                                            } else
-                                                Toast.makeText(DetailSaleInsert.this, "There is not enough good in stock.",
-                                                        Toast.LENGTH_SHORT).show();
-                                        }
-                                    }
-
-                            );
-                            //endregion Save Button
-
-                            //region Cancel Button
-                            Button cancelButton = (Button) howManyOfThat
-                                    .findViewById(R.id.add_number_of_product_for_sale_cancel);
-
-                            cancelButton.setOnClickListener(
-                                    new View.OnClickListener() {
-                                        @Override
-                                        public void onClick(View v) {
-                                            howManyOfThat.dismiss();
-                                        }
-                                    }
-
-                            );
-                            //endregion Cancel Button
-
-                            howManyOfThat.show();
-                            //endregion NumberOfChosenProduct
+                            quantityEditText.setHint(getString(R.string.stock_product) + differneceOfBuy_Sale);
+                            quantityEditText.setVisibility(View.VISIBLE);
                         }
                     }
                 }
         );
         //endregion ClickListener ListView Dialog
-
-        builder.setView(modeList);
-        dialog = builder.create();
-
-        dialog.show();
     }
 
     public void fab_detail_sale_add_payment(View v) {
-        dialog = Utility.dialogBuilder(DetailSaleInsert.this
-                , R.layout.dialog_add_payment_for_sale
-                , R.string.fab_add_payment);
 
-        final Map<String, String> paymentMapRow = new HashMap<>();
+        //region create payment dialog
+        builder = new AlertDialog.Builder(DetailSaleInsert.this)
+                .setView(getLayoutInflater().inflate(R.layout.dialog_add_payment_for_sale, null))
+                .setNegativeButton(R.string.discard_button, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        dialogView.dismiss();
+                    }
+                }).setPositiveButton(R.string.save, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        //region insert payment
+                        paymentMapRow.put("amount", paymentAmount.getText().toString());
+                        paymentMapRow.put("duedate", paymentDueDate.getText().toString());
 
-        paymentAmount = (EditText) dialog.findViewById(R.id.add_payment_for_sale_text1);
-        paymentDueDate = (EditText) dialog.findViewById(R.id.input_buy_date);
+                        try {
+                            Float amount = Utility.createFloatNumberWithString(DetailSaleInsert.this, paymentAmount.getText().toString());
+
+                            if (amount > sFinalAmount) {
+                                Toast.makeText(DetailSaleInsert.this, getString(R.string.more_than_balance_amount), Toast.LENGTH_SHORT).show();
+                                return;
+                            }
+
+                            if (!paymentMapRow.get("type").equals(getResources().getString(R.string.payment_method_cheque)))
+                                paymentMapRow.put("isPass", "true");
+                            else
+                                paymentMapRow.put("isPass", String.valueOf(isPassCheckBox.isChecked()));
+
+                            mPaymentListMap.add(paymentMapRow);
+                            mCardViewPayments.getPaymentAdapter(mPaymentListMap);
+
+                            dialog.dismiss();
+
+                        } catch (Exception e) {
+                            Toast.makeText(DetailSaleInsert.this, getString(R.string.choose_appropriate_data), Toast.LENGTH_SHORT).show();
+                        }
+                        //endregion insert payment
+                    }
+                })
+                .setTitle(R.string.fab_add_product);
+        dialogView = builder.create();
+        dialogView.show();
+        //endregion create payment dialog
+
+        //region declare views in dialog
+        paymentMapRow = new HashMap<>();
+
+        paymentAmount = (EditText) dialogView.findViewById(R.id.add_payment_for_sale_text1);
+        paymentDueDate = (EditText) dialogView.findViewById(R.id.input_buy_date);
         paymentDueDate.setText(Utility.preInsertDate(mContext));
-        isPassCheckBox = (CheckBox) dialog.findViewById(R.id.dialog_add_payment_is_passed_check_box);
+        isPassCheckBox = (CheckBox) dialogView.findViewById(R.id.dialog_add_payment_is_passed_check_box);
 
-        paymentMethod = (Spinner) dialog.findViewById(R.id.input_payment_method_spinner);
+        paymentMethod = (Spinner) dialogView.findViewById(R.id.input_payment_method_spinner);
         mCursor1 = getContentResolver().query(KasebContract.PaymentMethods.CONTENT_URI
                 , null, null, null, null);
 
@@ -588,18 +624,17 @@ public class DetailSaleInsert extends AppCompatActivity {
                         Cursor mCursor3 = (Cursor) paymentMethod.getSelectedItem();
 
                         paymentMapRow.put("id", mCursor3.getString(
-                                mCursor3.getColumnIndex(KasebContract.PaymentMethods._ID)).toString());
+                                mCursor3.getColumnIndex(KasebContract.PaymentMethods._ID)));
 
                         paymentMapRow.put("type", mCursor3.getString(
-                                mCursor3.getColumnIndex(KasebContract.PaymentMethods.COLUMN_PAYMENT_METHOD_POINTER)).toString());
-                        LinearLayout isPassed = (LinearLayout) dialog.findViewById(R.id.dialog_add_payment_is_passed_view);
+                                mCursor3.getColumnIndex(KasebContract.PaymentMethods.COLUMN_PAYMENT_METHOD_POINTER)));
+                        LinearLayout isPassed = (LinearLayout) dialogView.findViewById(R.id.dialog_add_payment_is_passed_view);
 
-                        if (mCursor3.getString(mCursor3.getColumnIndex(KasebContract.PaymentMethods.COLUMN_PAYMENT_METHOD_POINTER)).equals("Cheque")) {
+                        if (mCursor3.getString(mCursor3.getColumnIndex(KasebContract.PaymentMethods.COLUMN_PAYMENT_METHOD_POINTER))
+                                .equals(getResources().getString(R.string.cheque_title)))
                             isPassed.setVisibility(View.VISIBLE);
-                        } else {
-                            isPassed.setVisibility(View.INVISIBLE);
-                        }
-
+                        else
+                            isPassed.setVisibility(View.GONE);
                     }
 
                     @Override
@@ -609,36 +644,53 @@ public class DetailSaleInsert extends AppCompatActivity {
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     }
                 });
-
-        dialogButton = (Button) dialog.findViewById(R.id.add_payment_for_sale_button1);
-        dialogButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                paymentMapRow.put("amount", paymentAmount.getText().toString());
-                paymentMapRow.put("duedate", paymentDueDate.getText().toString());
-                if (!paymentMapRow.get("type").equals("Cheque"))
-                    paymentMapRow.put("isPass", "true");
-                else
-                    paymentMapRow.put("isPass", String.valueOf(isPassCheckBox.isChecked()));
-                mPaymentListMap.add(paymentMapRow);
-                mCardViewPayments.getPaymentAdapter(mPaymentListMap);
-
-                dialog.dismiss();
-            }
-        });
-
-        dialog.show();
+        //endregion declare views in dialog
     }
 
     public void fab_detail_sale_add_taxDiscount(View v) {
-        dialog = Utility.dialogBuilder(DetailSaleInsert.this
-                , R.layout.dialog_add_tax_for_sale
-                , R.string.fab_add_tax);
 
-        final Map<String, String> taxMapRow = new HashMap<>();
+        //region create payment dialog
+        builder = new AlertDialog.Builder(DetailSaleInsert.this)
+                .setView(getLayoutInflater().inflate(R.layout.dialog_add_tax_for_sale, null))
+                .setNegativeButton(R.string.discard_button, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        dialogView.dismiss();
+                    }
+                }).setPositiveButton(R.string.save, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        //region insert payment
+                        taxMapRow.put("amount", taxAmount.getText().toString());
+                        taxMapRow.put("percent", taxPercent.getText().toString());
 
-        taxAmount = (EditText) dialog.findViewById(R.id.add_tax_for_sale_text1);
-        taxPercent = (EditText) dialog.findViewById(R.id.add_tax_for_sale_text2);
+                        try {
+                            Float amount = Utility.createFloatNumberWithString(DetailSaleInsert.this, taxAmount.getText().toString());
+
+                            if (amount > sTotalAmount) {
+                                Toast.makeText(DetailSaleInsert.this, getString(R.string.more_than_balance_amount), Toast.LENGTH_SHORT).show();
+                                return;
+                            } else if (taxPercent.getText().toString().length() == 0)
+                                taxMapRow.put("percent", String.format("%.2f", 100 * amount / sTotalAmount));
+
+                            mTaxListMap.add(taxMapRow);
+                            mCardViewTaxes.getTaxAdapter(mTaxListMap);
+                            dialog.dismiss();
+
+                        } catch (Exception e) {
+                            taxPercent.setText("");
+                        }
+                        //endregion insert payment
+                    }
+                })
+                .setTitle(R.string.fab_add_product);
+        dialogView = builder.create();
+        dialogView.show();
+        //endregion create payment dialog
+
+        //region declare views in dialog
+        taxMapRow = new HashMap<>();
+
+        taxAmount = (EditText) dialogView.findViewById(R.id.add_tax_for_sale_text1);
+        taxPercent = (EditText) dialogView.findViewById(R.id.add_tax_for_sale_text2);
 
         taxPercent.addTextChangedListener(new TextWatcher() {
             @Override
@@ -659,7 +711,7 @@ public class DetailSaleInsert extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable s) {
                 try {
-                    Float percent = Utility.createFloatNumberWithString(getBaseContext(), taxPercent.getText().toString());
+                    Float percent = Utility.createFloatNumberWithString(DetailSaleInsert.this, taxPercent.getText().toString());
                     taxAmount.setText(String.format("%.0f", Float.valueOf(percent * sTotalAmount / 100)));
                 } catch (Exception e) {
                     taxAmount.setText("");
@@ -667,7 +719,7 @@ public class DetailSaleInsert extends AppCompatActivity {
             }
         });
 
-        taxTypes = (Spinner) dialog.findViewById(R.id.input_tax_type_spinner);
+        taxTypes = (Spinner) dialogView.findViewById(R.id.input_tax_type_spinner);
         mCursor2 = getContentResolver().query(KasebContract.TaxTypes.CONTENT_URI
                 , null, null, null, null);
 
@@ -683,10 +735,10 @@ public class DetailSaleInsert extends AppCompatActivity {
                 Cursor mCursor5 = (Cursor) taxTypes.getSelectedItem();
 
                 taxMapRow.put("id", mCursor5.getString(
-                        mCursor5.getColumnIndex(KasebContract.TaxTypes._ID)).toString());
+                        mCursor5.getColumnIndex(KasebContract.TaxTypes._ID)));
 
                 taxMapRow.put("type", mCursor5.getString(
-                        mCursor5.getColumnIndex(KasebContract.TaxTypes.COLUMN_TAX_TYPE_POINTER)).toString());
+                        mCursor5.getColumnIndex(KasebContract.TaxTypes.COLUMN_TAX_TYPE_POINTER)));
             }
 
             @Override
@@ -697,36 +749,7 @@ public class DetailSaleInsert extends AppCompatActivity {
             }
 
         });
-
-        dialogButton = (Button) dialog.findViewById(R.id.add_tax_for_sale_button1);
-        dialogButton.setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        taxMapRow.put("amount", taxAmount.getText().toString());
-                        taxMapRow.put("percent", taxPercent.getText().toString());
-
-                        try {
-                            Float amount = Utility.createFloatNumberWithString(getBaseContext(), taxAmount.getText().toString());
-
-                            if (amount > sTotalAmount) {
-                                Toast.makeText(DetailSaleInsert.this, getString(R.string.not_minus_number), Toast.LENGTH_SHORT).show();
-                                return;
-                            } else if (taxPercent.getText().toString().length() == 0)
-                                taxMapRow.put("percent", String.format("%.2f", 100 * amount / sTotalAmount));
-
-                            mTaxListMap.add(taxMapRow);
-                            mCardViewTaxes.getTaxAdapter(mTaxListMap);
-                            dialog.dismiss();
-
-                        } catch (Exception e) {
-                            taxPercent.setText("");
-                        }
-                    }
-                }
-        );
-
-        dialog.show();
+        //endregion declare views in dialog
     }
 
     public void setValuesOfFactor() {
@@ -799,13 +822,13 @@ public class DetailSaleInsert extends AppCompatActivity {
 
     // this method check the validation and correct entries. its check fill first and then check the validation rules.
     private boolean CheckForValidity() {
-        if (!Utility.checkForValidityForEditTextNullOrEmpty(getBaseContext(), saleCode))
+        if (!Utility.checkForValidityForEditTextNullOrEmpty(DetailSaleInsert.this, saleCode))
             return false;
         else if (customerId == 0) {
             Utility.setErrorForTextView(nameCustomer);
             Toast.makeText(mContext, R.string.choose_customer_error_for_sale, Toast.LENGTH_SHORT).show();
             return false;
-        } else if (!Utility.checkForValidityForEditTextNullOrEmpty(getBaseContext(), saleDate))
+        } else if (!Utility.checkForValidityForEditTextNullOrEmpty(DetailSaleInsert.this, saleDate))
             return false;
         else if (mChosenProductListMap.size() == 0) {
             Toast.makeText(mContext, R.string.validity_error_dsale_select_product, Toast.LENGTH_SHORT).show();
