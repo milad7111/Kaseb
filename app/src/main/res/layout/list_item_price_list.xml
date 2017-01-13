@@ -25,8 +25,8 @@
                 android:layout_weight="1"
                 android:gravity="center_vertical|center_horizontal"
                 android:textAppearance="?android:textAppearanceMedium"
-                android:textColor="@color/colorAccent"
-                android:textColorHint="@color/colorAccent" />
+                android:textColor="@color/colorBlack"
+                android:textColorHint="@color/colorBlack" />
 
             <TextView
                 android:id="@+id/price_list_sale_price"
@@ -35,8 +35,8 @@
                 android:layout_weight="1"
                 android:gravity="center_vertical|center_horizontal"
                 android:textAppearance="?android:textAppearanceMedium"
-                android:textColor="@color/colorAccent"
-                android:textColorHint="@color/colorAccent" />
+                android:textColor="@color/colorBlack"
+                android:textColorHint="@color/colorBlack" />
         </LinearLayout>
 
         <LinearLayout
@@ -58,8 +58,8 @@
                     android:layout_height="wrap_content"
                     android:gravity="right"
                     android:text="@string/sale_date"
-                    android:textColor="@color/colorAccent"
-                    android:textColorHint="@color/colorAccent" />
+                    android:textColor="@color/colorBlack"
+                    android:textColorHint="@color/colorBlack" />
 
                 <TextView
                     android:id="@+id/price_list_quantity_title"
@@ -68,8 +68,8 @@
                     android:layout_marginTop="@dimen/top_of_list_margin_in_row"
                     android:gravity="right"
                     android:text="@string/quantity"
-                    android:textColor="@color/colorAccent"
-                    android:textColorHint="@color/colorAccent" />
+                    android:textColor="@color/colorBlack"
+                    android:textColorHint="@color/colorBlack" />
             </LinearLayout>
 
             <LinearLayout
@@ -81,16 +81,16 @@
                     android:id="@+id/price_list_date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/colorAccent"
-                    android:textColorHint="@color/colorAccent" />
+                    android:textColor="@color/colorBlack"
+                    android:textColorHint="@color/colorBlack" />
 
                 <TextView
                     android:id="@+id/price_list_quantity"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/top_of_list_margin_in_row"
-                    android:textColor="@color/colorAccent"
-                    android:textColorHint="@color/colorAccent" />
+                    android:textColor="@color/colorBlack"
+                    android:textColorHint="@color/colorBlack" />
             </LinearLayout>
         </LinearLayout>
 

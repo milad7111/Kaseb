@@ -252,6 +252,6 @@
         android:layout_marginRight="16dp"
         android:gravity="bottom|right"
         android:onClick="fab_detail_product"
-        android:src="@android:drawable/ic_input_add" />
+        android:src="@drawable/plus" />
 
 </FrameLayout>

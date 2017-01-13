@@ -47,8 +47,8 @@
                 android:maxLength="14"
                 android:text="@string/kaseb_name"
                 android:textAppearance="?android:textAppearanceMedium"
-                android:textColor="@color/colorAccent"
-                android:textColorHint="@color/colorAccent"
+                android:textColor="@color/colorBlack"
+                android:textColorHint="@color/colorBlack"
                 android:textSize="@dimen/text_size_in_list" />
 
             <TextView
@@ -61,8 +61,8 @@
                 android:gravity="center_vertical|center_horizontal"
                 android:text="@string/sample_text_purchase_of_customer_amount"
                 android:textAppearance="?android:textAppearanceLarge"
-                android:textColor="@color/colorAccent"
-                android:textColorHint="@color/colorAccent"
+                android:textColor="@color/colorBlack"
+                android:textColorHint="@color/colorBlack"
                 android:textSize="@dimen/text_size_in_list" />
 
             <ImageView
@@ -73,7 +73,7 @@
                 android:layout_weight="1"
                 android:gravity="end"
                 android:src="@drawable/star"
-                android:tint="@color/colorAccent" />
+                android:tint="@color/colorBlack" />
         </LinearLayout>
     </LinearLayout>
 </FrameLayout>
