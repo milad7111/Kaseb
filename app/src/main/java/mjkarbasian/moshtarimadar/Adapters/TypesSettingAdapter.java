@@ -32,6 +32,7 @@ public class TypesSettingAdapter extends CursorAdapter {
     public View newView(Context context, Cursor cursor, ViewGroup parent) {
         View view = mInflater.inflate(R.layout.list_item_state_type_setting, parent, false);
         TextView typeView = new TextView(context);
+
         typeView.setTextColor(context.getResources().getColor(R.color.colorBlack));
         typeView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
 

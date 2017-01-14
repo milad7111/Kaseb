@@ -85,6 +85,7 @@
             android:layout_marginBottom="6dp"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
+>>>>>>> 61783b7d860cf52043b5c5c5c46e5e1778a2218d
             android:layout_marginTop="3dp"
             android:orientation="horizontal">
 

@@ -703,6 +703,7 @@ public class Utility {
                 context.getResources().getString(R.string.states_bronze, R.string.states_instart),
                 context.getResources().getString(R.string.states_instart)};
         int[] colors = new int[]{R.color.gold, R.color.silver, R.color.bronze, R.color.normalState};
+
         for (int i = 0; i < ids.length; i++) {
             ContentValues states = new ContentValues();
             states.put(KasebContract.State.COLUMN_STATE_POINTER, ids[i]);
