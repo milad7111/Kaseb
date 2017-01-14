@@ -179,7 +179,6 @@ public class CustomerInsert extends Fragment {
 
                 break;
             }
-
         }
         return super.onOptionsItemSelected(item);
     }

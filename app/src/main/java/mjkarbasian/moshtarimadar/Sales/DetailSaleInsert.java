@@ -8,6 +8,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -544,7 +545,8 @@ public class DetailSaleInsert extends AppCompatActivity {
                                 if (mCursor.moveToLast())
                                     cost = mCursor.getLong(mCursor.getColumnIndex(KasebContract.ProductHistory.COLUMN_SALE_PRICE));
 
-                            quantityEditText.setHint(getString(R.string.stock_product) + differneceOfBuy_Sale);
+                            TextInputLayout textInputLayout = (TextInputLayout) dialogView.findViewById(R.id.textInputLayoutOfEditTextQuantity);
+                            textInputLayout.setHint(getString(R.string.stock_product) + differneceOfBuy_Sale);
                             quantityEditText.setVisibility(View.VISIBLE);
                         }
                     }
@@ -564,37 +566,49 @@ public class DetailSaleInsert extends AppCompatActivity {
                     }
                 }).setPositiveButton(R.string.save, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
-                        //region insert payment
-                        paymentMapRow.put("amount", paymentAmount.getText().toString());
-                        paymentMapRow.put("duedate", paymentDueDate.getText().toString());
-
-                        try {
-                            Float amount = Utility.createFloatNumberWithString(DetailSaleInsert.this, paymentAmount.getText().toString());
-
-                            if (amount > sFinalAmount) {
-                                Toast.makeText(DetailSaleInsert.this, getString(R.string.more_than_balance_amount), Toast.LENGTH_SHORT).show();
-                                return;
-                            }
-
-                            if (!paymentMapRow.get("type").equals(getResources().getString(R.string.payment_method_cheque)))
-                                paymentMapRow.put("isPass", "true");
-                            else
-                                paymentMapRow.put("isPass", String.valueOf(isPassCheckBox.isChecked()));
-
-                            mPaymentListMap.add(paymentMapRow);
-                            mCardViewPayments.getPaymentAdapter(mPaymentListMap);
-
-                            dialog.dismiss();
-
-                        } catch (Exception e) {
-                            Toast.makeText(DetailSaleInsert.this, getString(R.string.choose_appropriate_data), Toast.LENGTH_SHORT).show();
-                        }
-                        //endregion insert payment
                     }
                 })
                 .setTitle(R.string.fab_add_product);
         dialogView = builder.create();
         dialogView.show();
+
+        dialogView.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Boolean wantToCloseDialog = false;
+
+                //region insert payment
+                paymentMapRow.put("amount", paymentAmount.getText().toString());
+                paymentMapRow.put("duedate", paymentDueDate.getText().toString());
+
+                try {
+                    Float amount = Utility.createFloatNumberWithString(DetailSaleInsert.this, paymentAmount.getText().toString());
+
+                    if (amount > sFinalAmount) {
+                        Utility.setErrorForEditText(DetailSaleInsert.this, quantityEditText, getString(R.string.more_than_balance_amount));
+                        return;
+                    } else if (!Utility.checkForValidityForEditTextDate(DetailSaleInsert.this, paymentDueDate))
+                        return;
+
+                    if (!paymentMapRow.get("type").equals(getResources().getString(R.string.payment_method_cheque)))
+                        paymentMapRow.put("isPass", "true");
+                    else
+                        paymentMapRow.put("isPass", String.valueOf(isPassCheckBox.isChecked()));
+
+                    mPaymentListMap.add(paymentMapRow);
+                    mCardViewPayments.getPaymentAdapter(mPaymentListMap);
+
+                    wantToCloseDialog = true;
+
+                } catch (Exception e) {
+                    Utility.setErrorForEditText(DetailSaleInsert.this, paymentAmount, "");
+                }
+                //endregion insert payment
+
+                if (wantToCloseDialog)
+                    dialogView.dismiss();
+            }
+        });
         //endregion create payment dialog
 
         //region declare views in dialog
@@ -649,7 +663,7 @@ public class DetailSaleInsert extends AppCompatActivity {
 
     public void fab_detail_sale_add_taxDiscount(View v) {
 
-        //region create payment dialog
+        //region create taxDiscount dialog
         builder = new AlertDialog.Builder(DetailSaleInsert.this)
                 .setView(getLayoutInflater().inflate(R.layout.dialog_add_tax_for_sale, null))
                 .setNegativeButton(R.string.discard_button, new DialogInterface.OnClickListener() {
@@ -658,33 +672,45 @@ public class DetailSaleInsert extends AppCompatActivity {
                     }
                 }).setPositiveButton(R.string.save, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
-                        //region insert payment
-                        taxMapRow.put("amount", taxAmount.getText().toString());
-                        taxMapRow.put("percent", taxPercent.getText().toString());
-
-                        try {
-                            Float amount = Utility.createFloatNumberWithString(DetailSaleInsert.this, taxAmount.getText().toString());
-
-                            if (amount > sTotalAmount) {
-                                Toast.makeText(DetailSaleInsert.this, getString(R.string.more_than_balance_amount), Toast.LENGTH_SHORT).show();
-                                return;
-                            } else if (taxPercent.getText().toString().length() == 0)
-                                taxMapRow.put("percent", String.format("%.2f", 100 * amount / sTotalAmount));
-
-                            mTaxListMap.add(taxMapRow);
-                            mCardViewTaxes.getTaxAdapter(mTaxListMap);
-                            dialog.dismiss();
-
-                        } catch (Exception e) {
-                            taxPercent.setText("");
-                        }
-                        //endregion insert payment
                     }
                 })
                 .setTitle(R.string.fab_add_product);
         dialogView = builder.create();
         dialogView.show();
-        //endregion create payment dialog
+
+        dialogView.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Boolean wantToCloseDialog = false;
+
+                //region insert taxDiscount
+                taxMapRow.put("amount", taxAmount.getText().toString());
+                taxMapRow.put("percent", taxPercent.getText().toString());
+
+                try {
+                    Float amount = Utility.createFloatNumberWithString(DetailSaleInsert.this, taxAmount.getText().toString());
+
+                    if (amount > sTotalAmount) {
+                        Utility.setErrorForEditText(DetailSaleInsert.this, taxAmount, getString(R.string.more_than_total_amount));
+                        return;
+                    } else if (taxPercent.getText().toString().length() == 0)
+                        taxMapRow.put("percent", String.format("%.2f", 100 * amount / sTotalAmount));
+
+                    mTaxListMap.add(taxMapRow);
+                    mCardViewTaxes.getTaxAdapter(mTaxListMap);
+
+                    wantToCloseDialog = true;
+
+                } catch (Exception e) {
+                    Utility.setErrorForEditText(DetailSaleInsert.this, taxAmount, "");
+                }
+                //endregion insert taxDiscount
+
+                if (wantToCloseDialog)
+                    dialogView.dismiss();
+            }
+        });
+        //endregion create taxDiscount dialog
 
         //region declare views in dialog
         taxMapRow = new HashMap<>();

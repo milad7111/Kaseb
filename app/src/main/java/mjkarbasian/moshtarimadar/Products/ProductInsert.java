@@ -225,7 +225,7 @@ public class ProductInsert extends Fragment {
             return false;
         else if (!Utility.checkForValidityForEditTextNullOrEmpty(getActivity(), buyPrice))
             return false;
-        else if (!Utility.checkForValidityForEditTextNullOrEmpty(getActivity(), buyDate))
+        else if (!Utility.checkForValidityForEditTextDate(getActivity(), buyDate))
             return false;
 
         return true;

@@ -367,8 +367,9 @@
     <string name="title_of_discounts">Invoice Discounts</string>
     <string name="title_of_payments">Invoice Payments</string>
     <string name="title_of_invoice_summary">Invoice Summary</string>
-    <string name="choose_appropriate_data">Choose apropriate data.</string>
+    <string name="choose_appropriate_data">Choose apropriate data. </string>
     <string name="more_than_balance_amount">Can\'t be more than balance amount.</string>
+    <string name="more_than_total_amount">Can\'t be more than total amount.</string>
     <string name="save_factor_then_print">Please Save Invoice Then RETRY.</string>
     <string name="not_itterative">(Not Itterative)</string>
     <string name="register_message_copyright">Registered By KASEB. \n@COPYRIGHT</string>

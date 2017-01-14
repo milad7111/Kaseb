@@ -19,12 +19,11 @@
                 android:id="@+id/add_payment_for_sale_text1"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:gravity="left"
+                android:gravity="start"
                 android:hint="@string/hint_payment_amount"
                 android:inputType="numberDecimal"
                 android:maxLength="15"
-                android:textColor="@color/colorBlack"
-                android:textColorHint="@color/colorBlack" />
+                android:textColor="@color/colorBlack" />
 
         </android.support.design.widget.TextInputLayout>
 
