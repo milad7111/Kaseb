@@ -10,6 +10,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.LoaderManager;
@@ -70,6 +71,10 @@ public class CostSaleProductList extends Fragment implements LoaderManager.Loade
     TypesSettingAdapter cursorAdapter = null;
     ContentValues costValues = new ContentValues();
     ContentValues saleValues = new ContentValues();
+    TextInputLayout costNameTextInputLayout;
+    TextInputLayout costAmountTextInputLayout;
+    TextInputLayout costDateTextInputLayout;
+    TextInputLayout costCodeTextInputLayout;
     private String searchQuery;
     private String sortOrder;
     private int sortId;
@@ -145,6 +150,7 @@ public class CostSaleProductList extends Fragment implements LoaderManager.Loade
                         //region Cost
                         mCursor = (Cursor) parent.getItemAtPosition(position);
                         if (mCursor != null) {
+
                             //region Create Alert dialog
                             builder = new AlertDialog.Builder(getActivity())
                                     .setView(getActivity().getLayoutInflater().inflate(R.layout.dialog_edit_cost, null))
@@ -167,7 +173,7 @@ public class CostSaleProductList extends Fragment implements LoaderManager.Loade
                                     Boolean wantToCloseDialog = false;
 
                                     //region update cost
-                                    if (CheckForValidity()) {
+                                    if (checkValidityWithChangeColorOfHelperText()) {
                                         costValues.put(KasebContract.Costs.COLUMN_COST_NAME, costName.getText().toString());
                                         costValues.put(KasebContract.Costs.COLUMN_COST_CODE, costCode.getText().toString());
                                         costValues.put(KasebContract.Costs.COLUMN_AMOUNT,
@@ -203,6 +209,13 @@ public class CostSaleProductList extends Fragment implements LoaderManager.Loade
                             costCode = (EditText) dialogView.findViewById(R.id.dialog_edit_cost_code);
                             costDate = (EditText) dialogView.findViewById(R.id.dialog_edit_cost_date);
                             costDescription = (EditText) dialogView.findViewById(R.id.dialog_edit_cost_description);
+
+                            costNameTextInputLayout = (TextInputLayout) dialogView.findViewById(R.id.text_input_layout_dialog_edit_cost_name);
+                            costCodeTextInputLayout = (TextInputLayout) dialogView.findViewById(R.id.text_input_layout_dialog_edit_cost_code);
+                            costAmountTextInputLayout = (TextInputLayout) dialogView.findViewById(R.id.text_input_layout_dialog_edit_cost_amount);
+                            costDateTextInputLayout = (TextInputLayout) dialogView.findViewById(R.id.text_input_layout_dialog_edit_cost_date);
+
+                            setHelperText();
 
                             costName.setText(mCursor.getString(mCursor.getColumnIndex(KasebContract.Costs.COLUMN_COST_NAME)));
                             costAmount.setText(mCursor.getString(mCursor.getColumnIndex(KasebContract.Costs.COLUMN_AMOUNT)));
@@ -582,6 +595,51 @@ public class CostSaleProductList extends Fragment implements LoaderManager.Loade
             return false;
         else if (!Utility.checkForValidityForEditTextDate(getActivity(), costDate))
             return false;
+
+        return true;
+    }
+
+    private void setHelperText() {
+
+        costNameTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data));
+
+        costCodeTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data));
+
+        costAmountTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data));
+
+        costDateTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data)
+                + getResources().getString(R.string.date_format_error));
+    }
+
+    // this method check the validation and correct entries. its check fill first and then check the validation rules.
+    private boolean checkValidityWithChangeColorOfHelperText() {
+        if (!Utility.checkForValidityForEditTextNullOrEmpty(getActivity(), costName)) {
+            Utility.changeColorOfHelperText(getActivity(), costNameTextInputLayout, R.color.colorRed);
+            costName.requestFocus();
+            return false;
+        } else
+            Utility.changeColorOfHelperText(getActivity(), costNameTextInputLayout, R.color.colorPrimaryLight);
+
+        if (!Utility.checkForValidityForEditTextNullOrEmpty(getActivity(), costCode)) {
+            Utility.changeColorOfHelperText(getActivity(), costCodeTextInputLayout, R.color.colorRed);
+            costCode.requestFocus();
+            return false;
+        } else
+            Utility.changeColorOfHelperText(getActivity(), costCodeTextInputLayout, R.color.colorPrimaryLight);
+
+        if (!Utility.checkForValidityForEditTextNullOrEmpty(getActivity(), costAmount)) {
+            Utility.changeColorOfHelperText(getActivity(), costAmountTextInputLayout, R.color.colorRed);
+            costAmount.requestFocus();
+            return false;
+        } else
+            Utility.changeColorOfHelperText(getActivity(), costAmountTextInputLayout, R.color.colorPrimaryLight);
+
+        if (!Utility.checkForValidityForEditTextDate(getActivity(), costDate)) {
+            Utility.changeColorOfHelperText(getActivity(), costDateTextInputLayout, R.color.colorRed);
+            costDate.requestFocus();
+            return false;
+        } else
+            Utility.changeColorOfHelperText(getActivity(), costDateTextInputLayout, R.color.colorPrimaryLight);
 
         return true;
     }

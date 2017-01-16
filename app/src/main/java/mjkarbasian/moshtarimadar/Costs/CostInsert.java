@@ -61,9 +61,9 @@ public class CostInsert extends Fragment {
         costDescription = (EditText) rootView.findViewById(R.id.input_cost_description);
 
         costNameTextInputLayout = (TextInputLayout) rootView.findViewById(R.id.text_input_layout_input_cost_name);
+        costCodeTextInputLayout = (TextInputLayout) rootView.findViewById(R.id.text_input_layout_input_cost_code);
         costAmountTextInputLayout = (TextInputLayout) rootView.findViewById(R.id.text_input_layout_input_cost_amount);
         costDateTextInputLayout = (TextInputLayout) rootView.findViewById(R.id.text_input_layout_input_cost_date);
-        costCodeTextInputLayout = (TextInputLayout) rootView.findViewById(R.id.text_input_layout_input_cost_code);
 
         setHelperText();
 
