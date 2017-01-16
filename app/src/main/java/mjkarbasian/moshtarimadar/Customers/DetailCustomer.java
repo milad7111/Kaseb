@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.TabLayout;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.NavUtils;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -28,9 +29,12 @@ import mjkarbasian.moshtarimadar.R;
 
 public class DetailCustomer extends AppCompatActivity {
     Toolbar mToolbar;
+    ImageView mCustomerAvatar;
+    byte[] imagegBytes;
+    ContentValues customerValues = new ContentValues();
+
     MenuItem saveItem;
     MenuItem editItem;
-    ContentValues customerValues = new ContentValues();
 
     String[] mProjection;
     String nameCustomer;
@@ -54,8 +58,7 @@ public class DetailCustomer extends AppCompatActivity {
     EditText customerAddressStreet;
     EditText customerAddressPostalCode;
 
-    ImageView mCustomerAvatar;
-    byte[] imagegBytes;
+    TextInputLayout phoneMobileTextInputLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -149,6 +152,7 @@ public class DetailCustomer extends AppCompatActivity {
         customerAddressStreet = (EditText) findViewById(R.id.customer_address_street);
         customerAddressPostalCode = (EditText) findViewById(R.id.customer_address_postal_code);
 
+        phoneMobileTextInputLayout = (TextInputLayout) findViewById(R.id.text_input_layout_customer_address_postal_code);
 
         mCustomerAvatar = (ImageView) findViewById(R.id.image_toolbar);
 
@@ -211,7 +215,7 @@ public class DetailCustomer extends AppCompatActivity {
                 break;
             case R.id.item_save_customer:
                 if (CheckForValidity() && Utility.checkForValidityForEditTextNullOrEmptyAndItterative(
-                        getBaseContext(), customerPhoneMobile, KasebContract.Customers.CONTENT_URI,
+                        getBaseContext(), customerPhoneMobile, phoneMobileTextInputLayout, KasebContract.Customers.CONTENT_URI,
                         KasebContract.Customers.COLUMN_PHONE_MOBILE + " = ? and " + KasebContract.Customers._ID + " != ? ",
                         KasebContract.Customers._ID,
                         new String[]{customerPhoneMobile.getText().toString(), String.valueOf(mCustomerId)})) {

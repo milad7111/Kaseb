@@ -443,4 +443,9 @@
     <string name="not_more_hundred">The percent can\'t be more than hundred.</string>
     <string name="not_more_than_sale_price">Discount amount can\'t be more than sale price.</string>
     <string name="cost_sale_product_tag_image_title">costSaleProductTagImage</string>
+    <string name="click_here_choose_customer">Click here, choose customer ...</string>
+    <string name="image_avatar_title">image_avatar_title</string>
+    <string name="content_detail_sale_insert_add_product_image_button">content_detail_sale_insert_add_product_image_button</string>
+    <string name="detail_sales_products_items_total">Total</string>
+    <string name="avatar_customer_insert">avatar_customer_insert</string>
 </resources>

@@ -115,6 +115,9 @@ public class DetailSaleInsert extends AppCompatActivity {
     TextView familyCustomer;
     TextView listItemsTitle;
 
+    TextInputLayout saleCodeTextInputLayout;
+    TextInputLayout saleDateTextInputLayout;
+
     EditText saleCode;
     EditText paymentAmount;
     EditText paymentDueDate;
@@ -150,11 +153,17 @@ public class DetailSaleInsert extends AppCompatActivity {
         nameCustomer = (TextView) findViewById(R.id.detail_sales_info_customer_name);
         familyCustomer = (TextView) findViewById(R.id.detail_sales_info_customer_family);
         saleCode = (EditText) findViewById(R.id.detail_sales_info_sale_code);
+        saleCodeTextInputLayout = (TextInputLayout) findViewById(R.id.text_input_layout_detail_sales_info_sale_code);
         saleCode.setText(Utility.preInsertSaleCode(this));
         saleCode.setSelection(saleCode.getText().length());
 
         saleDate = (EditText) findViewById(R.id.detail_sales_info_sale_date);
+        saleDateTextInputLayout = (TextInputLayout) findViewById(R.id.text_input_layout_detail_sales_info_sale_date);
         saleDate.setText(Utility.preInsertDate(mContext));
+
+        setHelperText();
+
+        saleCode.requestFocus();
 
         totalAmountSummary.setText(
                 Utility.formatPurchase(mContext, Utility.DecimalSeperation(mContext, 0)));
@@ -215,10 +224,9 @@ public class DetailSaleInsert extends AppCompatActivity {
                 //endregion
 
                 if (Utility.checkForValidityForEditTextNullOrEmptyAndItterative(
-                        mContext, saleCode, KasebContract.Sales.CONTENT_URI,
+                        mContext, saleCode, saleCodeTextInputLayout, KasebContract.Sales.CONTENT_URI,
                         KasebContract.Sales.COLUMN_SALE_CODE + " = ? ",
-                        KasebContract.Sales._ID, new String[]{saleCode.getText().toString()})
-                        && CheckForValidity()) {
+                        KasebContract.Sales._ID, new String[]{saleCode.getText().toString()}) && checkValidityWithChangeColorOfHelperText()) {
 
                     mDb.beginTransaction();
 
@@ -846,17 +854,29 @@ public class DetailSaleInsert extends AppCompatActivity {
             balanceSummary.setError(null);
     }
 
+    private void setHelperText() {
+
+        saleCodeTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data)
+                + getResources().getString(R.string.not_itterative));
+
+        saleDateTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data)
+                + getResources().getString(R.string.date_format_error));
+    }
+
     // this method check the validation and correct entries. its check fill first and then check the validation rules.
-    private boolean CheckForValidity() {
-        if (!Utility.checkForValidityForEditTextNullOrEmpty(DetailSaleInsert.this, saleCode))
+    private boolean checkValidityWithChangeColorOfHelperText() {
+        if (!Utility.checkForValidityForEditTextDate(DetailSaleInsert.this, saleDate)) {
+            Utility.changeColorOfHelperText(DetailSaleInsert.this, saleDateTextInputLayout, R.color.colorRed);
+            saleDate.requestFocus();
             return false;
-        else if (customerId == 0) {
+        } else
+            Utility.changeColorOfHelperText(DetailSaleInsert.this, saleDateTextInputLayout, R.color.colorPrimaryLight);
+
+        if (customerId == 0) {
             Utility.setErrorForTextView(nameCustomer);
             Toast.makeText(mContext, R.string.choose_customer_error_for_sale, Toast.LENGTH_SHORT).show();
             return false;
-        } else if (!Utility.checkForValidityForEditTextNullOrEmpty(DetailSaleInsert.this, saleDate))
-            return false;
-        else if (mChosenProductListMap.size() == 0) {
+        } else if (mChosenProductListMap.size() == 0) {
             Toast.makeText(mContext, R.string.validity_error_dsale_select_product, Toast.LENGTH_SHORT).show();
             return false;
         } else if (sFinalAmount < 0) {

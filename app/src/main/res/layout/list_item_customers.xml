@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -22,12 +23,24 @@
             android:layout_weight="1"
             android:orientation="vertical">
 
-            <ImageView
-                android:id="@+id/item_list_customer_avatar"
+            <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:onClick="pic_selector"
-                android:src="@drawable/kaseb_pic" />
+                android:layout_height="40dp"
+                android:innerRadius="0dp"
+                android:shape="ring"
+                android:thicknessRatio="1.9"
+                app:cardCornerRadius="20dp">
+
+                <ImageView
+                    android:id="@+id/item_list_customer_avatar"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:contentDescription="@string/avatar_customer_insert"
+                    android:onClick="pic_selector"
+                    android:src="@drawable/kaseb_pic" />
+
+            </android.support.v7.widget.CardView>
+
         </LinearLayout>
 
         <LinearLayout

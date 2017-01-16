@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -21,14 +22,13 @@
             android:layout_marginBottom="6dp"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
-            android:orientation="horizontal"
-            android:visibility="gone">
+            android:orientation="horizontal">
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="8"
-                android:textColorHint="@color/colorAccent">
+                app:errorTextAppearance="@style/text_input_layout_style_not_error">
 
                 <EditText
                     android:id="@+id/customer_first_name"
@@ -53,14 +53,13 @@
             android:layout_marginBottom="6dp"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
-            android:orientation="horizontal"
-            android:visibility="gone">
+            android:orientation="horizontal">
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="8"
-                android:textColorHint="@color/colorAccent">
+                app:errorTextAppearance="@style/text_input_layout_style_not_error">
 
                 <EditText
                     android:id="@+id/customer_last_name"
@@ -85,7 +84,6 @@
             android:layout_marginBottom="6dp"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
->>>>>>> 61783b7d860cf52043b5c5c5c46e5e1778a2218d
             android:layout_marginTop="3dp"
             android:orientation="horizontal">
 
@@ -102,7 +100,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="8"
-                android:textColorHint="@color/colorAccent">
+                app:errorTextAppearance="@style/text_input_layout_style_not_error">
 
                 <EditText
                     android:id="@+id/customer_phone_mobile"
@@ -149,7 +147,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="8"
-                android:textColorHint="@color/colorAccent">
+                app:errorTextAppearance="@style/text_input_layout_style_not_error">
 
                 <EditText
                     android:id="@+id/customer_email_txt"
@@ -188,7 +186,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="8"
-                android:textColorHint="@color/colorAccent">
+                app:errorTextAppearance="@style/text_input_layout_style_not_error">
 
                 <EditText
                     android:id="@+id/customer_birth_day"
@@ -219,7 +217,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="8"
-                android:textColorHint="@color/colorAccent">
+                app:errorTextAppearance="@style/text_input_layout_style_not_error">
 
                 <EditText
                     android:id="@+id/customer_description"
@@ -258,7 +256,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="8"
-                android:textColorHint="@color/colorAccent">
+                app:errorTextAppearance="@style/text_input_layout_style_not_error">
 
                 <EditText
                     android:id="@+id/customer_phone_work"
@@ -306,7 +304,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="8"
-                android:textColorHint="@color/colorAccent">
+                app:errorTextAppearance="@style/text_input_layout_style_not_error">
 
                 <EditText
                     android:id="@+id/customer_phone_home"
@@ -354,7 +352,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="8"
-                android:textColorHint="@color/colorAccent">
+                app:errorTextAppearance="@style/text_input_layout_style_not_error">
 
                 <EditText
                     android:id="@+id/customer_phone_other"
@@ -402,7 +400,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="8"
-                android:textColorHint="@color/colorAccent">
+                app:errorTextAppearance="@style/text_input_layout_style_not_error">
 
                 <EditText
                     android:id="@+id/customer_phone_fax"
@@ -441,7 +439,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="8"
-                android:textColorHint="@color/colorAccent">
+                app:errorTextAppearance="@style/text_input_layout_style_not_error">
 
                 <EditText
                     android:id="@+id/customer_address_country"
@@ -471,7 +469,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="8"
-                android:textColorHint="@color/colorAccent">
+                app:errorTextAppearance="@style/text_input_layout_style_not_error">
 
                 <EditText
                     android:id="@+id/customer_address_city"
@@ -501,7 +499,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="8"
-                android:textColorHint="@color/colorAccent">
+                app:errorTextAppearance="@style/text_input_layout_style_not_error">
 
                 <EditText
                     android:id="@+id/customer_address_street"
@@ -528,10 +526,11 @@
             android:orientation="horizontal">
 
             <android.support.design.widget.TextInputLayout
+                android:id="@+id/text_input_layout_customer_address_postal_code"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="8"
-                android:textColorHint="@color/colorAccent">
+                app:errorTextAppearance="@style/text_input_layout_style_not_error">
 
                 <EditText
                     android:id="@+id/customer_address_postal_code"

@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
@@ -43,10 +44,8 @@ public class DetailProducts extends Fragment implements LoaderManager.LoaderCall
     DetailProductAdapter mAdapter = null;
     Long productId;
     FloatingActionButton fab;
-
     ContentValues productHistoryValues = new ContentValues();
     ContentValues productValues = new ContentValues();
-
     EditText productName;
     EditText productCode;
     EditText productUnit;
@@ -57,13 +56,11 @@ public class DetailProducts extends Fragment implements LoaderManager.LoaderCall
     EditText buyDate;
     EditText discountAmount;
     EditText discountPercent;
-
+    TextInputLayout productNameTextInputLayout;
     MenuItem saveItem;
     MenuItem editItem;
-
     AlertDialog.Builder builder;
     AlertDialog dialogView;
-
     private Uri insertUri;
     //endregion Declare Values & Views
 
@@ -297,7 +294,7 @@ public class DetailProducts extends Fragment implements LoaderManager.LoaderCall
                 break;
             case R.id.action_detail_product_save:
                 if (Utility.checkForValidityForEditTextNullOrEmptyAndItterative(
-                        getActivity(), productName, KasebContract.Products.CONTENT_URI,
+                        getActivity(), productName, productNameTextInputLayout, KasebContract.Products.CONTENT_URI,
                         KasebContract.Products.COLUMN_PRODUCT_NAME + " = ? and " + KasebContract.Products._ID + " != ? ",
                         KasebContract.Products._ID, new String[]{productName.getText().toString(), String.valueOf(productId)})) {
                     editItem.setVisible(isVisible());
@@ -340,6 +337,8 @@ public class DetailProducts extends Fragment implements LoaderManager.LoaderCall
         productCode = (EditText) getActivity().findViewById(R.id.detail_product_code);
         productUnit = (EditText) getActivity().findViewById(R.id.detail_product_unit);
         productDescription = (EditText) getActivity().findViewById(R.id.detail_product_description);
+
+        productNameTextInputLayout = (TextInputLayout) getActivity().findViewById(R.id.text_input_layout_detail_product_description);
 
         mCursor = getContext().getContentResolver().query(
                 KasebContract.Products.buildProductsUri(productId),

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -12,18 +13,32 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginTop="6dp"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="@dimen/top_of_list_margin"
             android:gravity="center"
             android:orientation="horizontal">
 
-            <ImageView
-                android:id="@+id/fragment_customer_insert_picture"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_margin="4dp"
-                android:src="@drawable/kaseb_pic" />
+            <android.support.v7.widget.CardView
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_margin="@dimen/top_of_list_margin_in_row"
+                android:innerRadius="0dp"
+                android:shape="ring"
+                android:thicknessRatio="1.9"
+                app:cardCornerRadius="40dp">
+
+                <ImageView
+                    android:id="@+id/fragment_customer_insert_picture"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_gravity="center"
+                    android:contentDescription="@string/avatar_customer_insert"
+                    android:src="@drawable/kaseb_pic" />
+
+            </android.support.v7.widget.CardView>
+
+
         </LinearLayout>
 
         <LinearLayout
@@ -42,7 +57,7 @@
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColorHint="@color/colorAccent">
+                    app:errorTextAppearance="@style/text_input_layout_style_not_error">
 
                     <EditText
                         android:id="@+id/input_first_name"
@@ -50,16 +65,14 @@
                         android:layout_height="wrap_content"
                         android:hint="@string/hint_first_name"
                         android:inputType="textPersonName"
-                        android:maxLength="30"
-                        android:textColor="@color/colorBlack"
-                        android:textColorHint="@color/colorBlack" />
+                        android:maxLength="30" />
 
                 </android.support.design.widget.TextInputLayout>
 
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColorHint="@color/colorAccent">
+                    app:errorTextAppearance="@style/text_input_layout_style_not_error">
 
                     <EditText
                         android:id="@+id/input_last_name"
@@ -67,16 +80,15 @@
                         android:layout_height="wrap_content"
                         android:hint="@string/hint_last_name"
                         android:inputType="textPersonName"
-                        android:maxLength="30"
-                        android:textColor="@color/colorBlack"
-                        android:textColorHint="@color/colorBlack" />
+                        android:maxLength="30" />
 
                 </android.support.design.widget.TextInputLayout>
 
                 <android.support.design.widget.TextInputLayout
+                    android:id="@+id/text_input_layout_input_phone_mobile"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColorHint="@color/colorAccent">
+                    app:errorTextAppearance="@style/text_input_layout_style_not_error">
 
                     <EditText
                         android:id="@+id/input_phone_mobile"
@@ -84,16 +96,14 @@
                         android:layout_height="wrap_content"
                         android:hint="@string/hint_phone_mobile"
                         android:inputType="phone"
-                        android:maxLength="15"
-                        android:textColor="@color/colorBlack"
-                        android:textColorHint="@color/colorBlack" />
+                        android:maxLength="15" />
 
                 </android.support.design.widget.TextInputLayout>
 
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColorHint="@color/colorAccent">
+                    app:errorTextAppearance="@style/text_input_layout_style_not_error">
 
                     <EditText
                         android:id="@+id/input_email"
@@ -101,16 +111,14 @@
                         android:layout_height="wrap_content"
                         android:hint="@string/hint_email"
                         android:inputType="textEmailAddress"
-                        android:maxLength="40"
-                        android:textColor="@color/colorBlack"
-                        android:textColorHint="@color/colorBlack" />
+                        android:maxLength="40" />
 
                 </android.support.design.widget.TextInputLayout>
 
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColorHint="@color/colorAccent">
+                    app:errorTextAppearance="@style/text_input_layout_style_not_error">
 
                     <EditText
                         android:id="@+id/input_phone_work"
@@ -118,16 +126,14 @@
                         android:layout_height="wrap_content"
                         android:hint="@string/hint_phone_work"
                         android:inputType="phone"
-                        android:maxLength="15"
-                        android:textColor="@color/colorBlack"
-                        android:textColorHint="@color/colorBlack" />
+                        android:maxLength="15" />
 
                 </android.support.design.widget.TextInputLayout>
 
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColorHint="@color/colorAccent">
+                    app:errorTextAppearance="@style/text_input_layout_style_not_error">
 
                     <EditText
                         android:id="@+id/input_phone_home"
@@ -135,16 +141,14 @@
                         android:layout_height="wrap_content"
                         android:hint="@string/hint_phone_home"
                         android:inputType="phone"
-                        android:maxLength="15"
-                        android:textColor="@color/colorBlack"
-                        android:textColorHint="@color/colorBlack" />
+                        android:maxLength="15" />
 
                 </android.support.design.widget.TextInputLayout>
 
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColorHint="@color/colorAccent">
+                    app:errorTextAppearance="@style/text_input_layout_style_not_error">
 
                     <EditText
                         android:id="@+id/input_phone_other"
@@ -152,16 +156,14 @@
                         android:layout_height="wrap_content"
                         android:hint="@string/hint_phone_other"
                         android:inputType="phone"
-                        android:maxLength="15"
-                        android:textColor="@color/colorBlack"
-                        android:textColorHint="@color/colorBlack" />
+                        android:maxLength="15" />
 
                 </android.support.design.widget.TextInputLayout>
 
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColorHint="@color/colorAccent">
+                    app:errorTextAppearance="@style/text_input_layout_style_not_error">
 
                     <EditText
                         android:id="@+id/input_phone_fax"
@@ -169,16 +171,14 @@
                         android:layout_height="wrap_content"
                         android:hint="@string/hint_phone_fax"
                         android:inputType="phone"
-                        android:maxLength="15"
-                        android:textColor="@color/colorBlack"
-                        android:textColorHint="@color/colorBlack" />
+                        android:maxLength="15" />
 
                 </android.support.design.widget.TextInputLayout>
 
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColorHint="@color/colorAccent">
+                    app:errorTextAppearance="@style/text_input_layout_style_not_error">
 
                     <EditText
                         android:id="@+id/input_address_country"
@@ -186,16 +186,14 @@
                         android:layout_height="wrap_content"
                         android:hint="@string/hint_address_country"
                         android:inputType="text"
-                        android:maxLength="20"
-                        android:textColor="@color/colorBlack"
-                        android:textColorHint="@color/colorBlack" />
+                        android:maxLength="20" />
 
                 </android.support.design.widget.TextInputLayout>
 
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColorHint="@color/colorAccent">
+                    app:errorTextAppearance="@style/text_input_layout_style_not_error">
 
                     <EditText
                         android:id="@+id/input_address_city"
@@ -203,16 +201,14 @@
                         android:layout_height="wrap_content"
                         android:hint="@string/hint_address_city"
                         android:inputType="text"
-                        android:maxLength="20"
-                        android:textColor="@color/colorBlack"
-                        android:textColorHint="@color/colorBlack" />
+                        android:maxLength="20" />
 
                 </android.support.design.widget.TextInputLayout>
 
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColorHint="@color/colorAccent">
+                    app:errorTextAppearance="@style/text_input_layout_style_not_error">
 
                     <EditText
                         android:id="@+id/input_address_street"
@@ -220,16 +216,14 @@
                         android:layout_height="wrap_content"
                         android:hint="@string/hint_address_street"
                         android:inputType="text"
-                        android:maxLength="50"
-                        android:textColor="@color/colorBlack"
-                        android:textColorHint="@color/colorBlack" />
+                        android:maxLength="50" />
 
                 </android.support.design.widget.TextInputLayout>
 
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColorHint="@color/colorAccent">
+                    app:errorTextAppearance="@style/text_input_layout_style_not_error">
 
                     <EditText
                         android:id="@+id/input_address_postal_code"
@@ -237,16 +231,14 @@
                         android:layout_height="wrap_content"
                         android:hint="@string/hint_address_postal_code"
                         android:inputType="textPostalAddress"
-                        android:maxLength="15"
-                        android:textColor="@color/colorBlack"
-                        android:textColorHint="@color/colorBlack" />
+                        android:maxLength="15" />
 
                 </android.support.design.widget.TextInputLayout>
 
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColorHint="@color/colorAccent">
+                    app:errorTextAppearance="@style/text_input_layout_style_not_error">
 
                     <EditText
                         android:id="@+id/input_birth_day"
@@ -254,9 +246,7 @@
                         android:layout_height="wrap_content"
                         android:hint="@string/hint_birth_day"
                         android:inputType="date"
-                        android:maxLength="10"
-                        android:textColor="@color/colorBlack"
-                        android:textColorHint="@color/colorBlack" />
+                        android:maxLength="10" />
 
                 </android.support.design.widget.TextInputLayout>
 
@@ -269,7 +259,7 @@
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColorHint="@color/colorAccent">
+                    app:errorTextAppearance="@style/text_input_layout_style_not_error">
 
                     <EditText
                         android:id="@+id/input_description"
@@ -278,9 +268,7 @@
                         android:layout_marginBottom="3dp"
                         android:hint="@string/hint_description"
                         android:inputType="text"
-                        android:maxLength="50"
-                        android:textColor="@color/colorBlack"
-                        android:textColorHint="@color/colorBlack" />
+                        android:maxLength="50" />
 
                 </android.support.design.widget.TextInputLayout>
 

@@ -3,6 +3,7 @@ package mjkarbasian.moshtarimadar.Products;
 import android.content.ContentValues;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -25,6 +26,8 @@ import mjkarbasian.moshtarimadar.R;
  * Created by Unique on 10/25/2016.
  */
 public class ProductInsert extends Fragment {
+
+    //region declare values
     private static final String LOG_TAG = CostInsert.class.getSimpleName();
     View rootView;
     ContentValues productValues = new ContentValues();
@@ -39,7 +42,9 @@ public class ProductInsert extends Fragment {
     EditText buyDate;
     EditText discountAmount;
     EditText discountPercent;
+    TextInputLayout productNameTextInputLayout;
     private Uri insertUri;
+    //endregion declare values
 
     public ProductInsert() {
         setHasOptionsMenu(true);
@@ -61,6 +66,8 @@ public class ProductInsert extends Fragment {
         buyDate = (EditText) rootView.findViewById(R.id.input_buy_date);
         discountAmount = (EditText) rootView.findViewById(R.id.input_discount_amount);
         discountPercent = (EditText) rootView.findViewById(R.id.input_discount_percent);
+
+        productNameTextInputLayout = (TextInputLayout) getActivity().findViewById(R.id.text_input_layout_input_product_name);
 
         buyDate.setText(Utility.preInsertDate(getActivity()));
 
@@ -166,7 +173,7 @@ public class ProductInsert extends Fragment {
         switch (item.getItemId()) {
             case R.id.save_inputs: {
                 if (Utility.checkForValidityForEditTextNullOrEmptyAndItterative(
-                        getActivity(), productName, KasebContract.Products.CONTENT_URI,
+                        getActivity(), productName, productNameTextInputLayout, KasebContract.Products.CONTENT_URI,
                         KasebContract.Products.COLUMN_PRODUCT_NAME + " = ? ",
                         KasebContract.Products._ID, new String[]{productName.getText().toString()})
                         && CheckForValidity()) {

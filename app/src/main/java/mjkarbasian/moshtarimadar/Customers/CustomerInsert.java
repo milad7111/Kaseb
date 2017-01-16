@@ -9,6 +9,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -42,6 +43,10 @@ public class CustomerInsert extends Fragment {
     private static final int RESULT_CROP = 400;
     private static final int YOUR_SELECT_PICTURE_REQUEST_CODE = 300;
 
+    View rootView;
+    ContentValues customerValues = new ContentValues();
+    ImageView mCustomerAvatar;
+    Bitmap photo;
     EditText firstName;
     EditText lastName;
     EditText birthDay;
@@ -57,12 +62,7 @@ public class CustomerInsert extends Fragment {
     EditText addressCity;
     EditText addressStreet;
     EditText addressPostalCode;
-
-    View rootView;
-    ContentValues customerValues = new ContentValues();
-    ImageView mCustomerAvatar;
-    Bitmap photo;
-    private Uri outputFileUri;
+    TextInputLayout phoneMobileTextInputLayout;
     private Uri insertUri;
 
     public CustomerInsert() {
@@ -100,6 +100,8 @@ public class CustomerInsert extends Fragment {
         addressStreet = (EditText) rootView.findViewById(R.id.input_address_street);
         addressPostalCode = (EditText) rootView.findViewById(R.id.input_address_postal_code);
 
+        phoneMobileTextInputLayout = (TextInputLayout) rootView.findViewById(R.id.text_input_layout_input_phone_mobile);
+
         Cursor cursor = getContext().getContentResolver().query(KasebContract.State.CONTENT_URI
                 , null, null, null, KasebContract.State._ID + " DESC");
 
@@ -129,7 +131,7 @@ public class CustomerInsert extends Fragment {
             case R.id.save_inputs: {
 
                 if (CheckForValidity() && Utility.checkForValidityForEditTextNullOrEmptyAndItterative(
-                        getActivity(), phoneMobile, KasebContract.Customers.CONTENT_URI,
+                        getActivity(), phoneMobile, phoneMobileTextInputLayout, KasebContract.Customers.CONTENT_URI,
                         KasebContract.Customers.COLUMN_PHONE_MOBILE + " = ? ",
                         KasebContract.Customers._ID, new String[]{phoneMobile.getText().toString()})) {
                     customerValues.put(KasebContract.Customers.COLUMN_FIRST_NAME, firstName.getText().toString());

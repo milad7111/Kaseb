@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/card_linear_layout"
     android:layout_width="match_parent"
@@ -23,16 +24,29 @@
             android:clickable="false"
             android:orientation="horizontal">
 
-            <ImageView
-                android:id="@+id/item_card_customer_avater"
+            <android.support.v7.widget.CardView
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_gravity="start"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
                 android:layout_weight="1"
-                android:src="@drawable/kaseb_pic" />
+                android:innerRadius="0dp"
+                android:shape="ring"
+                android:thicknessRatio="1.9"
+                app:cardCornerRadius="20dp">
+
+                <ImageView
+                    android:id="@+id/item_card_customer_avater"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:contentDescription="@string/image_avatar_title"
+                    android:gravity="center"
+                    android:src="@drawable/kaseb_pic" />
+
+            </android.support.v7.widget.CardView>
 
             <TextView
                 android:id="@+id/item_card_debator_name"
+                style="text_sub_heading"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/text_height_in_list"
                 android:layout_marginLeft="@dimen/text_in_list_horizontal_margin"
@@ -40,8 +54,8 @@
                 android:fontFamily="sans-serif-condensed"
                 android:gravity="center_vertical"
                 android:text="@string/kaseb_name"
-                android:textAppearance="?android:textAppearanceMedium"
 
+                android:textAppearance="?android:textAppearanceMedium"
                 android:textColor="@color/colorBlack"
                 android:textColorHint="@color/colorBlack"
                 android:textSize="@dimen/text_size_in_list" />
@@ -66,8 +80,8 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="2px"
-            android:background="@drawable/divider_list"></View>
+            android:layout_height="2dp"
+            android:background="@drawable/divider_list" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -89,9 +103,7 @@
                 android:clickable="true"
                 android:onClick="call_debator"
                 android:padding="2dp"
-                android:src="@drawable/ic_phone"
-
-                />
+                android:src="@drawable/ic_phone" />
 
             <ImageView
                 android:id="@+id/debtor_message"
@@ -117,6 +129,7 @@
                 android:padding="2dp"
                 android:src="@drawable/share_variant" />
         </LinearLayout>
+
     </LinearLayout>
 
 </LinearLayout>
