@@ -27,6 +27,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/top_of_list_margin"
+            app:counterEnabled="true"
+            app:counterMaxLength="200"
             app:errorTextAppearance="@style/text_input_layout_style_not_error">
 
             <EditText

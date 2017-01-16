@@ -587,18 +587,6 @@ public class CostSaleProductList extends Fragment implements LoaderManager.Loade
         mAdapter.swapCursor(null);
     }
 
-    // this method check the validation and correct entries. its check fill first and then check the validation rules.
-    private boolean CheckForValidity() {
-        if (!Utility.checkForValidityForEditTextNullOrEmpty(getActivity(), costName))
-            return false;
-        else if (!Utility.checkForValidityForEditTextNullOrEmpty(getActivity(), costAmount))
-            return false;
-        else if (!Utility.checkForValidityForEditTextDate(getActivity(), costDate))
-            return false;
-
-        return true;
-    }
-
     private void setHelperText() {
 
         costNameTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data));

@@ -43,6 +43,13 @@ public class ProductInsert extends Fragment {
     EditText discountAmount;
     EditText discountPercent;
     TextInputLayout productNameTextInputLayout;
+    TextInputLayout salePriceTextInputLayout;
+    TextInputLayout quantityTextInputLayout;
+    TextInputLayout buyPriceTextInputLayout;
+    TextInputLayout buyDateTextInputLayout;
+    TextInputLayout productCodeTextInputLayout;
+    TextInputLayout productUnitTextInputLayout;
+    TextInputLayout productDDescriptionTextInputLayout;
     private Uri insertUri;
     //endregion declare values
 
@@ -67,9 +74,18 @@ public class ProductInsert extends Fragment {
         discountAmount = (EditText) rootView.findViewById(R.id.input_discount_amount);
         discountPercent = (EditText) rootView.findViewById(R.id.input_discount_percent);
 
-        productNameTextInputLayout = (TextInputLayout) getActivity().findViewById(R.id.text_input_layout_input_product_name);
+        productNameTextInputLayout = (TextInputLayout) rootView.findViewById(R.id.text_input_layout_input_product_name);
+        salePriceTextInputLayout = (TextInputLayout) rootView.findViewById(R.id.text_input_layout_input_sale_price);
+        quantityTextInputLayout = (TextInputLayout) rootView.findViewById(R.id.text_input_layout_input_quantity);
+        buyPriceTextInputLayout = (TextInputLayout) rootView.findViewById(R.id.text_input_layout_input_buy_price);
+        buyDateTextInputLayout = (TextInputLayout) rootView.findViewById(R.id.text_input_layout_input_buy_date);
+        productCodeTextInputLayout = (TextInputLayout) rootView.findViewById(R.id.text_input_layout_input_product_code);
+        productUnitTextInputLayout = (TextInputLayout) rootView.findViewById(R.id.text_input_layout_input_product_unit);
+        productDDescriptionTextInputLayout = (TextInputLayout) rootView.findViewById(R.id.text_input_layout_input_product_description);
 
         buyDate.setText(Utility.preInsertDate(getActivity()));
+
+        setHelperText();
 
         discountAmount.addTextChangedListener(new TextWatcher() {
             @Override
@@ -176,7 +192,7 @@ public class ProductInsert extends Fragment {
                         getActivity(), productName, productNameTextInputLayout, KasebContract.Products.CONTENT_URI,
                         KasebContract.Products.COLUMN_PRODUCT_NAME + " = ? ",
                         KasebContract.Products._ID, new String[]{productName.getText().toString()})
-                        && CheckForValidity()) {
+                        && checkValidityWithChangeColorOfHelperText()) {
 
                     productValues.put(KasebContract.Products.COLUMN_PRODUCT_NAME, productName.getText().toString());
                     productValues.put(KasebContract.Products.COLUMN_PRODUCT_CODE, productCode.getText().toString());
@@ -224,23 +240,66 @@ public class ProductInsert extends Fragment {
         return super.onOptionsItemSelected(item);
     }
 
-    // this method check the validation and correct entries. its check fill first and then check the validation rules.
-    private boolean CheckForValidity() {
-        if (!Utility.checkForValidityForEditTextNullOrEmpty(getActivity(), salePrice))
-            return false;
-        else if (!Utility.checkForValidityForEditTextNullOrEmpty(getActivity(), quantity))
-            return false;
-        else if (!Utility.checkForValidityForEditTextNullOrEmpty(getActivity(), buyPrice))
-            return false;
-        else if (!Utility.checkForValidityForEditTextDate(getActivity(), buyDate))
-            return false;
-
-        return true;
-    }
-
     // this method back to the activity view. this must be a utility method.
     private void backToLastPage() {
         Utility.clearForm((ViewGroup) rootView);
         getFragmentManager().popBackStackImmediate();
+    }
+
+    private void setHelperText() {
+
+        productNameTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data)
+                + getResources().getString(R.string.not_itterative));
+
+        salePriceTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data));
+        quantityTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data));
+        buyPriceTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data));
+        productCodeTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data));
+        productUnitTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data));
+        productDDescriptionTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data));
+
+        buyDateTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data)
+                + getResources().getString(R.string.date_format_error));
+    }
+
+    // this method check the validation and correct entries. its check fill first and then check the validation rules.
+    private boolean checkValidityWithChangeColorOfHelperText() {
+
+        if (!Utility.checkForValidityForEditTextNullOrEmpty(getActivity(), productCode)) {
+            Utility.changeColorOfHelperText(getActivity(), productCodeTextInputLayout, R.color.colorRed);
+            productCode.requestFocus();
+            return false;
+        } else
+            Utility.changeColorOfHelperText(getActivity(), productCodeTextInputLayout, R.color.colorPrimaryLight);
+
+        if (!Utility.checkForValidityForEditTextNullOrEmpty(getActivity(), salePrice)) {
+            Utility.changeColorOfHelperText(getActivity(), salePriceTextInputLayout, R.color.colorRed);
+            salePrice.requestFocus();
+            return false;
+        } else
+            Utility.changeColorOfHelperText(getActivity(), salePriceTextInputLayout, R.color.colorPrimaryLight);
+
+        if (!Utility.checkForValidityForEditTextNullOrEmpty(getActivity(), quantity)) {
+            Utility.changeColorOfHelperText(getActivity(), quantityTextInputLayout, R.color.colorRed);
+            quantity.requestFocus();
+            return false;
+        } else
+            Utility.changeColorOfHelperText(getActivity(), quantityTextInputLayout, R.color.colorPrimaryLight);
+
+        if (!Utility.checkForValidityForEditTextNullOrEmpty(getActivity(), buyPrice)) {
+            Utility.changeColorOfHelperText(getActivity(), buyPriceTextInputLayout, R.color.colorRed);
+            buyPrice.requestFocus();
+            return false;
+        } else
+            Utility.changeColorOfHelperText(getActivity(), buyPriceTextInputLayout, R.color.colorPrimaryLight);
+
+        if (!Utility.checkForValidityForEditTextDate(getActivity(), buyDate)) {
+            Utility.changeColorOfHelperText(getActivity(), buyDateTextInputLayout, R.color.colorRed);
+            buyDate.requestFocus();
+            return false;
+        } else
+            Utility.changeColorOfHelperText(getActivity(), buyDateTextInputLayout, R.color.colorPrimaryLight);
+
+        return true;
     }
 }
