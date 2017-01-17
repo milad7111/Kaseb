@@ -349,15 +349,19 @@ public class DetailCustomer extends AppCompatActivity {
 
     // this method check the validation and correct entries. its check fill first and then check the validation rules.
     private boolean CheckForValidity() {
-        if (!Utility.checkForValidityForEditTextNullOrEmpty(getBaseContext(), customerPhoneMobile))
-            return false;
-        else if (!Utility.checkForValidityForEditTextNullOrEmpty(getBaseContext(), customerFirstName))
+
+        if (!Utility.checkForValidityForEditTextNullOrEmpty(getBaseContext(), customerFirstName))
             return false;
         else if (!Utility.checkForValidityForEditTextNullOrEmpty(getBaseContext(), customerLastName))
             return false;
-        if (!customerBirthDay.getText().toString().equals("") && !customerBirthDay.getText().toString().equals(null) &&
+        else if (!Utility.checkForValidityForEditTextNullOrEmpty(getBaseContext(), customerPhoneMobile))
+            return false;
+        else if (!customerBirthDay.getText().toString().equals("") && !customerBirthDay.getText().toString().equals(null) &&
                 !Utility.checkForValidityForEditTextDate(getBaseContext(), customerBirthDay))
             return false;
+        else if (!customerEmail.getText().toString().equals("") && !customerEmail.getText().toString().equals(null))
+            if (!Utility.validateEmail(customerEmail.getText().toString()))
+                return false;
 
         return true;
     }

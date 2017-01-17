@@ -41,7 +41,6 @@ public class CustomerInsert extends Fragment {
 
     private static final int GALLERY_ACTIVITY_CODE = 200;
     private static final int RESULT_CROP = 400;
-    private static final int YOUR_SELECT_PICTURE_REQUEST_CODE = 300;
 
     View rootView;
     ContentValues customerValues = new ContentValues();
@@ -196,6 +195,9 @@ public class CustomerInsert extends Fragment {
             return false;
         else if (!Utility.checkForValidityForEditTextNullOrEmpty(getActivity(), phoneMobile))
             return false;
+        else if (!email.getText().toString().equals("") && !email.getText().toString().equals(null))
+            if (!Utility.validateEmail(email.getText().toString()))
+                return false;
 
         return true;
     }

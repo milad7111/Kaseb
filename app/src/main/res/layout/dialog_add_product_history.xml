@@ -12,6 +12,7 @@
         android:orientation="vertical">
 
         <android.support.design.widget.TextInputLayout
+            android:id="@+id/text_input_layout_add_product_history_sale_price"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:errorTextAppearance="@style/text_input_layout_style_not_error">
@@ -27,6 +28,7 @@
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
+            android:id="@+id/text_input_layout_add_product_history_quantity"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:errorTextAppearance="@style/text_input_layout_style_not_error">
@@ -42,6 +44,7 @@
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
+            android:id="@+id/text_input_layout_add_product_history_buy_price"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:errorTextAppearance="@style/text_input_layout_style_not_error">
@@ -57,6 +60,7 @@
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
+            android:id="@+id/text_input_layout_add_product_history_buy_date"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:errorTextAppearance="@style/text_input_layout_style_not_error">
@@ -72,6 +76,7 @@
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
+            android:id="@+id/text_input_layout_add_product_history_discount_amount"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:errorTextAppearance="@style/text_input_layout_style_not_error">
@@ -87,6 +92,7 @@
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
+            android:id="@+id/text_input_layout_add_product_history_discount_percent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:errorTextAppearance="@style/text_input_layout_style_not_error">

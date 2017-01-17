@@ -1,6 +1,5 @@
 package mjkarbasian.moshtarimadar.Helpers;
 
-import android.app.Dialog;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
@@ -48,6 +47,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import io.github.meness.roozh.Roozh;
 import io.github.meness.roozh.RoozhLocale;
@@ -94,24 +95,28 @@ import static mjkarbasian.moshtarimadar.Helpers.Samples.setSalesAmount;
 import static mjkarbasian.moshtarimadar.Helpers.Samples.setSalesCode;
 import static mjkarbasian.moshtarimadar.Helpers.Samples.setSalesCustomer;
 
-
 /**
  * Created by family on 6/24/2016.
  */
 public class Utility {
 
     private static final String LOG_TAG = Utility.class.getSimpleName();
+    private static final String EMAIL_PATTERN = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+    private static final Pattern mPattern = Pattern.compile(EMAIL_PATTERN);
     private static int mSmallSize = 14;
     private static int mMiddleSize = 16;
     private static int mBigSize = 20;
-
     private static int mIdOfColorSetError = R.color.colorRed;
     private static int mIdOfColorGetError = R.color.colorPrimaryLight;
-
     private static BaseColor subTitleColorTables = new BaseColor(140, 221, 8);
     private static BaseColor mainTitleColorTables = new BaseColor(255, 255, 255);
     private static Context _mContext;
     private static Document _mDocument;
+
+    public static boolean validateEmail(String email) {
+        Matcher mMatcher = mPattern.matcher(email);
+        return mMatcher.matches();
+    }
 
     public static void printInvoice(Context mContext, String mSaleDate, String mSaleCode, String mNameCustomer,
                                     String mFamilyCustomer, ArrayList<Long> mSummaryOfInvoice,
@@ -173,6 +178,7 @@ public class Utility {
             );
 
             Utility.viewPdf(_mContext, myFile);
+
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (DocumentException e) {
@@ -187,56 +193,28 @@ public class Utility {
     public static boolean checkForValidityForEditTextNullOrEmpty(Context mContext, EditText mEditText) {
         _mContext = mContext;
         if (mEditText.getText().toString().equals("") || mEditText.getText().toString().equals(null)) {
-//            Utility.setErrorForEditText(mEditText);
             return false;
         }
         return true;
     }
-
-//    public static boolean checkForValidityForEditTextNullOrEmpty(Context mContext, TextInputLayout mTextInputLayout) {
-//        _mContext = mContext;
-//        if (mEditText.getText().toString().equals("") || mEditText.getText().toString().equals(null)) {
-//            changeColorOfHelperText(mContext, mTextInputLayout, mIdOfColorSetError);
-//            Utility.setErrorForEditText(mEditText);
-//            return false;
-//        }
-//        return true;
-//    }
-
-//    public static boolean checkForValidityForEditTextNullOrEmpty2(
-//            Context mContext, TextInputLayout mTextInputLayoutm, EditText mEditText) {
-//        _mContext = mContext;
-//        if (mEditText.getText().toString().equals("") || mEditText.getText().toString().equals(null)) {
-//            Utility.setErrorForEditText2(mTextInputLayoutm);
-//            return false;
-//        }
-//        return true;
-//    }
 
     public static boolean checkForValidityForEditTextDate(Context mContext, EditText mEditText) {
         _mContext = mContext;
         String[] dateList = mEditText.getText().toString().split("/");
 
         if (mEditText.getText().toString().equals("") || mEditText.getText().toString().equals(null)) {
-//            Utility.setErrorForEditText(mEditText, mContext.getString(R.string.date_format_error));
             return false;
         } else if (dateList.length != 3) {
-//            Utility.setErrorForEditText(mEditText, mContext.getString(R.string.date_format_error));
             return false;
         } else if (dateList[0].length() != 4) {
-//            Utility.setErrorForEditText(mEditText, mContext.getString(R.string.date_format_error));
             return false;
         } else if (dateList[1].length() == 1 && dateList[1].equals("0")) {
-//            Utility.setErrorForEditText(mEditText, mContext.getString(R.string.date_format_error));
             return false;
         } else if (dateList[1].length() != 1 && dateList[1].length() != 2) {
-//            Utility.setErrorForEditText(mEditText, mContext.getString(R.string.date_format_error));
             return false;
         } else if (dateList[2].length() == 1 && dateList[2].equals("0")) {
-//            Utility.setErrorForEditText(mEditText, mContext.getString(R.string.date_format_error));
             return false;
         } else if (dateList[2].length() != 1 && dateList[2].length() != 2) {
-//            Utility.setErrorForEditText(mEditText, mContext.getString(R.string.date_format_error));
             return false;
         }
 
@@ -248,26 +226,6 @@ public class Utility {
         mTextView.requestFocus();
     }
 
-    private static void setErrorForEditText(EditText mEditText) {
-        mEditText.setError(_mContext.getString(R.string.choose_appropriate_data));
-        mEditText.requestFocus();
-    }
-
-//    private static void setErrorForEditText2(Con TextInputLayout mTextInputLayout) {
-//        mTextInputLayout.setError(_mContext.getString(R.string.choose_appropriate_data));
-//        mTextInputLayout.requestFocus();
-//    }
-
-    public static void setErrorForEditText(EditText mEditText, String mMessage) {
-        mEditText.setError(_mContext.getString(R.string.choose_appropriate_data) + mMessage);
-        mEditText.requestFocus();
-    }
-
-//    public static void setErrorForEditText2(TextInputLayout mTextInputLayout, String mMessage) {
-//        mTextInputLayout.setError(_mContext.getString(R.string.choose_appropriate_data) + mMessage);
-//        mTextInputLayout.requestFocus();
-//    }
-
     public static void setErrorForEditText(Context mContext, EditText mEditText, String mMessage) {
         mEditText.setError(mContext.getString(R.string.choose_appropriate_data) + mMessage);
         mEditText.requestFocus();
@@ -278,10 +236,11 @@ public class Utility {
             String mProjectionColumnName, String[] mSelection) {
         if (!checkForValidityForEditTextNullOrEmpty(mContext, mEditText)) {
             changeColorOfHelperText(mContext, mTextInputLayout, mIdOfColorSetError);
+            mEditText.setSelectAllOnFocus(true);
+            mEditText.selectAll();
             mEditText.requestFocus();
             return false;
-        }
-        else {
+        } else {
             Cursor mCursor = mContext.getContentResolver().query(
                     mUri,
                     new String[]{mProjectionColumnName},
@@ -293,6 +252,8 @@ public class Utility {
                 if (mCursor.moveToFirst())
                     if (mCursor.getCount() > 0) {
                         changeColorOfHelperText(mContext, mTextInputLayout, mIdOfColorSetError);
+                        mEditText.setSelectAllOnFocus(true);
+                        mEditText.selectAll();
                         mEditText.requestFocus();
                         return false;
                     }
@@ -357,14 +318,6 @@ public class Utility {
         for (int i = 1; i < len; i++)
             sb.append(",?");
         return sb.toString();
-    }
-
-    public static Dialog dialogBuilder(Context context, int layout, int title) {
-        Dialog dialog = new Dialog(context);
-        dialog.setContentView(layout);
-        dialog.setTitle(title);
-
-        return dialog;
     }
 
     public static String getTheLastPathUri(Uri uri) {
@@ -497,7 +450,6 @@ public class Utility {
                 break;
             default:
                 customerState.setColorFilter(Color.argb(255, 0, 0, 0));
-
         }
     }
 
@@ -582,8 +534,6 @@ public class Utility {
             setSale();
             setSaleSummary();
         }
-
-
     }
 
     private static void productHistoryInits(Context context) {
@@ -767,8 +717,6 @@ public class Utility {
                 contentValues
         );
         Log.d(LOG_TAG, "Data successfully initialized to: " + Integer.toString(insertedUri));
-
-
     }
 
     private static void paymentsMethodinit(Context context) {

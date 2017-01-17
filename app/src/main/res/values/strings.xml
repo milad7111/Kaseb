@@ -448,4 +448,6 @@
     <string name="content_detail_sale_insert_add_product_image_button">content_detail_sale_insert_add_product_image_button</string>
     <string name="detail_sales_products_items_total">Total</string>
     <string name="avatar_customer_insert">avatar_customer_insert</string>
+    <string name="title_product_stock">Stock</string>
+    <string name="buy_date">Buy Date :</string>
 </resources>

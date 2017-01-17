@@ -354,4 +354,5 @@ CRM یا همان نرم افزار مدیریت ارتباط با مشتری ب
     <string name="not_more_than_sale_price">تخفیف گرفته شده در خرید کالا نمی تواند بیشتر از قیمت فروش باشد.</string>
     <string name="click_here_choose_customer">برای انتخاب مشتری، کلیک کنید ...</string>
     <string name="detail_sales_products_items_total">کل</string>
+    <string name="title_product_stock">موجودی</string>
 </resources>

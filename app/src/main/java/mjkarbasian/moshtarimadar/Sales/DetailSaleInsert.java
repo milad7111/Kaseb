@@ -867,6 +867,8 @@ public class DetailSaleInsert extends AppCompatActivity {
     private boolean checkValidityWithChangeColorOfHelperText() {
         if (!Utility.checkForValidityForEditTextDate(DetailSaleInsert.this, saleDate)) {
             Utility.changeColorOfHelperText(DetailSaleInsert.this, saleDateTextInputLayout, R.color.colorRed);
+            saleDate.setSelectAllOnFocus(true);
+            saleDate.selectAll();
             saleDate.requestFocus();
             return false;
         } else

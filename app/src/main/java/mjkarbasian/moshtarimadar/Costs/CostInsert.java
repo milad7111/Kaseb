@@ -142,6 +142,8 @@ public class CostInsert extends Fragment {
     private boolean checkValidityWithChangeColorOfHelperText() {
         if (!Utility.checkForValidityForEditTextNullOrEmpty(getActivity(), costName)) {
             Utility.changeColorOfHelperText(getActivity(), costNameTextInputLayout, R.color.colorRed);
+            costName.setSelectAllOnFocus(true);
+            costName.selectAll();
             costName.requestFocus();
             return false;
         } else
@@ -149,6 +151,8 @@ public class CostInsert extends Fragment {
 
         if (!Utility.checkForValidityForEditTextNullOrEmpty(getActivity(), costCode)) {
             Utility.changeColorOfHelperText(getActivity(), costCodeTextInputLayout, R.color.colorRed);
+            costCode.setSelectAllOnFocus(true);
+            costCode.selectAll();
             costCode.requestFocus();
             return false;
         } else
@@ -156,6 +160,8 @@ public class CostInsert extends Fragment {
 
         if (!Utility.checkForValidityForEditTextNullOrEmpty(getActivity(), costAmount)) {
             Utility.changeColorOfHelperText(getActivity(), costAmountTextInputLayout, R.color.colorRed);
+            costAmount.setSelectAllOnFocus(true);
+            costAmount.selectAll();
             costAmount.requestFocus();
             return false;
         } else
@@ -163,6 +169,8 @@ public class CostInsert extends Fragment {
 
         if (!Utility.checkForValidityForEditTextDate(getActivity(), costDate)) {
             Utility.changeColorOfHelperText(getActivity(), costDateTextInputLayout, R.color.colorRed);
+            costDate.setSelectAllOnFocus(true);
+            costDate.selectAll();
             costDate.requestFocus();
             return false;
         } else
