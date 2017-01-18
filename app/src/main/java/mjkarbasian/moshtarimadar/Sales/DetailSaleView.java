@@ -1250,7 +1250,7 @@ public class DetailSaleView extends AppCompatActivity {
     private void setHelperText() {
 
         saleCodeTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data)
-                + getResources().getString(R.string.not_itterative));
+                + getResources().getString(R.string.non_repetitive));
 
         saleDateTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data)
                 + getResources().getString(R.string.date_format_error));

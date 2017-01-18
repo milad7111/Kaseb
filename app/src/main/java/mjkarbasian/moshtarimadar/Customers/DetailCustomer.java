@@ -58,7 +58,20 @@ public class DetailCustomer extends AppCompatActivity {
     EditText customerAddressStreet;
     EditText customerAddressPostalCode;
 
+    TextInputLayout firstNameTextInputLayout;
+    TextInputLayout lastNameTextInputLayout;
     TextInputLayout phoneMobileTextInputLayout;
+    TextInputLayout birthDayTextInputLayout;
+    TextInputLayout customerDescriptionTextInputLayout;
+    TextInputLayout emailTextInputLayout;
+    TextInputLayout phoneWorkTextInputLayout;
+    TextInputLayout phoneHomeTextInputLayout;
+    TextInputLayout phoneFaxTextInputLayout;
+    TextInputLayout phoneOtherTextInputLayout;
+    TextInputLayout addressCountryTextInputLayout;
+    TextInputLayout addressCityTextInputLayout;
+    TextInputLayout addressStreetTextInputLayout;
+    TextInputLayout addressPostalCodeTextInputLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -142,7 +155,7 @@ public class DetailCustomer extends AppCompatActivity {
         customerBirthDay = (EditText) findViewById(R.id.customer_birth_day);
         customerPhoneMobile = (EditText) findViewById(R.id.customer_phone_mobile);
         customerDescription = (EditText) findViewById(R.id.customer_description);
-        customerEmail = (EditText) findViewById(R.id.customer_email_txt);
+        customerEmail = (EditText) findViewById(R.id.customer_email);
         customerPhoneWork = (EditText) findViewById(R.id.customer_phone_work);
         customerPhoneHome = (EditText) findViewById(R.id.customer_phone_home);
         customerPhoneOther = (EditText) findViewById(R.id.customer_phone_other);
@@ -151,8 +164,6 @@ public class DetailCustomer extends AppCompatActivity {
         customerAddressCity = (EditText) findViewById(R.id.customer_address_city);
         customerAddressStreet = (EditText) findViewById(R.id.customer_address_street);
         customerAddressPostalCode = (EditText) findViewById(R.id.customer_address_postal_code);
-
-        phoneMobileTextInputLayout = (TextInputLayout) findViewById(R.id.text_input_layout_customer_address_postal_code);
 
         mCustomerAvatar = (ImageView) findViewById(R.id.image_toolbar);
 
@@ -181,7 +192,7 @@ public class DetailCustomer extends AppCompatActivity {
         customerBirthDay = (EditText) findViewById(R.id.customer_birth_day);
         customerPhoneMobile = (EditText) findViewById(R.id.customer_phone_mobile);
         customerDescription = (EditText) findViewById(R.id.customer_description);
-        customerEmail = (EditText) findViewById(R.id.customer_email_txt);
+        customerEmail = (EditText) findViewById(R.id.customer_email);
         customerPhoneWork = (EditText) findViewById(R.id.customer_phone_work);
         customerPhoneHome = (EditText) findViewById(R.id.customer_phone_home);
         customerPhoneOther = (EditText) findViewById(R.id.customer_phone_other);
@@ -214,11 +225,10 @@ public class DetailCustomer extends AppCompatActivity {
                 NavUtils.navigateUpFromSameTask(this);
                 break;
             case R.id.item_save_customer:
-                if (CheckForValidity() && Utility.checkForValidityForEditTextNullOrEmptyAndItterative(
-                        getBaseContext(), customerPhoneMobile, phoneMobileTextInputLayout, KasebContract.Customers.CONTENT_URI,
-                        KasebContract.Customers.COLUMN_PHONE_MOBILE + " = ? and " + KasebContract.Customers._ID + " != ? ",
-                        KasebContract.Customers._ID,
-                        new String[]{customerPhoneMobile.getText().toString(), String.valueOf(mCustomerId)})) {
+                if (checkValidityWithChangeColorOfHelperText()) {
+
+                    getHelperText();
+
                     saveItem.setVisible(false);
                     editItem.setVisible(true);
 
@@ -265,6 +275,7 @@ public class DetailCustomer extends AppCompatActivity {
                 }
                 break;
             case R.id.item_edit_customer:
+
                 saveItem.setVisible(true);
                 editItem.setVisible(false);
 
@@ -273,7 +284,7 @@ public class DetailCustomer extends AppCompatActivity {
                 customerBirthDay = (EditText) findViewById(R.id.customer_birth_day);
                 customerPhoneMobile = (EditText) findViewById(R.id.customer_phone_mobile);
                 customerDescription = (EditText) findViewById(R.id.customer_description);
-                customerEmail = (EditText) findViewById(R.id.customer_email_txt);
+                customerEmail = (EditText) findViewById(R.id.customer_email);
                 customerPhoneWork = (EditText) findViewById(R.id.customer_phone_work);
                 customerPhoneHome = (EditText) findViewById(R.id.customer_phone_home);
                 customerPhoneOther = (EditText) findViewById(R.id.customer_phone_other);
@@ -282,6 +293,23 @@ public class DetailCustomer extends AppCompatActivity {
                 customerAddressCity = (EditText) findViewById(R.id.customer_address_city);
                 customerAddressStreet = (EditText) findViewById(R.id.customer_address_street);
                 customerAddressPostalCode = (EditText) findViewById(R.id.customer_address_postal_code);
+
+                firstNameTextInputLayout = (TextInputLayout) findViewById(R.id.text_input_layout_customer_first_name);
+                lastNameTextInputLayout = (TextInputLayout) findViewById(R.id.text_input_layout_customer_last_name);
+                phoneMobileTextInputLayout = (TextInputLayout) findViewById(R.id.text_input_layout_customer_phone_mobile);
+                birthDayTextInputLayout = (TextInputLayout) findViewById(R.id.text_input_layout_customer_birth_day);
+                customerDescriptionTextInputLayout = (TextInputLayout) findViewById(R.id.text_input_layout_customer_description);
+                emailTextInputLayout = (TextInputLayout) findViewById(R.id.text_input_layout_customer_email);
+                phoneWorkTextInputLayout = (TextInputLayout) findViewById(R.id.text_input_layout_customer_phone_work);
+                phoneHomeTextInputLayout = (TextInputLayout) findViewById(R.id.text_input_layout_customer_phone_home);
+                phoneOtherTextInputLayout = (TextInputLayout) findViewById(R.id.text_input_layout_customer_phone_other);
+                phoneFaxTextInputLayout = (TextInputLayout) findViewById(R.id.text_input_layout_customer_phone_fax);
+                addressCountryTextInputLayout = (TextInputLayout) findViewById(R.id.text_input_layout_customer_address_country);
+                addressCityTextInputLayout = (TextInputLayout) findViewById(R.id.text_input_layout_customer_address_city);
+                addressStreetTextInputLayout = (TextInputLayout) findViewById(R.id.text_input_layout_customer_address_street);
+                addressPostalCodeTextInputLayout = (TextInputLayout) findViewById(R.id.text_input_layout_customer_address_postal_code);
+
+                setHelperText();
 
                 customerFirstName.setEnabled(true);
                 customerLastName.setEnabled(true);
@@ -362,6 +390,98 @@ public class DetailCustomer extends AppCompatActivity {
         else if (!customerEmail.getText().toString().equals("") && !customerEmail.getText().toString().equals(null))
             if (!Utility.validateEmail(customerEmail.getText().toString()))
                 return false;
+
+        return true;
+    }
+
+    private void setHelperText() {
+
+        firstNameTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data));
+        lastNameTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data));
+
+        phoneMobileTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data)
+                + getResources().getString(R.string.non_repetitive));
+
+        birthDayTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data)
+                + getResources().getString(R.string.date_format_error));
+
+        customerDescriptionTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data));
+        emailTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data));
+        phoneWorkTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data));
+        phoneHomeTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data));
+        phoneOtherTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data));
+        phoneFaxTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data));
+        addressCountryTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data));
+        addressCityTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data));
+        addressStreetTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data));
+        addressPostalCodeTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data));
+    }
+
+    private void getHelperText() {
+
+        firstNameTextInputLayout.setError(null);
+        lastNameTextInputLayout.setError(null);
+        phoneMobileTextInputLayout.setError(null);
+        birthDayTextInputLayout.setError(null);
+        customerDescriptionTextInputLayout.setError(null);
+        emailTextInputLayout.setError(null);
+        phoneWorkTextInputLayout.setError(null);
+        phoneHomeTextInputLayout.setError(null);
+        phoneOtherTextInputLayout.setError(null);
+        phoneFaxTextInputLayout.setError(null);
+        addressCountryTextInputLayout.setError(null);
+        addressCityTextInputLayout.setError(null);
+        addressStreetTextInputLayout.setError(null);
+        addressPostalCodeTextInputLayout.setError(null);
+    }
+
+    // this method check the validation and correct entries. its check fill first and then check the validation rules.
+    private boolean checkValidityWithChangeColorOfHelperText() {
+
+        if (!Utility.checkForValidityForEditTextNullOrEmpty(getBaseContext(), customerFirstName)) {
+            Utility.changeColorOfHelperText(getBaseContext(), firstNameTextInputLayout, R.color.colorRed);
+            customerFirstName.setSelectAllOnFocus(true);
+            customerFirstName.selectAll();
+            customerFirstName.requestFocus();
+            return false;
+        } else
+            Utility.changeColorOfHelperText(getBaseContext(), firstNameTextInputLayout, R.color.colorPrimaryLight);
+
+        if (!Utility.checkForValidityForEditTextNullOrEmpty(getBaseContext(), customerLastName)) {
+            Utility.changeColorOfHelperText(getBaseContext(), lastNameTextInputLayout, R.color.colorRed);
+            customerLastName.setSelectAllOnFocus(true);
+            customerLastName.selectAll();
+            customerLastName.requestFocus();
+            return false;
+        } else
+            Utility.changeColorOfHelperText(getBaseContext(), lastNameTextInputLayout, R.color.colorPrimaryLight);
+
+        if (!Utility.checkForValidityForEditTextNullOrEmptyAndItterative(
+                getBaseContext(), customerPhoneMobile, phoneMobileTextInputLayout, KasebContract.Customers.CONTENT_URI,
+                KasebContract.Customers.COLUMN_PHONE_MOBILE + " = ? and " + KasebContract.Customers._ID + " != ? ",
+                KasebContract.Customers._ID,
+                new String[]{customerPhoneMobile.getText().toString(), String.valueOf(mCustomerId)}))
+            return false;
+
+        if (!customerBirthDay.getText().toString().equals("") && !customerBirthDay.getText().toString().equals(null) &&
+                !Utility.checkForValidityForEditTextDate(getBaseContext(), customerBirthDay)) {
+            Utility.changeColorOfHelperText(getBaseContext(), birthDayTextInputLayout, R.color.colorRed);
+            customerBirthDay.setSelectAllOnFocus(true);
+            customerBirthDay.selectAll();
+            customerBirthDay.requestFocus();
+            return false;
+        } else
+            Utility.changeColorOfHelperText(getBaseContext(), birthDayTextInputLayout, R.color.colorPrimaryLight);
+
+        if (!customerEmail.getText().toString().equals("") && !customerEmail.getText().toString().equals(null) &&
+                !Utility.validateEmail(customerEmail.getText().toString())) {
+            Utility.changeColorOfHelperText(getBaseContext(), emailTextInputLayout, R.color.colorRed);
+            customerEmail.setSelectAllOnFocus(true);
+            customerEmail.selectAll();
+            customerEmail.requestFocus();
+            return false;
+        } else
+            Utility.changeColorOfHelperText(getBaseContext(), emailTextInputLayout, R.color.colorPrimaryLight);
 
         return true;
     }

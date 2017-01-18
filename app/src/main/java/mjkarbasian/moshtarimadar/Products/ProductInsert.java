@@ -269,7 +269,7 @@ public class ProductInsert extends Fragment {
     private void setHelperText() {
 
         productNameTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data)
-                + getResources().getString(R.string.not_itterative));
+                + getResources().getString(R.string.non_repetitive));
 
         salePriceTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data));
         quantityTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data));

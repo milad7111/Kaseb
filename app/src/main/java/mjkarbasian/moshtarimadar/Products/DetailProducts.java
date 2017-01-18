@@ -452,7 +452,7 @@ public class DetailProducts extends Fragment implements LoaderManager.LoaderCall
     private void setHelperTextForProduct() {
 
         productNameTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data)
-                + getResources().getString(R.string.not_itterative));
+                + getResources().getString(R.string.non_repetitive));
 
         productCodeTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data));
         productUnitTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data));

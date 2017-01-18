@@ -22,12 +22,16 @@
             android:layout_marginBottom="6dp"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
+            android:baselineAligned="false"
             android:orientation="horizontal">
 
             <android.support.design.widget.TextInputLayout
+                android:id="@+id/text_input_layout_customer_first_name"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="8"
+                app:counterEnabled="true"
+                app:counterMaxLength="30"
                 app:errorTextAppearance="@style/text_input_layout_style_not_error">
 
                 <EditText
@@ -53,12 +57,16 @@
             android:layout_marginBottom="6dp"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
+            android:baselineAligned="false"
             android:orientation="horizontal">
 
             <android.support.design.widget.TextInputLayout
+                android:id="@+id/text_input_layout_customer_last_name"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="8"
+                app:counterEnabled="true"
+                app:counterMaxLength="30"
                 app:errorTextAppearance="@style/text_input_layout_style_not_error">
 
                 <EditText
@@ -97,6 +105,7 @@
                 android:src="@drawable/ic_phone" />
 
             <android.support.design.widget.TextInputLayout
+                android:id="@+id/text_input_layout_customer_phone_mobile"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="8"
@@ -109,7 +118,7 @@
                     android:layout_gravity="center"
                     android:layout_marginLeft="4dp"
                     android:layout_marginRight="4dp"
-                    android:hint="@string/hint_phone_mobile"
+                    android:hint="@string/hint_mobile_number"
                     android:inputType="phone"
                     android:textAppearance="?android:textAppearanceMedium" />
 
@@ -132,57 +141,11 @@
             android:layout_marginBottom="6dp"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:id="@+id/customer_email_btn"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="2"
-                android:onClick="email_customer"
-                android:src="@drawable/email" />
-
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="8"
-                app:errorTextAppearance="@style/text_input_layout_style_not_error">
-
-                <EditText
-                    android:id="@+id/customer_email_txt"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginLeft="4dp"
-                    android:layout_marginRight="4dp"
-                    android:layout_weight="8"
-                    android:hint="@string/hint_email"
-                    android:textAppearance="?android:textAppearanceMedium" />
-
-            </android.support.design.widget.TextInputLayout>
-
-            <ImageView
-                android:id="@+id/customer_share_btn"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginRight="16dp"
-                android:layout_weight="2"
-                android:onClick="share_customer"
-                android:src="@drawable/share_variant" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="6dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
+            android:baselineAligned="false"
             android:orientation="horizontal">
 
             <android.support.design.widget.TextInputLayout
+                android:id="@+id/text_input_layout_customer_birth_day"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="8"
@@ -213,73 +176,47 @@
             android:layout_marginRight="16dp"
             android:orientation="horizontal">
 
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="8"
-                app:errorTextAppearance="@style/text_input_layout_style_not_error">
-
-                <EditText
-                    android:id="@+id/customer_description"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginLeft="4dp"
-                    android:layout_marginRight="4dp"
-                    android:layout_weight="8"
-                    android:hint="@string/hint_description"
-                    android:inputType="text"
-                    android:textAppearance="?android:textAppearanceMedium" />
-
-            </android.support.design.widget.TextInputLayout>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="6dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:orientation="horizontal">
-
             <ImageView
-                android:id="@+id/customer_call_btn_phone_work"
+                android:id="@+id/customer_email_btn"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_weight="2"
-                android:gravity="left"
-                android:src="@drawable/ic_phone" />
+                android:onClick="email_customer"
+                android:src="@drawable/email" />
 
             <android.support.design.widget.TextInputLayout
+                android:id="@+id/text_input_layout_customer_email"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="8"
+                app:counterEnabled="true"
+                app:counterMaxLength="40"
                 app:errorTextAppearance="@style/text_input_layout_style_not_error">
 
                 <EditText
-                    android:id="@+id/customer_phone_work"
+                    android:id="@+id/customer_email"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginLeft="4dp"
                     android:layout_marginRight="4dp"
                     android:layout_weight="8"
-                    android:hint="@string/hint_phone_work"
-                    android:inputType="phone"
+                    android:hint="@string/hint_email"
+                    android:maxLength="40"
                     android:textAppearance="?android:textAppearanceMedium" />
 
             </android.support.design.widget.TextInputLayout>
 
             <ImageView
-                android:id="@+id/customer_sms_btn_phone_work"
+                android:id="@+id/customer_share_btn"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginRight="16dp"
                 android:layout_weight="2"
-                android:src="@drawable/message" />
+                android:onClick="share_customer"
+                android:src="@drawable/share_variant" />
 
         </LinearLayout>
 
@@ -301,6 +238,7 @@
                 android:src="@drawable/ic_phone" />
 
             <android.support.design.widget.TextInputLayout
+                android:id="@+id/text_input_layout_customer_phone_home"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="8"
@@ -340,7 +278,7 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:id="@+id/customer_call_btn_phone_other"
+                android:id="@+id/customer_call_btn_phone_work"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
@@ -349,30 +287,31 @@
                 android:src="@drawable/ic_phone" />
 
             <android.support.design.widget.TextInputLayout
+                android:id="@+id/text_input_layout_customer_phone_work"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="8"
                 app:errorTextAppearance="@style/text_input_layout_style_not_error">
 
                 <EditText
-                    android:id="@+id/customer_phone_other"
+                    android:id="@+id/customer_phone_work"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginLeft="4dp"
                     android:layout_marginRight="4dp"
                     android:layout_weight="8"
-                    android:hint="@string/hint_phone_other"
+                    android:hint="@string/hint_phone_work"
                     android:inputType="phone"
                     android:textAppearance="?android:textAppearanceMedium" />
 
             </android.support.design.widget.TextInputLayout>
 
             <ImageView
-                android:id="@+id/customer_sms_btn_phone_other"
+                android:id="@+id/customer_sms_btn_phone_work"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical|end"
+                android:layout_gravity="center_vertical"
                 android:layout_marginRight="16dp"
                 android:layout_weight="2"
                 android:src="@drawable/message" />
@@ -397,6 +336,7 @@
                 android:src="@drawable/ic_phone" />
 
             <android.support.design.widget.TextInputLayout
+                android:id="@+id/text_input_layout_customer_phone_fax"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="8"
@@ -435,10 +375,63 @@
             android:layout_marginRight="16dp"
             android:orientation="horizontal">
 
+            <ImageView
+                android:id="@+id/customer_call_btn_phone_other"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="2"
+                android:gravity="left"
+                android:src="@drawable/ic_phone" />
+
             <android.support.design.widget.TextInputLayout
+                android:id="@+id/text_input_layout_customer_phone_other"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="8"
+                app:errorTextAppearance="@style/text_input_layout_style_not_error">
+
+                <EditText
+                    android:id="@+id/customer_phone_other"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="4dp"
+                    android:layout_marginRight="4dp"
+                    android:layout_weight="8"
+                    android:hint="@string/hint_phone_other"
+                    android:inputType="phone"
+                    android:textAppearance="?android:textAppearanceMedium" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <ImageView
+                android:id="@+id/customer_sms_btn_phone_other"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|end"
+                android:layout_marginRight="16dp"
+                android:layout_weight="2"
+                android:src="@drawable/message" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="6dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:baselineAligned="false"
+            android:orientation="horizontal">
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/text_input_layout_customer_address_country"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="8"
+                app:counterEnabled="true"
+                app:counterMaxLength="20"
                 app:errorTextAppearance="@style/text_input_layout_style_not_error">
 
                 <EditText
@@ -451,6 +444,7 @@
                     android:layout_weight="8"
                     android:hint="@string/hint_address_country"
                     android:inputType="text"
+                    android:maxLength="20"
                     android:textAppearance="?android:textAppearanceMedium" />
 
             </android.support.design.widget.TextInputLayout>
@@ -463,12 +457,16 @@
             android:layout_marginBottom="6dp"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
+            android:baselineAligned="false"
             android:orientation="horizontal">
 
             <android.support.design.widget.TextInputLayout
+                android:id="@+id/text_input_layout_customer_address_city"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="8"
+                app:counterEnabled="true"
+                app:counterMaxLength="20"
                 app:errorTextAppearance="@style/text_input_layout_style_not_error">
 
                 <EditText
@@ -481,6 +479,7 @@
                     android:layout_weight="8"
                     android:hint="@string/hint_address_city"
                     android:inputType="text"
+                    android:maxLength="20"
                     android:textAppearance="?android:textAppearanceMedium" />
 
             </android.support.design.widget.TextInputLayout>
@@ -493,12 +492,16 @@
             android:layout_marginBottom="6dp"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
+            android:baselineAligned="false"
             android:orientation="horizontal">
 
             <android.support.design.widget.TextInputLayout
+                android:id="@+id/text_input_layout_customer_address_street"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="8"
+                app:counterEnabled="true"
+                app:counterMaxLength="50"
                 app:errorTextAppearance="@style/text_input_layout_style_not_error">
 
                 <EditText
@@ -511,6 +514,7 @@
                     android:layout_weight="8"
                     android:hint="@string/hint_address_street"
                     android:inputType="text"
+                    android:maxLength="50"
                     android:textAppearance="?android:textAppearanceMedium" />
 
             </android.support.design.widget.TextInputLayout>
@@ -523,6 +527,7 @@
             android:layout_marginBottom="6dp"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
+            android:baselineAligned="false"
             android:orientation="horizontal">
 
             <android.support.design.widget.TextInputLayout
@@ -530,6 +535,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="8"
+                app:counterEnabled="true"
+                app:counterMaxLength="15"
                 app:errorTextAppearance="@style/text_input_layout_style_not_error">
 
                 <EditText
@@ -542,6 +549,42 @@
                     android:layout_weight="8"
                     android:hint="@string/hint_address_postal_code"
                     android:inputType="textPostalAddress"
+                    android:maxLength="15"
+                    android:textAppearance="?android:textAppearanceMedium" />
+
+            </android.support.design.widget.TextInputLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="6dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:baselineAligned="false"
+            android:orientation="horizontal">
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/text_input_layout_customer_description"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="8"
+                app:counterEnabled="true"
+                app:counterMaxLength="50"
+                app:errorTextAppearance="@style/text_input_layout_style_not_error">
+
+                <EditText
+                    android:id="@+id/customer_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="4dp"
+                    android:layout_marginRight="4dp"
+                    android:layout_weight="8"
+                    android:hint="@string/hint_description"
+                    android:inputType="text"
+                    android:maxLength="50"
                     android:textAppearance="?android:textAppearanceMedium" />
 
             </android.support.design.widget.TextInputLayout>

@@ -61,7 +61,20 @@ public class CustomerInsert extends Fragment {
     EditText addressCity;
     EditText addressStreet;
     EditText addressPostalCode;
+    TextInputLayout firstNameTextInputLayout;
+    TextInputLayout lastNameTextInputLayout;
     TextInputLayout phoneMobileTextInputLayout;
+    TextInputLayout birthDayTextInputLayout;
+    TextInputLayout customerDescriptionTextInputLayout;
+    TextInputLayout emailTextInputLayout;
+    TextInputLayout phoneWorkTextInputLayout;
+    TextInputLayout phoneHomeTextInputLayout;
+    TextInputLayout phoneFaxTextInputLayout;
+    TextInputLayout phoneOtherTextInputLayout;
+    TextInputLayout addressCountryTextInputLayout;
+    TextInputLayout addressCityTextInputLayout;
+    TextInputLayout addressStreetTextInputLayout;
+    TextInputLayout addressPostalCodeTextInputLayout;
     private Uri insertUri;
 
     public CustomerInsert() {
@@ -99,7 +112,22 @@ public class CustomerInsert extends Fragment {
         addressStreet = (EditText) rootView.findViewById(R.id.input_address_street);
         addressPostalCode = (EditText) rootView.findViewById(R.id.input_address_postal_code);
 
+        firstNameTextInputLayout = (TextInputLayout) rootView.findViewById(R.id.text_input_layout_input_first_name);
+        lastNameTextInputLayout = (TextInputLayout) rootView.findViewById(R.id.text_input_layout_input_last_name);
         phoneMobileTextInputLayout = (TextInputLayout) rootView.findViewById(R.id.text_input_layout_input_phone_mobile);
+        birthDayTextInputLayout = (TextInputLayout) rootView.findViewById(R.id.text_input_layout_input_birth_day);
+        customerDescriptionTextInputLayout = (TextInputLayout) rootView.findViewById(R.id.text_input_layout_input_description);
+        emailTextInputLayout = (TextInputLayout) rootView.findViewById(R.id.text_input_layout_input_email);
+        phoneWorkTextInputLayout = (TextInputLayout) rootView.findViewById(R.id.text_input_layout_input_phone_work);
+        phoneHomeTextInputLayout = (TextInputLayout) rootView.findViewById(R.id.text_input_layout_input_phone_home);
+        phoneOtherTextInputLayout = (TextInputLayout) rootView.findViewById(R.id.text_input_layout_input_phone_other);
+        phoneFaxTextInputLayout = (TextInputLayout) rootView.findViewById(R.id.text_input_layout_input_phone_fax);
+        addressCountryTextInputLayout = (TextInputLayout) rootView.findViewById(R.id.text_input_layout_input_address_country);
+        addressCityTextInputLayout = (TextInputLayout) rootView.findViewById(R.id.text_input_layout_input_address_city);
+        addressStreetTextInputLayout = (TextInputLayout) rootView.findViewById(R.id.text_input_layout_input_address_street);
+        addressPostalCodeTextInputLayout = (TextInputLayout) rootView.findViewById(R.id.text_input_layout_input_address_postal_code);
+
+        setHelperText();
 
         Cursor cursor = getContext().getContentResolver().query(KasebContract.State.CONTENT_URI
                 , null, null, null, KasebContract.State._ID + " DESC");
@@ -129,10 +157,7 @@ public class CustomerInsert extends Fragment {
         switch (item.getItemId()) {
             case R.id.save_inputs: {
 
-                if (CheckForValidity() && Utility.checkForValidityForEditTextNullOrEmptyAndItterative(
-                        getActivity(), phoneMobile, phoneMobileTextInputLayout, KasebContract.Customers.CONTENT_URI,
-                        KasebContract.Customers.COLUMN_PHONE_MOBILE + " = ? ",
-                        KasebContract.Customers._ID, new String[]{phoneMobile.getText().toString()})) {
+                if (checkValidityWithChangeColorOfHelperText()) {
                     customerValues.put(KasebContract.Customers.COLUMN_FIRST_NAME, firstName.getText().toString());
                     customerValues.put(KasebContract.Customers.COLUMN_LAST_NAME, lastName.getText().toString());
                     customerValues.put(KasebContract.Customers.COLUMN_BIRTHDAY, birthDay.getText().toString());
@@ -182,24 +207,6 @@ public class CustomerInsert extends Fragment {
             }
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    // this method check the validation and correct entries. its check fill first and then check the validation rules.
-    private boolean CheckForValidity() {
-        if (!Utility.checkForValidityForEditTextNullOrEmpty(getActivity(), firstName))
-            return false;
-        else if (!Utility.checkForValidityForEditTextNullOrEmpty(getActivity(), lastName))
-            return false;
-        else if (!birthDay.getText().toString().equals("") && !birthDay.getText().toString().equals(null) &&
-                !Utility.checkForValidityForEditTextDate(getActivity(), birthDay))
-            return false;
-        else if (!Utility.checkForValidityForEditTextNullOrEmpty(getActivity(), phoneMobile))
-            return false;
-        else if (!email.getText().toString().equals("") && !email.getText().toString().equals(null))
-            if (!Utility.validateEmail(email.getText().toString()))
-                return false;
-
-        return true;
     }
 
     private void backToLastPage() {
@@ -320,5 +327,78 @@ public class CustomerInsert extends Fragment {
             Toast toast = Toast.makeText(getActivity(), errorMessage, Toast.LENGTH_SHORT);
             toast.show();
         }
+    }
+
+    private void setHelperText() {
+
+        firstNameTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data));
+        lastNameTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data));
+
+        phoneMobileTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data)
+                + getResources().getString(R.string.non_repetitive));
+
+        birthDayTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data)
+                + getResources().getString(R.string.date_format_error));
+
+        customerDescriptionTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data));
+        emailTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data));
+        phoneWorkTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data));
+        phoneHomeTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data));
+        phoneOtherTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data));
+        phoneFaxTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data));
+        addressCountryTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data));
+        addressCityTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data));
+        addressStreetTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data));
+        addressPostalCodeTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data));
+    }
+
+    // this method check the validation and correct entries. its check fill first and then check the validation rules.
+    private boolean checkValidityWithChangeColorOfHelperText() {
+
+        if (!Utility.checkForValidityForEditTextNullOrEmpty(getActivity(), firstName)) {
+            Utility.changeColorOfHelperText(getActivity(), firstNameTextInputLayout, R.color.colorRed);
+            firstName.setSelectAllOnFocus(true);
+            firstName.selectAll();
+            firstName.requestFocus();
+            return false;
+        } else
+            Utility.changeColorOfHelperText(getActivity(), firstNameTextInputLayout, R.color.colorPrimaryLight);
+
+        if (!Utility.checkForValidityForEditTextNullOrEmpty(getActivity(), lastName)) {
+            Utility.changeColorOfHelperText(getActivity(), lastNameTextInputLayout, R.color.colorRed);
+            lastName.setSelectAllOnFocus(true);
+            lastName.selectAll();
+            lastName.requestFocus();
+            return false;
+        } else
+            Utility.changeColorOfHelperText(getActivity(), lastNameTextInputLayout, R.color.colorPrimaryLight);
+
+        if (!Utility.checkForValidityForEditTextNullOrEmptyAndItterative(
+                getActivity(), phoneMobile, phoneMobileTextInputLayout, KasebContract.Customers.CONTENT_URI,
+                KasebContract.Customers.COLUMN_PHONE_MOBILE + " = ? ",
+                KasebContract.Customers._ID, new String[]{phoneMobile.getText().toString()}))
+            return false;
+
+        if (!birthDay.getText().toString().equals("") && !birthDay.getText().toString().equals(null) &&
+                !Utility.checkForValidityForEditTextDate(getActivity(), birthDay)) {
+            Utility.changeColorOfHelperText(getActivity(), birthDayTextInputLayout, R.color.colorRed);
+            birthDay.setSelectAllOnFocus(true);
+            birthDay.selectAll();
+            birthDay.requestFocus();
+            return false;
+        } else
+            Utility.changeColorOfHelperText(getActivity(), birthDayTextInputLayout, R.color.colorPrimaryLight);
+
+        if (!email.getText().toString().equals("") && !email.getText().toString().equals(null) &&
+                !Utility.validateEmail(email.getText().toString())) {
+            Utility.changeColorOfHelperText(getActivity(), emailTextInputLayout, R.color.colorRed);
+            email.setSelectAllOnFocus(true);
+            email.selectAll();
+            email.requestFocus();
+            return false;
+        } else
+            Utility.changeColorOfHelperText(getActivity(), emailTextInputLayout, R.color.colorPrimaryLight);
+
+        return true;
     }
 }
