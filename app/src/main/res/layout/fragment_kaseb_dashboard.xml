@@ -11,8 +11,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/activity_vertical_margin"
-        android:layout_marginLeft="@dimen/activity_horizontal_margin"
-        android:layout_marginRight="@dimen/activity_horizontal_margin"
         android:layout_marginTop="@dimen/activity_vertical_margin"
         android:orientation="vertical">
 
@@ -20,9 +18,9 @@
             android:id="@+id/card_dashboard_customers"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginTop="6dp"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="@dimen/top_of_list_margin"
             android:nestedScrollingEnabled="true">
 
             <LinearLayout
@@ -148,7 +146,7 @@
                             android:layout_marginTop="2dp"
                             android:text="@string/kaseb_dashboard_customer_qty_instart"
                             android:textAppearance="?android:textAppearanceLarge"
-                            android:textColor="@color/normalState"
+                            android:textColor="@color/in_start"
                             android:textStyle="bold" />
                     </LinearLayout>
                 </LinearLayout>
@@ -161,9 +159,9 @@
             android:id="@+id/card_dashboard_sales"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginTop="6dp"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="@dimen/top_of_list_margin"
             android:nestedScrollingEnabled="true">
 
             <LinearLayout
@@ -289,7 +287,7 @@
                             android:layout_marginTop="2dp"
                             android:text="@string/kaseb_dashboard_customer_qty_instart"
                             android:textAppearance="?android:textAppearanceLarge"
-                            android:textColor="@color/normalState"
+                            android:textColor="@color/in_start"
                             android:textStyle="bold" />
                     </LinearLayout>
                 </LinearLayout>
@@ -300,9 +298,10 @@
             android:id="@+id/card_dashboard_others"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginTop="6dp"
+            android:layout_marginBottom="@dimen/activity_horizontal_margin"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="@dimen/top_of_list_margin"
             android:nestedScrollingEnabled="true">
 
             <LinearLayout
@@ -428,7 +427,7 @@
                             android:layout_marginTop="2dp"
                             android:text="@string/kaseb_dashboard_others_total_recievables_instart"
                             android:textAppearance="?android:textAppearanceLarge"
-                            android:textColor="@color/normalState"
+                            android:textColor="@color/in_start"
                             android:textStyle="bold" />
                     </LinearLayout>
                 </LinearLayout>

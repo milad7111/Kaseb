@@ -14,7 +14,6 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -349,13 +348,6 @@ public class Utility {
         return marginDip;
     }
 
-    public static String currentDatePicker() {
-        Calendar calendar = Calendar.getInstance();
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MMM-dd");
-        String formattedDate = df.format(calendar.getTime());
-        return formattedDate;
-    }
-
     public static String getLocale(Context context) {
         Locale current = context.getResources().getConfiguration().locale;
         return current.getCountry();
@@ -367,12 +359,6 @@ public class Utility {
         f.setGroupingUsed(false);
         String myString = f.format(myNumber);
         return myString;
-    }
-
-    public static String contextDateFormatter(String date, Context context) {
-        java.text.DateFormat dateFormat = android.text.format.DateFormat.getDateFormat(context);
-        String formatedDate = dateFormat.format(date);
-        return formatedDate;
     }
 
     public static String localePersianDate(String date) {
@@ -393,66 +379,6 @@ public class Utility {
         SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd");
         String formattedDate = df.format(calendar.getTime());
         return formattedDate;
-    }
-
-    public static boolean isToday(String date) throws ParseException {
-        SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd");
-        Date day = df.parse(date);
-        Calendar checkDay = Calendar.getInstance();
-        Calendar thisDay = Calendar.getInstance();
-        checkDay.setTime(day);
-
-        int checkDayYear = checkDay.get(Calendar.YEAR);
-        int checkDayMonth = checkDay.get(Calendar.MONTH);
-        int checkDayDayNum = checkDay.get(Calendar.DAY_OF_MONTH);
-
-        int thisDayNum = thisDay.get(Calendar.DAY_OF_MONTH);
-        int thisDayMonth = thisDay.get(Calendar.MONTH);
-        int thisDayYear = thisDay.get(Calendar.YEAR);
-
-        return (checkDayYear == thisDayYear && checkDayMonth == thisDayMonth && checkDayDayNum == thisDayNum);
-    }
-
-    public static boolean isThisWeek(String date) throws ParseException {
-        SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd");
-        Date day = df.parse(date);
-        Calendar checkDay = Calendar.getInstance();
-        Calendar thisDay = Calendar.getInstance();
-        checkDay.setTime(day);
-
-        int checkDayWeek = checkDay.get(Calendar.WEEK_OF_YEAR);
-        int thisDayWeek = thisDay.get(Calendar.WEEK_OF_YEAR);
-
-        return (checkDayWeek == thisDayWeek);
-    }
-
-    public static boolean isThisMonth(String date) throws ParseException {
-        SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd");
-        Date day = df.parse(date);
-        Calendar checkDay = Calendar.getInstance();
-        Calendar thisDay = Calendar.getInstance();
-        checkDay.setTime(day);
-
-        int checkDayMonth = checkDay.get(Calendar.MONTH);
-        int thisDayMonth = thisDay.get(Calendar.MONTH);
-
-        return (checkDayMonth == thisDayMonth);
-    }
-
-    public static void setCustomerState(ImageView customerState, int stateVar) {
-        switch (stateVar) {
-            case 1:
-                customerState.setColorFilter(Color.argb(255, 255, 223, 0));
-                break;
-            case 2:
-                customerState.setColorFilter(Color.argb(255, 169, 169, 169));
-                break;
-            case 3:
-                customerState.setColorFilter(Color.argb(255, 207, 125, 50));
-                break;
-            default:
-                customerState.setColorFilter(Color.argb(255, 0, 0, 0));
-        }
     }
 
     public static String changeDate(String date, int option, int amount) throws ParseException {
