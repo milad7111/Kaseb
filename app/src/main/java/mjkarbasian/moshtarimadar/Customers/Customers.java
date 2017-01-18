@@ -48,6 +48,7 @@ public class Customers extends DrawerActivity {
     Long customerId;
 
 
+
     android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
     private String LOG_TAG = Customers.class.getSimpleName();
 
@@ -91,6 +92,7 @@ public class Customers extends DrawerActivity {
 
     public void fab_customers(View v) {
         android.support.v4.app.FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.setCustomAnimations(R.anim.slide_in_up, R.anim.slide_out_down, R.anim.slide_in_down, R.anim.slide_out_up);
         fragmentTransaction.replace(R.id.container, customerInsert);
         fragmentTransaction.addToBackStack(null);
         int callBackStack = fragmentTransaction.commit();

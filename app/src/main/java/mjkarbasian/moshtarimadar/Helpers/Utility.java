@@ -1,8 +1,10 @@
 package mjkarbasian.moshtarimadar.Helpers;
 
+import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.net.Uri;
@@ -103,11 +105,11 @@ public class Utility {
     private static final String LOG_TAG = Utility.class.getSimpleName();
     private static final String EMAIL_PATTERN = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
     private static final Pattern mPattern = Pattern.compile(EMAIL_PATTERN);
+    public static int mIdOfColorSetError = R.color.colorRed;
+    public static int mIdOfColorGetError = R.color.colorPrimaryLight;
     private static int mSmallSize = 14;
     private static int mMiddleSize = 16;
     private static int mBigSize = 20;
-    private static int mIdOfColorSetError = R.color.colorRed;
-    private static int mIdOfColorGetError = R.color.colorPrimaryLight;
     private static BaseColor subTitleColorTables = new BaseColor(140, 221, 8);
     private static BaseColor mainTitleColorTables = new BaseColor(255, 255, 255);
     private static Context _mContext;
@@ -1738,5 +1740,14 @@ public class Utility {
             chars[i] = ch;
         }
         return new String(chars);
+    }
+
+    public static void setActivityTransition(Activity activity) {
+        Configuration config = activity.getResources().getConfiguration();
+        if (config.getLayoutDirection() == View.LAYOUT_DIRECTION_RTL) {
+            activity.overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+        } else {
+            activity.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+        }
     }
 }

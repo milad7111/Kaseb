@@ -22,6 +22,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -106,10 +108,17 @@ public class DetailProducts extends Fragment implements LoaderManager.LoaderCall
         mListView = (ListView) rootView.findViewById(R.id.listview_detail_product);
         mListView.setAdapter(mAdapter);
 
+        mListView.post(new Runnable() {
+            public void run() {
+                mListView.setSelection(mListView.getCount() - 1);
+            }
+        });
+
         Utility.setHeightOfListView(mListView);
 
         //region Fab Add ProductHistory
         fab = (FloatingActionButton) rootView.findViewById(R.id.fab_detail_product);
+
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -307,6 +316,16 @@ public class DetailProducts extends Fragment implements LoaderManager.LoaderCall
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+
+        //set fab animation and show
+        Animation hyperspaceJumpAnimation = AnimationUtils.loadAnimation(getActivity(), R.anim.scale_up);
+        fab.startAnimation(hyperspaceJumpAnimation);
+        fab.show();
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             // Respond to the action bar's Up/Home button
@@ -318,7 +337,6 @@ public class DetailProducts extends Fragment implements LoaderManager.LoaderCall
                 productCode.setEnabled(true);
                 productUnit.setEnabled(true);
                 productDescription.setEnabled(true);
-                fab.show();
 
                 Utility.setHeightOfListView(mListView);
 
@@ -352,7 +370,6 @@ public class DetailProducts extends Fragment implements LoaderManager.LoaderCall
                     productCode.setEnabled(false);
                     productUnit.setEnabled(false);
                     productDescription.setEnabled(false);
-                    fab.hide();
                 }
                 break;
             default:

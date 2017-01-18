@@ -41,7 +41,8 @@
                 android:textAppearance="?android:textAppearanceMedium"
                 android:textColor="@color/colorBlack"
                 android:textColorHint="@color/colorBlack"
-                android:textSize="@dimen/text_size_in_list" />
+                android:textSize="@dimen/text_size_in_list"
+                android:transitionName="@string/code_text_transition" />
 
             <TextView
                 android:id="@+id/item_list_date"
@@ -53,7 +54,8 @@
                 android:textAppearance="?android:textAppearanceSmall"
                 android:textColor="@color/colorBlack"
                 android:textColorHint="@color/colorBlack"
-                android:textSize="@dimen/text_size_in_list" />
+                android:textSize="@dimen/text_size_in_list"
+                android:transitionName="@string/code_text_transition" />
 
         </LinearLayout>
 

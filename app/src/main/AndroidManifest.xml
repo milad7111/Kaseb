@@ -56,7 +56,7 @@
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden">
 
-        <intent-filter>
+            <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
@@ -74,7 +74,7 @@
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden">
 
-        <meta-data
+            <meta-data
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable" />
 
@@ -154,7 +154,7 @@
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             android:windowSoftInputMode="stateHidden">
 
-        <meta-data
+            <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Customers.Customers" />
 
@@ -178,12 +178,12 @@
             android:windowSoftInputMode="stateHidden" />
 
         <activity
-            android:name=".Kaseb"
+            android:name=".Dashboard"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden">
 
-        <intent-filter>
+            <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
@@ -196,9 +196,19 @@
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             android:windowSoftInputMode="stateHidden">
 
-        <meta-data
+            <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".AboutUs.AboutUs" />
+
+        </activity>
+
+        <activity
+            android:name=".Others.Kaseb"
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
 
         </activity>
 

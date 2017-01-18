@@ -63,7 +63,8 @@
                             android:maxLength="15"
                             android:nestedScrollingEnabled="false"
                             android:textAppearance="?android:textAppearanceMedium"
-                            android:textSize="@dimen/text_size_in_list_sub_title" />
+                            android:textSize="@dimen/text_size_in_list_sub_title"
+                            android:transitionName="@string/code_text_transition" />
 
                     </android.support.design.widget.TextInputLayout>
 
