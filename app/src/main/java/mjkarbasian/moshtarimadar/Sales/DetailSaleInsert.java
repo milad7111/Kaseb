@@ -134,7 +134,6 @@ public class DetailSaleInsert extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
         this.overridePendingTransition(R.anim.slide_in_down, R.anim.slide_out_up);
-
     }
 
     @Override
@@ -873,13 +872,13 @@ public class DetailSaleInsert extends AppCompatActivity {
     // this method check the validation and correct entries. its check fill first and then check the validation rules.
     private boolean checkValidityWithChangeColorOfHelperText() {
         if (!Utility.checkForValidityForEditTextDate(DetailSaleInsert.this, saleDate)) {
-            Utility.changeColorOfHelperText(DetailSaleInsert.this, saleDateTextInputLayout, R.color.colorRed);
+            Utility.changeColorOfHelperText(DetailSaleInsert.this, saleDateTextInputLayout, Utility.mIdOfColorSetError);
             saleDate.setSelectAllOnFocus(true);
             saleDate.selectAll();
             saleDate.requestFocus();
             return false;
         } else
-            Utility.changeColorOfHelperText(DetailSaleInsert.this, saleDateTextInputLayout, R.color.colorPrimaryLight);
+            Utility.changeColorOfHelperText(DetailSaleInsert.this, saleDateTextInputLayout, Utility.mIdOfColorGetError);
 
         if (customerId == 0) {
             Utility.setErrorForTextView(nameCustomer);

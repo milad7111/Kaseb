@@ -26,7 +26,8 @@
             <ImageView
                 android:id="@+id/item_card_customer_avater"
                 android:layout_width="0dp"
-                android:layout_height="30dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center_vertical"
                 android:layout_weight="1"
                 android:contentDescription="@string/image_avatar_title"
                 android:gravity="center"

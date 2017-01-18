@@ -1259,13 +1259,13 @@ public class DetailSaleView extends AppCompatActivity {
     // this method check the validation and correct entries. its check fill first and then check the validation rules.
     private boolean checkValidityWithChangeColorOfHelperText() {
         if (!Utility.checkForValidityForEditTextDate(DetailSaleView.this, saleDate)) {
-            Utility.changeColorOfHelperText(DetailSaleView.this, saleDateTextInputLayout, R.color.colorRed);
+            Utility.changeColorOfHelperText(DetailSaleView.this, saleDateTextInputLayout, Utility.mIdOfColorSetError);
             saleDate.setSelectAllOnFocus(true);
             saleDate.selectAll();
             saleDate.requestFocus();
             return false;
         } else
-            Utility.changeColorOfHelperText(DetailSaleView.this, saleDateTextInputLayout, R.color.colorPrimaryLight);
+            Utility.changeColorOfHelperText(DetailSaleView.this, saleDateTextInputLayout, Utility.mIdOfColorGetError);
 
         if (customerId == 0) {
             Utility.setErrorForTextView(nameCustomer);

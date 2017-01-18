@@ -356,22 +356,22 @@ public class CustomerInsert extends Fragment {
     private boolean checkValidityWithChangeColorOfHelperText() {
 
         if (!Utility.checkForValidityForEditTextNullOrEmpty(getActivity(), firstName)) {
-            Utility.changeColorOfHelperText(getActivity(), firstNameTextInputLayout, R.color.colorRed);
+            Utility.changeColorOfHelperText(getActivity(), firstNameTextInputLayout, Utility.mIdOfColorSetError);
             firstName.setSelectAllOnFocus(true);
             firstName.selectAll();
             firstName.requestFocus();
             return false;
         } else
-            Utility.changeColorOfHelperText(getActivity(), firstNameTextInputLayout, R.color.colorPrimaryLight);
+            Utility.changeColorOfHelperText(getActivity(), firstNameTextInputLayout, Utility.mIdOfColorGetError);
 
         if (!Utility.checkForValidityForEditTextNullOrEmpty(getActivity(), lastName)) {
-            Utility.changeColorOfHelperText(getActivity(), lastNameTextInputLayout, R.color.colorRed);
+            Utility.changeColorOfHelperText(getActivity(), lastNameTextInputLayout, Utility.mIdOfColorSetError);
             lastName.setSelectAllOnFocus(true);
             lastName.selectAll();
             lastName.requestFocus();
             return false;
         } else
-            Utility.changeColorOfHelperText(getActivity(), lastNameTextInputLayout, R.color.colorPrimaryLight);
+            Utility.changeColorOfHelperText(getActivity(), lastNameTextInputLayout, Utility.mIdOfColorGetError);
 
         if (!Utility.checkForValidityForEditTextNullOrEmptyAndItterative(
                 getActivity(), phoneMobile, phoneMobileTextInputLayout, KasebContract.Customers.CONTENT_URI,
@@ -381,23 +381,23 @@ public class CustomerInsert extends Fragment {
 
         if (!birthDay.getText().toString().equals("") && !birthDay.getText().toString().equals(null) &&
                 !Utility.checkForValidityForEditTextDate(getActivity(), birthDay)) {
-            Utility.changeColorOfHelperText(getActivity(), birthDayTextInputLayout, R.color.colorRed);
+            Utility.changeColorOfHelperText(getActivity(), birthDayTextInputLayout, Utility.mIdOfColorSetError);
             birthDay.setSelectAllOnFocus(true);
             birthDay.selectAll();
             birthDay.requestFocus();
             return false;
         } else
-            Utility.changeColorOfHelperText(getActivity(), birthDayTextInputLayout, R.color.colorPrimaryLight);
+            Utility.changeColorOfHelperText(getActivity(), birthDayTextInputLayout, Utility.mIdOfColorGetError);
 
         if (!email.getText().toString().equals("") && !email.getText().toString().equals(null) &&
                 !Utility.validateEmail(email.getText().toString())) {
-            Utility.changeColorOfHelperText(getActivity(), emailTextInputLayout, R.color.colorRed);
+            Utility.changeColorOfHelperText(getActivity(), emailTextInputLayout, Utility.mIdOfColorSetError);
             email.setSelectAllOnFocus(true);
             email.selectAll();
             email.requestFocus();
             return false;
         } else
-            Utility.changeColorOfHelperText(getActivity(), emailTextInputLayout, R.color.colorPrimaryLight);
+            Utility.changeColorOfHelperText(getActivity(), emailTextInputLayout, Utility.mIdOfColorGetError);
 
         return true;
     }

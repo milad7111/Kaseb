@@ -391,25 +391,6 @@ public class DetailCustomer extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    // this method check the validation and correct entries. its check fill first and then check the validation rules.
-    private boolean CheckForValidity() {
-
-        if (!Utility.checkForValidityForEditTextNullOrEmpty(getBaseContext(), customerFirstName))
-            return false;
-        else if (!Utility.checkForValidityForEditTextNullOrEmpty(getBaseContext(), customerLastName))
-            return false;
-        else if (!Utility.checkForValidityForEditTextNullOrEmpty(getBaseContext(), customerPhoneMobile))
-            return false;
-        else if (!customerBirthDay.getText().toString().equals("") && !customerBirthDay.getText().toString().equals(null) &&
-                !Utility.checkForValidityForEditTextDate(getBaseContext(), customerBirthDay))
-            return false;
-        else if (!customerEmail.getText().toString().equals("") && !customerEmail.getText().toString().equals(null))
-            if (!Utility.validateEmail(customerEmail.getText().toString()))
-                return false;
-
-        return true;
-    }
-
     private void setHelperText() {
 
         firstNameTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data));
@@ -455,22 +436,22 @@ public class DetailCustomer extends AppCompatActivity {
     private boolean checkValidityWithChangeColorOfHelperText() {
 
         if (!Utility.checkForValidityForEditTextNullOrEmpty(getBaseContext(), customerFirstName)) {
-            Utility.changeColorOfHelperText(getBaseContext(), firstNameTextInputLayout, R.color.colorRed);
+            Utility.changeColorOfHelperText(getBaseContext(), firstNameTextInputLayout, Utility.mIdOfColorSetError);
             customerFirstName.setSelectAllOnFocus(true);
             customerFirstName.selectAll();
             customerFirstName.requestFocus();
             return false;
         } else
-            Utility.changeColorOfHelperText(getBaseContext(), firstNameTextInputLayout, R.color.colorPrimaryLight);
+            Utility.changeColorOfHelperText(getBaseContext(), firstNameTextInputLayout, Utility.mIdOfColorGetError);
 
         if (!Utility.checkForValidityForEditTextNullOrEmpty(getBaseContext(), customerLastName)) {
-            Utility.changeColorOfHelperText(getBaseContext(), lastNameTextInputLayout, R.color.colorRed);
+            Utility.changeColorOfHelperText(getBaseContext(), lastNameTextInputLayout, Utility.mIdOfColorSetError);
             customerLastName.setSelectAllOnFocus(true);
             customerLastName.selectAll();
             customerLastName.requestFocus();
             return false;
         } else
-            Utility.changeColorOfHelperText(getBaseContext(), lastNameTextInputLayout, R.color.colorPrimaryLight);
+            Utility.changeColorOfHelperText(getBaseContext(), lastNameTextInputLayout, Utility.mIdOfColorGetError);
 
         if (!Utility.checkForValidityForEditTextNullOrEmptyAndItterative(
                 getBaseContext(), customerPhoneMobile, phoneMobileTextInputLayout, KasebContract.Customers.CONTENT_URI,
@@ -481,23 +462,23 @@ public class DetailCustomer extends AppCompatActivity {
 
         if (!customerBirthDay.getText().toString().equals("") && !customerBirthDay.getText().toString().equals(null) &&
                 !Utility.checkForValidityForEditTextDate(getBaseContext(), customerBirthDay)) {
-            Utility.changeColorOfHelperText(getBaseContext(), birthDayTextInputLayout, R.color.colorRed);
+            Utility.changeColorOfHelperText(getBaseContext(), birthDayTextInputLayout, Utility.mIdOfColorSetError);
             customerBirthDay.setSelectAllOnFocus(true);
             customerBirthDay.selectAll();
             customerBirthDay.requestFocus();
             return false;
         } else
-            Utility.changeColorOfHelperText(getBaseContext(), birthDayTextInputLayout, R.color.colorPrimaryLight);
+            Utility.changeColorOfHelperText(getBaseContext(), birthDayTextInputLayout, Utility.mIdOfColorGetError);
 
         if (!customerEmail.getText().toString().equals("") && !customerEmail.getText().toString().equals(null) &&
                 !Utility.validateEmail(customerEmail.getText().toString())) {
-            Utility.changeColorOfHelperText(getBaseContext(), emailTextInputLayout, R.color.colorRed);
+            Utility.changeColorOfHelperText(getBaseContext(), emailTextInputLayout, Utility.mIdOfColorSetError);
             customerEmail.setSelectAllOnFocus(true);
             customerEmail.selectAll();
             customerEmail.requestFocus();
             return false;
         } else
-            Utility.changeColorOfHelperText(getBaseContext(), emailTextInputLayout, R.color.colorPrimaryLight);
+            Utility.changeColorOfHelperText(getBaseContext(), emailTextInputLayout, Utility.mIdOfColorGetError);
 
         return true;
     }

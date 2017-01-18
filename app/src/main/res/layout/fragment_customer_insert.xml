@@ -34,7 +34,7 @@
                     android:layout_height="80dp"
                     android:layout_gravity="center"
                     android:contentDescription="@string/avatar_customer_insert"
-                    android:src="@drawable/kaseb_pic" />
+                    android:src="@drawable/add_image" />
 
             </android.support.v7.widget.CardView>
 

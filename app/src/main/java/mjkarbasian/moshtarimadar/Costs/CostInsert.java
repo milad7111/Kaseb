@@ -141,40 +141,40 @@ public class CostInsert extends Fragment {
     // this method check the validation and correct entries. its check fill first and then check the validation rules.
     private boolean checkValidityWithChangeColorOfHelperText() {
         if (!Utility.checkForValidityForEditTextNullOrEmpty(getActivity(), costName)) {
-            Utility.changeColorOfHelperText(getActivity(), costNameTextInputLayout, R.color.colorRed);
+            Utility.changeColorOfHelperText(getActivity(), costNameTextInputLayout, Utility.mIdOfColorSetError);
             costName.setSelectAllOnFocus(true);
             costName.selectAll();
             costName.requestFocus();
             return false;
         } else
-            Utility.changeColorOfHelperText(getActivity(), costNameTextInputLayout, R.color.colorPrimaryLight);
+            Utility.changeColorOfHelperText(getActivity(), costNameTextInputLayout, Utility.mIdOfColorGetError);
 
         if (!Utility.checkForValidityForEditTextNullOrEmpty(getActivity(), costCode)) {
-            Utility.changeColorOfHelperText(getActivity(), costCodeTextInputLayout, R.color.colorRed);
+            Utility.changeColorOfHelperText(getActivity(), costCodeTextInputLayout, Utility.mIdOfColorSetError);
             costCode.setSelectAllOnFocus(true);
             costCode.selectAll();
             costCode.requestFocus();
             return false;
         } else
-            Utility.changeColorOfHelperText(getActivity(), costCodeTextInputLayout, R.color.colorPrimaryLight);
+            Utility.changeColorOfHelperText(getActivity(), costCodeTextInputLayout, Utility.mIdOfColorGetError);
 
         if (!Utility.checkForValidityForEditTextNullOrEmpty(getActivity(), costAmount)) {
-            Utility.changeColorOfHelperText(getActivity(), costAmountTextInputLayout, R.color.colorRed);
+            Utility.changeColorOfHelperText(getActivity(), costAmountTextInputLayout, Utility.mIdOfColorSetError);
             costAmount.setSelectAllOnFocus(true);
             costAmount.selectAll();
             costAmount.requestFocus();
             return false;
         } else
-            Utility.changeColorOfHelperText(getActivity(), costAmountTextInputLayout, R.color.colorPrimaryLight);
+            Utility.changeColorOfHelperText(getActivity(), costAmountTextInputLayout, Utility.mIdOfColorGetError);
 
         if (!Utility.checkForValidityForEditTextDate(getActivity(), costDate)) {
-            Utility.changeColorOfHelperText(getActivity(), costDateTextInputLayout, R.color.colorRed);
+            Utility.changeColorOfHelperText(getActivity(), costDateTextInputLayout, Utility.mIdOfColorSetError);
             costDate.setSelectAllOnFocus(true);
             costDate.selectAll();
             costDate.requestFocus();
             return false;
         } else
-            Utility.changeColorOfHelperText(getActivity(), costDateTextInputLayout, R.color.colorPrimaryLight);
+            Utility.changeColorOfHelperText(getActivity(), costDateTextInputLayout, Utility.mIdOfColorGetError);
 
         return true;
     }

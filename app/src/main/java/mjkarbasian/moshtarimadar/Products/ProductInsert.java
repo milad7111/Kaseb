@@ -208,11 +208,7 @@ public class ProductInsert extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.save_inputs: {
-                if (Utility.checkForValidityForEditTextNullOrEmptyAndItterative(
-                        getActivity(), productName, productNameTextInputLayout, KasebContract.Products.CONTENT_URI,
-                        KasebContract.Products.COLUMN_PRODUCT_NAME + " = ? ",
-                        KasebContract.Products._ID, new String[]{productName.getText().toString()})
-                        && checkValidityWithChangeColorOfHelperText()) {
+                if (checkValidityWithChangeColorOfHelperText()) {
 
                     productValues.put(KasebContract.Products.COLUMN_PRODUCT_NAME, productName.getText().toString());
                     productValues.put(KasebContract.Products.COLUMN_PRODUCT_CODE, productCode.getText().toString());
@@ -294,35 +290,41 @@ public class ProductInsert extends Fragment {
     // this method check the validation and correct entries. its check fill first and then check the validation rules.
     private boolean checkValidityWithChangeColorOfHelperText() {
 
+        if (!Utility.checkForValidityForEditTextNullOrEmptyAndItterative(
+                getActivity(), productName, productNameTextInputLayout, KasebContract.Products.CONTENT_URI,
+                KasebContract.Products.COLUMN_PRODUCT_NAME + " = ? ",
+                KasebContract.Products._ID, new String[]{productName.getText().toString()}))
+            return false;
+
         if (!Utility.checkForValidityForEditTextNullOrEmpty(getActivity(), productCode)) {
-            Utility.changeColorOfHelperText(getActivity(), productCodeTextInputLayout, R.color.colorRed);
+            Utility.changeColorOfHelperText(getActivity(), productCodeTextInputLayout, Utility.mIdOfColorSetError);
             productCode.setSelectAllOnFocus(true);
             productCode.selectAll();
             productCode.requestFocus();
             return false;
         } else
-            Utility.changeColorOfHelperText(getActivity(), productCodeTextInputLayout, R.color.colorPrimaryLight);
+            Utility.changeColorOfHelperText(getActivity(), productCodeTextInputLayout, Utility.mIdOfColorGetError);
 
         if (!Utility.checkForValidityForEditTextNullOrEmpty(getActivity(), salePrice)) {
-            Utility.changeColorOfHelperText(getActivity(), salePriceTextInputLayout, R.color.colorRed);
+            Utility.changeColorOfHelperText(getActivity(), salePriceTextInputLayout, Utility.mIdOfColorSetError);
             salePrice.setSelectAllOnFocus(true);
             salePrice.selectAll();
             salePrice.requestFocus();
             return false;
         } else
-            Utility.changeColorOfHelperText(getActivity(), salePriceTextInputLayout, R.color.colorPrimaryLight);
+            Utility.changeColorOfHelperText(getActivity(), salePriceTextInputLayout, Utility.mIdOfColorGetError);
 
         if (!Utility.checkForValidityForEditTextNullOrEmpty(getActivity(), quantity)) {
-            Utility.changeColorOfHelperText(getActivity(), quantityTextInputLayout, R.color.colorRed);
+            Utility.changeColorOfHelperText(getActivity(), quantityTextInputLayout, Utility.mIdOfColorSetError);
             quantity.setSelectAllOnFocus(true);
             quantity.selectAll();
             quantity.requestFocus();
             return false;
         } else
-            Utility.changeColorOfHelperText(getActivity(), quantityTextInputLayout, R.color.colorPrimaryLight);
+            Utility.changeColorOfHelperText(getActivity(), quantityTextInputLayout, Utility.mIdOfColorGetError);
 
         if (!Utility.checkForValidityForEditTextNullOrEmpty(getActivity(), buyPrice)) {
-            Utility.changeColorOfHelperText(getActivity(), buyPriceTextInputLayout, R.color.colorRed);
+            Utility.changeColorOfHelperText(getActivity(), buyPriceTextInputLayout, Utility.mIdOfColorSetError);
             buyPrice.setSelectAllOnFocus(true);
             buyPrice.selectAll();
             buyPrice.requestFocus();
@@ -332,23 +334,23 @@ public class ProductInsert extends Fragment {
             Float mSalePrice = Float.valueOf(salePrice.getText().toString());
 
             if (mBuyPrice > mSalePrice) {
-                Utility.changeColorOfHelperText(getActivity(), buyPriceTextInputLayout, R.color.colorRed);
+                Utility.changeColorOfHelperText(getActivity(), buyPriceTextInputLayout, Utility.mIdOfColorSetError);
                 buyPrice.setSelectAllOnFocus(true);
                 buyPrice.selectAll();
                 buyPrice.requestFocus();
                 return false;
             } else
-                Utility.changeColorOfHelperText(getActivity(), buyPriceTextInputLayout, R.color.colorPrimaryLight);
+                Utility.changeColorOfHelperText(getActivity(), buyPriceTextInputLayout, Utility.mIdOfColorGetError);
         }
 
         if (!Utility.checkForValidityForEditTextDate(getActivity(), buyDate)) {
-            Utility.changeColorOfHelperText(getActivity(), buyDateTextInputLayout, R.color.colorRed);
+            Utility.changeColorOfHelperText(getActivity(), buyDateTextInputLayout, Utility.mIdOfColorSetError);
             buyDate.setSelectAllOnFocus(true);
             buyDate.selectAll();
             buyDate.requestFocus();
             return false;
         } else
-            Utility.changeColorOfHelperText(getActivity(), buyDateTextInputLayout, R.color.colorPrimaryLight);
+            Utility.changeColorOfHelperText(getActivity(), buyDateTextInputLayout, Utility.mIdOfColorGetError);
 
         return true;
     }
