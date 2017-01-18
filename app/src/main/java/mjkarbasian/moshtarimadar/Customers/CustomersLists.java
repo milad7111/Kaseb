@@ -1,10 +1,12 @@
 package mjkarbasian.moshtarimadar.Customers;
 
+import android.app.ActivityOptions;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
@@ -14,8 +16,11 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -33,7 +38,7 @@ public class CustomersLists extends Fragment implements LoaderManager.LoaderCall
     final static int FRAGMENT_CUSTOMER_LOADER = 2;
     private final String LOG_TAG = CustomersLists.class.getSimpleName();
     String searchQuery;
-
+    FloatingActionButton fab;
     CustomerAdapter mCustomerAdapter = null;
     ListView mListView;
     String[] mProjection;
@@ -64,6 +69,19 @@ public class CustomersLists extends Fragment implements LoaderManager.LoaderCall
                 0);
 
         View rootView = inflater.inflate(R.layout.fragment_customers, container, false);
+        //hide fab to show it as animation
+        fab = (FloatingActionButton) rootView.findViewById(R.id.fab_customers);
+        fab.hide();
+        final Animation hyperspaceJumpAnimation = AnimationUtils.loadAnimation(getActivity(), R.anim.fab_on_click);
+        fab.setAnimation(hyperspaceJumpAnimation);
+        fab.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (hyperspaceJumpAnimation.getRepeatCount() < 2)
+                    v.startAnimation(hyperspaceJumpAnimation);
+                return false;
+            }
+        });
         mListView = (ListView) rootView.findViewById(R.id.list_view_customers);
         mListView.setAdapter(mCustomerAdapter);
 
@@ -71,13 +89,16 @@ public class CustomersLists extends Fragment implements LoaderManager.LoaderCall
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                //animation bundle
+                View sharedView = view.findViewById(R.id.item_list_customer_avatar);
+                Bundle bundle = ActivityOptions.makeSceneTransitionAnimation(getActivity(), sharedView, sharedView.getTransitionName()).toBundle();
                 Cursor cursor = (Cursor) parent.getItemAtPosition(position);
                 if (cursor != null) {
                     Intent intent = new Intent(getActivity(), DetailCustomer.class)
                             .setData(KasebContract.Customers.buildCustomerUri(
                                     Long.parseLong(cursor.getString(cursor.getColumnIndex(KasebContract.Customers._ID)))
                             ));
-                    startActivity(intent);
+                    startActivity(intent, bundle);
                 }
             }
         });
@@ -132,7 +153,6 @@ public class CustomersLists extends Fragment implements LoaderManager.LoaderCall
             }
         });
         //endregion mListView setOnItemLongClickListener
-
         return rootView;
     }
 
@@ -168,6 +188,15 @@ public class CustomersLists extends Fragment implements LoaderManager.LoaderCall
         Log.d(LOG_TAG, "onStart");
         super.onStart();
         updateList();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        //define animation for scaling fab
+        Animation hyperspaceJumpAnimation = AnimationUtils.loadAnimation(getActivity(), R.anim.scale_up);
+        fab.startAnimation(hyperspaceJumpAnimation);
+        fab.show();
     }
 
     @Override
