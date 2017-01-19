@@ -136,7 +136,11 @@ public class DetailSaleView extends AppCompatActivity {
 
     TextInputLayout saleCodeTextInputLayout;
     TextInputLayout saleDateTextInputLayout;
-    TextInputLayout quantityTextInputLayout;
+    <<<<<<
+    <HEAD
+            TextInputLayout quantityTextInputLayout;
+    =======
+            >>>>>>>1ec933816ebc48d62239cc8ba139db8c0dcf46f1
 
     ListView modeList;
     ListView mProductListView;
@@ -536,11 +540,7 @@ public class DetailSaleView extends AppCompatActivity {
                     Toast.makeText(DetailSaleView.this, R.string.save_factor_then_print, Toast.LENGTH_LONG).show();
                 break;
             case R.id.menu_detail_sale_view_save:
-                if (Utility.checkForValidityForEditTextNullOrEmptyAndItterative(
-                        getBaseContext(), saleCode, saleCodeTextInputLayout, KasebContract.Sales.CONTENT_URI,
-                        KasebContract.Sales.COLUMN_SALE_CODE + " = ? and " + KasebContract.Sales._ID + " != ? ",
-                        KasebContract.Sales._ID,
-                        new String[]{saleCode.getText().toString(), String.valueOf(whichSaleId)}) && checkValidityWithChangeColorOfHelperText()) {
+                if (checkValidityWithChangeColorOfHelperText()) {
 
                     mDb.beginTransaction();
 
@@ -1262,6 +1262,14 @@ public class DetailSaleView extends AppCompatActivity {
 
     // this method check the validation and correct entries. its check fill first and then check the validation rules.
     private boolean checkValidityWithChangeColorOfHelperText() {
+
+        if (!Utility.checkForValidityForEditTextNullOrEmptyAndItterative(
+                getBaseContext(), saleCode, saleCodeTextInputLayout, KasebContract.Sales.CONTENT_URI,
+                KasebContract.Sales.COLUMN_SALE_CODE + " = ? and " + KasebContract.Sales._ID + " != ? ",
+                KasebContract.Sales._ID,
+                new String[]{saleCode.getText().toString(), String.valueOf(whichSaleId)}))
+            return false;
+
         if (!Utility.checkForValidityForEditTextDate(DetailSaleView.this, saleDate)) {
             Utility.changeColorOfHelperText(DetailSaleView.this, saleDateTextInputLayout, Utility.mIdOfColorSetError);
             saleDate.setSelectAllOnFocus(true);

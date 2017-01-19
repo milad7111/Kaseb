@@ -230,10 +230,7 @@ public class DetailSaleInsert extends AppCompatActivity {
                 saleCode = (EditText) findViewById(R.id.detail_sales_info_sale_code);
                 //endregion
 
-                if (Utility.checkForValidityForEditTextNullOrEmptyAndItterative(
-                        mContext, saleCode, saleCodeTextInputLayout, KasebContract.Sales.CONTENT_URI,
-                        KasebContract.Sales.COLUMN_SALE_CODE + " = ? ",
-                        KasebContract.Sales._ID, new String[]{saleCode.getText().toString()}) && checkValidityWithChangeColorOfHelperText()) {
+                if (checkValidityWithChangeColorOfHelperText()) {
 
                     mDb.beginTransaction();
 
@@ -880,6 +877,13 @@ public class DetailSaleInsert extends AppCompatActivity {
 
     // this method check the validation and correct entries. its check fill first and then check the validation rules.
     private boolean checkValidityWithChangeColorOfHelperText() {
+
+        if (!Utility.checkForValidityForEditTextNullOrEmptyAndItterative(
+                mContext, saleCode, saleCodeTextInputLayout, KasebContract.Sales.CONTENT_URI,
+                KasebContract.Sales.COLUMN_SALE_CODE + " = ? ",
+                KasebContract.Sales._ID, new String[]{saleCode.getText().toString()}))
+            return false;
+
         if (!Utility.checkForValidityForEditTextDate(DetailSaleInsert.this, saleDate)) {
             Utility.changeColorOfHelperText(DetailSaleInsert.this, saleDateTextInputLayout, Utility.mIdOfColorSetError);
             saleDate.setSelectAllOnFocus(true);
