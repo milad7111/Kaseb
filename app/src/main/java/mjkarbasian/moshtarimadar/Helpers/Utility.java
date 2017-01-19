@@ -727,6 +727,7 @@ public class Utility {
         int pMonth = pCalendar.getMonth();
         int pDay = pCalendar.getDayOfMonth();
         String pDate = Integer.toString(pYear) + "/" + Integer.toString(pMonth) + "/" + Integer.toString(pDay);
+
         if (!getLocale(context).equals("IR")) {
             return formatDate(calendar);
         } else {
@@ -1051,7 +1052,8 @@ public class Utility {
 
     private static void createTableInfoForSalesInvoice(HashMap<String, String> mTextHashMapTitles)
             throws DocumentException, IOException {
-        PdfPTable table = new PdfPTable(1);
+        PdfPTable table = new PdfPTable(2);
+        table.setWidths(new int[]{105, 105});
 
         PdfPCell mCell = new PdfPCell();
         Phrase mElement;
@@ -1073,6 +1075,11 @@ public class Utility {
                 (checkStringIfHasAsciiCharacter(mTextHashMapTitles.get("sellerAddress")) ?
                         createEnglishFontWithSize(mSmallSize) : createFontWithSize(mSmallSize)));
         mCell.addElement(mElement);
+
+        setBackGroundColor_P_BW_HA_VA(mCell, mainTitleColorTables, 10, 3, Element.ALIGN_LEFT, Element.ALIGN_CENTER);
+        table.addCell(mCell);
+
+        mCell = new PdfPCell();
         mElement = new Phrase(_mContext.getString(R.string.customer_info), createFontWithSize(mMiddleSize));
         mCell.addElement(mElement);
         mElement = new Phrase(mTextHashMapTitles.get("customerInfo"),
@@ -1100,82 +1107,27 @@ public class Utility {
         PdfPTable table = new PdfPTable(5);
         table.setWidths(new int[]{25, 50, 40, 45, 45});
 
-        if (getLocale(_mContext).equals("IR"))
+        if (_mContext.getResources().getConfiguration().getLayoutDirection() == View.LAYOUT_DIRECTION_RTL) {
             table.setWidths(new int[]{45, 45, 40, 50, 25});
 
-        //region Add Titles For Items In Invoice
-        PdfPCell mCell1 = new PdfPCell(new Phrase(_mContext.getString(R.string.row_title), createFontWithSize(mSmallSize)));
-        setBackGroundColor_P_BW_HA_VA(mCell1, subTitleColorTables, 10, 3, Element.ALIGN_CENTER, Element.ALIGN_CENTER);
+            //region Add Titles For Items In Invoice
+            PdfPCell mCell1 = new PdfPCell(new Phrase(_mContext.getString(R.string.row_title), createFontWithSize(mSmallSize)));
+            setBackGroundColor_P_BW_HA_VA(mCell1, subTitleColorTables, 10, 3, Element.ALIGN_CENTER, Element.ALIGN_CENTER);
 
-        PdfPCell mCell2 = new PdfPCell(new Phrase(_mContext.getString(R.string.good_title), createFontWithSize(mMiddleSize)));
-        setBackGroundColor_P_BW_HA_VA(mCell2, subTitleColorTables, 10, 3, Element.ALIGN_CENTER, Element.ALIGN_CENTER);
+            PdfPCell mCell2 = new PdfPCell(new Phrase(_mContext.getString(R.string.good_title), createFontWithSize(mMiddleSize)));
+            setBackGroundColor_P_BW_HA_VA(mCell2, subTitleColorTables, 10, 3, Element.ALIGN_CENTER, Element.ALIGN_CENTER);
 
-        PdfPCell mCell3 = new PdfPCell(new Phrase(_mContext.getString(R.string.price_title), createFontWithSize(mMiddleSize)));
-        setBackGroundColor_P_BW_HA_VA(mCell3, subTitleColorTables, 10, 3, Element.ALIGN_CENTER, Element.ALIGN_CENTER);
+            PdfPCell mCell3 = new PdfPCell(new Phrase(_mContext.getString(R.string.price_title), createFontWithSize(mMiddleSize)));
+            setBackGroundColor_P_BW_HA_VA(mCell3, subTitleColorTables, 10, 3, Element.ALIGN_CENTER, Element.ALIGN_CENTER);
 
-        PdfPCell mCell4 = new PdfPCell(new Phrase(_mContext.getString(R.string.quantity_title), createFontWithSize(mMiddleSize)));
-        setBackGroundColor_P_BW_HA_VA(mCell4, subTitleColorTables, 10, 3, Element.ALIGN_CENTER, Element.ALIGN_CENTER);
+            PdfPCell mCell4 = new PdfPCell(new Phrase(_mContext.getString(R.string.quantity_title), createFontWithSize(mMiddleSize)));
+            setBackGroundColor_P_BW_HA_VA(mCell4, subTitleColorTables, 10, 3, Element.ALIGN_CENTER, Element.ALIGN_CENTER);
 
-        PdfPCell mCell5 = new PdfPCell(new Phrase(_mContext.getString(R.string.total_title), createFontWithSize(mMiddleSize)));
-        setBackGroundColor_P_BW_HA_VA(mCell5, subTitleColorTables, 10, 3, Element.ALIGN_CENTER, Element.ALIGN_CENTER);
-
-        //region Add Columns
-        if (getLocale(_mContext).equals("IR")) {
-            table.addCell(mCell5);
-            table.addCell(mCell4);
-            table.addCell(mCell3);
-            table.addCell(mCell2);
-            table.addCell(mCell1);
-        } else {
-            table.addCell(mCell1);
-            table.addCell(mCell2);
-            table.addCell(mCell3);
-            table.addCell(mCell4);
-            table.addCell(mCell5);
-        }
-        //endregion Add Columns
-
-        table.setHeaderRows(1);
-        //endregion Add Titles For Items In Invoice
-
-        //region Add Data For Items In Invoice
-        for (int i = 0; i < mChosenProductListMap.size(); i++) {
-
-            mCell1 = new PdfPCell(new Phrase(String.valueOf(i + 1), createFontWithSize(mSmallSize)));
-            setBackGroundColor_P_BW_HA_VA(mCell1, mainTitleColorTables, 5, 3, Element.ALIGN_CENTER, Element.ALIGN_CENTER);
-
-            String MnameOfProduct = getProductNameWithProductId(
-                    Long.valueOf(mChosenProductListMap.get(i).get("id").toString()));
-
-            mCell2 = new PdfPCell(new Phrase(MnameOfProduct,
-                    (checkStringIfHasAsciiCharacter(MnameOfProduct) ? createEnglishFontWithSize(mSmallSize) :
-                            createFontWithSize(mSmallSize))));
-            setBackGroundColor_P_BW_HA_VA(mCell2, mainTitleColorTables, 5, 3, Element.ALIGN_CENTER, Element.ALIGN_CENTER);
-
-            mCell3 = new PdfPCell(new Phrase(
-                    Utility.formatPurchase(
-                            _mContext,
-                            Utility.DecimalSeperation(_mContext,
-                                    Double.parseDouble(mChosenProductListMap.get(i).get("price").toString()))),
-                    createFontWithSize(mSmallSize)));
-            setBackGroundColor_P_BW_HA_VA(mCell3, mainTitleColorTables, 5, 3, Element.ALIGN_CENTER, Element.ALIGN_CENTER);
-
-            mCell4 = new PdfPCell(new Phrase(mChosenProductListMap.get(i).get("quantity").toString(), createFontWithSize(mSmallSize)));
-            setBackGroundColor_P_BW_HA_VA(mCell4, mainTitleColorTables, 5, 3, Element.ALIGN_CENTER, Element.ALIGN_CENTER);
-
-            mCell5 = new PdfPCell(new Phrase(
-                    Utility.formatPurchase(
-                            _mContext,
-                            Utility.DecimalSeperation(_mContext,
-                                    Double.parseDouble(
-                                            String.valueOf(
-                                                    Long.valueOf(mChosenProductListMap.get(i).get("price").toString()) *
-                                                            Long.valueOf(mChosenProductListMap.get(i).get("quantity").toString()
-                                                            ))))), createFontWithSize(mSmallSize)));
-            setBackGroundColor_P_BW_HA_VA(mCell5, mainTitleColorTables, 5, 3, Element.ALIGN_CENTER, Element.ALIGN_CENTER);
+            PdfPCell mCell5 = new PdfPCell(new Phrase(_mContext.getString(R.string.total_title), createFontWithSize(mMiddleSize)));
+            setBackGroundColor_P_BW_HA_VA(mCell5, subTitleColorTables, 10, 3, Element.ALIGN_CENTER, Element.ALIGN_CENTER);
 
             //region Add Columns
-            if (getLocale(_mContext).equals("IR")) {
+            if (_mContext.getResources().getConfiguration().getLayoutDirection() == View.LAYOUT_DIRECTION_RTL) {
                 table.addCell(mCell5);
                 table.addCell(mCell4);
                 table.addCell(mCell3);
@@ -1189,10 +1141,66 @@ public class Utility {
                 table.addCell(mCell5);
             }
             //endregion Add Columns
-        }
-        //endregion Add Data For Items In Invoice
 
-        _mDocument.add(table);
+            table.setHeaderRows(1);
+            //endregion Add Titles For Items In Invoice
+
+            //region Add Data For Items In Invoice
+            for (int i = 0; i < mChosenProductListMap.size(); i++) {
+
+                mCell1 = new PdfPCell(new Phrase(String.valueOf(i + 1), createFontWithSize(mSmallSize)));
+                setBackGroundColor_P_BW_HA_VA(mCell1, mainTitleColorTables, 5, 3, Element.ALIGN_CENTER, Element.ALIGN_CENTER);
+
+                String MnameOfProduct = getProductNameWithProductId(
+                        Long.valueOf(mChosenProductListMap.get(i).get("id").toString()));
+
+                mCell2 = new PdfPCell(new Phrase(MnameOfProduct,
+                        (checkStringIfHasAsciiCharacter(MnameOfProduct) ? createEnglishFontWithSize(mSmallSize) :
+                                createFontWithSize(mSmallSize))));
+                setBackGroundColor_P_BW_HA_VA(mCell2, mainTitleColorTables, 5, 3, Element.ALIGN_CENTER, Element.ALIGN_CENTER);
+
+                mCell3 = new PdfPCell(new Phrase(
+                        Utility.formatPurchase(
+                                _mContext,
+                                Utility.DecimalSeperation(_mContext,
+                                        Double.parseDouble(mChosenProductListMap.get(i).get("price").toString()))),
+                        createFontWithSize(mSmallSize)));
+                setBackGroundColor_P_BW_HA_VA(mCell3, mainTitleColorTables, 5, 3, Element.ALIGN_CENTER, Element.ALIGN_CENTER);
+
+                mCell4 = new PdfPCell(new Phrase(mChosenProductListMap.get(i).get("quantity").toString(), createFontWithSize(mSmallSize)));
+                setBackGroundColor_P_BW_HA_VA(mCell4, mainTitleColorTables, 5, 3, Element.ALIGN_CENTER, Element.ALIGN_CENTER);
+
+                mCell5 = new PdfPCell(new Phrase(
+                        Utility.formatPurchase(
+                                _mContext,
+                                Utility.DecimalSeperation(_mContext,
+                                        Double.parseDouble(
+                                                String.valueOf(
+                                                        Long.valueOf(mChosenProductListMap.get(i).get("price").toString()) *
+                                                                Long.valueOf(mChosenProductListMap.get(i).get("quantity").toString()
+                                                                ))))), createFontWithSize(mSmallSize)));
+                setBackGroundColor_P_BW_HA_VA(mCell5, mainTitleColorTables, 5, 3, Element.ALIGN_CENTER, Element.ALIGN_CENTER);
+
+                //region Add Columns
+                if (_mContext.getResources().getConfiguration().getLayoutDirection() == View.LAYOUT_DIRECTION_RTL) {
+                    table.addCell(mCell5);
+                    table.addCell(mCell4);
+                    table.addCell(mCell3);
+                    table.addCell(mCell2);
+                    table.addCell(mCell1);
+                } else {
+                    table.addCell(mCell1);
+                    table.addCell(mCell2);
+                    table.addCell(mCell3);
+                    table.addCell(mCell4);
+                    table.addCell(mCell5);
+                }
+                //endregion Add Columns
+            }
+            //endregion Add Data For Items In Invoice
+
+            _mDocument.add(table);
+        }
     }
 
     private static void createTableTaxesForSalesInvoice(ArrayList<Map<String, String>> mTaxListMap)
@@ -1200,7 +1208,7 @@ public class Utility {
         PdfPTable table = new PdfPTable(3);
         table.setWidths(new int[]{25, 125, 60});
 
-        if (getLocale(_mContext).equals("IR"))
+        if (_mContext.getResources().getConfiguration().getLayoutDirection() == View.LAYOUT_DIRECTION_RTL)
             table.setWidths(new int[]{60, 125, 25});
 
         //region Add Titles For Taxes In Invoice
@@ -1214,7 +1222,7 @@ public class Utility {
         setBackGroundColor_P_BW_HA_VA(mCell3, subTitleColorTables, 5, 3, Element.ALIGN_CENTER, Element.ALIGN_CENTER);
 
         //region Add Columns
-        if (getLocale(_mContext).equals("IR")) {
+        if (_mContext.getResources().getConfiguration().getLayoutDirection() == View.LAYOUT_DIRECTION_RTL) {
             table.addCell(mCell3);
             table.addCell(mCell2);
             table.addCell(mCell1);
@@ -1250,7 +1258,7 @@ public class Utility {
                 setBackGroundColor_P_BW_HA_VA(mCell3, mainTitleColorTables, 5, 3, Element.ALIGN_CENTER, Element.ALIGN_CENTER);
 
                 //region Add Columns
-                if (getLocale(_mContext).equals("IR")) {
+                if (_mContext.getResources().getConfiguration().getLayoutDirection() == View.LAYOUT_DIRECTION_RTL) {
                     table.addCell(mCell3);
                     table.addCell(mCell2);
                     table.addCell(mCell1);
@@ -1272,7 +1280,7 @@ public class Utility {
         PdfPTable table = new PdfPTable(3);
         table.setWidths(new int[]{25, 125, 60});
 
-        if (getLocale(_mContext).equals("IR"))
+        if (_mContext.getResources().getConfiguration().getLayoutDirection() == View.LAYOUT_DIRECTION_RTL)
             table.setWidths(new int[]{60, 125, 25});
 
         //region Add Titles For Discounts In Invoice
@@ -1286,7 +1294,7 @@ public class Utility {
         setBackGroundColor_P_BW_HA_VA(mCell3, subTitleColorTables, 5, 3, Element.ALIGN_CENTER, Element.ALIGN_CENTER);
 
         //region Add Columns
-        if (getLocale(_mContext).equals("IR")) {
+        if (_mContext.getResources().getConfiguration().getLayoutDirection() == View.LAYOUT_DIRECTION_RTL) {
             table.addCell(mCell3);
             table.addCell(mCell2);
             table.addCell(mCell1);
@@ -1326,7 +1334,7 @@ public class Utility {
                 mCell3.setPadding(5);
 
                 //region Add Columns
-                if (getLocale(_mContext).equals("IR")) {
+                if (_mContext.getResources().getConfiguration().getLayoutDirection() == View.LAYOUT_DIRECTION_RTL) {
                     table.addCell(mCell3);
                     table.addCell(mCell2);
                     table.addCell(mCell1);
@@ -1348,7 +1356,7 @@ public class Utility {
         PdfPTable table = new PdfPTable(3);
         table.setWidths(new int[]{25, 125, 60});
 
-        if (getLocale(_mContext).equals("IR"))
+        if (_mContext.getResources().getConfiguration().getLayoutDirection() == View.LAYOUT_DIRECTION_RTL)
             table.setWidths(new int[]{60, 125, 25});
 
         //region Add Titles In Payments In Invoice
@@ -1362,7 +1370,7 @@ public class Utility {
         setBackGroundColor_P_BW_HA_VA(mCell3, subTitleColorTables, 5, 3, Element.ALIGN_CENTER, Element.ALIGN_CENTER);
 
         //region Add Columns
-        if (getLocale(_mContext).equals("IR")) {
+        if (_mContext.getResources().getConfiguration().getLayoutDirection() == View.LAYOUT_DIRECTION_RTL) {
             table.addCell(mCell3);
             table.addCell(mCell2);
             table.addCell(mCell1);
@@ -1399,7 +1407,7 @@ public class Utility {
             setBackGroundColor_P_BW_HA_VA(mCell3, mainTitleColorTables, 5, 3, Element.ALIGN_CENTER, Element.ALIGN_CENTER);
 
             //region Add Columns
-            if (getLocale(_mContext).equals("IR")) {
+            if (_mContext.getResources().getConfiguration().getLayoutDirection() == View.LAYOUT_DIRECTION_RTL) {
                 table.addCell(mCell3);
                 table.addCell(mCell2);
                 table.addCell(mCell1);
@@ -1420,7 +1428,7 @@ public class Utility {
         PdfPTable table = new PdfPTable(2);
         table.setWidths(new int[]{70, 140});
 
-        if (getLocale(_mContext).equals("IR"))
+        if (_mContext.getResources().getConfiguration().getLayoutDirection() == View.LAYOUT_DIRECTION_RTL)
             table.setWidths(new int[]{140, 70});
 
         //region Add Total Amount To Invoice
@@ -1432,7 +1440,7 @@ public class Utility {
         setBackGroundColor_P_BW_HA_VA(mCell2, mainTitleColorTables, 5, 3, Element.ALIGN_LEFT, Element.ALIGN_CENTER);
 
         //region Add Columns
-        if (getLocale(_mContext).equals("IR")) {
+        if (_mContext.getResources().getConfiguration().getLayoutDirection() == View.LAYOUT_DIRECTION_RTL) {
             table.addCell(mCell2);
             table.addCell(mCell1);
         } else {
@@ -1451,7 +1459,7 @@ public class Utility {
         setBackGroundColor_P_BW_HA_VA(mCell2, mainTitleColorTables, 5, 3, Element.ALIGN_LEFT, Element.ALIGN_CENTER);
 
         //region Add Columns
-        if (getLocale(_mContext).equals("IR")) {
+        if (_mContext.getResources().getConfiguration().getLayoutDirection() == View.LAYOUT_DIRECTION_RTL) {
             table.addCell(mCell2);
             table.addCell(mCell1);
         } else {
@@ -1470,7 +1478,7 @@ public class Utility {
         setBackGroundColor_P_BW_HA_VA(mCell2, mainTitleColorTables, 5, 3, Element.ALIGN_LEFT, Element.ALIGN_CENTER);
 
         //region Add Columns
-        if (getLocale(_mContext).equals("IR")) {
+        if (_mContext.getResources().getConfiguration().getLayoutDirection() == View.LAYOUT_DIRECTION_RTL) {
             table.addCell(mCell2);
             table.addCell(mCell1);
         } else {
@@ -1489,7 +1497,7 @@ public class Utility {
         setBackGroundColor_P_BW_HA_VA(mCell2, mainTitleColorTables, 5, 3, Element.ALIGN_LEFT, Element.ALIGN_CENTER);
 
         //region Add Columns
-        if (getLocale(_mContext).equals("IR")) {
+        if (_mContext.getResources().getConfiguration().getLayoutDirection() == View.LAYOUT_DIRECTION_RTL) {
             table.addCell(mCell2);
             table.addCell(mCell1);
         } else {
@@ -1508,7 +1516,7 @@ public class Utility {
         setBackGroundColor_P_BW_HA_VA(mCell2, mainTitleColorTables, 5, 3, Element.ALIGN_LEFT, Element.ALIGN_CENTER);
 
         //region Add Columns
-        if (getLocale(_mContext).equals("IR")) {
+        if (_mContext.getResources().getConfiguration().getLayoutDirection() == View.LAYOUT_DIRECTION_RTL) {
             table.addCell(mCell2);
             table.addCell(mCell1);
         } else {
@@ -1573,24 +1581,24 @@ public class Utility {
         mPdfPCell.setBackgroundColor(mBaseColor);
         mPdfPCell.setPaddingBottom(10);
 
-        if (getLocale(_mContext).equals("IR"))
+        if (_mContext.getResources().getConfiguration().getLayoutDirection() == View.LAYOUT_DIRECTION_RTL)
             mPdfPCell.setRunDirection(PdfWriter.RUN_DIRECTION_RTL);
     }
 
     private static void setRtlToCell(PdfPCell mPdfPCell) {
-        if (getLocale(_mContext).equals("IR"))
+        if (_mContext.getResources().getConfiguration().getLayoutDirection() == View.LAYOUT_DIRECTION_RTL)
             mPdfPCell.setRunDirection(PdfWriter.RUN_DIRECTION_RTL);
     }
 
     public static float createFloatNumberWithString(Context mContext, String mNumber) throws ParseException {
-        if (getLocale(mContext).equals("IR"))
+        if (_mContext.getResources().getConfiguration().getLayoutDirection() == View.LAYOUT_DIRECTION_RTL)
             return NumberFormat.getInstance(Locale.forLanguageTag("es")).parse(mNumber).floatValue();
         else
             return Float.valueOf(mNumber);
     }
 
     private static Font createFontWithSize(int mSize) throws IOException, DocumentException {
-        if (getLocale(_mContext).equals("IR")) {
+        if (_mContext.getResources().getConfiguration().getLayoutDirection() == View.LAYOUT_DIRECTION_RTL) {
             BaseFont mUnicodeFontName = BaseFont.createFont("assets/fonts/bmitra.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
             return new Font(mUnicodeFontName, mSize, Font.BOLD);
         } else

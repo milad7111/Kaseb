@@ -372,7 +372,7 @@
     <string name="more_than_total_amount">Can\'t be more than total amount.</string>
     <string name="save_factor_then_print">Please Save Invoice Then RETRY.</string>
     <string name="non_repetitive">\n(Non-repetitive)</string>
-    <string name="register_message_copyright">Registered By KASEB. \n@COPYRIGHT</string>
+    <string name="register_message_copyright">Registered By KASEB. ©</string>
     <string name="seller_info">"Kaseb : "</string>
     <string name="seller_tell">"Kaseb phone : "</string>
     <string name="seller_address">"Kaseb Address : "</string>
@@ -451,4 +451,5 @@
     <string name="detail_customer_toolbar_title">Customer Info</string>
     <string name="customer_image_transition">customer_image_transition</string>
     <string name="code_text_transition">code_text_transition</string>
+    <string name="pref_header_edit_profile">Edit Profile</string>
 </resources>

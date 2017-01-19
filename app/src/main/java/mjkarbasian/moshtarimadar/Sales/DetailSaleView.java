@@ -136,6 +136,7 @@ public class DetailSaleView extends AppCompatActivity {
 
     TextInputLayout saleCodeTextInputLayout;
     TextInputLayout saleDateTextInputLayout;
+    TextInputLayout quantityTextInputLayout;
 
     ListView modeList;
     ListView mProductListView;
@@ -866,10 +867,13 @@ public class DetailSaleView extends AppCompatActivity {
                             wantToCloseDialog = true;
                         }
                     } else {
-                        Utility.setErrorForEditText(DetailSaleView.this, quantityEditText, getResources().getString(R.string.not_enough_stock));
+                        Utility.changeColorOfHelperText(DetailSaleView.this, saleDateTextInputLayout, Utility.mIdOfColorSetError);
+                        quantityTextInputLayout.setError(getResources().getString(R.string.not_enough_stock));
                     }
-                } else
-                    Utility.setErrorForEditText(DetailSaleView.this, quantityEditText, "");
+                } else {
+                    Utility.changeColorOfHelperText(DetailSaleView.this, saleDateTextInputLayout, Utility.mIdOfColorSetError);
+                    quantityTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data));
+                }
                 //endregion insert product
 
                 if (wantToCloseDialog)
@@ -910,6 +914,7 @@ public class DetailSaleView extends AppCompatActivity {
         modeList.setAdapter(mAdapter);
 
         quantityEditText = (EditText) dialogView.findViewById(R.id.add_number_of_product_for_sale_number);
+        quantityTextInputLayout = (TextInputLayout) dialogView.findViewById(R.id.text_input_layout_number_of_product_for_sale_number);
         //endregion Set Adapter To Dialog
 
         //region ClickListener ListView Dialog
@@ -943,8 +948,7 @@ public class DetailSaleView extends AppCompatActivity {
                                 if (mCursor.moveToLast())
                                     cost = mCursor.getLong(mCursor.getColumnIndex(KasebContract.ProductHistory.COLUMN_SALE_PRICE));
 
-                            TextInputLayout textInputLayout = (TextInputLayout) dialogView.findViewById(R.id.textInputLayoutOfEditTextQuantity);
-                            textInputLayout.setHint(getString(R.string.stock_product) + differneceOfBuy_Sale);
+                            quantityTextInputLayout.setHint(getString(R.string.stock_product) + " " + differneceOfBuy_Sale);
                             quantityEditText.setVisibility(View.VISIBLE);
                         }
                     }
