@@ -1687,7 +1687,7 @@ public class Utility {
         }
     }
 
-    public static void stylePie(PieChart statePie,String noDataTxt) {
+    public static void stylePie(PieChart statePie, String noDataTxt) {
         statePie.setNoDataText(noDataTxt);
         statePie.setCenterTextSize(16f);
         statePie.invalidate(); // refresh
@@ -1697,7 +1697,7 @@ public class Utility {
 
     public static void styleLegend(Legend pieLegend) {
         pieLegend.setTextSize(14f);
-        if(pieLegend!=null)
-        pieLegend.setPosition(Legend.LegendPosition.BELOW_CHART_LEFT);
+        if (pieLegend != null)
+            pieLegend.setPosition(Legend.LegendPosition.BELOW_CHART_LEFT);
     }
 }

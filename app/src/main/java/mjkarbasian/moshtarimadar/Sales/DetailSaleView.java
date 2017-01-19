@@ -136,11 +136,7 @@ public class DetailSaleView extends AppCompatActivity {
 
     TextInputLayout saleCodeTextInputLayout;
     TextInputLayout saleDateTextInputLayout;
-    <<<<<<
-    <HEAD
-            TextInputLayout quantityTextInputLayout;
-    =======
-            >>>>>>>1ec933816ebc48d62239cc8ba139db8c0dcf46f1
+    TextInputLayout quantityTextInputLayout;
 
     ListView modeList;
     ListView mProductListView;
