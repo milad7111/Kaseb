@@ -113,7 +113,6 @@ public class PreferenceHeader extends Fragment {
         String kasebPREFERENCES = "kasebProfile";
         final SharedPreferences kasebSharedPreferences = getContext().getSharedPreferences(kasebPREFERENCES, getContext().MODE_PRIVATE);
         final SharedPreferences.Editor editor = kasebSharedPreferences.edit();
-
         //endregion handle sharepreference
 
         View rootView = inflater.inflate(R.layout.fragment_setting_types, container, false);
