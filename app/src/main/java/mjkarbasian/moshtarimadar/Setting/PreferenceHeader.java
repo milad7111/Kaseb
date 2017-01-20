@@ -222,7 +222,7 @@ public class PreferenceHeader extends Fragment {
                                         editor.putString("addressPostalCode", addressPostalCode.getText().toString());
                                         editor.commit();
 
-                                        Toast.makeText(getActivity(), "Ok!", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(getActivity(), R.string.msg_insert_succeed, Toast.LENGTH_SHORT).show();
                                         //endregion save info of kaseb profile
 
                                         wantToCloseDialog = true;

@@ -159,7 +159,7 @@ public class Utility {
 
             mTextFactor.put("sellerAddress",
                     (kasebSharedPreferences.getString("addressCountry", null) != null
-                            && kasebSharedPreferences.getString("addressCountry", null) != "" ? " - " +
+                            && kasebSharedPreferences.getString("addressCountry", null) != "" ?
                             kasebSharedPreferences.getString("addressCountry", null) : " ... ")
                             + (kasebSharedPreferences.getString("addressCity", null) != null
                             && kasebSharedPreferences.getString("addressCity", null) != "" ? " - " +
@@ -257,11 +257,6 @@ public class Utility {
     public static void setErrorForTextView(TextView mTextView) {
         mTextView.setError("");
         mTextView.requestFocus();
-    }
-
-    public static void setErrorForEditText(Context mContext, EditText mEditText, String mMessage) {
-        mEditText.setError(mContext.getString(R.string.choose_appropriate_data) + mMessage);
-        mEditText.requestFocus();
     }
 
     public static boolean checkForValidityForEditTextNullOrEmptyAndItterative(
@@ -1632,7 +1627,7 @@ public class Utility {
     }
 
     public static float createFloatNumberWithString(Context mContext, String mNumber) throws ParseException {
-        if (_mContext.getResources().getConfiguration().getLayoutDirection() == View.LAYOUT_DIRECTION_RTL)
+        if (mContext.getResources().getConfiguration().getLayoutDirection() == View.LAYOUT_DIRECTION_RTL)
             return NumberFormat.getInstance(Locale.forLanguageTag("es")).parse(mNumber).floatValue();
         else
             return Float.valueOf(mNumber);
