@@ -1,14 +1,11 @@
 package mjkarbasian.moshtarimadar.Setting;
 
 import android.app.Activity;
-import android.content.ActivityNotFoundException;
 import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -23,25 +20,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import java.io.BufferedInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.net.URL;
-import java.net.URLConnection;
 import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 
 import mjkarbasian.moshtarimadar.Adapters.HeaderAdapter;
 import mjkarbasian.moshtarimadar.Data.KasebContract;
-import mjkarbasian.moshtarimadar.Helpers.GalleryUtil;
 import mjkarbasian.moshtarimadar.Helpers.Utility;
 import mjkarbasian.moshtarimadar.R;
 
@@ -64,8 +55,6 @@ public class PreferenceHeader extends Fragment {
     android.app.AlertDialog.Builder builder;
     android.app.AlertDialog dialogView;
 
-    ImageView mCustomerAvatar;
-    Bitmap photo;
     EditText firstName;
     EditText lastName;
     EditText birthDay;
@@ -73,7 +62,6 @@ public class PreferenceHeader extends Fragment {
     EditText customerDescription;
     EditText email;
     EditText phoneWork;
-    EditText phoneHome;
     EditText phoneOther;
     EditText phoneFax;
     EditText addressCountry;
@@ -87,13 +75,15 @@ public class PreferenceHeader extends Fragment {
     TextInputLayout customerDescriptionTextInputLayout;
     TextInputLayout emailTextInputLayout;
     TextInputLayout phoneWorkTextInputLayout;
-    TextInputLayout phoneHomeTextInputLayout;
     TextInputLayout phoneFaxTextInputLayout;
     TextInputLayout phoneOtherTextInputLayout;
     TextInputLayout addressCountryTextInputLayout;
     TextInputLayout addressCityTextInputLayout;
     TextInputLayout addressStreetTextInputLayout;
     TextInputLayout addressPostalCodeTextInputLayout;
+
+    String kasebPREFERENCES = "kasebProfile";
+    SharedPreferences kasebSharedPreferences;
     //endregion declare values
 
     @Override
@@ -110,8 +100,8 @@ public class PreferenceHeader extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         //region handle sharepreference
-        String kasebPREFERENCES = "kasebProfile";
-        final SharedPreferences kasebSharedPreferences = getContext().getSharedPreferences(kasebPREFERENCES, getContext().MODE_PRIVATE);
+        kasebPREFERENCES = "kasebProfile";
+        kasebSharedPreferences = getContext().getSharedPreferences(kasebPREFERENCES, getContext().MODE_PRIVATE);
         final SharedPreferences.Editor editor = kasebSharedPreferences.edit();
         //endregion handle sharepreference
 
@@ -188,14 +178,16 @@ public class PreferenceHeader extends Fragment {
                                         }
                                     })
                                     .show();
+
+                            break;
                         }
                         case 6: {
+
                             //region create alert dialog
                             builder = new android.app.AlertDialog.Builder(getActivity())
                                     .setView(getActivity().getLayoutInflater().inflate(R.layout.dialog_edit_profile_of_kaseb, null))
                                     .setNegativeButton(R.string.discard_button, new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialog, int whichButton) {
-                                            dialogView.dismiss();
                                         }
                                     }).setPositiveButton(R.string.save, new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialog, int whichButton) {
@@ -213,13 +205,13 @@ public class PreferenceHeader extends Fragment {
                                     Boolean wantToCloseDialog = false;
 
                                     if (checkValidityWithChangeColorOfHelperText()) {
+
                                         //region save info of kaseb profile
                                         editor.putString("firstName", firstName.getText().toString());
                                         editor.putString("lastName", lastName.getText().toString());
                                         editor.putString("birthDay", birthDay.getText().toString());
                                         editor.putString("phoneMobile", phoneMobile.getText().toString());
                                         editor.putString("phoneWork", phoneWork.getText().toString());
-                                        editor.putString("phoneHome", phoneHome.getText().toString());
                                         editor.putString("phoneFax", phoneFax.getText().toString());
                                         editor.putString("phoneOther", phoneOther.getText().toString());
                                         editor.putString("customerDescription", customerDescription.getText().toString());
@@ -240,6 +232,20 @@ public class PreferenceHeader extends Fragment {
                                         dialogView.dismiss();
                                 }
                             });
+
+                            dialogView.getButton(android.app.AlertDialog.BUTTON_NEGATIVE).setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    if (kasebSharedPreferences.getString("firstName", null) != null)
+                                        dialogView.dismiss();
+                                    else
+                                        Toast.makeText(getActivity(), R.string.complete_profile_kaseb, Toast.LENGTH_LONG).show();
+                                }
+                            });
+
+                            if (kasebSharedPreferences.getString("firstName", null) == null)
+                                dialogView.setCancelable(false);
+
                             //endregion create alert dialog
 
                             //region define views
@@ -250,7 +256,6 @@ public class PreferenceHeader extends Fragment {
                             customerDescription = (EditText) dialogView.findViewById(R.id.dialog_edit_profile_kaseb_input_description);
                             email = (EditText) dialogView.findViewById(R.id.dialog_edit_profile_kaseb_input_email);
                             phoneWork = (EditText) dialogView.findViewById(R.id.dialog_edit_profile_kaseb_input_phone_work);
-                            phoneHome = (EditText) dialogView.findViewById(R.id.dialog_edit_profile_kaseb_input_phone_home);
                             phoneOther = (EditText) dialogView.findViewById(R.id.dialog_edit_profile_kaseb_input_phone_other);
                             phoneFax = (EditText) dialogView.findViewById(R.id.dialog_edit_profile_kaseb_input_phone_fax);
                             addressCountry = (EditText) dialogView.findViewById(R.id.dialog_edit_profile_kaseb_input_address_country);
@@ -265,7 +270,6 @@ public class PreferenceHeader extends Fragment {
                             customerDescriptionTextInputLayout = (TextInputLayout) dialogView.findViewById(R.id.dialog_edit_profile_kaseb_text_input_layout_input_description);
                             emailTextInputLayout = (TextInputLayout) dialogView.findViewById(R.id.dialog_edit_profile_kaseb_text_input_layout_input_email);
                             phoneWorkTextInputLayout = (TextInputLayout) dialogView.findViewById(R.id.dialog_edit_profile_kaseb_text_input_layout_input_phone_work);
-                            phoneHomeTextInputLayout = (TextInputLayout) dialogView.findViewById(R.id.dialog_edit_profile_kaseb_text_input_layout_input_phone_home);
                             phoneOtherTextInputLayout = (TextInputLayout) dialogView.findViewById(R.id.dialog_edit_profile_kaseb_text_input_layout_input_phone_other);
                             phoneFaxTextInputLayout = (TextInputLayout) dialogView.findViewById(R.id.dialog_edit_profile_kaseb_text_input_layout_input_phone_fax);
                             addressCountryTextInputLayout = (TextInputLayout) dialogView.findViewById(R.id.dialog_edit_profile_kaseb_text_input_layout_input_address_country);
@@ -281,7 +285,6 @@ public class PreferenceHeader extends Fragment {
                             birthDay.setText(kasebSharedPreferences.getString("birthDay", null));
                             phoneMobile.setText(kasebSharedPreferences.getString("phoneMobile", null));
                             phoneWork.setText(kasebSharedPreferences.getString("phoneWork", null));
-                            phoneHome.setText(kasebSharedPreferences.getString("phoneHome", null));
                             phoneFax.setText(kasebSharedPreferences.getString("phoneFax", null));
                             phoneOther.setText(kasebSharedPreferences.getString("phoneOther", null));
                             customerDescription.setText(kasebSharedPreferences.getString("customerDescription", null));
@@ -293,12 +296,29 @@ public class PreferenceHeader extends Fragment {
                             //endregion show info of kaseb profile
 
                             //endregion define views
+
+                            break;
                         }
                     }
                 }
             }
         });
+
         return rootView;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        //region check exist profile kaseb in preference header
+        android.support.v4.app.FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+
+        if (kasebSharedPreferences.getString("firstName", null) == null)
+            mListView.performItemClick(
+                    mListView.getAdapter().getView(6, null, null),
+                    6, mListView.getAdapter().getItemId(6));
+        //endregion check exist profile kaseb in preference header
     }
 
     private void doRestore() {
@@ -314,14 +334,12 @@ public class PreferenceHeader extends Fragment {
                 dst.transferFrom(src, 0, src.size());
                 src.close();
                 dst.close();
-                Toast.makeText(getActivity(), "Import Successful!",
+                Toast.makeText(getActivity(), R.string.import_successful,
                         Toast.LENGTH_SHORT).show();
             }
         } catch (Exception e) {
-
-            Toast.makeText(getActivity(), "Import Failed!", Toast.LENGTH_SHORT)
+            Toast.makeText(getActivity(), R.string.import_contact_failed, Toast.LENGTH_SHORT)
                     .show();
-
         }
     }
 
@@ -346,7 +364,7 @@ public class PreferenceHeader extends Fragment {
         output.flush();
         output.close();
         fis.close();
-        Toast.makeText(getActivity(), "BackUp Successful!", Toast.LENGTH_SHORT)
+        Toast.makeText(getActivity(), R.string.backup_successful, Toast.LENGTH_SHORT)
                 .show();
     }
 
@@ -354,7 +372,6 @@ public class PreferenceHeader extends Fragment {
         super.onActivityResult(reqCode, resultCode, data);
         String[] displayName = new String[2];
         String phoneMobile = null;
-        String phoneHome = null;
         String contactEmail = null;
         String contactId = null;
         switch (reqCode) {
@@ -390,73 +407,6 @@ public class PreferenceHeader extends Fragment {
                         dataError(getActivity().getResources().getString(R.string.dialog_input_import_contact_general));
                     }
                     break;
-                }
-            }
-            case (GALLERY_ACTIVITY_CODE): {
-                if (resultCode == Activity.RESULT_OK) {
-                    String picturePath = data.getStringExtra("picturePath");
-                    //perform Crop on the Image Selected from Gallery
-                    performCrop(picturePath);
-                }
-            }
-            case (RESULT_CROP): {
-                if (resultCode == Activity.RESULT_OK) {
-                    if (data.getExtras() != null) {
-                        photo = data.getExtras().getParcelable("data");
-                        mCustomerAvatar.setImageBitmap(photo);
-
-                        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-                        photo.compress(Bitmap.CompressFormat.PNG, 0, byteArrayOutputStream);
-                        byte[] imagegBytes = byteArrayOutputStream.toByteArray();
-                    } else if (data.getData() != null) {
-                        Uri picUri = data.getData();
-                        BufferedInputStream bufferInputStream = null;
-                        try {
-                            URLConnection connection = new URL(picUri.toString()).openConnection();
-                            connection.connect();
-                            bufferInputStream = new BufferedInputStream(connection.getInputStream(), 8192);
-                            photo = BitmapFactory.decodeStream(bufferInputStream);
-
-                            mCustomerAvatar.setImageBitmap(photo);
-
-                            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-                            photo.compress(Bitmap.CompressFormat.PNG, 0, byteArrayOutputStream);
-                            byte[] imagegBytes = byteArrayOutputStream.toByteArray();
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    } else {
-                        Toast toast = Toast.makeText(getActivity(), "There is some problem in croping app", Toast.LENGTH_LONG);
-                        toast.show();
-                    }
-                    if (data.getExtras() != null) {
-                        photo = data.getExtras().getParcelable("data");
-                        mCustomerAvatar.setImageBitmap(photo);
-
-                        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-                        photo.compress(Bitmap.CompressFormat.PNG, 0, byteArrayOutputStream);
-                        byte[] imagegBytes = byteArrayOutputStream.toByteArray();
-                    } else if (data.getData() != null) {
-                        Uri picUri = data.getData();
-                        BufferedInputStream bufferInputStream = null;
-                        try {
-                            URLConnection connection = new URL(picUri.toString()).openConnection();
-                            connection.connect();
-                            bufferInputStream = new BufferedInputStream(connection.getInputStream(), 8192);
-                            photo = BitmapFactory.decodeStream(bufferInputStream);
-
-                            mCustomerAvatar.setImageBitmap(photo);
-
-                            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-                            photo.compress(Bitmap.CompressFormat.PNG, 0, byteArrayOutputStream);
-                            byte[] imagegBytes = byteArrayOutputStream.toByteArray();
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    } else {
-                        Toast toast = Toast.makeText(getActivity(), "There is some problem in croping app", Toast.LENGTH_LONG);
-                        toast.show();
-                    }
                 }
             }
         }
@@ -541,52 +491,12 @@ public class PreferenceHeader extends Fragment {
         return headerIcons;
     }
 
-    public void pic_selector_on_profile_kaseb(View view) {
-        mCustomerAvatar = (ImageView) view;
-        Intent gallery_Intent = new Intent(getContext(), GalleryUtil.class);
-        startActivityForResult(gallery_Intent, GALLERY_ACTIVITY_CODE);
-    }
-
-    private void performCrop(String picUri) {
-        try {
-            //Start Crop Activity
-
-            Intent cropIntent = new Intent("com.android.camera.action.CROP");
-            // indicate image type and Uri
-            File f = new File(picUri);
-            Uri contentUri = Uri.fromFile(f);
-
-            cropIntent.setDataAndType(contentUri, "image/*");
-            // set crop properties
-            cropIntent.putExtra("crop", "true");
-            // indicate aspect of desired crop
-            cropIntent.putExtra("aspectX", 1);
-            cropIntent.putExtra("aspectY", 1);
-            // indicate output X and Y
-            cropIntent.putExtra("outputX", 280);
-            cropIntent.putExtra("outputY", 280);
-
-            // retrieve data on return
-            cropIntent.putExtra("return-data", true);
-            // start the activity - we handle returning in onActivityResult
-            startActivityForResult(cropIntent, RESULT_CROP);
-        }
-        // respond to users whose devices do not support the crop action
-        catch (ActivityNotFoundException anfe) {
-            // display an error message
-            String errorMessage = "your device doesn't support the crop action!";
-            Toast toast = Toast.makeText(getActivity(), errorMessage, Toast.LENGTH_SHORT);
-            toast.show();
-        }
-    }
-
     private void setHelperText() {
 
         firstNameTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data));
         lastNameTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data));
 
-        phoneMobileTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data)
-                + getResources().getString(R.string.non_repetitive));
+        phoneMobileTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data));
 
         birthDayTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data)
                 + getResources().getString(R.string.date_format_error));
@@ -594,7 +504,6 @@ public class PreferenceHeader extends Fragment {
         customerDescriptionTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data));
         emailTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data));
         phoneWorkTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data));
-        phoneHomeTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data));
         phoneOtherTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data));
         phoneFaxTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data));
         addressCountryTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data));
