@@ -266,10 +266,10 @@
                     android:id="@+id/dialog_edit_profile_kaseb_text_input_layout_input_description"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/activity_horizontal_margin"
                     app:counterEnabled="true"
                     app:counterMaxLength="50"
-                    app:errorTextAppearance="@style/text_input_layout_style_not_error"
-                    android:layout_marginBottom="@dimen/activity_horizontal_margin">
+                    app:errorTextAppearance="@style/text_input_layout_style_not_error">
 
                     <EditText
                         android:id="@+id/dialog_edit_profile_kaseb_input_description"
