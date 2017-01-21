@@ -217,7 +217,7 @@ public class DetailProducts extends Fragment implements LoaderManager.LoaderCall
                                 salePrice.requestFocus();
                             } else {
                                 discountAmount.setError(getResources().getString(R.string.choose_appropriate_data));
-                                Utility.changeColorOfHelperText(getActivity(), discountAmountTextInputLayout, R.color.colorPrimaryLight);
+                                Utility.changeColorOfHelperText(getActivity(), discountAmountTextInputLayout, Utility.mIdOfColorGetError);
                             }
                         }
                     }
@@ -235,7 +235,7 @@ public class DetailProducts extends Fragment implements LoaderManager.LoaderCall
                                 salePrice.requestFocus();
                             } else {
                                 discountAmountTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data));
-                                Utility.changeColorOfHelperText(getActivity(), discountAmountTextInputLayout, R.color.colorPrimaryLight);
+                                Utility.changeColorOfHelperText(getActivity(), discountAmountTextInputLayout, Utility.mIdOfColorGetError);
                             }
                         }
                     }
@@ -268,7 +268,7 @@ public class DetailProducts extends Fragment implements LoaderManager.LoaderCall
                                 salePrice.requestFocus();
                             } else {
                                 discountPercentTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data));
-                                Utility.changeColorOfHelperText(getActivity(), discountPercentTextInputLayout, R.color.colorPrimaryLight);
+                                Utility.changeColorOfHelperText(getActivity(), discountPercentTextInputLayout, Utility.mIdOfColorGetError);
                             }
                         }
                     }
@@ -288,7 +288,7 @@ public class DetailProducts extends Fragment implements LoaderManager.LoaderCall
                                 salePrice.requestFocus();
                             } else {
                                 discountPercentTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data));
-                                Utility.changeColorOfHelperText(getActivity(), discountPercentTextInputLayout, R.color.colorPrimaryLight);
+                                Utility.changeColorOfHelperText(getActivity(), discountPercentTextInputLayout, Utility.mIdOfColorGetError);
                             }
                         }
                     }

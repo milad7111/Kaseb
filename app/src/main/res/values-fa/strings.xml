@@ -360,4 +360,29 @@
     <string name="problem_in_crop_image">تعیین محدوده تصویر با مشکل مواجه شد.</string>
     <string name="does_not_support_crop_action">تلفن همراه شما، از عملیات تعیین محدوده تصویر پشتیبانی نمی کند.</string>
     <string name="complete_profile_kaseb">ابتدا باید اطلاعات ضروری خود را ذخیره کنید، سپس وارد برنامه شوید.</string>
+    <string name="title_take_tour">راهنمای کاربردی</string>
+
+    <string name="insert_customer">افزودن مشتری</string>
+    <string name="insert_product">افزودن کالا (خدمات)</string>
+    <string name="insert_sale_and_print">صدور فاکتور فروش و پرینت آن</string>
+    <string name="insert_cost">افزودن هزینه</string>
+    <string name="change_setting">تغییر تنظیمات</string>
+    <string name="view_sale_and_print">مشاهده و پرینت فاکتورهای فروش</string>
+    <string name="contact_debtors">ارتباط با بدهکاران</string>
+    <string name="view_reports">گزارش گیری</string>
+    <string name="forward_tour">بعدی</string>
+    <string name="back_tour">قبلی</string>
+    <string name="cancel_tour">لغو</string>
+
+    <string name="explain_tour_insert_customer">راهنمایی جهت افزودن یک مشتری جدید و مشاهده آن در لیست مشتریان.</string>
+    <string name="explain_tour_insert_product">راهنمایی جهت افزودن یک کالا یا خدمات جدید و مشاهده آن در لیست اقلام انبار.</string>
+    <string name="explain_tour_create_invoice">راهنمایی جهت صادرکردن یک فاکتور فروش و چاپ آن.</string>
+    <string name="explain_tour_insert_costs">راهنمایی جهت افزودن هزینه های خود به لیست هزینه ها.</string>
+    <string name="explain_tour_change_setting">راهنمایی مرحله به مرحله جهت تغییر تنظیمات، مثل اطلاعات کاسب، انواع دسته بندی مشتریان و … .</string>
+    <string name="explain_tour_view_invoices_print">راهنمایی جهت مشاهده فاکتورهای صادر شده، ایجاد تغییرات و چاپ آن ها.</string>
+    <string name="explain_tour_contact_debtors">راهنمایی جهت مشاهده لیست بدهکاران و وضعیت تصفیه آن ها و تماس با آن ها.</string>
+    <string name="explain_tour_dashboard">راهنمایی جهت مشاهده چند گزارش در رابطه با تعداد مشتریانتان، دسته بندی آن ها و میزان خرید و فروش آن ها.</string>
+    <string name="click_again">برای ورود به بخش راهنمایی موردنظر، دوباره بر روی گزینه مورد نظر ضربه بزنید.</string>
+    <string name="start_tour">شروع</string>
+
 </resources>

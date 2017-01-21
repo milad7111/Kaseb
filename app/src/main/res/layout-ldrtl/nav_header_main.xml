@@ -19,11 +19,10 @@
 
     <ImageView
         android:id="@+id/kaseb_image"
-        android:layout_width="60dp"
+        android:layout_width="70dp"
         android:layout_height="70dp"
-        android:paddingTop="@dimen/nav_header_vertical_spacing"
-        android:src="@drawable/kaseb_pic"
-        />
+        android:src="@drawable/avatar"
+        android:layout_marginTop="@dimen/activity_horizontal_margin" />
 
     <TextView
         android:id="@+id/kaseb_name_text"

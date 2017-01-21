@@ -16,7 +16,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import mjkarbasian.moshtarimadar.Adapters.DebaterAdapter;
+import mjkarbasian.moshtarimadar.Adapters.DebtorAdapter;
 import mjkarbasian.moshtarimadar.Customers.DetailCustomer;
 import mjkarbasian.moshtarimadar.Data.KasebContract;
 import mjkarbasian.moshtarimadar.R;
@@ -25,7 +25,7 @@ import mjkarbasian.moshtarimadar.R;
  * Created by family on 12/19/2016.
  */
 public class DebatersList extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
-    DebaterAdapter mDebaterAdapter;
+    DebtorAdapter mDebaterAdapter;
     ListView mListView;
     private String searchQuery;
     private int FRAGMENT_DEBATERS_LIST_LOADER = 9;
@@ -51,9 +51,9 @@ public class DebatersList extends Fragment implements LoaderManager.LoaderCallba
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View rootView = inflater.inflate(R.layout.activity_debaters, container, false);
+        View rootView = inflater.inflate(R.layout.activity_debtors, container, false);
         mListView =(ListView) rootView.findViewById(R.id.list_view_debater);
-        mDebaterAdapter = new DebaterAdapter(getActivity(),null,0);
+        mDebaterAdapter = new DebtorAdapter(getActivity(),null,0);
         mListView.setAdapter(mDebaterAdapter);
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

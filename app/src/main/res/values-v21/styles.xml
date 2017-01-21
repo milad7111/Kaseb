@@ -151,7 +151,7 @@
 
     <!--Error label text style-->
     <style name="text_input_layout_style_not_error" parent="TextAppearance.AppCompat.Small">
-        <item name="android:textColor">@color/colorPrimaryLight</item>
+        <item name="android:textColor">@color/colorPrimaryDark</item>
     </style>
 
 </resources>

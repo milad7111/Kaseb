@@ -27,6 +27,8 @@ import mjkarbasian.moshtarimadar.R;
 
 
 public class DetailCustomer extends AppCompatActivity {
+
+    //region declare values
     Toolbar mToolbar;
     ImageView mCustomerAvatar;
     byte[] imagegBytes;
@@ -71,6 +73,7 @@ public class DetailCustomer extends AppCompatActivity {
     TextInputLayout addressCityTextInputLayout;
     TextInputLayout addressStreetTextInputLayout;
     TextInputLayout addressPostalCodeTextInputLayout;
+    //endregion declare values
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

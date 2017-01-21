@@ -7,14 +7,19 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Environment;
 import android.support.design.widget.TextInputLayout;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -108,7 +113,7 @@ public class Utility {
     private static final String EMAIL_PATTERN = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
     private static final Pattern mPattern = Pattern.compile(EMAIL_PATTERN);
     public static int mIdOfColorSetError = R.color.colorRed;
-    public static int mIdOfColorGetError = R.color.colorPrimaryLight;
+    public static int mIdOfColorGetError = R.color.colorPrimaryDark;
     private static int mSmallSize = 14;
     private static int mMiddleSize = 16;
     private static int mBigSize = 20;
@@ -116,6 +121,27 @@ public class Utility {
     private static BaseColor mainTitleColorTables = new BaseColor(255, 255, 255);
     private static Context _mContext;
     private static Document _mDocument;
+
+    public static void ImageViewAnimatedChange(Context c, final ImageView v, final Bitmap new_image) {
+        final Animation anim_out = AnimationUtils.loadAnimation(c, android.R.anim.fade_out);
+        final Animation anim_in  = AnimationUtils.loadAnimation(c, android.R.anim.fade_in);
+        anim_out.setAnimationListener(new Animation.AnimationListener()
+        {
+            @Override public void onAnimationStart(Animation animation) {}
+            @Override public void onAnimationRepeat(Animation animation) {}
+            @Override public void onAnimationEnd(Animation animation)
+            {
+                v.setImageBitmap(new_image);
+                anim_in.setAnimationListener(new Animation.AnimationListener() {
+                    @Override public void onAnimationStart(Animation animation) {}
+                    @Override public void onAnimationRepeat(Animation animation) {}
+                    @Override public void onAnimationEnd(Animation animation) {}
+                });
+                v.startAnimation(anim_in);
+            }
+        });
+        v.startAnimation(anim_out);
+    }
 
     public static boolean validateEmail(String email) {
         Matcher mMatcher = mPattern.matcher(email);
@@ -1289,7 +1315,7 @@ public class Utility {
 
                 mCell3 = new PdfPCell(new Phrase(
                         createFloatNumberWithString(_mContext, mTaxListMap.get(i).get("percent").toString())
-                        + " %", createFontWithSize(mSmallSize)));
+                                + " %", createFontWithSize(mSmallSize)));
 
                 setBackGroundColor_P_BW_HA_VA(mCell3, mainTitleColorTables, 5, 3, Element.ALIGN_CENTER, Element.ALIGN_CENTER);
 
@@ -1362,7 +1388,7 @@ public class Utility {
 
                 mCell3 = new PdfPCell(new Phrase(
                         createFloatNumberWithString(_mContext, mTaxListMap.get(i).get("percent"))
-                        + " %", createFontWithSize(mSmallSize)));
+                                + " %", createFontWithSize(mSmallSize)));
 
                 mCell3.setHorizontalAlignment(Element.ALIGN_CENTER);
                 mCell3.setVerticalAlignment(Element.ALIGN_CENTER);
@@ -1733,5 +1759,12 @@ public class Utility {
         pieLegend.setTextSize(14f);
         if (pieLegend != null)
             pieLegend.setPosition(Legend.LegendPosition.BELOW_CHART_LEFT);
+    }
+
+    public static Typeface createFontForTexts(Context mContext) {
+        if (mContext.getResources().getConfiguration().getLayoutDirection() == View.LAYOUT_DIRECTION_RTL)
+            return Typeface.createFromAsset(mContext.getAssets(), "fonts/bmitra.ttf");
+
+        return Typeface.create(Typeface.DEFAULT, 16);
     }
 }

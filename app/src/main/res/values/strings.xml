@@ -460,4 +460,28 @@
     <string name="problem_in_crop_image">There is some problem in croping app</string>
     <string name="does_not_support_crop_action">your device doesn\'t support the crop action!</string>
     <string name="complete_profile_kaseb">Your profile must be completed then you can go!</string>
+    <string name="title_take_tour">Take a tour</string>
+    <string name="insert_customer">Add customer</string>
+    <string name="insert_product">Add product</string>
+    <string name="insert_sale_and_print">Create Invoice and Print</string>
+    <string name="insert_cost">Add cost</string>
+    <string name="change_setting">Change Setting</string>
+    <string name="view_sale_and_print">View invoice and print</string>
+    <string name="contact_debtors">Contact debtors</string>
+    <string name="view_reports">View reports</string>
+    <string name="tour_slide_show">Tour Slideshow</string>
+    <string name="forward_tour">Forward</string>
+    <string name="back_tour">Backward</string>
+    <string name="cancel_tour">Cancel</string>
+    <string name="explain_tour_insert_customer">This tour show you how to save a Customer and see him/her in list.</string>
+    <string name="explain_tour_insert_product">This tour show you how to save a Product and see it in list.</string>
+    <string name="explain_tour_create_invoice">This tour show you how to create an Invoice and Print it.</string>
+    <string name="explain_tour_insert_costs">This tour show you how to insert your Costs in list.</string>
+    <string name="explain_tour_change_setting">This tour show you how to change some Setting step by step.</string>
+    <string name="explain_tour_view_invoices_print">This tour show you how to see your saved Invoices, Edit or Print them.</string>
+    <string name="explain_tour_contact_debtors">This tour show you how to see your Debtors and contact with them.</string>
+    <string name="explain_tour_dashboard">This tour show you how to see some your Dashboard about number of customers,
+        classify and amount of their bills.</string>
+    <string name="click_again">If you want to see guide, tap it again.</string>
+    <string name="start_tour">START</string>
 </resources>

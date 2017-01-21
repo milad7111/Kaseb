@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/tour_menu_cancel_button"
+        android:icon="@drawable/exit_icon"
+        android:title="@string/cancel_tour"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/tour_menu_back_button"
+        android:icon="@drawable/backward_icon"
+        android:title="@string/back_tour"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/tour_menu_forward_button"
+        android:icon="@drawable/forward_icon"
+        android:title="@string/forward_tour"
+        app:showAsAction="always" />
+
+</menu>
