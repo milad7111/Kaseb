@@ -98,7 +98,8 @@ public class DrawerActivity extends AppCompatActivity implements NavigationView.
 
         if (kasebSharedPreferences.getString("firstName", null) != null)
             kasebProfileTextView.setText(
-                    String.format("%s  %s", kasebSharedPreferences.getString("firstName", null), kasebSharedPreferences.getString("lastName", null)));
+                    String.format("%s  %s", kasebSharedPreferences.getString("firstName", null),
+                            kasebSharedPreferences.getString("lastName", null)));
         //endregion handle sharepreference
     }
 
