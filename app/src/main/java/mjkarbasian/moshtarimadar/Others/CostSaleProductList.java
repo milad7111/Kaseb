@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -19,6 +20,7 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -40,8 +42,11 @@ import mjkarbasian.moshtarimadar.Data.KasebDbHelper;
 import mjkarbasian.moshtarimadar.Data.KasebProvider;
 import mjkarbasian.moshtarimadar.Helpers.Utility;
 import mjkarbasian.moshtarimadar.Products.DetailProducts;
+import mjkarbasian.moshtarimadar.Products.Products;
 import mjkarbasian.moshtarimadar.R;
 import mjkarbasian.moshtarimadar.Sales.DetailSaleView;
+import tourguide.tourguide.Overlay;
+import tourguide.tourguide.TourGuide;
 
 /**
  * Created by Unique on 10/11/2016.
@@ -80,10 +85,10 @@ public class CostSaleProductList extends Fragment implements LoaderManager.Loade
     TextInputLayout costDateTextInputLayout;
     TextInputLayout costCodeTextInputLayout;
     FloatingActionButton fab;
+    TourGuide mTourGuideProductList;
     private String searchQuery;
     private String sortOrder;
     private int sortId;
-
     //endregion declare Values
 
     public CostSaleProductList() {
@@ -149,6 +154,25 @@ public class CostSaleProductList extends Fragment implements LoaderManager.Loade
 
         //hide fab to show it as animation
         fab = (FloatingActionButton) rootView.findViewById(R.id.fab_cost_sale_product);
+
+        try {
+            if (getArguments().getString("whichTour").equals("1")) {
+                mTourGuideProductList = Utility.createTourGuide(getActivity(),
+                        Utility.createToolTip(
+                                "Add New Product!",
+                                "Click to ADD a product.",
+                                Color.parseColor("#bdc3c7"),
+                                Color.parseColor("#e74c3c"),
+                                false,
+                                Gravity.LEFT,
+                                Gravity.TOP)
+                        , fab, Overlay.Style.Circle);
+
+                ((Products) getActivity()).setValueForTourGuide(mTourGuideProductList);
+            }
+        } catch (Exception e) {
+        }
+
         fab.hide();
 
         //region mListView setOnItemClickListener

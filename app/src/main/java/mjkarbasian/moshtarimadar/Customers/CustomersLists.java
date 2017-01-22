@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -12,6 +13,7 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -27,7 +29,10 @@ import android.widget.Toast;
 
 import mjkarbasian.moshtarimadar.Adapters.CustomerAdapter;
 import mjkarbasian.moshtarimadar.Data.KasebContract;
+import mjkarbasian.moshtarimadar.Helpers.Utility;
 import mjkarbasian.moshtarimadar.R;
+import tourguide.tourguide.Overlay;
+import tourguide.tourguide.TourGuide;
 
 
 /**
@@ -35,6 +40,7 @@ import mjkarbasian.moshtarimadar.R;
  */
 public class CustomersLists extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
+    //region declare values
     final static int FRAGMENT_CUSTOMER_LOADER = 2;
     private final String LOG_TAG = CustomersLists.class.getSimpleName();
     String searchQuery;
@@ -42,8 +48,9 @@ public class CustomersLists extends Fragment implements LoaderManager.LoaderCall
     CustomerAdapter mCustomerAdapter = null;
     ListView mListView;
     String[] mProjection;
+    TourGuide mTourGuideCustomerList;
     private String sortOrder = null;
-
+    //endregion declare values
 
     public CustomersLists() {
         super();
@@ -69,8 +76,28 @@ public class CustomersLists extends Fragment implements LoaderManager.LoaderCall
                 0);
 
         View rootView = inflater.inflate(R.layout.fragment_customers, container, false);
+
         //hide fab to show it as animation
         fab = (FloatingActionButton) rootView.findViewById(R.id.fab_customers);
+
+        try {
+            if (getArguments().getString("whichTour").equals("0")) {
+                mTourGuideCustomerList = Utility.createTourGuide(getActivity(),
+                        Utility.createToolTip(
+                                "Add New Customer!",
+                                "Click to ADD a customer.",
+                                Color.parseColor("#bdc3c7"),
+                                Color.parseColor("#e74c3c"),
+                                false,
+                                Gravity.LEFT,
+                                Gravity.TOP)
+                        , fab, Overlay.Style.Circle);
+
+                ((Customers) getActivity()).setValueForTourGuide(mTourGuideCustomerList);
+            }
+        } catch (Exception e){
+        }
+
         fab.hide();
         final Animation hyperspaceJumpAnimation = AnimationUtils.loadAnimation(getActivity(), R.anim.fab_on_click);
         fab.setAnimation(hyperspaceJumpAnimation);

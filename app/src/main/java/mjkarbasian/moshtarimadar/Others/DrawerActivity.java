@@ -36,11 +36,11 @@ import mjkarbasian.moshtarimadar.Products.Products;
 import mjkarbasian.moshtarimadar.R;
 import mjkarbasian.moshtarimadar.Sales.Sales;
 import mjkarbasian.moshtarimadar.Setting.MySetting;
-import mjkarbasian.moshtarimadar.Setting.TourFragment;
 
 public class DrawerActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     //region declare values
+    Intent intent;
     DrawerLayout mDrawer;
     ListView mListViewTour;
     AlertDialog.Builder builder;
@@ -50,7 +50,6 @@ public class DrawerActivity extends AppCompatActivity implements NavigationView.
 
     android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
     Bundle tourBundle = new Bundle();
-    int howManyWhichTourSelect = 0;
     private ActionBarDrawerToggle mDrawerToggle;
     //endregion declare values
 
@@ -137,9 +136,8 @@ public class DrawerActivity extends AppCompatActivity implements NavigationView.
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-        Intent intent;
+
         if (id == R.id.nav_dashboard) {
-            // Handle the camera action
             intent = new Intent(this, Dashboard.class);
             finish();
             startActivity(intent);
@@ -147,7 +145,6 @@ public class DrawerActivity extends AppCompatActivity implements NavigationView.
         }
 
         if (id == R.id.nav_customers) {
-            // Handle the camera action
             intent = new Intent(this, Customers.class);
             finish();
             startActivity(intent);
@@ -208,18 +205,20 @@ public class DrawerActivity extends AppCompatActivity implements NavigationView.
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
 
-                    tourBundle.putString("whichTour", String.valueOf(position));
-                    final TourFragment mTourFragment = new TourFragment();
-                    mTourFragment.setArguments(tourBundle);
                     String mMessageOfSnackBar = "";
 
                     switch (position) {
                         case 0: { //insert_customer
                             mMessageOfSnackBar = getString(R.string.explain_tour_insert_customer);
+                            intent = new Intent(DrawerActivity.this, Customers.class)
+                                    .putExtra("whichTour", String.valueOf(position));
+
                             break;
                         }
                         case 1: { //insert_product
                             mMessageOfSnackBar = getString(R.string.explain_tour_insert_product);
+                            intent = new Intent(DrawerActivity.this, Products.class)
+                                    .putExtra("whichTour", String.valueOf(position));
                             break;
                         }
                         case 2: { //insert_sale_and_print
@@ -253,10 +252,12 @@ public class DrawerActivity extends AppCompatActivity implements NavigationView.
                                     Snackbar.LENGTH_INDEFINITE).setAction(R.string.start_tour, new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {
-                                    if (position != 0)
+                                    if (position != 0 && position != 1)
                                         Toast.makeText(getBaseContext(), "Not Set Yet!", Toast.LENGTH_SHORT).show();
                                     else {
-                                        fragmentManager.beginTransaction().replace(R.id.container, mTourFragment).commit();
+                                        finish();
+                                        startActivity(intent);
+                                        Utility.setActivityTransition(DrawerActivity.this);
                                         dialogView.dismiss();
                                     }
                                 }

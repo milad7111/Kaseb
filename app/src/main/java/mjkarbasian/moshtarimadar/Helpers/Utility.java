@@ -18,6 +18,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.view.animation.BounceInterpolator;
+import android.view.animation.TranslateAnimation;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
@@ -63,6 +65,10 @@ import io.github.meness.roozh.Roozh;
 import io.github.meness.roozh.RoozhLocale;
 import mjkarbasian.moshtarimadar.Data.KasebContract;
 import mjkarbasian.moshtarimadar.R;
+import tourguide.tourguide.Overlay;
+import tourguide.tourguide.Pointer;
+import tourguide.tourguide.ToolTip;
+import tourguide.tourguide.TourGuide;
 
 import static mjkarbasian.moshtarimadar.Helpers.Samples.cost_1;
 import static mjkarbasian.moshtarimadar.Helpers.Samples.customer_1;
@@ -121,6 +127,40 @@ public class Utility {
     private static BaseColor mainTitleColorTables = new BaseColor(255, 255, 255);
     private static Context _mContext;
     private static Document _mDocument;
+
+    public static TourGuide createTourGuide(Activity mActivity, ToolTip mToolTip, View mView, Overlay.Style mOverlayStyle) {
+        return TourGuide.init(mActivity).with(TourGuide.Technique.Click)
+                .setPointer(new Pointer())
+                .setToolTip(mToolTip)
+                .setOverlay(createOverlay(Color.parseColor("#55000000"), false, mOverlayStyle))
+                .playOn(mView);
+    }
+
+    public static ToolTip createToolTip(
+            String mTitle, String mDescription, int mTextColor, int mBackgroundColor, Boolean mSetShadow,
+            int mFirstGravity, int mSecondGravity) {
+
+        Animation animation = new TranslateAnimation(0f, 0f, 200f, 0f);
+        animation.setDuration(1000);
+        animation.setFillAfter(true);
+        animation.setInterpolator(new BounceInterpolator());
+
+        return new ToolTip()
+                .setTitle(mTitle)
+                .setDescription(mDescription)
+                .setTextColor(mTextColor)
+                .setBackgroundColor(mBackgroundColor)
+                .setShadow(mSetShadow)
+                .setGravity((mFirstGravity != mSecondGravity ? mFirstGravity | mSecondGravity : mFirstGravity))
+                .setEnterAnimation(animation);
+    }
+
+    public static Overlay createOverlay(int mBackgroundColorm, Boolean mClickable, Overlay.Style mOverlayStyle) {
+        return new Overlay()
+                .setBackgroundColor(mBackgroundColorm)
+                .disableClick(mClickable)
+                .setStyle(mOverlayStyle);
+    }
 
     public static void ImageViewAnimatedChange(Context c, final ImageView v, final Bitmap new_image) {
         final Animation anim_out = AnimationUtils.loadAnimation(c, android.R.anim.fade_out);

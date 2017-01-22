@@ -482,6 +482,5 @@
     <string name="explain_tour_contact_debtors">This tour show you how to see your Debtors and contact with them.</string>
     <string name="explain_tour_dashboard">This tour show you how to see some your Dashboard about number of customers,
         classify and amount of their bills.</string>
-    <string name="click_again">If you want to see guide, tap it again.</string>
     <string name="start_tour">START</string>
 </resources>

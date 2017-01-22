@@ -1,12 +1,14 @@
 package mjkarbasian.moshtarimadar.Products;
 
 import android.content.ContentValues;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -20,6 +22,8 @@ import mjkarbasian.moshtarimadar.Costs.CostInsert;
 import mjkarbasian.moshtarimadar.Data.KasebContract;
 import mjkarbasian.moshtarimadar.Helpers.Utility;
 import mjkarbasian.moshtarimadar.R;
+import tourguide.tourguide.Overlay;
+import tourguide.tourguide.TourGuide;
 
 
 /**
@@ -30,8 +34,11 @@ public class ProductInsert extends Fragment {
     //region declare values
     private static final String LOG_TAG = CostInsert.class.getSimpleName();
     View rootView;
+    TourGuide mTourGuideProductInsert;
+
     ContentValues productValues = new ContentValues();
     ContentValues productHistoryValues = new ContentValues();
+
     EditText productName;
     EditText productCode;
     EditText unit;
@@ -42,6 +49,7 @@ public class ProductInsert extends Fragment {
     EditText buyDate;
     EditText discountAmount;
     EditText discountPercent;
+
     TextInputLayout productNameTextInputLayout;
     TextInputLayout salePriceTextInputLayout;
     TextInputLayout quantityTextInputLayout;
@@ -52,6 +60,7 @@ public class ProductInsert extends Fragment {
     TextInputLayout productDescriptionTextInputLayout;
     TextInputLayout discountAmountTextInputLayout;
     TextInputLayout discountPercentTextInputLayout;
+
     private Uri insertUri;
     //endregion declare values
 
@@ -90,6 +99,34 @@ public class ProductInsert extends Fragment {
         buyDate.setText(Utility.preInsertDate(getActivity()));
 
         setHelperText();
+
+        productName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus)
+                    try {
+                        if (getActivity().getIntent().getStringExtra("whichTour").equals("1"))
+                            mTourGuideProductInsert.cleanUp();
+                    } catch (Exception e) {
+                    }
+            }
+        });
+
+        try {
+            if (getActivity().getIntent().getStringExtra("whichTour").equals("1")) {
+                mTourGuideProductInsert = Utility.createTourGuide(getActivity(),
+                        Utility.createToolTip(
+                                "Steps To SAVE a product",
+                                "1 : Fill needed fields!\n2 : Then save changes at the top right corner!",
+                                Color.parseColor("#bdc3c7"),
+                                Color.parseColor("#e74c3c"),
+                                false,
+                                Gravity.BOTTOM,
+                                Gravity.BOTTOM)
+                        , productName, Overlay.Style.Rectangle);
+            }
+        } catch (Exception e) {
+        }
 
         //region discountAmount addTextChangedListener
         discountAmount.addTextChangedListener(new TextWatcher() {

@@ -14,15 +14,19 @@ import android.view.View;
 import mjkarbasian.moshtarimadar.Others.CostSaleProductList;
 import mjkarbasian.moshtarimadar.Others.DrawerActivity;
 import mjkarbasian.moshtarimadar.R;
+import tourguide.tourguide.TourGuide;
 
 public class Products extends DrawerActivity {
 
+    //region declare values
     CostSaleProductList costsSaleProductFragment = new CostSaleProductList();
     Bundle productsBundle = new Bundle();
     Fragment productInsert = new ProductInsert();
+    TourGuide mTourGuideProducts;
 
     android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
     private String mQuery;
+    //endregion declare values
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,8 +39,16 @@ public class Products extends DrawerActivity {
         productsBundle.putString("witchActivity", "product");
         costsSaleProductFragment.setArguments(productsBundle);
 
+        try {
+            if (getIntent().getStringExtra("whichTour").equals("1")) {
+                productsBundle.putString("whichTour", getIntent().getStringExtra("whichTour"));
+            }
+        } catch (Exception e) {
+        }
+
         Intent intent = getIntent();
-        if (Intent.ACTION_SEARCH.equals(intent.getAction())) handleIntent(intent);
+        if (Intent.ACTION_SEARCH.equals(intent.getAction()))
+            handleIntent(intent);
         else
             fragmentManager.beginTransaction().replace(R.id.container, costsSaleProductFragment, "CostSaleProductList").commit();
     }
@@ -60,6 +72,15 @@ public class Products extends DrawerActivity {
     }
 
     public void fab_cost_sale_product(View v) {
+
+        try {
+            if (productsBundle.getString("whichTour").equals("1")) {
+                mTourGuideProducts.cleanUp();
+                productInsert.setArguments(productsBundle);
+            }
+        } catch (Exception e) {
+        }
+
         android.support.v4.app.FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.setCustomAnimations(R.anim.slide_in_up, R.anim.slide_out_down, R.anim.slide_in_down, R.anim.slide_out_up);
         fragmentTransaction.replace(R.id.container, productInsert);
@@ -114,5 +135,9 @@ public class Products extends DrawerActivity {
                 return super.onOptionsItemSelected(item);
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void setValueForTourGuide(TourGuide mTourGuide) {
+        mTourGuideProducts = mTourGuide;
     }
 }

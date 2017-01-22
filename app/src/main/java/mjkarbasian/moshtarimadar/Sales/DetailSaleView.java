@@ -502,8 +502,8 @@ public class DetailSaleView extends AppCompatActivity {
         //endregion Get Taxes
 
         Utility.setHeightOfListView(mProductListView);
-        Utility.setHeightOfListView(mProductListView);
-        Utility.setHeightOfListView(mProductListView);
+        Utility.setHeightOfListView(mPaymentListView);
+        Utility.setHeightOfListView(mTaxListView);
     }
 
     @Override

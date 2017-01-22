@@ -382,7 +382,6 @@
     <string name="explain_tour_view_invoices_print">راهنمایی جهت مشاهده فاکتورهای صادر شده، ایجاد تغییرات و چاپ آن ها.</string>
     <string name="explain_tour_contact_debtors">راهنمایی جهت مشاهده لیست بدهکاران و وضعیت تصفیه آن ها و تماس با آن ها.</string>
     <string name="explain_tour_dashboard">راهنمایی جهت مشاهده چند گزارش در رابطه با تعداد مشتریانتان، دسته بندی آن ها و میزان خرید و فروش آن ها.</string>
-    <string name="click_again">برای ورود به بخش راهنمایی موردنظر، دوباره بر روی گزینه مورد نظر ضربه بزنید.</string>
     <string name="start_tour">شروع</string>
 
 </resources>

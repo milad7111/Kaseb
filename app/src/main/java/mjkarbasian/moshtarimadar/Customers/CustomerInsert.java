@@ -7,10 +7,12 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -33,23 +35,29 @@ import mjkarbasian.moshtarimadar.Data.KasebContract;
 import mjkarbasian.moshtarimadar.Helpers.GalleryUtil;
 import mjkarbasian.moshtarimadar.Helpers.Utility;
 import mjkarbasian.moshtarimadar.R;
+import tourguide.tourguide.Overlay;
+import tourguide.tourguide.TourGuide;
 
 /**
  * Created by Unique on 10/21/2016.
  */
 public class CustomerInsert extends Fragment {
 
+    //region declare values
     private static final int GALLERY_ACTIVITY_CODE = 200;
     private static final int RESULT_CROP = 400;
 
+    Spinner stateType;
     View rootView;
+    View tourView;
     ContentValues customerValues = new ContentValues();
     ImageView mCustomerAvatar;
     Bitmap photo;
+    TourGuide mTourGuideCustomerInsertAvatar;
+
     EditText firstName;
     EditText lastName;
     EditText birthDay;
-    Spinner stateType;
     EditText phoneMobile;
     EditText customerDescription;
     EditText email;
@@ -61,6 +69,7 @@ public class CustomerInsert extends Fragment {
     EditText addressCity;
     EditText addressStreet;
     EditText addressPostalCode;
+
     TextInputLayout firstNameTextInputLayout;
     TextInputLayout lastNameTextInputLayout;
     TextInputLayout phoneMobileTextInputLayout;
@@ -76,14 +85,14 @@ public class CustomerInsert extends Fragment {
     TextInputLayout addressStreetTextInputLayout;
     TextInputLayout addressPostalCodeTextInputLayout;
     private Uri insertUri;
+    //endregion declare values
 
     public CustomerInsert() {
         setHasOptionsMenu(true);
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         rootView = inflater.inflate(R.layout.fragment_customer_insert, container, false);
 
@@ -92,12 +101,18 @@ public class CustomerInsert extends Fragment {
         mCustomerAvatar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                try {
+                    if (getActivity().getIntent().getStringExtra("whichTour").equals("0"))
+                        mTourGuideCustomerInsertAvatar.cleanUp();
+                } catch (Exception e) {
+                }
+
                 pic_selector_on_customer_insert(mCustomerAvatar);
             }
         });
 
         stateType = (Spinner) rootView.findViewById(R.id.input_state_type_spinner);
-        stateType.setPadding(Utility.dipConverter(4, getActivity()), Utility.dipConverter(4, getActivity()), Utility.dipConverter(4, getActivity()), Utility.dipConverter(4, getActivity()));
         firstName = (EditText) rootView.findViewById(R.id.input_first_name);
         lastName = (EditText) rootView.findViewById(R.id.input_last_name);
         birthDay = (EditText) rootView.findViewById(R.id.input_birth_day);
@@ -143,14 +158,31 @@ public class CustomerInsert extends Fragment {
         TypesSettingAdapter cursorAdapter = new TypesSettingAdapter(
                 getActivity(), cursor, 0, KasebContract.State.COLUMN_STATE_POINTER);
         stateType.setAdapter(cursorAdapter);
+
+        try {
+            if (getActivity().getIntent().getStringExtra("whichTour").equals("0")) {
+                mTourGuideCustomerInsertAvatar = Utility.createTourGuide(getActivity(),
+                        Utility.createToolTip(
+                                "Steps To SAVE a customer",
+                                "1 : Click here add a picture!\n2 : Then fill needed fields!\n3 : Then save changes at the top right corner!",
+                                Color.parseColor("#bdc3c7"),
+                                Color.parseColor("#e74c3c"),
+                                false,
+                                Gravity.BOTTOM,
+                                Gravity.BOTTOM)
+                        , mCustomerAvatar, Overlay.Style.Circle);
+            }
+        } catch (Exception e) {
+        }
+
         return rootView;
     }
 
     @Override
-    public void onCreateOptionsMenu(
-            Menu menu, MenuInflater inflater) {
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         menu.removeItem(R.id.sort_button);
         menu.removeItem(R.id.search_button);
+        tourView = (View) menu.findItem(R.id.save_inputs);
         inflater.inflate(R.menu.fragments_for_insert, menu);
     }
 
@@ -237,6 +269,10 @@ public class CustomerInsert extends Fragment {
                     photo = data.getExtras().getParcelable("data");
                     mCustomerAvatar.setImageBitmap(photo);
 
+                    firstName.setSelectAllOnFocus(true);
+                    firstName.selectAll();
+                    firstName.requestFocus();
+
                     ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
                     photo.compress(Bitmap.CompressFormat.PNG, 0, byteArrayOutputStream);
                     byte[] imagegBytes = byteArrayOutputStream.toByteArray();
@@ -251,6 +287,10 @@ public class CustomerInsert extends Fragment {
                         photo = BitmapFactory.decodeStream(bufferInputStream);
 
                         mCustomerAvatar.setImageBitmap(photo);
+
+                        firstName.setSelectAllOnFocus(true);
+                        firstName.selectAll();
+                        firstName.requestFocus();
 
                         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
                         photo.compress(Bitmap.CompressFormat.PNG, 0, byteArrayOutputStream);
@@ -267,6 +307,10 @@ public class CustomerInsert extends Fragment {
                     photo = data.getExtras().getParcelable("data");
                     mCustomerAvatar.setImageBitmap(photo);
 
+                    firstName.setSelectAllOnFocus(true);
+                    firstName.selectAll();
+                    firstName.requestFocus();
+
                     ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
                     photo.compress(Bitmap.CompressFormat.PNG, 0, byteArrayOutputStream);
                     byte[] imagegBytes = byteArrayOutputStream.toByteArray();
@@ -281,6 +325,10 @@ public class CustomerInsert extends Fragment {
                         photo = BitmapFactory.decodeStream(bufferInputStream);
 
                         mCustomerAvatar.setImageBitmap(photo);
+
+                        firstName.setSelectAllOnFocus(true);
+                        firstName.selectAll();
+                        firstName.requestFocus();
 
                         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
                         photo.compress(Bitmap.CompressFormat.PNG, 0, byteArrayOutputStream);

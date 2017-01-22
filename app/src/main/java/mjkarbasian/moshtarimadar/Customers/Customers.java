@@ -33,6 +33,7 @@ import mjkarbasian.moshtarimadar.Data.KasebContract;
 import mjkarbasian.moshtarimadar.Helpers.GalleryUtil;
 import mjkarbasian.moshtarimadar.Others.DrawerActivity;
 import mjkarbasian.moshtarimadar.R;
+import tourguide.tourguide.TourGuide;
 
 public class Customers extends DrawerActivity {
 
@@ -46,8 +47,8 @@ public class Customers extends DrawerActivity {
     Fragment customerInsert = new CustomerInsert();
     Bitmap photo;
     Long customerId;
-
-
+    Bundle tourBundle = new Bundle();
+    TourGuide mTourGuideCustomers;
 
     android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
     private String LOG_TAG = Customers.class.getSimpleName();
@@ -62,14 +63,22 @@ public class Customers extends DrawerActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mContext = this;
+
         //region handle search query
         Intent intent = getIntent();
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             handleIntent(intent);
         } else {
+            try {
+                if (getIntent().getStringExtra("whichTour").equals("0")) {
+                    tourBundle.putString("whichTour", getIntent().getStringExtra("whichTour"));
+                    customersFragment.setArguments(tourBundle);
+                }
+            } catch (Exception e) {
+            }
             fragmentManager.beginTransaction().replace(R.id.container, customersFragment, "customersList").commit();
         }
-        //endregion
+        //endregion handle search query
     }
 
     @Override
@@ -91,6 +100,15 @@ public class Customers extends DrawerActivity {
     }
 
     public void fab_customers(View v) {
+
+        try {
+            if (tourBundle.getString("whichTour").equals("0")) {
+                mTourGuideCustomers.cleanUp();
+                customerInsert.setArguments(tourBundle);
+            }
+        } catch (Exception e) {
+        }
+
         android.support.v4.app.FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.setCustomAnimations(R.anim.slide_in_up, R.anim.slide_out_down, R.anim.slide_in_down, R.anim.slide_out_up);
         fragmentTransaction.replace(R.id.container, customerInsert);
@@ -291,5 +309,9 @@ public class Customers extends DrawerActivity {
                     public void onClick(DialogInterface dialog, int whichButton) {
                     }
                 }).show();
+    }
+
+    public void setValueForTourGuide(TourGuide mTourGuide) {
+        mTourGuideCustomers = mTourGuide;
     }
 }
