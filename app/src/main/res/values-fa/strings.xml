@@ -383,5 +383,6 @@
     <string name="explain_tour_contact_debtors">راهنمایی جهت مشاهده لیست بدهکاران و وضعیت تصفیه آن ها و تماس با آن ها.</string>
     <string name="explain_tour_dashboard">راهنمایی جهت مشاهده چند گزارش در رابطه با تعداد مشتریانتان، دسته بندی آن ها و میزان خرید و فروش آن ها.</string>
     <string name="start_tour">شروع</string>
+    <string name="first_guide_at_change_profile">بعد از واردکردن اطلاعات ضروری و ذخیره آن ها، با ضربه زدن به گزینه سمت راست بالای برنامه، می توانید کار با برنامه را شروع کنید.</string>
 
 </resources>

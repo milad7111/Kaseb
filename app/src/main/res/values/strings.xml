@@ -483,4 +483,6 @@
     <string name="explain_tour_dashboard">This tour show you how to see some your Dashboard about number of customers,
         classify and amount of their bills.</string>
     <string name="start_tour">START</string>
+    <string name="title_change_profile">Change Profile</string>
+    <string name="first_guide_at_change_profile">After set your profile data and save it, Tap the button at the top left corner to Get Started!</string>
 </resources>

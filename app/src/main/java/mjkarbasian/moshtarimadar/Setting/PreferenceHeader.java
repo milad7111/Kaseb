@@ -9,22 +9,29 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.ContactsContract;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
+import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.BufferedInputStream;
@@ -201,10 +208,10 @@ public class PreferenceHeader extends Fragment {
                                         public void onClick(DialogInterface dialog, int whichButton) {
                                         }
                                     })
-                                    .setTitle(R.string.fab_add_product)
-                                    .setMessage(R.string.less_than_stock_explain_text);
+                                    .setTitle(R.string.title_change_profile);
 
                             dialogView = builder.create();
+                            dialogView.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
                             dialogView.show();
 
                             dialogView.getButton(android.app.AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
@@ -249,10 +256,6 @@ public class PreferenceHeader extends Fragment {
                                         Toast.makeText(getActivity(), R.string.complete_profile_kaseb, Toast.LENGTH_LONG).show();
                                 }
                             });
-
-                            if (kasebSharedPreferences.getString("firstName", null) == null)
-                                dialogView.setCancelable(false);
-
                             //endregion create alert dialog
 
                             //region define views
@@ -285,6 +288,29 @@ public class PreferenceHeader extends Fragment {
                             addressPostalCodeTextInputLayout = (TextInputLayout) dialogView.findViewById(R.id.dialog_edit_profile_kaseb_text_input_layout_input_address_postal_code);
 
                             setHelperText();
+
+                            if (kasebSharedPreferences.getString("firstName", null) == null)
+                            {
+                                dialogView.setCancelable(false);
+                                Snackbar mSnackbar = Snackbar
+                                        .make(firstName, getResources().getString(R.string.first_guide_at_change_profile),
+                                                Snackbar.LENGTH_INDEFINITE)
+                                        .setActionTextColor(getResources().getColor(R.color.colorAccent));
+
+                                View snackbarView = mSnackbar.getView();
+                                FrameLayout.LayoutParams params =(FrameLayout.LayoutParams)snackbarView.getLayoutParams();
+                                params.gravity = Gravity.TOP;
+                                snackbarView.setLayoutParams(params);
+
+                                TextView mTextView = (TextView) snackbarView.findViewById(android.support.design.R.id.snackbar_text);
+                                mTextView.setTextColor(getResources().getColor(R.color.colorPrimaryLight));
+                                mTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
+                                Typeface mTypeface = Utility.createFontForTexts(getActivity());
+                                mTextView.setTypeface(mTypeface);
+                                mTextView.setMaxLines(5);
+
+                                mSnackbar.show();
+                            }
 
                             //region show info of kaseb profile
                             firstName.setText(kasebSharedPreferences.getString("firstName", null));
