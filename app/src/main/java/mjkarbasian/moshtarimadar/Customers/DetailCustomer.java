@@ -16,6 +16,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -84,9 +85,9 @@ public class DetailCustomer extends AppCompatActivity {
         getSupportActionBar().setTitle(getResources().getString(R.string.detail_customer_toolbar_title));
         if (!(Utility.getLocale(this).equals("IR"))) {
             mToolbar.setNavigationIcon(R.drawable.arrow_left);
-        } else {
+        } else
             mToolbar.setNavigationIcon(R.drawable.arrow_right);
-        }
+
         //region define and cast views
         customerFirstName = (EditText) findViewById(R.id.customer_first_name);
         customerLastName = (EditText) findViewById(R.id.customer_last_name);
@@ -249,8 +250,6 @@ public class DetailCustomer extends AppCompatActivity {
             case R.id.item_save_customer:
                 if (checkValidityWithChangeColorOfHelperText()) {
 
-                    getHelperText();
-
                     saveItem.setVisible(false);
                     editItem.setVisible(true);
 
@@ -331,7 +330,78 @@ public class DetailCustomer extends AppCompatActivity {
                 addressStreetTextInputLayout = (TextInputLayout) findViewById(R.id.text_input_layout_customer_address_street);
                 addressPostalCodeTextInputLayout = (TextInputLayout) findViewById(R.id.text_input_layout_customer_address_postal_code);
 
-                setHelperText();
+                //region handle asterisk for necessary fields
+
+                //region first name
+                if (customerFirstName.length() == 0) {
+                    firstNameTextInputLayout.setHint(String.format("  %s", getResources().getString(R.string.hint_first_name)));
+                    customerFirstName.setHint(Utility.setAsteriskToView(""));
+                } else {
+                    firstNameTextInputLayout.setHint(String.format("* %s", getResources().getString(R.string.hint_first_name)));
+                    customerFirstName.setHint("");
+                }
+
+                customerFirstName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                    @Override
+                    public void onFocusChange(View v, boolean hasFocus) {
+                        if (hasFocus) {
+                            firstNameTextInputLayout.setHint(String.format("* %s", getResources().getString(R.string.hint_first_name)));
+                            customerFirstName.setHint("");
+                        } else if (customerFirstName.getText().length() == 0 && firstNameTextInputLayout.getError() == null) {
+                            firstNameTextInputLayout.setHint(String.format("  %s", getResources().getString(R.string.hint_first_name)));
+                            customerFirstName.setHint(Utility.setAsteriskToView(""));
+                        }
+                    }
+                });
+                //endregion first name
+
+                //region last name
+                if (customerFirstName.length() == 0) {
+                    lastNameTextInputLayout.setHint(String.format("  %s", getResources().getString(R.string.hint_last_name)));
+                    customerLastName.setHint(Utility.setAsteriskToView(""));
+                } else {
+                    lastNameTextInputLayout.setHint(String.format("* %s", getResources().getString(R.string.hint_last_name)));
+                    customerLastName.setHint("");
+                }
+
+                customerLastName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                    @Override
+                    public void onFocusChange(View v, boolean hasFocus) {
+                        if (hasFocus) {
+                            lastNameTextInputLayout.setHint(String.format("* %s", getResources().getString(R.string.hint_last_name)));
+                            customerLastName.setHint("");
+                        } else if (customerLastName.getText().length() == 0 && lastNameTextInputLayout.getError() == null) {
+                            lastNameTextInputLayout.setHint(String.format("  %s", getResources().getString(R.string.hint_last_name)));
+                            customerLastName.setHint(Utility.setAsteriskToView(""));
+                        }
+                    }
+                });
+                //endregion last name
+
+                //region mobile number
+                if (customerFirstName.length() == 0) {
+                    phoneMobileTextInputLayout.setHint(String.format("  %s", getResources().getString(R.string.hint_mobile_number)));
+                    customerPhoneMobile.setHint(Utility.setAsteriskToView(""));
+                } else {
+                    phoneMobileTextInputLayout.setHint(String.format("* %s", getResources().getString(R.string.hint_mobile_number)));
+                    customerPhoneMobile.setHint("");
+                }
+
+                customerPhoneMobile.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                    @Override
+                    public void onFocusChange(View v, boolean hasFocus) {
+                        if (hasFocus) {
+                            phoneMobileTextInputLayout.setHint(String.format("* %s", getResources().getString(R.string.hint_mobile_number)));
+                            customerPhoneMobile.setHint("");
+                        } else if (customerPhoneMobile.getText().length() == 0 && phoneMobileTextInputLayout.getError() == null) {
+                            phoneMobileTextInputLayout.setHint(String.format("  %s", getResources().getString(R.string.hint_mobile_number)));
+                            customerPhoneMobile.setHint(Utility.setAsteriskToView(""));
+                        }
+                    }
+                });
+                //endregion mobile number
+
+                //endregion handle asterisk for necessary fields
 
                 customerFirstName.setEnabled(true);
                 customerLastName.setEnabled(true);
@@ -397,94 +467,70 @@ public class DetailCustomer extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void setHelperText() {
-
-        firstNameTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data));
-        lastNameTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data));
-
-        phoneMobileTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data)
-                + getResources().getString(R.string.non_repetitive));
-
-        birthDayTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data)
-                + getResources().getString(R.string.date_format_error));
-
-        customerDescriptionTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data));
-        emailTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data));
-        phoneWorkTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data));
-        phoneHomeTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data));
-        phoneOtherTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data));
-        phoneFaxTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data));
-        addressCountryTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data));
-        addressCityTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data));
-        addressStreetTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data));
-        addressPostalCodeTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data));
-    }
-
-    private void getHelperText() {
-
-        firstNameTextInputLayout.setError(null);
-        lastNameTextInputLayout.setError(null);
-        phoneMobileTextInputLayout.setError(null);
-        birthDayTextInputLayout.setError(null);
-        customerDescriptionTextInputLayout.setError(null);
-        emailTextInputLayout.setError(null);
-        phoneWorkTextInputLayout.setError(null);
-        phoneHomeTextInputLayout.setError(null);
-        phoneOtherTextInputLayout.setError(null);
-        phoneFaxTextInputLayout.setError(null);
-        addressCountryTextInputLayout.setError(null);
-        addressCityTextInputLayout.setError(null);
-        addressStreetTextInputLayout.setError(null);
-        addressPostalCodeTextInputLayout.setError(null);
-    }
-
     // this method check the validation and correct entries. its check fill first and then check the validation rules.
     private boolean checkValidityWithChangeColorOfHelperText() {
 
         if (!Utility.checkForValidityForEditTextNullOrEmpty(getBaseContext(), customerFirstName)) {
             Utility.changeColorOfHelperText(getBaseContext(), firstNameTextInputLayout, Utility.mIdOfColorSetError);
+            firstNameTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data));
             customerFirstName.setSelectAllOnFocus(true);
             customerFirstName.selectAll();
             customerFirstName.requestFocus();
             return false;
-        } else
+        } else {
             Utility.changeColorOfHelperText(getBaseContext(), firstNameTextInputLayout, Utility.mIdOfColorGetError);
+            firstNameTextInputLayout.setError(null);
+        }
 
         if (!Utility.checkForValidityForEditTextNullOrEmpty(getBaseContext(), customerLastName)) {
             Utility.changeColorOfHelperText(getBaseContext(), lastNameTextInputLayout, Utility.mIdOfColorSetError);
+            lastNameTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data));
             customerLastName.setSelectAllOnFocus(true);
             customerLastName.selectAll();
             customerLastName.requestFocus();
             return false;
-        } else
+        } else {
             Utility.changeColorOfHelperText(getBaseContext(), lastNameTextInputLayout, Utility.mIdOfColorGetError);
+            lastNameTextInputLayout.setError(null);
+        }
 
         if (!Utility.checkForValidityForEditTextNullOrEmptyAndItterative(
                 getBaseContext(), customerPhoneMobile, phoneMobileTextInputLayout, KasebContract.Customers.CONTENT_URI,
                 KasebContract.Customers.COLUMN_PHONE_MOBILE + " = ? and " + KasebContract.Customers._ID + " != ? ",
                 KasebContract.Customers._ID,
-                new String[]{customerPhoneMobile.getText().toString(), String.valueOf(mCustomerId)}))
+                new String[]{customerPhoneMobile.getText().toString(), String.valueOf(mCustomerId)})) {
+            phoneMobileTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data)
+                    + getResources().getString(R.string.non_repetitive));
             return false;
-
-        if (!customerBirthDay.getText().toString().equals("") && !customerBirthDay.getText().toString().equals(null) &&
-                !Utility.checkForValidityForEditTextDate(getBaseContext(), customerBirthDay)) {
-            Utility.changeColorOfHelperText(getBaseContext(), birthDayTextInputLayout, Utility.mIdOfColorSetError);
-            customerBirthDay.setSelectAllOnFocus(true);
-            customerBirthDay.selectAll();
-            customerBirthDay.requestFocus();
-            return false;
-        } else
-            Utility.changeColorOfHelperText(getBaseContext(), birthDayTextInputLayout, Utility.mIdOfColorGetError);
+        }
 
         if (!customerEmail.getText().toString().equals("") && !customerEmail.getText().toString().equals(null) &&
                 !Utility.validateEmail(customerEmail.getText().toString())) {
             Utility.changeColorOfHelperText(getBaseContext(), emailTextInputLayout, Utility.mIdOfColorSetError);
+            emailTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data));
             customerEmail.setSelectAllOnFocus(true);
             customerEmail.selectAll();
             customerEmail.requestFocus();
             return false;
-        } else
+        } else {
             Utility.changeColorOfHelperText(getBaseContext(), emailTextInputLayout, Utility.mIdOfColorGetError);
+            emailTextInputLayout.setError(null);
+        }
+
+        if (!customerBirthDay.getText().toString().equals("") && !customerBirthDay.getText().toString().equals(null) &&
+                !Utility.checkForValidityForEditTextDate(getBaseContext(), customerBirthDay)) {
+            Utility.changeColorOfHelperText(getBaseContext(), birthDayTextInputLayout, Utility.mIdOfColorSetError);
+            birthDayTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data)
+                    + getResources().getString(R.string.date_format_error));
+
+            customerBirthDay.setSelectAllOnFocus(true);
+            customerBirthDay.selectAll();
+            customerBirthDay.requestFocus();
+            return false;
+        } else {
+            Utility.changeColorOfHelperText(getBaseContext(), birthDayTextInputLayout, Utility.mIdOfColorGetError);
+            birthDayTextInputLayout.setError(null);
+        }
 
         return true;
     }

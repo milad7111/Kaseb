@@ -101,13 +101,6 @@ public class CustomerInsert extends Fragment {
         mCustomerAvatar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                try {
-                    if (getActivity().getIntent().getStringExtra("whichTour").equals("0"))
-                        mTourGuideCustomerInsertAvatar.cleanUp();
-                } catch (Exception e) {
-                }
-
                 pic_selector_on_customer_insert(mCustomerAvatar);
             }
         });
@@ -143,7 +136,69 @@ public class CustomerInsert extends Fragment {
         addressStreetTextInputLayout = (TextInputLayout) rootView.findViewById(R.id.text_input_layout_input_address_street);
         addressPostalCodeTextInputLayout = (TextInputLayout) rootView.findViewById(R.id.text_input_layout_input_address_postal_code);
 
-        setHelperText();
+        //region handle asterisk for necessary fields
+
+        //region first name
+        firstNameTextInputLayout.setHint(String.format("  %s", getResources().getString(R.string.hint_first_name)));
+        firstName.setHint(Utility.setAsteriskToView(""));
+
+        firstName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    firstNameTextInputLayout.setHint(String.format("* %s", getResources().getString(R.string.hint_first_name)));
+                    firstName.setHint("");
+
+                    try {
+                        if (getActivity().getIntent().getStringExtra("whichTour").equals("0"))
+                            mTourGuideCustomerInsertAvatar.cleanUp();
+                    } catch (Exception e) {
+                    }
+                } else if (firstName.getText().length() == 0) {
+                    firstNameTextInputLayout.setHint(String.format("  %s", getResources().getString(R.string.hint_first_name)));
+                    firstName.setHint(Utility.setAsteriskToView(""));
+                }
+            }
+        });
+        //endregion first name
+
+        //region last name
+        lastNameTextInputLayout.setHint(String.format("  %s", getResources().getString(R.string.hint_last_name)));
+        lastName.setHint(Utility.setAsteriskToView(""));
+
+        lastName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    lastNameTextInputLayout.setHint(String.format("* %s", getResources().getString(R.string.hint_last_name)));
+                    lastName.setHint("");
+                } else if (lastName.getText().length() == 0) {
+                    lastNameTextInputLayout.setHint(String.format("  %s", getResources().getString(R.string.hint_last_name)));
+                    lastName.setHint(Utility.setAsteriskToView(""));
+                }
+            }
+        });
+        //endregion last name
+
+        //region mobile number
+        phoneMobileTextInputLayout.setHint(String.format("  %s", getResources().getString(R.string.hint_mobile_number)));
+        phoneMobile.setHint(Utility.setAsteriskToView(""));
+
+        phoneMobile.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    phoneMobileTextInputLayout.setHint(String.format("* %s", getResources().getString(R.string.hint_mobile_number)));
+                    phoneMobile.setHint("");
+                } else if (phoneMobile.getText().length() == 0) {
+                    phoneMobileTextInputLayout.setHint(String.format("  %s", getResources().getString(R.string.hint_mobile_number)));
+                    phoneMobile.setHint(Utility.setAsteriskToView(""));
+                }
+            }
+        });
+        //endregion mobile number
+
+        //endregion handle asterisk for necessary fields
 
         Cursor cursor = getContext().getContentResolver().query(KasebContract.State.CONTENT_URI
                 , null, null, null, KasebContract.State._ID + " DESC");
@@ -164,13 +219,13 @@ public class CustomerInsert extends Fragment {
                 mTourGuideCustomerInsertAvatar = Utility.createTourGuide(getActivity(),
                         Utility.createToolTip(
                                 "Steps To SAVE a customer",
-                                "1 : Click here add a picture!\n2 : Then fill needed fields!\n3 : Then save changes at the top right corner!",
+                                "1 : Click here add a picture!\n2 : Then fill necessary fields!\n3 : Then save changes at the top right corner!",
                                 Color.parseColor("#bdc3c7"),
                                 Color.parseColor("#e74c3c"),
                                 false,
                                 Gravity.BOTTOM,
                                 Gravity.BOTTOM)
-                        , mCustomerAvatar, Overlay.Style.Circle);
+                        , firstName, Overlay.Style.Rectangle);
             }
         } catch (Exception e) {
         }
@@ -377,75 +432,68 @@ public class CustomerInsert extends Fragment {
         }
     }
 
-    private void setHelperText() {
-
-        firstNameTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data));
-        lastNameTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data));
-
-        phoneMobileTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data)
-                + getResources().getString(R.string.non_repetitive));
-
-        birthDayTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data)
-                + getResources().getString(R.string.date_format_error));
-
-        customerDescriptionTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data));
-        emailTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data));
-        phoneWorkTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data));
-        phoneHomeTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data));
-        phoneOtherTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data));
-        phoneFaxTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data));
-        addressCountryTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data));
-        addressCityTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data));
-        addressStreetTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data));
-        addressPostalCodeTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data));
-    }
-
     // this method check the validation and correct entries. its check fill first and then check the validation rules.
     private boolean checkValidityWithChangeColorOfHelperText() {
 
         if (!Utility.checkForValidityForEditTextNullOrEmpty(getActivity(), firstName)) {
             Utility.changeColorOfHelperText(getActivity(), firstNameTextInputLayout, Utility.mIdOfColorSetError);
+            firstNameTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data));
             firstName.setSelectAllOnFocus(true);
             firstName.selectAll();
             firstName.requestFocus();
             return false;
-        } else
+        } else {
             Utility.changeColorOfHelperText(getActivity(), firstNameTextInputLayout, Utility.mIdOfColorGetError);
+            firstNameTextInputLayout.setError(null);
+        }
 
         if (!Utility.checkForValidityForEditTextNullOrEmpty(getActivity(), lastName)) {
             Utility.changeColorOfHelperText(getActivity(), lastNameTextInputLayout, Utility.mIdOfColorSetError);
+            lastNameTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data));
             lastName.setSelectAllOnFocus(true);
             lastName.selectAll();
             lastName.requestFocus();
             return false;
-        } else
+        } else {
             Utility.changeColorOfHelperText(getActivity(), lastNameTextInputLayout, Utility.mIdOfColorGetError);
+            lastNameTextInputLayout.setError(null);
+        }
 
         if (!Utility.checkForValidityForEditTextNullOrEmptyAndItterative(
                 getActivity(), phoneMobile, phoneMobileTextInputLayout, KasebContract.Customers.CONTENT_URI,
                 KasebContract.Customers.COLUMN_PHONE_MOBILE + " = ? ",
-                KasebContract.Customers._ID, new String[]{phoneMobile.getText().toString()}))
+                KasebContract.Customers._ID, new String[]{phoneMobile.getText().toString()})) {
+            phoneMobileTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data)
+                    + getResources().getString(R.string.non_repetitive));
             return false;
+        }
 
         if (!birthDay.getText().toString().equals("") && !birthDay.getText().toString().equals(null) &&
                 !Utility.checkForValidityForEditTextDate(getActivity(), birthDay)) {
             Utility.changeColorOfHelperText(getActivity(), birthDayTextInputLayout, Utility.mIdOfColorSetError);
+            birthDayTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data)
+                    + getResources().getString(R.string.date_format_error));
             birthDay.setSelectAllOnFocus(true);
             birthDay.selectAll();
             birthDay.requestFocus();
             return false;
-        } else
+        } else {
             Utility.changeColorOfHelperText(getActivity(), birthDayTextInputLayout, Utility.mIdOfColorGetError);
+            birthDayTextInputLayout.setError(null);
+        }
 
         if (!email.getText().toString().equals("") && !email.getText().toString().equals(null) &&
                 !Utility.validateEmail(email.getText().toString())) {
             Utility.changeColorOfHelperText(getActivity(), emailTextInputLayout, Utility.mIdOfColorSetError);
+            emailTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data));
             email.setSelectAllOnFocus(true);
             email.selectAll();
             email.requestFocus();
             return false;
-        } else
+        } else {
             Utility.changeColorOfHelperText(getActivity(), emailTextInputLayout, Utility.mIdOfColorGetError);
+            emailTextInputLayout.setError(null);
+        }
 
         return true;
     }

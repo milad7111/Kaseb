@@ -12,10 +12,11 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Environment;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -27,7 +28,6 @@ import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Legend;
@@ -130,6 +130,21 @@ public class Utility {
     private static BaseColor mainTitleColorTables = new BaseColor(255, 255, 255);
     private static Context _mContext;
     private static Document _mDocument;
+
+    public static SpannableStringBuilder setAsteriskToView(String mMessage) {
+
+        SpannableStringBuilder mSpannableStringBuilder = new SpannableStringBuilder();
+
+        mSpannableStringBuilder.append(mMessage);
+        int start = mSpannableStringBuilder.length();
+        mSpannableStringBuilder.append("*");
+        int end = mSpannableStringBuilder.length();
+
+        mSpannableStringBuilder.setSpan(new ForegroundColorSpan(Color.RED), start, end,
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        return mSpannableStringBuilder;
+    }
 
     public static TourGuide createTourGuide(Activity mActivity, ToolTip mToolTip, View mView, Overlay.Style mOverlayStyle) {
         return TourGuide.init(mActivity).with(TourGuide.Technique.Click)
@@ -369,6 +384,7 @@ public class Utility {
                     }
             }
 
+            mTextInputLayout.setError(null);
             changeColorOfHelperText(mContext, mTextInputLayout, mIdOfColorGetError);
             return true;
         }

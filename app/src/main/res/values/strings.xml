@@ -163,7 +163,7 @@
     <string name="states_instart">New</string>
 
     <!-- CustomerInsert Hints-->
-    <string name="hint_first_name">First name</string>
+    <string name="hint_first_name">  First name</string>
     <string name="hint_last_name">Last name</string>
     <string name="hint_birth_day">BirthDay: YYYY/M/D</string>
     <string-array name="state_types">

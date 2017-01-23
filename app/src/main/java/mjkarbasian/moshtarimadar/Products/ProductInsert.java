@@ -98,26 +98,140 @@ public class ProductInsert extends Fragment {
 
         buyDate.setText(Utility.preInsertDate(getActivity()));
 
-        setHelperText();
+        //region handle asterisk for necessary fields
+
+        //region product name
+        productNameTextInputLayout.setHint(String.format("  %s", getResources().getString(R.string.hint_product_name)));
+        productName.setHint(Utility.setAsteriskToView(""));
 
         productName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus)
+                if (hasFocus) {
+                    productNameTextInputLayout.setHint(String.format("* %s", getResources().getString(R.string.hint_product_name)));
+                    productName.setHint("");
+
                     try {
                         if (getActivity().getIntent().getStringExtra("whichTour").equals("1"))
                             mTourGuideProductInsert.cleanUp();
                     } catch (Exception e) {
                     }
+                } else if (productName.getText().length() == 0) {
+                    productNameTextInputLayout.setHint(String.format("  %s", getResources().getString(R.string.hint_product_name)));
+                    productName.setHint(Utility.setAsteriskToView(""));
+                }
             }
         });
+        //endregion product name
+
+        //region product code
+        if (productCode.length() == 0) {
+            productCodeTextInputLayout.setHint(String.format("  %s", getResources().getString(R.string.hint_product_code)));
+            productCode.setHint(Utility.setAsteriskToView(""));
+        } else {
+            productCodeTextInputLayout.setHint(String.format("* %s", getResources().getString(R.string.hint_product_code)));
+            productCode.setHint("");
+        }
+
+        productCode.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    productCodeTextInputLayout.setHint(String.format("* %s", getResources().getString(R.string.hint_product_code)));
+                    productCode.setHint("");
+                } else if (productCode.getText().length() == 0) {
+                    productCodeTextInputLayout.setHint(String.format("  %s", getResources().getString(R.string.hint_product_code)));
+                    productCode.setHint(Utility.setAsteriskToView(""));
+                }
+            }
+        });
+        //endregion product code
+
+        //region sale price
+        salePriceTextInputLayout.setHint(String.format("  %s", getResources().getString(R.string.hint_sale_price)));
+        salePrice.setHint(Utility.setAsteriskToView(""));
+
+        salePrice.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    salePriceTextInputLayout.setHint(String.format("* %s", getResources().getString(R.string.hint_sale_price)));
+                    salePrice.setHint("");
+                } else if (salePrice.getText().length() == 0) {
+                    salePriceTextInputLayout.setHint(String.format("  %s", getResources().getString(R.string.hint_sale_price)));
+                    salePrice.setHint(Utility.setAsteriskToView(""));
+                }
+            }
+        });
+        //endregion sale price
+
+        //region quantity
+        quantityTextInputLayout.setHint(String.format("  %s", getResources().getString(R.string.hint_quantity)));
+        quantity.setHint(Utility.setAsteriskToView(""));
+
+        quantity.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    quantityTextInputLayout.setHint(String.format("* %s", getResources().getString(R.string.hint_quantity)));
+                    quantity.setHint("");
+                } else if (quantity.getText().length() == 0) {
+                    quantityTextInputLayout.setHint(String.format("  %s", getResources().getString(R.string.hint_quantity)));
+                    quantity.setHint(Utility.setAsteriskToView(""));
+                }
+            }
+        });
+        //endregion quantity
+
+        //region buy price
+        buyPriceTextInputLayout.setHint(String.format("  %s", getResources().getString(R.string.hint_buy_price)));
+        buyPrice.setHint(Utility.setAsteriskToView(""));
+
+        buyPrice.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    buyPriceTextInputLayout.setHint(String.format("* %s", getResources().getString(R.string.hint_buy_price)));
+                    buyPrice.setHint("");
+                } else if (quantity.getText().length() == 0) {
+                    buyPriceTextInputLayout.setHint(String.format("  %s", getResources().getString(R.string.hint_buy_price)));
+                    buyPrice.setHint(Utility.setAsteriskToView(""));
+                }
+            }
+        });
+        //endregion buy price
+
+        //region buy date
+        if (productCode.length() == 0) {
+            buyDateTextInputLayout.setHint(String.format("  %s", getResources().getString(R.string.hint_date)));
+            buyDate.setHint(Utility.setAsteriskToView(""));
+        } else {
+            buyDateTextInputLayout.setHint(String.format("* %s", getResources().getString(R.string.hint_date)));
+            buyDate.setHint("");
+        }
+
+        buyDate.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    buyDateTextInputLayout.setHint(String.format("* %s", getResources().getString(R.string.hint_date)));
+                    buyDate.setHint("");
+                } else if (quantity.getText().length() == 0) {
+                    buyDateTextInputLayout.setHint(String.format("  %s", getResources().getString(R.string.hint_date)));
+                    buyDate.setHint(Utility.setAsteriskToView(""));
+                }
+            }
+        });
+        //endregion buy date
+
+        //endregion handle asterisk for necessary fields
 
         try {
             if (getActivity().getIntent().getStringExtra("whichTour").equals("1")) {
                 mTourGuideProductInsert = Utility.createTourGuide(getActivity(),
                         Utility.createToolTip(
                                 "Steps To SAVE a product",
-                                "1 : Fill needed fields!\n2 : Then save changes at the top right corner!",
+                                "1 : Fill necessary fields!\n2 : Then save changes at the top right corner!",
                                 Color.parseColor("#bdc3c7"),
                                 Color.parseColor("#e74c3c"),
                                 false,
@@ -200,11 +314,12 @@ public class ProductInsert extends Fragment {
                     }
                 } catch (Exception e) {
                     if (salePrice.getText().toString().equals(null) || salePrice.getText().toString().equals("")) {
-                        Utility.changeColorOfHelperText(getActivity(), salePriceTextInputLayout, R.color.colorRed);
+                        Utility.changeColorOfHelperText(getActivity(), salePriceTextInputLayout, Utility.mIdOfColorSetError);
+                        salePriceTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data));
                         salePrice.requestFocus();
                     } else {
-                        discountPercentTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data));
                         Utility.changeColorOfHelperText(getActivity(), discountPercentTextInputLayout, Utility.mIdOfColorGetError);
+                        discountPercentTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data));
                     }
                 }
             }
@@ -220,11 +335,12 @@ public class ProductInsert extends Fragment {
                     discountAmount.setText(String.format("%.2f", Float.valueOf(mDiscountPercent * mSalePrice / 100)));
                 } catch (Exception e) {
                     if (salePrice.getText().toString().equals(null) || salePrice.getText().toString().equals("")) {
-                        Utility.changeColorOfHelperText(getActivity(), salePriceTextInputLayout, R.color.colorRed);
+                        Utility.changeColorOfHelperText(getActivity(), salePriceTextInputLayout, Utility.mIdOfColorSetError);
+                        salePriceTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data));
                         salePrice.requestFocus();
                     } else {
-                        discountPercentTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data));
                         Utility.changeColorOfHelperText(getActivity(), discountPercentTextInputLayout, Utility.mIdOfColorGetError);
+                        discountPercentTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data));
                     }
                 }
             }
@@ -298,69 +414,58 @@ public class ProductInsert extends Fragment {
         getFragmentManager().popBackStackImmediate();
     }
 
-    private void setHelperText() {
-
-        productNameTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data)
-                + getResources().getString(R.string.non_repetitive));
-
-        salePriceTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data));
-        quantityTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data));
-
-        buyPriceTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data)
-                + getResources().getString(R.string.not_more_than_sale_price));
-
-        productCodeTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data));
-        productUnitTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data));
-        productDescriptionTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data));
-
-        buyDateTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data)
-                + getResources().getString(R.string.date_format_error));
-
-        discountAmountTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data)
-                + getResources().getString(R.string.not_more_than_sale_price));
-
-        discountPercentTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data)
-                + getResources().getString(R.string.not_more_hundred));
-    }
-
     // this method check the validation and correct entries. its check fill first and then check the validation rules.
     private boolean checkValidityWithChangeColorOfHelperText() {
 
         if (!Utility.checkForValidityForEditTextNullOrEmptyAndItterative(
                 getActivity(), productName, productNameTextInputLayout, KasebContract.Products.CONTENT_URI,
                 KasebContract.Products.COLUMN_PRODUCT_NAME + " = ? ",
-                KasebContract.Products._ID, new String[]{productName.getText().toString()}))
+                KasebContract.Products._ID, new String[]{productName.getText().toString()})) {
+            productNameTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data)
+                    + getResources().getString(R.string.non_repetitive));
             return false;
+        }
 
         if (!Utility.checkForValidityForEditTextNullOrEmpty(getActivity(), productCode)) {
             Utility.changeColorOfHelperText(getActivity(), productCodeTextInputLayout, Utility.mIdOfColorSetError);
+            productCodeTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data));
             productCode.setSelectAllOnFocus(true);
             productCode.selectAll();
             productCode.requestFocus();
             return false;
-        } else
+        } else {
             Utility.changeColorOfHelperText(getActivity(), productCodeTextInputLayout, Utility.mIdOfColorGetError);
+            productCodeTextInputLayout.setError(null);
+        }
 
         if (!Utility.checkForValidityForEditTextNullOrEmpty(getActivity(), salePrice)) {
             Utility.changeColorOfHelperText(getActivity(), salePriceTextInputLayout, Utility.mIdOfColorSetError);
+            salePriceTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data));
             salePrice.setSelectAllOnFocus(true);
             salePrice.selectAll();
             salePrice.requestFocus();
             return false;
-        } else
+        } else {
             Utility.changeColorOfHelperText(getActivity(), salePriceTextInputLayout, Utility.mIdOfColorGetError);
+            salePriceTextInputLayout.setError(null);
+        }
 
         if (!Utility.checkForValidityForEditTextNullOrEmpty(getActivity(), quantity)) {
             Utility.changeColorOfHelperText(getActivity(), quantityTextInputLayout, Utility.mIdOfColorSetError);
+            quantityTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data));
             quantity.setSelectAllOnFocus(true);
             quantity.selectAll();
             quantity.requestFocus();
             return false;
-        } else
+        } else {
             Utility.changeColorOfHelperText(getActivity(), quantityTextInputLayout, Utility.mIdOfColorGetError);
+            quantityTextInputLayout.setError(null);
+        }
 
         if (!Utility.checkForValidityForEditTextNullOrEmpty(getActivity(), buyPrice)) {
             Utility.changeColorOfHelperText(getActivity(), buyPriceTextInputLayout, Utility.mIdOfColorSetError);
+            buyPriceTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data)
+                    + getResources().getString(R.string.not_more_than_sale_price));
             buyPrice.setSelectAllOnFocus(true);
             buyPrice.selectAll();
             buyPrice.requestFocus();
@@ -371,22 +476,30 @@ public class ProductInsert extends Fragment {
 
             if (mBuyPrice > mSalePrice) {
                 Utility.changeColorOfHelperText(getActivity(), buyPriceTextInputLayout, Utility.mIdOfColorSetError);
+                buyPriceTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data)
+                        + getResources().getString(R.string.not_more_than_sale_price));
                 buyPrice.setSelectAllOnFocus(true);
                 buyPrice.selectAll();
                 buyPrice.requestFocus();
                 return false;
-            } else
+            } else {
                 Utility.changeColorOfHelperText(getActivity(), buyPriceTextInputLayout, Utility.mIdOfColorGetError);
+                buyPriceTextInputLayout.setError(null);
+            }
         }
 
         if (!Utility.checkForValidityForEditTextDate(getActivity(), buyDate)) {
             Utility.changeColorOfHelperText(getActivity(), buyDateTextInputLayout, Utility.mIdOfColorSetError);
+            buyDateTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data)
+                    + getResources().getString(R.string.date_format_error));
             buyDate.setSelectAllOnFocus(true);
             buyDate.selectAll();
             buyDate.requestFocus();
             return false;
-        } else
+        } else {
             Utility.changeColorOfHelperText(getActivity(), buyDateTextInputLayout, Utility.mIdOfColorGetError);
+            buyDateTextInputLayout.setError(null);
+        }
 
         return true;
     }
