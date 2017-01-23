@@ -6,9 +6,9 @@ import android.app.AlertDialog;
 import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -20,13 +20,13 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
@@ -37,6 +37,7 @@ import android.widget.Toast;
 
 import mjkarbasian.moshtarimadar.Adapters.CostSaleProductAdapter;
 import mjkarbasian.moshtarimadar.Adapters.TypesSettingAdapter;
+import mjkarbasian.moshtarimadar.Customers.Customers;
 import mjkarbasian.moshtarimadar.Data.KasebContract;
 import mjkarbasian.moshtarimadar.Data.KasebDbHelper;
 import mjkarbasian.moshtarimadar.Data.KasebProvider;
@@ -45,7 +46,7 @@ import mjkarbasian.moshtarimadar.Products.DetailProducts;
 import mjkarbasian.moshtarimadar.Products.Products;
 import mjkarbasian.moshtarimadar.R;
 import mjkarbasian.moshtarimadar.Sales.DetailSaleView;
-import tourguide.tourguide.Overlay;
+import mjkarbasian.moshtarimadar.Sales.Sales;
 import tourguide.tourguide.TourGuide;
 
 /**
@@ -57,6 +58,8 @@ public class CostSaleProductList extends Fragment implements LoaderManager.Loade
     final static int FRAGMENT_COST_SALE_PRODUCT_LOADER = 1;
     private final String LOG_TAG = CostSaleProductList.class.getSimpleName();
     FragmentManager fragmentManager;
+    SharedPreferences kasebSharedPreferences;
+    SharedPreferences.Editor editor;
 
     DetailProducts productHistory = new DetailProducts();
     Bundle productHistoryBundle = new Bundle();
@@ -66,6 +69,8 @@ public class CostSaleProductList extends Fragment implements LoaderManager.Loade
 
     AlertDialog.Builder builder;
     AlertDialog dialogView;
+    AlertDialog.Builder builderTour;
+    AlertDialog dialogViewTour;
 
     CostSaleProductAdapter mAdapter = null;
     ListView mListView;
@@ -97,6 +102,8 @@ public class CostSaleProductList extends Fragment implements LoaderManager.Loade
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        String mTitleTourDialog = "";
+
         switch (getArguments().getString("witchActivity")) {
             case "cost": {
                 //region cost
@@ -117,6 +124,8 @@ public class CostSaleProductList extends Fragment implements LoaderManager.Loade
                         null,
                         KasebContract.Sales.COLUMN_CUSTOMER_ID,
                         KasebContract.Sales.COLUMN_SALE_CODE};
+
+                mTitleTourDialog = getResources().getString(R.string.title_products);
                 break;
                 //endregion sale
             }
@@ -129,12 +138,36 @@ public class CostSaleProductList extends Fragment implements LoaderManager.Loade
 
                 mOpenHelper = KasebProvider.mOpenHelper;
                 mDb = mOpenHelper.getWritableDatabase();
+                mTitleTourDialog = getResources().getString(R.string.title_sales);
                 break;
                 //endregion product
             }
             default:
                 break;
         }
+
+        //region handle sharepreference
+        kasebSharedPreferences = getActivity().getSharedPreferences(getString(R.string.kasebPreference), getActivity().MODE_PRIVATE);
+        editor = kasebSharedPreferences.edit();
+        //endregion handle sharepreference
+
+        //region create alertdialog tour
+        builderTour = new AlertDialog.Builder(getActivity())
+                .setNegativeButton(R.string.back_tour, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                    }
+                }).setPositiveButton(R.string.next_tour, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                    }
+                })
+                .setNeutralButton(R.string.cancel_tour, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                    }
+                })
+                .setTitle(mTitleTourDialog);
+
+        dialogViewTour = builderTour.create();
+        //endregion create alertdialog tour
 
         super.onCreate(savedInstanceState);
     }
@@ -154,24 +187,6 @@ public class CostSaleProductList extends Fragment implements LoaderManager.Loade
 
         //hide fab to show it as animation
         fab = (FloatingActionButton) rootView.findViewById(R.id.fab_cost_sale_product);
-
-        try {
-            if (getArguments().getString("whichTour").equals("1")) {
-                mTourGuideProductList = Utility.createTourGuide(getActivity(),
-                        Utility.createToolTip(
-                                "Add New Product!",
-                                "Click to ADD a product.",
-                                Color.parseColor("#bdc3c7"),
-                                Color.parseColor("#e74c3c"),
-                                false,
-                                Gravity.LEFT,
-                                Gravity.TOP)
-                        , fab, Overlay.Style.Circle);
-
-                ((Products) getActivity()).setValueForTourGuide(mTourGuideProductList);
-            }
-        } catch (Exception e) {
-        }
 
         fab.hide();
 
@@ -527,6 +542,140 @@ public class CostSaleProductList extends Fragment implements LoaderManager.Loade
         Animation hyperspaceJumpAnimation = AnimationUtils.loadAnimation(getActivity(), R.anim.scale_up);
         fab.startAnimation(hyperspaceJumpAnimation);
         fab.show();
+
+        //region tryCatch tour
+        try {
+            if (kasebSharedPreferences.getBoolean("getStarted", false)) {
+
+                String mMessage = "";
+                switch (getArguments().getString("witchActivity")) {
+                    case "cost": {
+                        //region cost
+                        break;
+                        //endregion cost
+                    }
+                    case "sale": {
+                        //region sale
+                        mMessage = "In this page you can see your sales, insert one, click each one to edit or print.";
+                        break;
+                        //endregion sale
+                    }
+                    case "product": {
+                        //region product
+                        mMessage = "In this page you can see your products and services, insert one, click each one to edit or add a purchase.";
+                        break;
+                        //endregion product
+                    }
+                    default:
+                        break;
+                }
+
+                dialogViewTour.setMessage(mMessage);
+                dialogViewTour.show();
+                dialogViewTour.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+
+                switch (getArguments().getString("witchActivity")) {
+                    case "cost": {
+                        //region cost
+                        break;
+                        //endregion cost
+                    }
+                    case "sale": {
+                        //region sale
+
+                        dialogViewTour.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+
+                                ((Sales) getActivity()).fab_cost_sale_product(getView());
+
+                                dialogViewTour.dismiss();
+                            }
+                        });
+
+                        dialogViewTour.getButton(AlertDialog.BUTTON_NEGATIVE).setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+
+                                //region back tour
+                                getFragmentManager().popBackStackImmediate();
+
+                                Intent intent = new Intent(getActivity(), Products.class);
+                                startActivity(intent);
+                                Utility.setActivityTransition(getActivity());
+
+                                dialogViewTour.dismiss();
+                                //endregion back tour
+                            }
+                        });
+
+                        break;
+                        //endregion sale
+                    }
+                    case "product": {
+                        //region product
+
+                        dialogViewTour.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+
+                                ((Products) getActivity()).fab_cost_sale_product(getView());
+
+                                dialogViewTour.dismiss();
+                            }
+                        });
+
+                        dialogViewTour.getButton(AlertDialog.BUTTON_NEGATIVE).setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+
+                                //region back tour
+                                getFragmentManager().popBackStackImmediate();
+
+                                Intent intent = new Intent(getActivity(), Customers.class);
+                                startActivity(intent);
+                                Utility.setActivityTransition(getActivity());
+
+                                dialogViewTour.dismiss();
+                                //endregion back tour
+                            }
+                        });
+
+                        break;
+                        //endregion product
+                    }
+                    default:
+                        break;
+                }
+
+                dialogViewTour.getButton(AlertDialog.BUTTON_NEUTRAL).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        //region end tour
+                        editor.putBoolean("getStarted", false);
+                        editor.apply();
+
+                        dialogViewTour.dismiss();
+                        //endregion end tour
+
+                    }
+                });
+
+                dialogViewTour.setCancelable(false);
+                dialogViewTour.setOnCancelListener(new DialogInterface.OnCancelListener() {
+                    @Override
+                    public void onCancel(DialogInterface dialog) {
+                        //region end tour
+                        editor.putBoolean("getStarted", false);
+                        editor.apply();
+                        //endregion end tour
+                    }
+                });
+            }
+        } catch (Exception e) {
+        }
+        //endregion tryCatch tour
     }
 
     @Override

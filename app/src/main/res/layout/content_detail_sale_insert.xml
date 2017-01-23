@@ -50,7 +50,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/top_of_list_margin"
                         android:paddingLeft="@dimen/padding_left_text_view"
-                        app:errorTextAppearance="@style/text_input_layout_style_not_error">
+                        app:errorTextAppearance="@style/text_input_layout_style_has_error">
 
                         <EditText
                             android:id="@+id/detail_sales_info_sale_code"
@@ -74,7 +74,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/top_of_list_margin_in_row"
                         android:paddingLeft="@dimen/padding_left_text_view"
-                        app:errorTextAppearance="@style/text_input_layout_style_not_error">
+                        app:errorTextAppearance="@style/text_input_layout_style_has_error">
 
                         <EditText
                             android:id="@+id/detail_sales_info_sale_date"

@@ -1,24 +1,26 @@
 package mjkarbasian.moshtarimadar.Customers;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
 import android.content.ContentValues;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
@@ -34,9 +36,8 @@ import mjkarbasian.moshtarimadar.Adapters.TypesSettingAdapter;
 import mjkarbasian.moshtarimadar.Data.KasebContract;
 import mjkarbasian.moshtarimadar.Helpers.GalleryUtil;
 import mjkarbasian.moshtarimadar.Helpers.Utility;
+import mjkarbasian.moshtarimadar.Products.Products;
 import mjkarbasian.moshtarimadar.R;
-import tourguide.tourguide.Overlay;
-import tourguide.tourguide.TourGuide;
 
 /**
  * Created by Unique on 10/21/2016.
@@ -53,7 +54,12 @@ public class CustomerInsert extends Fragment {
     ContentValues customerValues = new ContentValues();
     ImageView mCustomerAvatar;
     Bitmap photo;
-    TourGuide mTourGuideCustomerInsertAvatar;
+
+    SharedPreferences kasebSharedPreferences;
+    SharedPreferences.Editor editor;
+
+    AlertDialog.Builder builderTour;
+    AlertDialog dialogViewTour;
 
     EditText firstName;
     EditText lastName;
@@ -105,6 +111,27 @@ public class CustomerInsert extends Fragment {
             }
         });
 
+        //region handle sharepreference
+        kasebSharedPreferences = getActivity().getSharedPreferences(getResources().getString(R.string.kasebPreference), getActivity().MODE_PRIVATE);
+        editor = kasebSharedPreferences.edit();
+        //endregion handle sharepreference
+
+        //region create alertdialog tour
+        builderTour = new AlertDialog.Builder(getActivity())
+                .setNegativeButton(R.string.back_tour, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                    }
+                }).setPositiveButton(R.string.next_tour, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                    }
+                }).setNeutralButton(R.string.cancel_tour, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                    }
+                }).setTitle(R.string.title_customer_insert);
+
+        dialogViewTour = builderTour.create();
+        //endregion create alertdialog tour
+
         stateType = (Spinner) rootView.findViewById(R.id.input_state_type_spinner);
         firstName = (EditText) rootView.findViewById(R.id.input_first_name);
         lastName = (EditText) rootView.findViewById(R.id.input_last_name);
@@ -149,11 +176,6 @@ public class CustomerInsert extends Fragment {
                     firstNameTextInputLayout.setHint(String.format("* %s", getResources().getString(R.string.hint_first_name)));
                     firstName.setHint("");
 
-                    try {
-                        if (getActivity().getIntent().getStringExtra("whichTour").equals("0"))
-                            mTourGuideCustomerInsertAvatar.cleanUp();
-                    } catch (Exception e) {
-                    }
                 } else if (firstName.getText().length() == 0) {
                     firstNameTextInputLayout.setHint(String.format("  %s", getResources().getString(R.string.hint_first_name)));
                     firstName.setHint(Utility.setAsteriskToView(""));
@@ -215,17 +237,59 @@ public class CustomerInsert extends Fragment {
         stateType.setAdapter(cursorAdapter);
 
         try {
-            if (getActivity().getIntent().getStringExtra("whichTour").equals("0")) {
-                mTourGuideCustomerInsertAvatar = Utility.createTourGuide(getActivity(),
-                        Utility.createToolTip(
-                                "Steps To SAVE a customer",
-                                "1 : Click here add a picture!\n2 : Then fill necessary fields!\n3 : Then save changes at the top right corner!",
-                                Color.parseColor("#bdc3c7"),
-                                Color.parseColor("#e74c3c"),
-                                false,
-                                Gravity.BOTTOM,
-                                Gravity.BOTTOM)
-                        , firstName, Overlay.Style.Rectangle);
+            if (kasebSharedPreferences.getBoolean("getStarted", false)) {
+
+                dialogViewTour.setMessage("In this page you insert necessary data of customer and choose a picture arbitrary then save him/her from top right corner with save button.");
+                dialogViewTour.show();
+
+                dialogViewTour.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+                dialogViewTour.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        Intent intent = new Intent(getActivity(), Products.class);
+                        startActivity(intent);
+                        Utility.setActivityTransition(getActivity());
+
+                        dialogViewTour.dismiss();
+                    }
+                });
+
+                dialogViewTour.getButton(AlertDialog.BUTTON_NEGATIVE).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        //region back tour
+                        backToLastPage();
+
+                        dialogViewTour.dismiss();
+                        //endregion back tour
+                    }
+                });
+
+                dialogViewTour.getButton(AlertDialog.BUTTON_NEUTRAL).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        //region end tour
+                        editor.putBoolean("getStarted", false);
+                        editor.apply();
+
+                        dialogViewTour.dismiss();
+                        //endregion end tour
+                    }
+                });
+
+                dialogViewTour.setCancelable(false);
+                dialogViewTour.setOnCancelListener(new DialogInterface.OnCancelListener() {
+                    @Override
+                    public void onCancel(DialogInterface dialog) {
+                        //region end tour
+                        editor.putBoolean("getStarted", false);
+                        editor.apply();
+                        //endregion end tour
+                    }
+                });
             }
         } catch (Exception e) {
         }
@@ -299,6 +363,7 @@ public class CustomerInsert extends Fragment {
 
     private void backToLastPage() {
         Utility.clearForm((ViewGroup) rootView);
+        getHelperText();
         getFragmentManager().popBackStackImmediate();
     }
 
@@ -432,68 +497,65 @@ public class CustomerInsert extends Fragment {
         }
     }
 
+    private void getHelperText() {
+
+        firstNameTextInputLayout.setError(null);
+        lastNameTextInputLayout.setError(null);
+        phoneMobileTextInputLayout.setError(null);
+        birthDayTextInputLayout.setError(null);
+        emailTextInputLayout.setError(null);
+    }
+
     // this method check the validation and correct entries. its check fill first and then check the validation rules.
     private boolean checkValidityWithChangeColorOfHelperText() {
 
         if (!Utility.checkForValidityForEditTextNullOrEmpty(getActivity(), firstName)) {
-            Utility.changeColorOfHelperText(getActivity(), firstNameTextInputLayout, Utility.mIdOfColorSetError);
-            firstNameTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data));
+            firstNameTextInputLayout.setError(getResources().getString(R.string.example_first_name));
             firstName.setSelectAllOnFocus(true);
             firstName.selectAll();
             firstName.requestFocus();
             return false;
-        } else {
-            Utility.changeColorOfHelperText(getActivity(), firstNameTextInputLayout, Utility.mIdOfColorGetError);
+        } else
             firstNameTextInputLayout.setError(null);
-        }
 
         if (!Utility.checkForValidityForEditTextNullOrEmpty(getActivity(), lastName)) {
-            Utility.changeColorOfHelperText(getActivity(), lastNameTextInputLayout, Utility.mIdOfColorSetError);
-            lastNameTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data));
+            lastNameTextInputLayout.setError(getResources().getString(R.string.example_last_name));
             lastName.setSelectAllOnFocus(true);
             lastName.selectAll();
             lastName.requestFocus();
             return false;
-        } else {
-            Utility.changeColorOfHelperText(getActivity(), lastNameTextInputLayout, Utility.mIdOfColorGetError);
+        } else
             lastNameTextInputLayout.setError(null);
-        }
 
         if (!Utility.checkForValidityForEditTextNullOrEmptyAndItterative(
                 getActivity(), phoneMobile, phoneMobileTextInputLayout, KasebContract.Customers.CONTENT_URI,
                 KasebContract.Customers.COLUMN_PHONE_MOBILE + " = ? ",
                 KasebContract.Customers._ID, new String[]{phoneMobile.getText().toString()})) {
-            phoneMobileTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data)
-                    + getResources().getString(R.string.non_repetitive));
+            phoneMobileTextInputLayout.setError(String.format("%s %s",
+                    getResources().getString(R.string.example_mobile_number),
+                    getResources().getString(R.string.non_repetitive)));
             return false;
         }
 
         if (!birthDay.getText().toString().equals("") && !birthDay.getText().toString().equals(null) &&
                 !Utility.checkForValidityForEditTextDate(getActivity(), birthDay)) {
-            Utility.changeColorOfHelperText(getActivity(), birthDayTextInputLayout, Utility.mIdOfColorSetError);
-            birthDayTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data)
-                    + getResources().getString(R.string.date_format_error));
+            birthDayTextInputLayout.setError(getResources().getString(R.string.example_date));
             birthDay.setSelectAllOnFocus(true);
             birthDay.selectAll();
             birthDay.requestFocus();
             return false;
-        } else {
-            Utility.changeColorOfHelperText(getActivity(), birthDayTextInputLayout, Utility.mIdOfColorGetError);
+        } else
             birthDayTextInputLayout.setError(null);
-        }
 
         if (!email.getText().toString().equals("") && !email.getText().toString().equals(null) &&
                 !Utility.validateEmail(email.getText().toString())) {
-            Utility.changeColorOfHelperText(getActivity(), emailTextInputLayout, Utility.mIdOfColorSetError);
-            emailTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data));
+            emailTextInputLayout.setError(getResources().getString(R.string.example_email));
             email.setSelectAllOnFocus(true);
             email.selectAll();
             email.requestFocus();
             return false;
-        } else {
-            Utility.changeColorOfHelperText(getActivity(), emailTextInputLayout, Utility.mIdOfColorGetError);
+        } else
             emailTextInputLayout.setError(null);
-        }
 
         return true;
     }

@@ -150,7 +150,7 @@ public class Utility {
         return TourGuide.init(mActivity).with(TourGuide.Technique.Click)
                 .setPointer(new Pointer())
                 .setToolTip(mToolTip)
-                .setOverlay(createOverlay(Color.parseColor("#55000000"), false, mOverlayStyle))
+                .setOverlay(createOverlay(Color.parseColor("#55000000"), true, mOverlayStyle))
                 .playOn(mView);
     }
 
@@ -322,9 +322,9 @@ public class Utility {
 
     public static boolean checkForValidityForEditTextNullOrEmpty(Context mContext, EditText mEditText) {
         _mContext = mContext;
-        if (mEditText.getText().toString().equals("") || mEditText.getText().toString().equals(null)) {
+        if (mEditText.getText().toString().equals("") || mEditText.getText().toString().equals(null))
             return false;
-        }
+
         return true;
     }
 

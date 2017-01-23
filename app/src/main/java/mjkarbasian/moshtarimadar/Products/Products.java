@@ -2,6 +2,7 @@ package mjkarbasian.moshtarimadar.Products;
 
 import android.app.SearchManager;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.SearchView;
@@ -23,6 +24,8 @@ public class Products extends DrawerActivity {
     Bundle productsBundle = new Bundle();
     Fragment productInsert = new ProductInsert();
     TourGuide mTourGuideProducts;
+    SharedPreferences kasebSharedPreferences;
+    SharedPreferences.Editor editor;
 
     android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
     private String mQuery;
@@ -36,21 +39,26 @@ public class Products extends DrawerActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setDefaultKeyMode(DEFAULT_KEYS_SEARCH_LOCAL);
 
+        //region handle sharepreference
+        kasebSharedPreferences = getSharedPreferences(getString(R.string.kasebPreference), MODE_PRIVATE);
+        editor = kasebSharedPreferences.edit();
+        //endregion handle sharepreference
+
         productsBundle.putString("witchActivity", "product");
         costsSaleProductFragment.setArguments(productsBundle);
-
-        try {
-            if (getIntent().getStringExtra("whichTour").equals("1")) {
-                productsBundle.putString("whichTour", getIntent().getStringExtra("whichTour"));
-            }
-        } catch (Exception e) {
-        }
 
         Intent intent = getIntent();
         if (Intent.ACTION_SEARCH.equals(intent.getAction()))
             handleIntent(intent);
         else
             fragmentManager.beginTransaction().replace(R.id.container, costsSaleProductFragment, "CostSaleProductList").commit();
+    }
+
+    @Override
+    public void onBackPressed() {
+        editor.putBoolean("getStarted", false);
+        editor.apply();
+        super.onBackPressed();
     }
 
     @Override
@@ -74,10 +82,8 @@ public class Products extends DrawerActivity {
     public void fab_cost_sale_product(View v) {
 
         try {
-            if (productsBundle.getString("whichTour").equals("1")) {
+            if (kasebSharedPreferences.getBoolean("getStarted", false))
                 mTourGuideProducts.cleanUp();
-                productInsert.setArguments(productsBundle);
-            }
         } catch (Exception e) {
         }
 

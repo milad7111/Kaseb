@@ -384,5 +384,13 @@
     <string name="explain_tour_dashboard">راهنمایی جهت مشاهده چند گزارش در رابطه با تعداد مشتریانتان، دسته بندی آن ها و میزان خرید و فروش آن ها.</string>
     <string name="start_tour">شروع</string>
     <string name="first_guide_at_change_profile">بعد از واردکردن اطلاعات ضروری و ذخیره آن ها، با ضربه زدن به گزینه سمت راست بالای برنامه، می توانید کار با برنامه را شروع کنید.</string>
+    <string name="finish_tour">پایان</string>
+    <string name="title_customer_insert">افزودن مشتری جدید</string>
+    <string name="title_product_insert">افزودن کالا (خدمات) جدید</string>
+    <string name="title_sale_insert">صدور فاکتور جدید</string>
+
+    <string name="example_first_name">مثال : علی</string>
+    <string name="example_last_name">مثال : یعقوبی</string>
+    <string name="example_date">مثال : 1/1/1395</string>
 
 </resources>

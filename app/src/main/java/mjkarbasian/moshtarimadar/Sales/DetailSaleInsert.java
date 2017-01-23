@@ -4,6 +4,8 @@ import android.app.AlertDialog;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
@@ -18,6 +20,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -37,6 +40,7 @@ import java.util.Map;
 import mjkarbasian.moshtarimadar.Adapters.CostSaleProductAdapter;
 import mjkarbasian.moshtarimadar.Adapters.CustomerAdapter;
 import mjkarbasian.moshtarimadar.Adapters.TypesSettingAdapter;
+import mjkarbasian.moshtarimadar.Customers.Customers;
 import mjkarbasian.moshtarimadar.Data.KasebContract;
 import mjkarbasian.moshtarimadar.Data.KasebDbHelper;
 import mjkarbasian.moshtarimadar.Data.KasebProvider;
@@ -59,6 +63,11 @@ public class DetailSaleInsert extends AppCompatActivity {
 
     AlertDialog.Builder builder;
     AlertDialog dialogView;
+    AlertDialog.Builder builderTour;
+    AlertDialog dialogViewTour;
+
+    SharedPreferences kasebSharedPreferences;
+    SharedPreferences.Editor editor;
 
     Map<String, String> paymentMapRow;
     Map<String, String> taxMapRow;
@@ -214,6 +223,75 @@ public class DetailSaleInsert extends AppCompatActivity {
         frm.beginTransaction().replace(R.id.my_container_2, mCardViewPayments, "Frag_CardViewPayments_tag").commit();
         frm.beginTransaction().replace(R.id.my_container_3, mCardViewTaxes, "Frag_CardViewTaxes_tag").commit();
         //endregion Set Fragments
+
+        //region handle sharepreference
+        kasebSharedPreferences = getSharedPreferences(getString(R.string.kasebPreference), MODE_PRIVATE);
+        editor = kasebSharedPreferences.edit();
+        //endregion handle sharepreference
+
+        //region create alertdialog tour
+        builderTour = new AlertDialog.Builder(DetailSaleInsert.this)
+                .setPositiveButton(R.string.finish_tour, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                    }
+                }).setNegativeButton(R.string.back_tour, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                    }
+                }).setTitle(R.string.title_sale_insert);
+
+        dialogViewTour = builderTour.create();
+        //endregion create alertdialog tour
+
+        try {
+            if (kasebSharedPreferences.getBoolean("getStarted", false)) {
+
+                dialogViewTour.setMessage("In this page you insert a sale step by step :\n1. Add products.\n2. Add taxes and discounts.3. Add payments.\n4. Save it from top right corner with save button.\n5. Print it Automatically.");
+                dialogViewTour.show();
+
+                dialogViewTour.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+                dialogViewTour.getButton(AlertDialog.BUTTON_NEGATIVE).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        //region back tour
+                        finish();
+
+                        dialogViewTour.dismiss();
+                        //endregion back tour
+                    }
+                });
+
+                dialogViewTour.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        //region end tour
+                        editor.putBoolean("getStarted", false);
+                        editor.apply();
+
+                        dialogViewTour.dismiss();
+
+                        Intent intent = new Intent(DetailSaleInsert.this, Customers.class);
+                        startActivity(intent);
+                        Utility.setActivityTransition(DetailSaleInsert.this);
+                        //endregion end tour
+                    }
+                });
+
+                dialogViewTour.setCancelable(false);
+                dialogViewTour.setOnCancelListener(new DialogInterface.OnCancelListener() {
+                    @Override
+                    public void onCancel(DialogInterface dialog) {
+                        //region end tour
+                        editor.putBoolean("getStarted", false);
+                        editor.apply();
+                        //endregion end tour
+                    }
+                });
+
+            }
+        } catch (Exception e) {
+        }
     }
 
     @Override

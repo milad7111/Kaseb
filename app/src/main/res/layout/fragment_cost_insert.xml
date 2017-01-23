@@ -14,7 +14,7 @@
         android:layout_marginTop="@dimen/activity_horizontal_margin"
         app:counterEnabled="true"
         app:counterMaxLength="30"
-        app:errorTextAppearance="@style/text_input_layout_style_not_error">
+        app:errorTextAppearance="@style/text_input_layout_style_has_error">
 
         <EditText
             android:id="@+id/input_cost_name"
@@ -31,7 +31,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
         android:layout_marginRight="@dimen/activity_horizontal_margin"
-        app:errorTextAppearance="@style/text_input_layout_style_not_error">
+        app:errorTextAppearance="@style/text_input_layout_style_has_error">
 
         <EditText
             android:id="@+id/input_cost_code"
@@ -49,7 +49,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
         android:layout_marginRight="@dimen/activity_horizontal_margin"
-        app:errorTextAppearance="@style/text_input_layout_style_not_error">
+        app:errorTextAppearance="@style/text_input_layout_style_has_error">
 
         <EditText
             android:id="@+id/input_cost_amount"
@@ -77,7 +77,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
         android:layout_marginRight="@dimen/activity_horizontal_margin"
-        app:errorTextAppearance="@style/text_input_layout_style_not_error">
+        app:errorTextAppearance="@style/text_input_layout_style_has_error">
 
         <EditText
             android:id="@+id/input_cost_date"
@@ -97,7 +97,7 @@
         android:layout_marginRight="@dimen/activity_horizontal_margin"
         app:counterEnabled="true"
         app:counterMaxLength="50"
-        app:errorTextAppearance="@style/text_input_layout_style_not_error">
+        app:errorTextAppearance="@style/text_input_layout_style_has_error">
 
         <EditText
             android:id="@+id/input_cost_description"

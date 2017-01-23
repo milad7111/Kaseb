@@ -17,7 +17,7 @@
             android:id="@+id/text_input_layout_dialog_edit_cost_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:errorTextAppearance="@style/text_input_layout_style_not_error">
+            app:errorTextAppearance="@style/text_input_layout_style_has_error">
 
             <EditText
                 android:id="@+id/dialog_edit_cost_name"
@@ -32,7 +32,7 @@
             android:id="@+id/text_input_layout_dialog_edit_cost_code"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:errorTextAppearance="@style/text_input_layout_style_not_error">
+            app:errorTextAppearance="@style/text_input_layout_style_has_error">
 
             <EditText
                 android:id="@+id/dialog_edit_cost_code"
@@ -47,7 +47,7 @@
             android:id="@+id/text_input_layout_dialog_edit_cost_amount"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:errorTextAppearance="@style/text_input_layout_style_not_error">
+            app:errorTextAppearance="@style/text_input_layout_style_has_error">
 
             <EditText
                 android:id="@+id/dialog_edit_cost_amount"
@@ -69,7 +69,7 @@
             android:id="@+id/text_input_layout_dialog_edit_cost_date"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:errorTextAppearance="@style/text_input_layout_style_not_error">
+            app:errorTextAppearance="@style/text_input_layout_style_has_error">
 
             <EditText
                 android:id="@+id/dialog_edit_cost_date"
@@ -84,7 +84,7 @@
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:errorTextAppearance="@style/text_input_layout_style_not_error">
+            app:errorTextAppearance="@style/text_input_layout_style_has_error">
 
             <EditText
                 android:id="@+id/dialog_edit_cost_description"

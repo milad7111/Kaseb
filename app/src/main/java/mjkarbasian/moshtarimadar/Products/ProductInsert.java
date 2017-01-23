@@ -1,20 +1,23 @@
 package mjkarbasian.moshtarimadar.Products;
 
+import android.app.AlertDialog;
 import android.content.ContentValues;
-import android.graphics.Color;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -22,8 +25,7 @@ import mjkarbasian.moshtarimadar.Costs.CostInsert;
 import mjkarbasian.moshtarimadar.Data.KasebContract;
 import mjkarbasian.moshtarimadar.Helpers.Utility;
 import mjkarbasian.moshtarimadar.R;
-import tourguide.tourguide.Overlay;
-import tourguide.tourguide.TourGuide;
+import mjkarbasian.moshtarimadar.Sales.Sales;
 
 
 /**
@@ -34,7 +36,12 @@ public class ProductInsert extends Fragment {
     //region declare values
     private static final String LOG_TAG = CostInsert.class.getSimpleName();
     View rootView;
-    TourGuide mTourGuideProductInsert;
+
+    AlertDialog.Builder builderTour;
+    AlertDialog dialogViewTour;
+
+    SharedPreferences kasebSharedPreferences;
+    SharedPreferences.Editor editor;
 
     ContentValues productValues = new ContentValues();
     ContentValues productHistoryValues = new ContentValues();
@@ -98,6 +105,27 @@ public class ProductInsert extends Fragment {
 
         buyDate.setText(Utility.preInsertDate(getActivity()));
 
+        //region handle sharepreference
+        kasebSharedPreferences = getActivity().getSharedPreferences(getString(R.string.kasebPreference), getActivity().MODE_PRIVATE);
+        editor = kasebSharedPreferences.edit();
+        //endregion handle sharepreference
+
+        //region create alertdialog tour
+        builderTour = new AlertDialog.Builder(getActivity())
+                .setNegativeButton(R.string.back_tour, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                    }
+                }).setPositiveButton(R.string.next_tour, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                    }
+                }).setNeutralButton(R.string.cancel_tour, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                    }
+                }).setTitle(R.string.title_product_insert);
+
+        dialogViewTour = builderTour.create();
+        //endregion create alertdialog tour
+
         //region handle asterisk for necessary fields
 
         //region product name
@@ -110,12 +138,6 @@ public class ProductInsert extends Fragment {
                 if (hasFocus) {
                     productNameTextInputLayout.setHint(String.format("* %s", getResources().getString(R.string.hint_product_name)));
                     productName.setHint("");
-
-                    try {
-                        if (getActivity().getIntent().getStringExtra("whichTour").equals("1"))
-                            mTourGuideProductInsert.cleanUp();
-                    } catch (Exception e) {
-                    }
                 } else if (productName.getText().length() == 0) {
                     productNameTextInputLayout.setHint(String.format("  %s", getResources().getString(R.string.hint_product_name)));
                     productName.setHint(Utility.setAsteriskToView(""));
@@ -227,17 +249,60 @@ public class ProductInsert extends Fragment {
         //endregion handle asterisk for necessary fields
 
         try {
-            if (getActivity().getIntent().getStringExtra("whichTour").equals("1")) {
-                mTourGuideProductInsert = Utility.createTourGuide(getActivity(),
-                        Utility.createToolTip(
-                                "Steps To SAVE a product",
-                                "1 : Fill necessary fields!\n2 : Then save changes at the top right corner!",
-                                Color.parseColor("#bdc3c7"),
-                                Color.parseColor("#e74c3c"),
-                                false,
-                                Gravity.BOTTOM,
-                                Gravity.BOTTOM)
-                        , productName, Overlay.Style.Rectangle);
+            if (kasebSharedPreferences.getBoolean("getStarted", false)) {
+
+                dialogViewTour.setMessage("In this page you insert necessary data of product then save it from top right corner with save button.");
+                dialogViewTour.show();
+
+                dialogViewTour.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+                dialogViewTour.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        Intent intent = new Intent(getActivity(), Sales.class);
+                        startActivity(intent);
+                        Utility.setActivityTransition(getActivity());
+
+                        dialogViewTour.dismiss();
+                    }
+                });
+
+                dialogViewTour.getButton(AlertDialog.BUTTON_NEGATIVE).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        //region back tour
+                        backToLastPage();
+
+                        dialogViewTour.dismiss();
+                        //endregion back tour
+                    }
+                });
+
+                dialogViewTour.getButton(AlertDialog.BUTTON_NEUTRAL).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        //region end tour
+                        editor.putBoolean("getStarted", false);
+                        editor.apply();
+
+                        dialogViewTour.dismiss();
+                        //endregion end tour
+                    }
+                });
+
+                dialogViewTour.setCancelable(false);
+                dialogViewTour.setOnCancelListener(new DialogInterface.OnCancelListener() {
+                    @Override
+                    public void onCancel(DialogInterface dialog) {
+                        //region end tour
+                        editor.putBoolean("getStarted", false);
+                        editor.apply();
+                        //endregion end tour
+                    }
+                });
+
             }
         } catch (Exception e) {
         }

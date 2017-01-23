@@ -1,4 +1,4 @@
-package mjkarbasian.moshtarimadar.Debaters;
+package mjkarbasian.moshtarimadar.Debtors;
 
 import android.app.ActivityOptions;
 import android.content.Intent;
@@ -24,12 +24,12 @@ import mjkarbasian.moshtarimadar.R;
 /**
  * Created by family on 12/19/2016.
  */
-public class DebatersList extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
+public class DebtorsList extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
     DebtorAdapter mDebaterAdapter;
     ListView mListView;
     private String searchQuery;
     private int FRAGMENT_DEBATERS_LIST_LOADER = 9;
-    private String LOG_TAG = DebatersList.class.getSimpleName();
+    private String LOG_TAG = DebtorsList.class.getSimpleName();
     private String[] mProjection = new String[]{
             KasebContract.Sales.TABLE_NAME + "." + KasebContract.Sales._ID,
             KasebContract.Sales.TABLE_NAME + "."+ KasebContract.Sales.COLUMN_CUSTOMER_ID,
@@ -38,7 +38,7 @@ public class DebatersList extends Fragment implements LoaderManager.LoaderCallba
     };
     private String sortOrder;
 
-    public DebatersList() {
+    public DebtorsList() {
         super();
     }
 

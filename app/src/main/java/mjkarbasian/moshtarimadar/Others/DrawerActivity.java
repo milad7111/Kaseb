@@ -1,36 +1,25 @@
 package mjkarbasian.moshtarimadar.Others;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import java.util.ArrayList;
 
 import mjkarbasian.moshtarimadar.AboutUs.AboutUs;
-import mjkarbasian.moshtarimadar.Adapters.ChooseTourAdapter;
 import mjkarbasian.moshtarimadar.Costs.Costs;
 import mjkarbasian.moshtarimadar.Customers.Customers;
 import mjkarbasian.moshtarimadar.Dashboard;
-import mjkarbasian.moshtarimadar.Debaters.Debaters;
+import mjkarbasian.moshtarimadar.Debtors.Debtors;
 import mjkarbasian.moshtarimadar.Helpers.Utility;
 import mjkarbasian.moshtarimadar.Products.Products;
 import mjkarbasian.moshtarimadar.R;
@@ -42,14 +31,10 @@ public class DrawerActivity extends AppCompatActivity implements NavigationView.
     //region declare values
     Intent intent;
     DrawerLayout mDrawer;
-    ListView mListViewTour;
-    AlertDialog.Builder builder;
-    AlertDialog dialogView;
-    ArrayList tourTitle = new ArrayList<>();
-    ArrayList<Integer> tourIcons = new ArrayList<>();
 
-    android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
-    Bundle tourBundle = new Bundle();
+    SharedPreferences kasebSharedPreferences;
+    SharedPreferences.Editor editor;
+
     private ActionBarDrawerToggle mDrawerToggle;
     //endregion declare values
 
@@ -66,34 +51,14 @@ public class DrawerActivity extends AppCompatActivity implements NavigationView.
         mDrawerToggle = toggle;
         toggle.syncState();
 
-        //region add title and icon to tour lists
-        tourTitle.add(getBaseContext().getResources().getString(R.string.insert_customer));
-        tourTitle.add(getBaseContext().getResources().getString(R.string.insert_product));
-        tourTitle.add(getBaseContext().getResources().getString(R.string.insert_sale_and_print));
-        tourTitle.add(getBaseContext().getResources().getString(R.string.insert_cost));
-        tourTitle.add(getBaseContext().getResources().getString(R.string.change_setting));
-        tourTitle.add(getBaseContext().getResources().getString(R.string.view_sale_and_print));
-        tourTitle.add(getBaseContext().getResources().getString(R.string.contact_debtors));
-        tourTitle.add(getBaseContext().getResources().getString(R.string.view_reports));
-
-        tourIcons.add(R.drawable.ic_menu_account_multiple);
-        tourIcons.add(R.drawable.ic_factory);
-        tourIcons.add(R.drawable.sales);
-        tourIcons.add(R.drawable.cost_icon);
-        tourIcons.add(R.drawable.ic_menu_manage);
-        tourIcons.add(R.drawable.sales);
-        tourIcons.add(R.drawable.ic_menu_account_alert);
-        tourIcons.add(R.drawable.report_icon);
-        //endregion add title and icon to tour lists
-
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
         //region handle sharepreference
         View header = navigationView.getHeaderView(0);
         TextView kasebProfileTextView = (TextView) header.findViewById(R.id.kaseb_name_text);
-        String kasebPREFERENCES = "kasebProfile";
-        SharedPreferences kasebSharedPreferences = getSharedPreferences(kasebPREFERENCES, MODE_PRIVATE);
+        kasebSharedPreferences = getSharedPreferences(getResources().getString(R.string.kasebPreference), MODE_PRIVATE);
+        editor = kasebSharedPreferences.edit();
 
         if (kasebSharedPreferences.getString("firstName", null) != null)
             kasebProfileTextView.setText(
@@ -150,7 +115,7 @@ public class DrawerActivity extends AppCompatActivity implements NavigationView.
             startActivity(intent);
             Utility.setActivityTransition(this);
         } else if (id == R.id.nav_debtors) {
-            intent = new Intent(this, Debaters.class);
+            intent = new Intent(this, Debtors.class);
             finish();
             startActivity(intent);
             Utility.setActivityTransition(this);
@@ -181,100 +146,18 @@ public class DrawerActivity extends AppCompatActivity implements NavigationView.
             Utility.setActivityTransition(this);
         } else if (id == R.id.nav_take_tour) {
 
-            //region create tour dialog
-            ChooseTourAdapter mChooseTourAdapter = new ChooseTourAdapter(getBaseContext(), tourIcons, tourTitle);
+            try {
+                //region start tour
+                editor.putBoolean("getStarted", true);
+                editor.apply();
 
-            builder = new AlertDialog.Builder(DrawerActivity.this)
-                    .setView(getLayoutInflater().inflate(R.layout.dialog_choose_tour, null))
-                    .setNegativeButton(R.string.cancel_button, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int whichButton) {
-                            dialogView.dismiss();
-                        }
-                    }).setTitle(R.string.title_take_tour);
-
-            dialogView = builder.create();
-            dialogView.show();
-            //endregion create tour dialog
-
-            //region declare views in dialog
-            mListViewTour = (ListView) dialogView.findViewById(R.id.list_view_tour_items);
-            mListViewTour.setAdapter(mChooseTourAdapter);
-            Utility.setHeightOfListView(mListViewTour);
-
-            mListViewTour.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
-
-                    String mMessageOfSnackBar = "";
-
-                    switch (position) {
-                        case 0: { //insert_customer
-                            mMessageOfSnackBar = getString(R.string.explain_tour_insert_customer);
-                            intent = new Intent(DrawerActivity.this, Customers.class)
-                                    .putExtra("whichTour", String.valueOf(position));
-
-                            break;
-                        }
-                        case 1: { //insert_product
-                            mMessageOfSnackBar = getString(R.string.explain_tour_insert_product);
-                            intent = new Intent(DrawerActivity.this, Products.class)
-                                    .putExtra("whichTour", String.valueOf(position));
-                            break;
-                        }
-                        case 2: { //insert_sale_and_print
-                            mMessageOfSnackBar = getString(R.string.explain_tour_create_invoice);
-                            break;
-                        }
-                        case 3: { //insert_cost
-                            mMessageOfSnackBar = getString(R.string.explain_tour_insert_costs);
-                            break;
-                        }
-                        case 4: { //change_setting
-                            mMessageOfSnackBar = getString(R.string.explain_tour_change_setting);
-                            break;
-                        }
-                        case 5: { //view_sale_and_print
-                            mMessageOfSnackBar = getString(R.string.explain_tour_view_invoices_print);
-                            break;
-                        }
-                        case 6: { //contact_debtors
-                            mMessageOfSnackBar = getString(R.string.explain_tour_contact_debtors);
-                            break;
-                        }
-                        case 7: { //view_reports
-                            mMessageOfSnackBar = getString(R.string.explain_tour_dashboard);
-                            break;
-                        }
-                    }
-
-                    Snackbar snackbar = Snackbar
-                            .make(mListViewTour, mMessageOfSnackBar,
-                                    Snackbar.LENGTH_INDEFINITE).setAction(R.string.start_tour, new View.OnClickListener() {
-                                @Override
-                                public void onClick(View view) {
-                                    if (position != 0 && position != 1)
-                                        Toast.makeText(getBaseContext(), "Not Set Yet!", Toast.LENGTH_SHORT).show();
-                                    else {
-                                        finish();
-                                        startActivity(intent);
-                                        Utility.setActivityTransition(DrawerActivity.this);
-                                        dialogView.dismiss();
-                                    }
-                                }
-                            }).setActionTextColor(getResources().getColor(R.color.colorAccent));
-
-                    View snackbarView = snackbar.getView();
-                    TextView mTextView = (TextView) snackbarView.findViewById(android.support.design.R.id.snackbar_text);
-                    mTextView.setTextColor(getResources().getColor(R.color.colorPrimaryLight));
-                    mTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
-                    Typeface mTypeface = Utility.createFontForTexts(getBaseContext());
-                    mTextView.setTypeface(mTypeface);
-                    mTextView.setMaxLines(5);
-
-                    snackbar.show();
-                }
-            });
-            //endregion declare views in dialog
+                intent = new Intent(DrawerActivity.this, Customers.class);
+                finish();
+                startActivity(intent);
+                Utility.setActivityTransition(DrawerActivity.this);
+                //endregion start tour
+            } catch (Exception e) {
+            }
 
             Utility.setActivityTransition(this);
         }

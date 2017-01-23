@@ -8,6 +8,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -33,7 +34,6 @@ import mjkarbasian.moshtarimadar.Data.KasebContract;
 import mjkarbasian.moshtarimadar.Helpers.GalleryUtil;
 import mjkarbasian.moshtarimadar.Others.DrawerActivity;
 import mjkarbasian.moshtarimadar.R;
-import tourguide.tourguide.TourGuide;
 
 public class Customers extends DrawerActivity {
 
@@ -47,8 +47,8 @@ public class Customers extends DrawerActivity {
     Fragment customerInsert = new CustomerInsert();
     Bitmap photo;
     Long customerId;
-    Bundle tourBundle = new Bundle();
-    TourGuide mTourGuideCustomers;
+    SharedPreferences kasebSharedPreferences;
+    SharedPreferences.Editor editor;
 
     android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
     private String LOG_TAG = Customers.class.getSimpleName();
@@ -64,21 +64,26 @@ public class Customers extends DrawerActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mContext = this;
 
+        //region handle sharepreference
+        kasebSharedPreferences = getSharedPreferences(getResources().getString(R.string.kasebPreference), MODE_PRIVATE);
+        editor = kasebSharedPreferences.edit();
+        //endregion handle sharepreference
+
         //region handle search query
         Intent intent = getIntent();
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             handleIntent(intent);
-        } else {
-            try {
-                if (getIntent().getStringExtra("whichTour").equals("0")) {
-                    tourBundle.putString("whichTour", getIntent().getStringExtra("whichTour"));
-                    customersFragment.setArguments(tourBundle);
-                }
-            } catch (Exception e) {
-            }
+        } else
             fragmentManager.beginTransaction().replace(R.id.container, customersFragment, "customersList").commit();
-        }
+
         //endregion handle search query
+    }
+
+    @Override
+    public void onBackPressed() {
+        editor.putBoolean("getStarted", false);
+        editor.apply();
+        super.onBackPressed();
     }
 
     @Override
@@ -100,14 +105,6 @@ public class Customers extends DrawerActivity {
     }
 
     public void fab_customers(View v) {
-
-        try {
-            if (tourBundle.getString("whichTour").equals("0")) {
-                mTourGuideCustomers.cleanUp();
-                customerInsert.setArguments(tourBundle);
-            }
-        } catch (Exception e) {
-        }
 
         android.support.v4.app.FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.setCustomAnimations(R.anim.slide_in_up, R.anim.slide_out_down, R.anim.slide_in_down, R.anim.slide_out_up);
@@ -309,9 +306,5 @@ public class Customers extends DrawerActivity {
                     public void onClick(DialogInterface dialog, int whichButton) {
                     }
                 }).show();
-    }
-
-    public void setValueForTourGuide(TourGuide mTourGuide) {
-        mTourGuideCustomers = mTourGuide;
     }
 }

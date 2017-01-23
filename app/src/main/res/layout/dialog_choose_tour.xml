@@ -7,7 +7,31 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/abc_dialog_padding_material"
+            android:layout_marginRight="@dimen/abc_dialog_padding_material"
+            android:layout_marginTop="@dimen/abc_dialog_padding_material"
+            android:text="Welcome to This Tour!" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/abc_dialog_padding_material"
+            android:layout_marginRight="@dimen/abc_dialog_padding_material"
+            android:layout_marginTop="@dimen/top_of_list_margin"
+            android:text="To use of this app you should go this way, step by step :" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/abc_dialog_padding_material"
+            android:layout_marginRight="@dimen/abc_dialog_padding_material"
+            android:layout_marginTop="@dimen/top_of_list_margin"
+            android:text="1. Add a customer.\n2. Add a product.\n3. Insert Sale for a customer and print it.\n4.Check Dashboard." />
 
         <ListView
             android:id="@+id/list_view_tour_items"
