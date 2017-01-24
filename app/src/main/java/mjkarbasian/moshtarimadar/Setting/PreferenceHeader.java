@@ -151,7 +151,7 @@ public class PreferenceHeader extends Fragment {
                     }
                     typeFragment.setArguments(columnName);
                     android.support.v4.app.FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-                    fragmentTransaction.replace(R.id.container, typeFragment);
+                    fragmentTransaction.replace(R.id.container, typeFragment, "typeFragments");
                     fragmentTransaction.addToBackStack(null);
                     int callBackStack = fragmentTransaction.commit();
                 } else switch (position) {
@@ -258,6 +258,10 @@ public class PreferenceHeader extends Fragment {
                                     } else
                                         Toast.makeText(getActivity(), R.string.msg_insert_succeed, Toast.LENGTH_SHORT).show();
                                     //endregion save info of kaseb profile
+
+                                    getActivity().getWindow().setSoftInputMode(
+                                            WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
+                                    );
 
                                     ((DrawerActivity) getActivity()).setInfoOfKaseb();
                                     getHelperText();
