@@ -15,7 +15,7 @@
     <string name="title_costs">Costs</string>
     <string name="title_products">Products</string>
     <string name="title_setting">Setting</string>
-    <string name="title_about_us">About us</string>
+    <string name="title_about_us">Feedback</string>
     <string name="title_exit">Good Bye</string>
     <string name="title_activity_customers">Customers</string>
     <string name="label_total_sale">Total Sale($)</string>
@@ -460,7 +460,7 @@
     <string name="problem_in_crop_image">There is some problem in croping app</string>
     <string name="does_not_support_crop_action">your device doesn\'t support the crop action!</string>
     <string name="complete_profile_kaseb">Your profile must be completed then you can go!</string>
-    <string name="title_take_tour">Take a tour</string>
+    <string name="title_take_tour">Take a Tour</string>
     <string name="insert_customer">Add customer</string>
     <string name="insert_product">Add product</string>
     <string name="insert_sale_and_print">Create Invoice and Print</string>
@@ -518,5 +518,10 @@
     <string name="tour_text_welcome">Welcome to This Tour!</string>
     <string name="tour_text_first">To use of this app you should go this way, step by step :</string>
     <string name="tour_text_second">1. Add a customer.\n2. Add a product.\n3. Insert Sale for a customer and print it.\n4.Check Dashboard.</string>
+    <string name="empty_list_text">No data to show</string>
+    <string name="empty_list_text_detail_sale">There is no item</string>
+    <string name="close_activity_dialog_title">Closing Activity</string>
+    <string name="close_activity_dialog_message">Are you sure you want to close this activity?</string>
+    <string name="title_set_profile">Set Profile</string>
 
 </resources>

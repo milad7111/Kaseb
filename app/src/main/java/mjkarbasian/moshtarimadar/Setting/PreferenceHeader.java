@@ -24,7 +24,6 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -44,6 +43,7 @@ import mjkarbasian.moshtarimadar.Adapters.HeaderAdapter;
 import mjkarbasian.moshtarimadar.Customers.Customers;
 import mjkarbasian.moshtarimadar.Data.KasebContract;
 import mjkarbasian.moshtarimadar.Helpers.GalleryUtil;
+import mjkarbasian.moshtarimadar.Helpers.RoundImageView;
 import mjkarbasian.moshtarimadar.Helpers.Utility;
 import mjkarbasian.moshtarimadar.R;
 
@@ -66,7 +66,7 @@ public class PreferenceHeader extends Fragment {
     android.app.AlertDialog.Builder builder;
     android.app.AlertDialog dialogView;
 
-    ImageView mCustomerAvatar;
+    RoundImageView mCustomerAvatar;
     Bitmap photo;
     EditText firstName;
     EditText lastName;
@@ -153,180 +153,197 @@ public class PreferenceHeader extends Fragment {
                     fragmentTransaction.replace(R.id.container, typeFragment);
                     fragmentTransaction.addToBackStack(null);
                     int callBackStack = fragmentTransaction.commit();
-                } else {
-                    switch (position) {
-                        case 5: {
-                            Intent contactPickerIntent = new Intent(Intent.ACTION_GET_CONTENT);
-                            contactPickerIntent.setType(ContactsContract.Contacts.CONTENT_ITEM_TYPE);
-                            startActivityForResult(contactPickerIntent, RESULT_PICK_CONTACT);
-                            break;
+                } else switch (position) {
+                    case 5: {
+                        Intent contactPickerIntent = new Intent(Intent.ACTION_GET_CONTENT);
+                        contactPickerIntent.setType(ContactsContract.Contacts.CONTENT_ITEM_TYPE);
+                        startActivityForResult(contactPickerIntent, RESULT_PICK_CONTACT);
+                        break;
+                    }
+                    case 4: {
+                        new AlertDialog.Builder(getActivity())
+                                .setTitle(getActivity().getResources().getString(R.string.pref_header_backup))
+                                .setMessage(getActivity().getResources().getString(R.string.dialog_select_backup_restore))
+                                .setPositiveButton(getActivity().getResources().getString(R.string.dialog_select_backup), new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        try {
+                                            doBackup();
+                                        } catch (IOException e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+                                })
+                                .setNegativeButton(getActivity().getResources().getString(R.string.dialog_select_restore), new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        doRestore();
+                                    }
+                                })
+                                .setNeutralButton(getActivity().getResources().getString(R.string.dialog_select_cancel), new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.dismiss();
+                                    }
+                                })
+                                .show();
+
+                        break;
+                    }
+                    case 6: {
+
+                        //region create alert dialog
+                        builder = new android.app.AlertDialog.Builder(getActivity())
+                                .setView(getActivity().getLayoutInflater().inflate(R.layout.dialog_edit_profile_of_kaseb, null))
+                                .setNegativeButton(R.string.discard_button, new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int whichButton) {
+                                    }
+                                }).setPositiveButton(R.string.save, new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int whichButton) {
+                                    }
+                                })
+                                .setTitle(R.string.title_set_profile);
+
+                        dialogView = builder.create();
+                        dialogView.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+                        dialogView.show();
+
+                        try {
+                            String mTest = kasebSharedPreferences.getString("numberOfEntranceToProfile", null);
+                            editor.putString("numberOfEntranceToProfile",
+                                    String.valueOf(Double.valueOf(kasebSharedPreferences.getString("numberOfEntranceToProfile", null)) + 1));
+                            editor.apply();
+                        } catch (Exception e) {
+                            editor.putString("numberOfEntranceToProfile", "1");
+                            editor.apply();
                         }
-                        case 4: {
-                            new AlertDialog.Builder(getActivity())
-                                    .setTitle(getActivity().getResources().getString(R.string.pref_header_backup))
-                                    .setMessage(getActivity().getResources().getString(R.string.dialog_select_backup_restore))
-                                    .setPositiveButton(getActivity().getResources().getString(R.string.dialog_select_backup), new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            try {
-                                                doBackup();
-                                            } catch (IOException e) {
-                                                e.printStackTrace();
-                                            }
-                                        }
-                                    })
-                                    .setNegativeButton(getActivity().getResources().getString(R.string.dialog_select_restore), new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            doRestore();
-                                        }
-                                    })
-                                    .setNeutralButton(getActivity().getResources().getString(R.string.dialog_select_cancel), new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            dialog.dismiss();
-                                        }
-                                    })
-                                    .show();
 
-                            break;
-                        }
-                        case 6: {
+                        dialogView.getButton(android.app.AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Boolean wantToCloseDialog = false;
 
-                            //region create alert dialog
-                            builder = new android.app.AlertDialog.Builder(getActivity())
-                                    .setView(getActivity().getLayoutInflater().inflate(R.layout.dialog_edit_profile_of_kaseb, null))
-                                    .setNegativeButton(R.string.discard_button, new DialogInterface.OnClickListener() {
-                                        public void onClick(DialogInterface dialog, int whichButton) {
-                                        }
-                                    }).setPositiveButton(R.string.save, new DialogInterface.OnClickListener() {
-                                        public void onClick(DialogInterface dialog, int whichButton) {
-                                        }
-                                    })
-                                    .setTitle(R.string.title_change_profile);
+                                if (checkValidityWithChangeColorOfHelperText()) {
 
-                            dialogView = builder.create();
-                            dialogView.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
-                            dialogView.show();
+                                    //region save info of kaseb profile
+                                    editor.putString("firstName", firstName.getText().toString());
+                                    editor.putString("lastName", lastName.getText().toString());
+                                    editor.putString("birthDay", birthDay.getText().toString());
+                                    editor.putString("phoneMobile", phoneMobile.getText().toString());
+                                    editor.putString("phoneWork", phoneWork.getText().toString());
+                                    editor.putString("phoneFax", phoneFax.getText().toString());
+                                    editor.putString("phoneOther", phoneOther.getText().toString());
+                                    editor.putString("customerDescription", customerDescription.getText().toString());
+                                    editor.putString("email", email.getText().toString());
+                                    editor.putString("addressCountry", addressCountry.getText().toString());
+                                    editor.putString("addressCity", addressCity.getText().toString());
+                                    editor.putString("addressStreet", addressStreet.getText().toString());
+                                    editor.putString("addressPostalCode", addressPostalCode.getText().toString());
 
-                            try {
-                                String mTest = kasebSharedPreferences.getString("numberOfEntranceToProfile", null);
-                                editor.putString("numberOfEntranceToProfile",
-                                        String.valueOf(Double.valueOf(kasebSharedPreferences.getString("numberOfEntranceToProfile", null)) + 1));
-                                editor.apply();
-                            } catch (Exception e) {
-                                editor.putString("numberOfEntranceToProfile", "1");
-                                editor.apply();
-                            }
+                                    if (photo != null)
+//                                        editor.putString("customerAvatar", Utility.encodeTobase64(photo));
 
-                            dialogView.getButton(android.app.AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    Boolean wantToCloseDialog = false;
+                                    editor.apply();
 
-                                    if (checkValidityWithChangeColorOfHelperText()) {
-
-                                        //region save info of kaseb profile
-                                        editor.putString("firstName", firstName.getText().toString());
-                                        editor.putString("lastName", lastName.getText().toString());
-                                        editor.putString("birthDay", birthDay.getText().toString());
-                                        editor.putString("phoneMobile", phoneMobile.getText().toString());
-                                        editor.putString("phoneWork", phoneWork.getText().toString());
-                                        editor.putString("phoneFax", phoneFax.getText().toString());
-                                        editor.putString("phoneOther", phoneOther.getText().toString());
-                                        editor.putString("customerDescription", customerDescription.getText().toString());
-                                        editor.putString("email", email.getText().toString());
-                                        editor.putString("addressCountry", addressCountry.getText().toString());
-                                        editor.putString("addressCity", addressCity.getText().toString());
-                                        editor.putString("addressStreet", addressStreet.getText().toString());
-                                        editor.putString("addressPostalCode", addressPostalCode.getText().toString());
+                                    if (kasebSharedPreferences.getString("numberOfEntranceToProfile", null).equals("1")) {
+                                        //region start tour
+                                        editor.putBoolean("getStarted", true);
                                         editor.apply();
 
-                                        if (kasebSharedPreferences.getString("numberOfEntranceToProfile", null).equals("1")) {
-                                            //region start tour
-                                            editor.putBoolean("getStarted", true);
-                                            editor.apply();
+                                        Intent intent = new Intent(getActivity(), Customers.class);
+                                        startActivity(intent);
+                                        Utility.setActivityTransition(getActivity());
+                                        //endregion start tour
+                                    } else
+                                        Toast.makeText(getActivity(), R.string.msg_insert_succeed, Toast.LENGTH_SHORT).show();
+                                    //endregion save info of kaseb profile
 
-                                            Intent intent = new Intent(getActivity(), Customers.class);
-                                            startActivity(intent);
-                                            Utility.setActivityTransition(getActivity());
-                                            //endregion start tour
-                                        } else
-                                            Toast.makeText(getActivity(), R.string.msg_insert_succeed, Toast.LENGTH_SHORT).show();
-                                        //endregion save info of kaseb profile
-
-                                        getHelperText();
-                                        wantToCloseDialog = true;
-                                    }
-
-                                    if (wantToCloseDialog)
-                                        dialogView.dismiss();
+//                                    ((DrawerActivity) getActivity()).setInfoOfKaseb();
+                                    getHelperText();
+                                    wantToCloseDialog = true;
                                 }
-                            });
 
-                            dialogView.getButton(android.app.AlertDialog.BUTTON_NEGATIVE).setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    if (kasebSharedPreferences.getString("firstName", null) != null)
-                                        dialogView.dismiss();
-                                    else
-                                        Toast.makeText(getActivity(), R.string.complete_profile_kaseb, Toast.LENGTH_LONG).show();
-                                }
-                            });
-                            //endregion create alert dialog
+                                if (wantToCloseDialog)
+                                    dialogView.dismiss();
+                            }
+                        });
 
-                            //region define views
-                            firstName = (EditText) dialogView.findViewById(R.id.dialog_edit_profile_kaseb_input_first_name);
-                            lastName = (EditText) dialogView.findViewById(R.id.dialog_edit_profile_kaseb_input_last_name);
-                            birthDay = (EditText) dialogView.findViewById(R.id.dialog_edit_profile_kaseb_input_birth_day);
-                            phoneMobile = (EditText) dialogView.findViewById(R.id.dialog_edit_profile_kaseb_input_phone_mobile);
-                            customerDescription = (EditText) dialogView.findViewById(R.id.dialog_edit_profile_kaseb_input_description);
-                            email = (EditText) dialogView.findViewById(R.id.dialog_edit_profile_kaseb_input_email);
-                            phoneWork = (EditText) dialogView.findViewById(R.id.dialog_edit_profile_kaseb_input_phone_work);
-                            phoneOther = (EditText) dialogView.findViewById(R.id.dialog_edit_profile_kaseb_input_phone_other);
-                            phoneFax = (EditText) dialogView.findViewById(R.id.dialog_edit_profile_kaseb_input_phone_fax);
-                            addressCountry = (EditText) dialogView.findViewById(R.id.dialog_edit_profile_kaseb_input_address_country);
-                            addressCity = (EditText) dialogView.findViewById(R.id.dialog_edit_profile_kaseb_input_address_city);
-                            addressStreet = (EditText) dialogView.findViewById(R.id.dialog_edit_profile_kaseb_input_address_street);
-                            addressPostalCode = (EditText) dialogView.findViewById(R.id.dialog_edit_profile_kaseb_input_address_postal_code);
+                        dialogView.getButton(android.app.AlertDialog.BUTTON_NEGATIVE).setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                if (kasebSharedPreferences.getString("firstName", null) != null)
+                                    dialogView.dismiss();
+                                else
+                                    Toast.makeText(getActivity(), R.string.complete_profile_kaseb, Toast.LENGTH_LONG).show();
+                            }
+                        });
+                        //endregion create alert dialog
 
-                            firstNameTextInputLayout = (TextInputLayout) dialogView.findViewById(R.id.dialog_edit_profile_kaseb_text_input_layout_input_first_name);
-                            lastNameTextInputLayout = (TextInputLayout) dialogView.findViewById(R.id.dialog_edit_profile_kaseb_text_input_layout_input_last_name);
-                            phoneMobileTextInputLayout = (TextInputLayout) dialogView.findViewById(R.id.dialog_edit_profile_kaseb_text_input_layout_input_phone_mobile);
-                            birthDayTextInputLayout = (TextInputLayout) dialogView.findViewById(R.id.dialog_edit_profile_kaseb_text_input_layout_input_birth_day);
-                            customerDescriptionTextInputLayout = (TextInputLayout) dialogView.findViewById(R.id.dialog_edit_profile_kaseb_text_input_layout_input_description);
-                            emailTextInputLayout = (TextInputLayout) dialogView.findViewById(R.id.dialog_edit_profile_kaseb_text_input_layout_input_email);
-                            phoneWorkTextInputLayout = (TextInputLayout) dialogView.findViewById(R.id.dialog_edit_profile_kaseb_text_input_layout_input_phone_work);
-                            phoneOtherTextInputLayout = (TextInputLayout) dialogView.findViewById(R.id.dialog_edit_profile_kaseb_text_input_layout_input_phone_other);
-                            phoneFaxTextInputLayout = (TextInputLayout) dialogView.findViewById(R.id.dialog_edit_profile_kaseb_text_input_layout_input_phone_fax);
-                            addressCountryTextInputLayout = (TextInputLayout) dialogView.findViewById(R.id.dialog_edit_profile_kaseb_text_input_layout_input_address_country);
-                            addressCityTextInputLayout = (TextInputLayout) dialogView.findViewById(R.id.dialog_edit_profile_kaseb_text_input_layout_input_address_city);
-                            addressStreetTextInputLayout = (TextInputLayout) dialogView.findViewById(R.id.dialog_edit_profile_kaseb_text_input_layout_input_address_street);
-                            addressPostalCodeTextInputLayout = (TextInputLayout) dialogView.findViewById(R.id.dialog_edit_profile_kaseb_text_input_layout_input_address_postal_code);
+                        //region define views
+                        firstName = (EditText) dialogView.findViewById(R.id.dialog_edit_profile_kaseb_input_first_name);
+                        lastName = (EditText) dialogView.findViewById(R.id.dialog_edit_profile_kaseb_input_last_name);
+                        birthDay = (EditText) dialogView.findViewById(R.id.dialog_edit_profile_kaseb_input_birth_day);
+                        phoneMobile = (EditText) dialogView.findViewById(R.id.dialog_edit_profile_kaseb_input_phone_mobile);
+                        customerDescription = (EditText) dialogView.findViewById(R.id.dialog_edit_profile_kaseb_input_description);
+                        email = (EditText) dialogView.findViewById(R.id.dialog_edit_profile_kaseb_input_email);
+                        phoneWork = (EditText) dialogView.findViewById(R.id.dialog_edit_profile_kaseb_input_phone_work);
+                        phoneOther = (EditText) dialogView.findViewById(R.id.dialog_edit_profile_kaseb_input_phone_other);
+                        phoneFax = (EditText) dialogView.findViewById(R.id.dialog_edit_profile_kaseb_input_phone_fax);
+                        addressCountry = (EditText) dialogView.findViewById(R.id.dialog_edit_profile_kaseb_input_address_country);
+                        addressCity = (EditText) dialogView.findViewById(R.id.dialog_edit_profile_kaseb_input_address_city);
+                        addressStreet = (EditText) dialogView.findViewById(R.id.dialog_edit_profile_kaseb_input_address_street);
+                        addressPostalCode = (EditText) dialogView.findViewById(R.id.dialog_edit_profile_kaseb_input_address_postal_code);
 
-                            if (kasebSharedPreferences.getString("firstName", null) == null)
-                                dialogView.setCancelable(false);
+                        mCustomerAvatar = (RoundImageView) dialogView.findViewById(R.id.dialog_edit_profile_kaseb_customer_picture);
+                        mCustomerAvatar.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                mCustomerAvatar = (RoundImageView) v;
+                                Intent gallery_Intent = new Intent(getActivity().getApplicationContext(), GalleryUtil.class);
+                                startActivityForResult(gallery_Intent, GALLERY_ACTIVITY_CODE);
+                            }
+                        });
 
-                            //region show info of kaseb profile
-                            firstName.setText(kasebSharedPreferences.getString("firstName", null));
-                            lastName.setText(kasebSharedPreferences.getString("lastName", null));
-                            birthDay.setText(kasebSharedPreferences.getString("birthDay", null));
-                            phoneMobile.setText(kasebSharedPreferences.getString("phoneMobile", null));
-                            phoneWork.setText(kasebSharedPreferences.getString("phoneWork", null));
-                            phoneFax.setText(kasebSharedPreferences.getString("phoneFax", null));
-                            phoneOther.setText(kasebSharedPreferences.getString("phoneOther", null));
-                            customerDescription.setText(kasebSharedPreferences.getString("customerDescription", null));
-                            email.setText(kasebSharedPreferences.getString("email", null));
-                            addressCountry.setText(kasebSharedPreferences.getString("addressCountry", null));
-                            addressCity.setText(kasebSharedPreferences.getString("addressCity", null));
-                            addressStreet.setText(kasebSharedPreferences.getString("addressStreet", null));
-                            addressPostalCode.setText(kasebSharedPreferences.getString("addressPostalCode", null));
-                            //endregion show info of kaseb profile
+                        firstNameTextInputLayout = (TextInputLayout) dialogView.findViewById(R.id.dialog_edit_profile_kaseb_text_input_layout_input_first_name);
+                        lastNameTextInputLayout = (TextInputLayout) dialogView.findViewById(R.id.dialog_edit_profile_kaseb_text_input_layout_input_last_name);
+                        phoneMobileTextInputLayout = (TextInputLayout) dialogView.findViewById(R.id.dialog_edit_profile_kaseb_text_input_layout_input_phone_mobile);
+                        birthDayTextInputLayout = (TextInputLayout) dialogView.findViewById(R.id.dialog_edit_profile_kaseb_text_input_layout_input_birth_day);
+                        customerDescriptionTextInputLayout = (TextInputLayout) dialogView.findViewById(R.id.dialog_edit_profile_kaseb_text_input_layout_input_description);
+                        emailTextInputLayout = (TextInputLayout) dialogView.findViewById(R.id.dialog_edit_profile_kaseb_text_input_layout_input_email);
+                        phoneWorkTextInputLayout = (TextInputLayout) dialogView.findViewById(R.id.dialog_edit_profile_kaseb_text_input_layout_input_phone_work);
+                        phoneOtherTextInputLayout = (TextInputLayout) dialogView.findViewById(R.id.dialog_edit_profile_kaseb_text_input_layout_input_phone_other);
+                        phoneFaxTextInputLayout = (TextInputLayout) dialogView.findViewById(R.id.dialog_edit_profile_kaseb_text_input_layout_input_phone_fax);
+                        addressCountryTextInputLayout = (TextInputLayout) dialogView.findViewById(R.id.dialog_edit_profile_kaseb_text_input_layout_input_address_country);
+                        addressCityTextInputLayout = (TextInputLayout) dialogView.findViewById(R.id.dialog_edit_profile_kaseb_text_input_layout_input_address_city);
+                        addressStreetTextInputLayout = (TextInputLayout) dialogView.findViewById(R.id.dialog_edit_profile_kaseb_text_input_layout_input_address_street);
+                        addressPostalCodeTextInputLayout = (TextInputLayout) dialogView.findViewById(R.id.dialog_edit_profile_kaseb_text_input_layout_input_address_postal_code);
 
-                            //endregion define views
+                        if (kasebSharedPreferences.getString("firstName", null) == null)
+                            dialogView.setCancelable(false);
 
-                            break;
-                        }
+                        //region show info of kaseb profile
+                        firstName.setText(kasebSharedPreferences.getString("firstName", null));
+                        lastName.setText(kasebSharedPreferences.getString("lastName", null));
+                        birthDay.setText(kasebSharedPreferences.getString("birthDay", null));
+                        phoneMobile.setText(kasebSharedPreferences.getString("phoneMobile", null));
+                        phoneWork.setText(kasebSharedPreferences.getString("phoneWork", null));
+                        phoneFax.setText(kasebSharedPreferences.getString("phoneFax", null));
+                        phoneOther.setText(kasebSharedPreferences.getString("phoneOther", null));
+                        customerDescription.setText(kasebSharedPreferences.getString("customerDescription", null));
+                        email.setText(kasebSharedPreferences.getString("email", null));
+                        addressCountry.setText(kasebSharedPreferences.getString("addressCountry", null));
+                        addressCity.setText(kasebSharedPreferences.getString("addressCity", null));
+                        addressStreet.setText(kasebSharedPreferences.getString("addressStreet", null));
+                        addressPostalCode.setText(kasebSharedPreferences.getString("addressPostalCode", null));
+
+                        if (kasebSharedPreferences.getString("customerAvatar", null) != null)
+//                            mCustomerAvatar.setImageBitmap(
+//                                    Utility.decodeBase64(kasebSharedPreferences.getString("customerAvatar", null)));
+                        //endregion show info of kaseb profile
+
+                        //endregion define views
+
+                        break;
                     }
                 }
             }
@@ -396,6 +413,7 @@ public class PreferenceHeader extends Fragment {
                 .show();
     }
 
+    @Override
     public void onActivityResult(int reqCode, int resultCode, Intent data) {
         super.onActivityResult(reqCode, resultCode, data);
         String[] displayName = new String[2];
@@ -453,6 +471,10 @@ public class PreferenceHeader extends Fragment {
                         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
                         photo.compress(Bitmap.CompressFormat.PNG, 0, byteArrayOutputStream);
                         byte[] imagegBytes = byteArrayOutputStream.toByteArray();
+
+                        ContentValues customerValues = new ContentValues();
+                        customerValues.put(KasebContract.Customers.COLUMN_CUSTOMER_PICTURE, imagegBytes);
+
                     } else if (data.getData() != null) {
                         Uri picUri = data.getData();
                         BufferedInputStream bufferInputStream = null;
@@ -467,39 +489,15 @@ public class PreferenceHeader extends Fragment {
                             ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
                             photo.compress(Bitmap.CompressFormat.PNG, 0, byteArrayOutputStream);
                             byte[] imagegBytes = byteArrayOutputStream.toByteArray();
+
+                            ContentValues customerValues = new ContentValues();
+                            customerValues.put(KasebContract.Customers.COLUMN_CUSTOMER_PICTURE, imagegBytes);
+
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
                     } else {
-                        Toast toast = Toast.makeText(getActivity(), "There is some problem in croping app", Toast.LENGTH_LONG);
-                        toast.show();
-                    }
-                    if (data.getExtras() != null) {
-                        photo = data.getExtras().getParcelable("data");
-                        mCustomerAvatar.setImageBitmap(photo);
-
-                        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-                        photo.compress(Bitmap.CompressFormat.PNG, 0, byteArrayOutputStream);
-                        byte[] imagegBytes = byteArrayOutputStream.toByteArray();
-                    } else if (data.getData() != null) {
-                        Uri picUri = data.getData();
-                        BufferedInputStream bufferInputStream = null;
-                        try {
-                            URLConnection connection = new URL(picUri.toString()).openConnection();
-                            connection.connect();
-                            bufferInputStream = new BufferedInputStream(connection.getInputStream(), 8192);
-                            photo = BitmapFactory.decodeStream(bufferInputStream);
-
-                            mCustomerAvatar.setImageBitmap(photo);
-
-                            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-                            photo.compress(Bitmap.CompressFormat.PNG, 0, byteArrayOutputStream);
-                            byte[] imagegBytes = byteArrayOutputStream.toByteArray();
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    } else {
-                        Toast toast = Toast.makeText(getActivity(), "There is some problem in croping app", Toast.LENGTH_LONG);
+                        Toast toast = Toast.makeText(getActivity(), R.string.problem_in_crop_image, Toast.LENGTH_LONG);
                         toast.show();
                     }
                 }
@@ -584,12 +582,6 @@ public class PreferenceHeader extends Fragment {
         headerIcons.add(R.drawable.importcontact);
         headerIcons.add(R.drawable.kaseb_profile);
         return headerIcons;
-    }
-
-    public void pic_selector_on_profile_kaseb(View view) {
-        mCustomerAvatar = (ImageView) view;
-        Intent gallery_Intent = new Intent(getContext(), GalleryUtil.class);
-        startActivityForResult(gallery_Intent, GALLERY_ACTIVITY_CODE);
     }
 
     private void performCrop(String picUri) {
