@@ -102,6 +102,10 @@ public class CustomersLists extends Fragment implements LoaderManager.LoaderCall
         try {
             if (kasebSharedPreferences.getBoolean("getStarted", false)) {
 
+                getActivity().getWindow().setSoftInputMode(
+                        WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
+                );
+
                 //region create alertdialog tour
                 builderTour = new AlertDialog.Builder(getActivity())
                         .setNegativeButton(R.string.cancel_tour, new DialogInterface.OnClickListener() {
