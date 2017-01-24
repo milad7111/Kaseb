@@ -10,9 +10,10 @@ import mjkarbasian.moshtarimadar.Others.DrawerActivity;
 
 public class Dashboard extends DrawerActivity {
 
+    //region declare values
     String kasebPREFERENCES = "kasebProfile";
     SharedPreferences kasebSharedPreferences;
-    //region declare values
+
     private KasebDashBoard kasebDashBoard = new KasebDashBoard();
     private FragmentManager fragmentManager = getSupportFragmentManager();
     //endregion declare values

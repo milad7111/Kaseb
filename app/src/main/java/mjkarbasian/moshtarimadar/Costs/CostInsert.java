@@ -65,10 +65,6 @@ public class CostInsert extends Fragment {
         costAmountTextInputLayout = (TextInputLayout) rootView.findViewById(R.id.text_input_layout_input_cost_amount);
         costDateTextInputLayout = (TextInputLayout) rootView.findViewById(R.id.text_input_layout_input_cost_date);
 
-        setHelperText();
-
-        costName.requestFocus();
-
         Cursor cursor = getContext().getContentResolver().query(KasebContract.CostTypes.CONTENT_URI
                 , null, null, null, null);
 
@@ -81,6 +77,94 @@ public class CostInsert extends Fragment {
 
         TypesSettingAdapter cursorAdapter = new TypesSettingAdapter(getActivity(), cursor, 0, KasebContract.CostTypes.COLUMN_COST_TYPE_POINTER);
         costType.setAdapter(cursorAdapter);
+
+        //region handle asterisk for necessary fields
+
+        //region cost name
+        costNameTextInputLayout.setHint(String.format("  %s", getResources().getString(R.string.hint_cost_name)));
+        costName.setHint(Utility.setAsteriskToView(""));
+
+        costName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    costNameTextInputLayout.setHint(String.format("* %s", getResources().getString(R.string.hint_cost_name)));
+                    costName.setHint("");
+                } else if (costName.getText().length() == 0) {
+                    costNameTextInputLayout.setHint(String.format("  %s", getResources().getString(R.string.hint_cost_name)));
+                    costName.setHint(Utility.setAsteriskToView(""));
+                }
+            }
+        });
+        //endregion cost name
+
+        costName.requestFocus();
+
+        //region cost code
+        if (costCode.length() == 0) {
+            costCodeTextInputLayout.setHint(String.format("  %s", getResources().getString(R.string.hint_cost_code)));
+            costCode.setHint(Utility.setAsteriskToView(""));
+        } else {
+            costCodeTextInputLayout.setHint(String.format("* %s", getResources().getString(R.string.hint_cost_code)));
+            costCode.setHint("");
+        }
+
+        costCode.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    costCodeTextInputLayout.setHint(String.format("* %s", getResources().getString(R.string.hint_cost_code)));
+                    costCode.setHint("");
+                } else if (costCode.getText().length() == 0) {
+                    costCodeTextInputLayout.setHint(String.format("  %s", getResources().getString(R.string.hint_cost_code)));
+                    costCode.setHint(Utility.setAsteriskToView(""));
+                }
+            }
+        });
+        //endregion cost code
+
+        //region cost amount
+        costAmountTextInputLayout.setHint(String.format("  %s", getResources().getString(R.string.hint_cost_amount)));
+        costAmount.setHint(Utility.setAsteriskToView(""));
+
+        costAmount.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    costAmountTextInputLayout.setHint(String.format("* %s", getResources().getString(R.string.hint_cost_amount)));
+                    costAmount.setHint("");
+                } else if (costAmount.getText().length() == 0) {
+                    costAmountTextInputLayout.setHint(String.format("  %s", getResources().getString(R.string.hint_cost_amount)));
+                    costAmount.setHint(Utility.setAsteriskToView(""));
+                }
+            }
+        });
+        //endregion cost amount
+
+        //region cost date
+        if (costDate.length() == 0) {
+            costDateTextInputLayout.setHint(String.format("  %s", getResources().getString(R.string.hint_date_picker)));
+            costDate.setHint(Utility.setAsteriskToView(""));
+        } else {
+            costDateTextInputLayout.setHint(String.format("* %s", getResources().getString(R.string.hint_date_picker)));
+            costDate.setHint("");
+        }
+
+        costDate.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    costDateTextInputLayout.setHint(String.format("* %s", getResources().getString(R.string.hint_date_picker)));
+                    costDate.setHint("");
+                } else if (costDate.getText().length() == 0) {
+                    costDateTextInputLayout.setHint(String.format("  %s", getResources().getString(R.string.hint_date_picker)));
+                    costDate.setHint(Utility.setAsteriskToView(""));
+                }
+            }
+        });
+        //endregion cost date
+
+        //endregion handle asterisk for necessary fields
         return rootView;
     }
 
@@ -111,6 +195,7 @@ public class CostInsert extends Fragment {
                     Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.msg_insert_succeed),
                             Toast.LENGTH_LONG).show();
 
+                    getHelperText();
                     backToLastPage();
                 }
                 break;
@@ -126,55 +211,51 @@ public class CostInsert extends Fragment {
         getFragmentManager().popBackStackImmediate();
     }
 
-    private void setHelperText() {
+    private void getHelperText() {
 
-        costNameTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data));
-
-        costCodeTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data));
-
-        costAmountTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data));
-
-        costDateTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data)
-                + getResources().getString(R.string.date_format_error));
+        costNameTextInputLayout.setError(null);
+        costCodeTextInputLayout.setError(null);
+        costAmountTextInputLayout.setError(null);
+        costDateTextInputLayout.setError(null);
     }
 
     // this method check the validation and correct entries. its check fill first and then check the validation rules.
     private boolean checkValidityWithChangeColorOfHelperText() {
         if (!Utility.checkForValidityForEditTextNullOrEmpty(getActivity(), costName)) {
-            Utility.changeColorOfHelperText(getActivity(), costNameTextInputLayout, Utility.mIdOfColorSetError);
+            costNameTextInputLayout.setError(getResources().getString(R.string.example_cost_name));
             costName.setSelectAllOnFocus(true);
             costName.selectAll();
             costName.requestFocus();
             return false;
         } else
-            Utility.changeColorOfHelperText(getActivity(), costNameTextInputLayout, Utility.mIdOfColorGetError);
+            costNameTextInputLayout.setError(null);
 
         if (!Utility.checkForValidityForEditTextNullOrEmpty(getActivity(), costCode)) {
-            Utility.changeColorOfHelperText(getActivity(), costCodeTextInputLayout, Utility.mIdOfColorSetError);
+            costCodeTextInputLayout.setError(getResources().getString(R.string.example_cost_code));
             costCode.setSelectAllOnFocus(true);
             costCode.selectAll();
             costCode.requestFocus();
             return false;
         } else
-            Utility.changeColorOfHelperText(getActivity(), costCodeTextInputLayout, Utility.mIdOfColorGetError);
+            costCodeTextInputLayout.setError(null);
 
         if (!Utility.checkForValidityForEditTextNullOrEmpty(getActivity(), costAmount)) {
-            Utility.changeColorOfHelperText(getActivity(), costAmountTextInputLayout, Utility.mIdOfColorSetError);
+            costAmountTextInputLayout.setError(getResources().getString(R.string.example_price));
             costAmount.setSelectAllOnFocus(true);
             costAmount.selectAll();
             costAmount.requestFocus();
             return false;
         } else
-            Utility.changeColorOfHelperText(getActivity(), costAmountTextInputLayout, Utility.mIdOfColorGetError);
+            costAmountTextInputLayout.setError(null);
 
         if (!Utility.checkForValidityForEditTextDate(getActivity(), costDate)) {
-            Utility.changeColorOfHelperText(getActivity(), costDateTextInputLayout, Utility.mIdOfColorSetError);
+            costDateTextInputLayout.setError(getResources().getString(R.string.example_date));
             costDate.setSelectAllOnFocus(true);
             costDate.selectAll();
             costDate.requestFocus();
             return false;
         } else
-            Utility.changeColorOfHelperText(getActivity(), costDateTextInputLayout, Utility.mIdOfColorGetError);
+            costDateTextInputLayout.setError(null);
 
         return true;
     }

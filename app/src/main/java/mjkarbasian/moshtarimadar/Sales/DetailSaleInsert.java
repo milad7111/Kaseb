@@ -10,6 +10,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
@@ -24,8 +25,10 @@ import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -60,6 +63,8 @@ public class DetailSaleInsert extends AppCompatActivity {
     int mNumberOfChooseProduct = 0;
     CheckBox isPassCheckBox;
     ListView modeList;
+    ImageButton mImageButtonAddProduct;
+    ScrollView mScrollViewDetailSale;
 
     AlertDialog.Builder builder;
     AlertDialog dialogView;
@@ -86,7 +91,6 @@ public class DetailSaleInsert extends AppCompatActivity {
     ContentValues[] itemsValuesArray;
     ContentValues[] paymentValuesArray;
     ContentValues[] taxValuesArray;
-
     ContentValues saleValues = new ContentValues();
     ContentValues detailSaleValues = new ContentValues();
     ContentValues itemsValues;
@@ -177,11 +181,62 @@ public class DetailSaleInsert extends AppCompatActivity {
         saleCode.setText(Utility.preInsertSaleCode(this));
         saleCode.setSelection(saleCode.getText().length());
 
+        mImageButtonAddProduct = (ImageButton) findViewById(R.id.content_detail_sale_insert_add_product_image_button);
+        mScrollViewDetailSale = (ScrollView) findViewById(R.id.scroll_view_content_detail_sale_insert);
+
         saleDate = (EditText) findViewById(R.id.detail_sales_info_sale_date);
         saleDateTextInputLayout = (TextInputLayout) findViewById(R.id.text_input_layout_detail_sales_info_sale_date);
         saleDate.setText(Utility.preInsertDate(mContext));
 
-        setHelperText();
+        //region handle asterisk for necessary fields
+
+        //region sale code
+        if (saleCode.length() == 0) {
+            saleCodeTextInputLayout.setHint(String.format("  %s", getResources().getString(R.string.detail_sales_info_sale_code)));
+            saleCode.setHint(Utility.setAsteriskToView(""));
+        } else {
+            saleCodeTextInputLayout.setHint(String.format("* %s", getResources().getString(R.string.detail_sales_info_sale_code)));
+            saleCode.setHint("");
+        }
+
+        saleCode.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    saleCodeTextInputLayout.setHint(String.format("* %s", getResources().getString(R.string.detail_sales_info_sale_code)));
+                    saleCode.setHint("");
+                } else if (saleCode.getText().length() == 0 && saleCodeTextInputLayout.getError() == null) {
+                    saleCodeTextInputLayout.setHint(String.format("  %s", getResources().getString(R.string.detail_sales_info_sale_code)));
+                    saleCode.setHint(Utility.setAsteriskToView(""));
+                }
+            }
+        });
+        //endregion sale code
+
+        //region sale date
+        if (saleDate.length() == 0) {
+            saleDateTextInputLayout.setHint(String.format("  %s", getResources().getString(R.string.hint_date_picker)));
+            saleDate.setHint(Utility.setAsteriskToView(""));
+        } else {
+            saleDateTextInputLayout.setHint(String.format("* %s", getResources().getString(R.string.hint_date_picker)));
+            saleDate.setHint("");
+        }
+
+        saleDate.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    saleDateTextInputLayout.setHint(String.format("* %s", getResources().getString(R.string.hint_date_picker)));
+                    saleDate.setHint("");
+                } else if (saleDate.getText().length() == 0) {
+                    saleDateTextInputLayout.setHint(String.format("  %s", getResources().getString(R.string.hint_date_picker)));
+                    saleDate.setHint(Utility.setAsteriskToView(""));
+                }
+            }
+        });
+        //endregion sale date
+
+        //endregion handle asterisk for necessary fields
 
         saleCode.requestFocus();
 
@@ -453,6 +508,7 @@ public class DetailSaleInsert extends AppCompatActivity {
                     }
                     //endregion Print Factor
 
+                    getHelperText();
                     finish();
                     break;
                 }
@@ -970,20 +1026,17 @@ public class DetailSaleInsert extends AppCompatActivity {
                         mContext,
                         Utility.DecimalSeperation(mContext, sBalanceAmount)));
 
-        if (sFinalAmount < 0)
+        if (sFinalAmount > 0)
             finalAmountSummary.setError(null);
 
-        if (sBalanceAmount < 0)
+        if (sBalanceAmount > 0)
             balanceSummary.setError(null);
     }
 
-    private void setHelperText() {
+    private void getHelperText() {
 
-        saleCodeTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data)
-                + getResources().getString(R.string.non_repetitive));
-
-        saleDateTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data)
-                + getResources().getString(R.string.date_format_error));
+        saleCodeTextInputLayout.setError(null);
+        saleDateTextInputLayout.setError(null);
     }
 
     // this method check the validation and correct entries. its check fill first and then check the validation rules.
@@ -992,32 +1045,68 @@ public class DetailSaleInsert extends AppCompatActivity {
         if (!Utility.checkForValidityForEditTextNullOrEmptyAndItterative(
                 mContext, saleCode, saleCodeTextInputLayout, KasebContract.Sales.CONTENT_URI,
                 KasebContract.Sales.COLUMN_SALE_CODE + " = ? ",
-                KasebContract.Sales._ID, new String[]{saleCode.getText().toString()}))
+                KasebContract.Sales._ID, new String[]{saleCode.getText().toString()})) {
+            saleCodeTextInputLayout.setError(String.format("%s %s",
+                    getResources().getString(R.string.example_sale_code),
+                    getResources().getString(R.string.non_repetitive)));
             return false;
+        }
 
         if (!Utility.checkForValidityForEditTextDate(DetailSaleInsert.this, saleDate)) {
-            Utility.changeColorOfHelperText(DetailSaleInsert.this, saleDateTextInputLayout, Utility.mIdOfColorSetError);
+            saleDateTextInputLayout.setError(getResources().getString(R.string.example_date));
             saleDate.setSelectAllOnFocus(true);
             saleDate.selectAll();
             saleDate.requestFocus();
             return false;
         } else
-            Utility.changeColorOfHelperText(DetailSaleInsert.this, saleDateTextInputLayout, Utility.mIdOfColorGetError);
+            saleDateTextInputLayout.setError(null);
 
         if (customerId == 0) {
             Utility.setErrorForTextView(nameCustomer);
-            Toast.makeText(mContext, R.string.choose_customer_error_for_sale, Toast.LENGTH_SHORT).show();
+            Snackbar.make(findViewById(android.R.id.content), R.string.choose_customer_error_for_sale, Snackbar.LENGTH_INDEFINITE)
+                    .setAction(getResources().getString(R.string.ok_button), new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            mScrollViewDetailSale.scrollTo(0, 0);
+                        }
+                    })
+                    .setActionTextColor(getResources().getColor(R.color.colorAccent))
+                    .show();
             return false;
         } else if (mChosenProductListMap.size() == 0) {
-            Toast.makeText(mContext, R.string.validity_error_dsale_select_product, Toast.LENGTH_SHORT).show();
+            Snackbar.make(findViewById(android.R.id.content), R.string.validity_error_dsale_select_product, Snackbar.LENGTH_INDEFINITE)
+                    .setAction(getResources().getString(R.string.ok_button), new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            mImageButtonAddProduct.requestFocus();
+                        }
+                    })
+                    .setActionTextColor(getResources().getColor(R.color.colorAccent))
+                    .show();
             return false;
         } else if (sFinalAmount < 0) {
             Utility.setErrorForTextView(finalAmountSummary);
-            Toast.makeText(mContext, R.string.not_minus_number, Toast.LENGTH_SHORT).show();
+            Snackbar.make(findViewById(android.R.id.content), R.string.not_minus_number, Snackbar.LENGTH_INDEFINITE)
+                    .setAction(getResources().getString(R.string.ok_button), new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            mScrollViewDetailSale.scrollTo(0, mScrollViewDetailSale.getBottom());
+                        }
+                    })
+                    .setActionTextColor(getResources().getColor(R.color.colorAccent))
+                    .show();
             return false;
         } else if (sBalanceAmount < 0) {
             Utility.setErrorForTextView(balanceSummary);
-            Toast.makeText(mContext, R.string.not_minus_number, Toast.LENGTH_SHORT).show();
+            Snackbar.make(findViewById(android.R.id.content), R.string.not_minus_number, Snackbar.LENGTH_INDEFINITE)
+                    .setAction(getResources().getString(R.string.ok_button), new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            mScrollViewDetailSale.scrollTo(0, mScrollViewDetailSale.getBottom());
+                        }
+                    })
+                    .setActionTextColor(getResources().getColor(R.color.colorAccent))
+                    .show();
             return false;
         }
 

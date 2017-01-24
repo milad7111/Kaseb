@@ -131,7 +131,7 @@
     <!-- CostInsert Hints-->
     <string name="hint_cost_name">Cost name</string>
     <string name="hint_description">Description</string>
-    <string name="hint_date_picker">Date: YYYY/M/D</string>
+    <string name="hint_date_picker">Date</string>
     <string name="hint_cost_amount">Amount</string>
     <string name="hint_cost_code">Cost code</string>
     <string name="msg_insert_succeed">Data successfully added.</string>
@@ -165,7 +165,7 @@
     <!-- CustomerInsert Hints-->
     <string name="hint_first_name">  First name</string>
     <string name="hint_last_name">Last name</string>
-    <string name="hint_birth_day">BirthDay: YYYY/M/D</string>
+    <string name="hint_birth_day">BirthDay</string>
     <string-array name="state_types">
         <item>Gold</item>
         <item>Silver</item>
@@ -490,11 +490,21 @@
     <string name="title_customer_insert">Add New Customer</string>
     <string name="title_product_insert">Add New Product/Service</string>
     <string name="title_sale_insert">Create New Sale</string>
+    <string name="choose_member_ship_of_customer">Choose MemberShip of customer :</string>
+    <string name="choose_type_of_cost">Choose type of cost :</string>
+    <string name="ok_button">OK</string>
 
     <string name="example_first_name">Example : Ali</string>
     <string name="example_last_name">Example : Watson</string>
     <string name="example_mobile_number">Example : 09121234567</string>
     <string name="example_date">Example : 2017/1/1</string>
     <string name="example_email">Example : kaseb@gmail.com</string>
+    <string name="example_product_name">Example : Samsung S7</string>
+    <string name="example_product_code">Example : P-1</string>
+    <string name="example_price">Example : 150000</string>
+    <string name="example_quantity">Example : 15</string>
+    <string name="example_cost_name">Example : Gas Bill</string>
+    <string name="example_cost_code">Example : C-1</string>
+    <string name="example_sale_code">Example : INV-1</string>
 
 </resources>

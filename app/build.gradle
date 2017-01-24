@@ -38,7 +38,4 @@ dependencies {
     compile 'com.pes.materialcolorpicker:library:1.0.3'
     compile 'com.itextpdf:itextg:5.5.10'
     compile 'com.github.PhilJay:MPAndroidChart:v3.0.1'
-    compile ('com.github.worker8:tourguide:1.0.17-SNAPSHOT@aar'){
-        transitive=true
-    }
 }

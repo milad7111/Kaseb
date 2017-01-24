@@ -184,6 +184,8 @@ public class CustomerInsert extends Fragment {
         });
         //endregion first name
 
+        firstName.requestFocus();
+
         //region last name
         lastNameTextInputLayout.setHint(String.format("  %s", getResources().getString(R.string.hint_last_name)));
         lastName.setHint(Utility.setAsteriskToView(""));
@@ -549,6 +551,7 @@ public class CustomerInsert extends Fragment {
 
         if (!email.getText().toString().equals("") && !email.getText().toString().equals(null) &&
                 !Utility.validateEmail(email.getText().toString())) {
+
             emailTextInputLayout.setError(getResources().getString(R.string.example_email));
             email.setSelectAllOnFocus(true);
             email.selectAll();

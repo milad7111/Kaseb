@@ -76,8 +76,7 @@ public class ProductInsert extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_product_insert, container, false);
 
         productName = (EditText) rootView.findViewById(R.id.input_product_name);
@@ -145,6 +144,8 @@ public class ProductInsert extends Fragment {
             }
         });
         //endregion product name
+
+        productName.requestFocus();
 
         //region product code
         if (productCode.length() == 0) {
@@ -215,7 +216,7 @@ public class ProductInsert extends Fragment {
                 if (hasFocus) {
                     buyPriceTextInputLayout.setHint(String.format("* %s", getResources().getString(R.string.hint_buy_price)));
                     buyPrice.setHint("");
-                } else if (quantity.getText().length() == 0) {
+                } else if (buyPrice.getText().length() == 0) {
                     buyPriceTextInputLayout.setHint(String.format("  %s", getResources().getString(R.string.hint_buy_price)));
                     buyPrice.setHint(Utility.setAsteriskToView(""));
                 }
@@ -224,7 +225,7 @@ public class ProductInsert extends Fragment {
         //endregion buy price
 
         //region buy date
-        if (productCode.length() == 0) {
+        if (buyDate.length() == 0) {
             buyDateTextInputLayout.setHint(String.format("  %s", getResources().getString(R.string.hint_date)));
             buyDate.setHint(Utility.setAsteriskToView(""));
         } else {
@@ -238,7 +239,7 @@ public class ProductInsert extends Fragment {
                 if (hasFocus) {
                     buyDateTextInputLayout.setHint(String.format("* %s", getResources().getString(R.string.hint_date)));
                     buyDate.setHint("");
-                } else if (quantity.getText().length() == 0) {
+                } else if (buyDate.getText().length() == 0) {
                     buyDateTextInputLayout.setHint(String.format("  %s", getResources().getString(R.string.hint_date)));
                     buyDate.setHint(Utility.setAsteriskToView(""));
                 }
@@ -328,12 +329,10 @@ public class ProductInsert extends Fragment {
                     }
                 } catch (Exception e) {
                     if (salePrice.getText().toString().equals(null) || salePrice.getText().toString().equals("")) {
-                        Utility.changeColorOfHelperText(getActivity(), salePriceTextInputLayout, R.color.colorRed);
+                        salePriceTextInputLayout.setError(getResources().getString(R.string.example_price));
                         salePrice.requestFocus();
-                    } else {
-                        discountAmount.setError(getResources().getString(R.string.choose_appropriate_data));
-                        Utility.changeColorOfHelperText(getActivity(), discountAmountTextInputLayout, Utility.mIdOfColorGetError);
-                    }
+                    } else
+                        discountAmountTextInputLayout.setError(getResources().getString(R.string.example_price));
                 }
             }
 
@@ -346,12 +345,10 @@ public class ProductInsert extends Fragment {
                     buyPrice.setText(String.format("%.2f", Float.valueOf(mSalePrice - mDiscountAmount)));
                 } catch (Exception e) {
                     if (salePrice.getText().toString().equals(null) || salePrice.getText().toString().equals("")) {
-                        Utility.changeColorOfHelperText(getActivity(), salePriceTextInputLayout, R.color.colorRed);
+                        salePriceTextInputLayout.setError(getResources().getString(R.string.example_price));
                         salePrice.requestFocus();
-                    } else {
-                        discountAmountTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data));
-                        Utility.changeColorOfHelperText(getActivity(), discountAmountTextInputLayout, Utility.mIdOfColorGetError);
-                    }
+                    } else
+                        discountAmountTextInputLayout.setError(getResources().getString(R.string.example_price));
                 }
             }
         });
@@ -379,13 +376,10 @@ public class ProductInsert extends Fragment {
                     }
                 } catch (Exception e) {
                     if (salePrice.getText().toString().equals(null) || salePrice.getText().toString().equals("")) {
-                        Utility.changeColorOfHelperText(getActivity(), salePriceTextInputLayout, Utility.mIdOfColorSetError);
-                        salePriceTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data));
+                        salePriceTextInputLayout.setError(getResources().getString(R.string.example_price));
                         salePrice.requestFocus();
-                    } else {
-                        Utility.changeColorOfHelperText(getActivity(), discountPercentTextInputLayout, Utility.mIdOfColorGetError);
-                        discountPercentTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data));
-                    }
+                    } else
+                        discountPercentTextInputLayout.setError(getResources().getString(R.string.example_quantity));
                 }
             }
 
@@ -400,13 +394,10 @@ public class ProductInsert extends Fragment {
                     discountAmount.setText(String.format("%.2f", Float.valueOf(mDiscountPercent * mSalePrice / 100)));
                 } catch (Exception e) {
                     if (salePrice.getText().toString().equals(null) || salePrice.getText().toString().equals("")) {
-                        Utility.changeColorOfHelperText(getActivity(), salePriceTextInputLayout, Utility.mIdOfColorSetError);
-                        salePriceTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data));
+                        salePriceTextInputLayout.setError(getResources().getString(R.string.example_price));
                         salePrice.requestFocus();
-                    } else {
-                        Utility.changeColorOfHelperText(getActivity(), discountPercentTextInputLayout, Utility.mIdOfColorGetError);
-                        discountPercentTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data));
-                    }
+                    } else
+                        discountPercentTextInputLayout.setError(getResources().getString(R.string.example_quantity));
                 }
             }
         });
@@ -464,6 +455,7 @@ public class ProductInsert extends Fragment {
                     Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.msg_insert_succeed),
                             Toast.LENGTH_LONG).show();
 
+                    getHelperText();
                     backToLastPage();
                 }
 
@@ -479,6 +471,18 @@ public class ProductInsert extends Fragment {
         getFragmentManager().popBackStackImmediate();
     }
 
+    private void getHelperText() {
+
+        productNameTextInputLayout.setError(null);
+        productCodeTextInputLayout.setError(null);
+        salePriceTextInputLayout.setError(null);
+        quantityTextInputLayout.setError(null);
+        buyPriceTextInputLayout.setError(null);
+        buyDateTextInputLayout.setError(null);
+        discountAmountTextInputLayout.setError(null);
+        discountPercentTextInputLayout.setError(null);
+    }
+
     // this method check the validation and correct entries. its check fill first and then check the validation rules.
     private boolean checkValidityWithChangeColorOfHelperText() {
 
@@ -486,51 +490,43 @@ public class ProductInsert extends Fragment {
                 getActivity(), productName, productNameTextInputLayout, KasebContract.Products.CONTENT_URI,
                 KasebContract.Products.COLUMN_PRODUCT_NAME + " = ? ",
                 KasebContract.Products._ID, new String[]{productName.getText().toString()})) {
-            productNameTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data)
-                    + getResources().getString(R.string.non_repetitive));
+            productNameTextInputLayout.setError(String.format("%s %s",
+                    getResources().getString(R.string.example_product_name),
+                    getResources().getString(R.string.non_repetitive)));
             return false;
         }
 
         if (!Utility.checkForValidityForEditTextNullOrEmpty(getActivity(), productCode)) {
-            Utility.changeColorOfHelperText(getActivity(), productCodeTextInputLayout, Utility.mIdOfColorSetError);
-            productCodeTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data));
+            productCodeTextInputLayout.setError(getResources().getString(R.string.example_product_code));
             productCode.setSelectAllOnFocus(true);
             productCode.selectAll();
             productCode.requestFocus();
             return false;
-        } else {
-            Utility.changeColorOfHelperText(getActivity(), productCodeTextInputLayout, Utility.mIdOfColorGetError);
+        } else
             productCodeTextInputLayout.setError(null);
-        }
 
         if (!Utility.checkForValidityForEditTextNullOrEmpty(getActivity(), salePrice)) {
-            Utility.changeColorOfHelperText(getActivity(), salePriceTextInputLayout, Utility.mIdOfColorSetError);
-            salePriceTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data));
+            salePriceTextInputLayout.setError(getResources().getString(R.string.example_price));
             salePrice.setSelectAllOnFocus(true);
             salePrice.selectAll();
             salePrice.requestFocus();
             return false;
-        } else {
-            Utility.changeColorOfHelperText(getActivity(), salePriceTextInputLayout, Utility.mIdOfColorGetError);
+        } else
             salePriceTextInputLayout.setError(null);
-        }
 
         if (!Utility.checkForValidityForEditTextNullOrEmpty(getActivity(), quantity)) {
-            Utility.changeColorOfHelperText(getActivity(), quantityTextInputLayout, Utility.mIdOfColorSetError);
-            quantityTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data));
+            quantityTextInputLayout.setError(getResources().getString(R.string.example_quantity));
             quantity.setSelectAllOnFocus(true);
             quantity.selectAll();
             quantity.requestFocus();
             return false;
-        } else {
-            Utility.changeColorOfHelperText(getActivity(), quantityTextInputLayout, Utility.mIdOfColorGetError);
+        } else
             quantityTextInputLayout.setError(null);
-        }
 
         if (!Utility.checkForValidityForEditTextNullOrEmpty(getActivity(), buyPrice)) {
-            Utility.changeColorOfHelperText(getActivity(), buyPriceTextInputLayout, Utility.mIdOfColorSetError);
-            buyPriceTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data)
-                    + getResources().getString(R.string.not_more_than_sale_price));
+            buyPriceTextInputLayout.setError(String.format("%s %s",
+                    getResources().getString(R.string.example_price),
+                    getResources().getString(R.string.not_more_than_sale_price)));
             buyPrice.setSelectAllOnFocus(true);
             buyPrice.selectAll();
             buyPrice.requestFocus();
@@ -540,31 +536,25 @@ public class ProductInsert extends Fragment {
             Float mSalePrice = Float.valueOf(salePrice.getText().toString());
 
             if (mBuyPrice > mSalePrice) {
-                Utility.changeColorOfHelperText(getActivity(), buyPriceTextInputLayout, Utility.mIdOfColorSetError);
-                buyPriceTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data)
-                        + getResources().getString(R.string.not_more_than_sale_price));
+                buyPriceTextInputLayout.setError(String.format("%s %s",
+                        getResources().getString(R.string.example_price),
+                        getResources().getString(R.string.not_more_than_sale_price)));
                 buyPrice.setSelectAllOnFocus(true);
                 buyPrice.selectAll();
                 buyPrice.requestFocus();
                 return false;
-            } else {
-                Utility.changeColorOfHelperText(getActivity(), buyPriceTextInputLayout, Utility.mIdOfColorGetError);
+            } else
                 buyPriceTextInputLayout.setError(null);
-            }
         }
 
         if (!Utility.checkForValidityForEditTextDate(getActivity(), buyDate)) {
-            Utility.changeColorOfHelperText(getActivity(), buyDateTextInputLayout, Utility.mIdOfColorSetError);
-            buyDateTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data)
-                    + getResources().getString(R.string.date_format_error));
+            buyDateTextInputLayout.setError(getResources().getString(R.string.example_date));
             buyDate.setSelectAllOnFocus(true);
             buyDate.selectAll();
             buyDate.requestFocus();
             return false;
-        } else {
-            Utility.changeColorOfHelperText(getActivity(), buyDateTextInputLayout, Utility.mIdOfColorGetError);
+        } else
             buyDateTextInputLayout.setError(null);
-        }
 
         return true;
     }

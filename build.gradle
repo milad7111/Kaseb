@@ -22,10 +22,3 @@ allprojects {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
-
-repositories {
-    mavenCentral()
-    maven(){
-        url "https://oss.sonatype.org/content/repositories/snapshots"
-    }
-}

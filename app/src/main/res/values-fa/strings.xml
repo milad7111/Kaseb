@@ -175,7 +175,7 @@
     <string name="hint_address_country">کشور</string>
     <string name="hint_address_postal_code">کد پستی</string>
     <string name="hint_address_street">خیابان</string>
-    <string name="hint_birth_day">تاریخ تولد: روز/ماه/سال</string>
+    <string name="hint_birth_day">تاریخ تولد</string>
     <string name="hint_buy_price">قیمت خرید</string>
     <string name="hint_buy_price_discount_amount">مبلغ تخفیف</string>
     <string name="hint_buy_price_discount_percent">درصد تخفیف</string>
@@ -183,7 +183,7 @@
     <string name="hint_cost_code">کد هزینه</string>
     <string name="hint_cost_name">نام هزینه</string>
     <string name="hint_date">تاریخ: روز/ماه/سال</string>
-    <string name="hint_date_picker">تاریخ: روز/ماه/سال</string>
+    <string name="hint_date_picker">تاریخ</string>
     <string name="hint_description">توضیحات</string>
     <string name="hint_discount_amount">مبلغ تخفیف</string>
     <string name="hint_discount_percent">درصد تخفیف</string>
@@ -388,9 +388,20 @@
     <string name="title_customer_insert">افزودن مشتری جدید</string>
     <string name="title_product_insert">افزودن کالا (خدمات) جدید</string>
     <string name="title_sale_insert">صدور فاکتور جدید</string>
+    <string name="choose_member_ship_of_customer">وضعیت مشتری را انتخاب کنید :</string>
+    <string name="choose_type_of_cost">نوع هزینه را انتخاب کنید :</string>
+    <string name="ok_button">تأیید</string>
 
     <string name="example_first_name">مثال : علی</string>
     <string name="example_last_name">مثال : یعقوبی</string>
+    <string name="example_mobile_number">مثال : 09121234567</string>
     <string name="example_date">مثال : 1/1/1395</string>
+    <string name="example_email">مثال : kaseb@gmail.com</string>
+    <string name="example_product_name">مثال : مانیتور سایز بزرگ</string>
+    <string name="example_product_code">مثال : کد-1</string>
+    <string name="example_price">مثال : 150000</string>
+    <string name="example_quantity">مثال : 15</string>
+    <string name="example_cost_name">مثال : قبض گاز</string>
+    <string name="example_cost_code">مثال : کد-1</string>
 
 </resources>

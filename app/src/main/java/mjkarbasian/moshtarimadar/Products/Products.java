@@ -15,7 +15,6 @@ import android.view.View;
 import mjkarbasian.moshtarimadar.Others.CostSaleProductList;
 import mjkarbasian.moshtarimadar.Others.DrawerActivity;
 import mjkarbasian.moshtarimadar.R;
-import tourguide.tourguide.TourGuide;
 
 public class Products extends DrawerActivity {
 
@@ -23,7 +22,6 @@ public class Products extends DrawerActivity {
     CostSaleProductList costsSaleProductFragment = new CostSaleProductList();
     Bundle productsBundle = new Bundle();
     Fragment productInsert = new ProductInsert();
-    TourGuide mTourGuideProducts;
     SharedPreferences kasebSharedPreferences;
     SharedPreferences.Editor editor;
 
@@ -81,12 +79,6 @@ public class Products extends DrawerActivity {
 
     public void fab_cost_sale_product(View v) {
 
-        try {
-            if (kasebSharedPreferences.getBoolean("getStarted", false))
-                mTourGuideProducts.cleanUp();
-        } catch (Exception e) {
-        }
-
         android.support.v4.app.FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.setCustomAnimations(R.anim.slide_in_up, R.anim.slide_out_down, R.anim.slide_in_down, R.anim.slide_out_up);
         fragmentTransaction.replace(R.id.container, productInsert);
@@ -141,9 +133,5 @@ public class Products extends DrawerActivity {
                 return super.onOptionsItemSelected(item);
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    public void setValueForTourGuide(TourGuide mTourGuide) {
-        mTourGuideProducts = mTourGuide;
     }
 }

@@ -112,7 +112,7 @@
                     android:layout_marginLeft="@dimen/top_of_list_margin_in_row"
                     android:layout_marginTop="@dimen/top_of_list_margin"
                     android:clickable="false"
-                    android:text="Choose StateType of customer." />
+                    android:text="@string/choose_member_ship_of_customer" />
 
                 <Spinner
                     android:id="@+id/input_state_type_spinner"
