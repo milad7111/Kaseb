@@ -1,8 +1,10 @@
 package mjkarbasian.moshtarimadar.Helpers;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
@@ -178,40 +180,6 @@ public class Utility {
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
         return mSpannableStringBuilder;
-    }
-
-    public static void ImageViewAnimatedChange(Context c, final ImageView v, final Bitmap new_image) {
-        final Animation anim_out = AnimationUtils.loadAnimation(c, android.R.anim.fade_out);
-        final Animation anim_in = AnimationUtils.loadAnimation(c, android.R.anim.fade_in);
-        anim_out.setAnimationListener(new Animation.AnimationListener() {
-            @Override
-            public void onAnimationStart(Animation animation) {
-            }
-
-            @Override
-            public void onAnimationRepeat(Animation animation) {
-            }
-
-            @Override
-            public void onAnimationEnd(Animation animation) {
-                v.setImageBitmap(new_image);
-                anim_in.setAnimationListener(new Animation.AnimationListener() {
-                    @Override
-                    public void onAnimationStart(Animation animation) {
-                    }
-
-                    @Override
-                    public void onAnimationRepeat(Animation animation) {
-                    }
-
-                    @Override
-                    public void onAnimationEnd(Animation animation) {
-                    }
-                });
-                v.startAnimation(anim_in);
-            }
-        });
-        v.startAnimation(anim_out);
     }
 
     public static boolean validateEmail(String email) {
@@ -527,24 +495,26 @@ public class Utility {
         if (cursor.getCount() == 0) paymentsMethodinit(context);
         cursor = context.getContentResolver().query(KasebContract.State.CONTENT_URI, null, null, null, null);
         if (cursor.getCount() == 0) stateInits(context);
-        cursor = context.getContentResolver().query(KasebContract.Customers.CONTENT_URI, null, null, null, null);
-        if (cursor.getCount() == 0) customerInits(context);
-        cursor = context.getContentResolver().query(KasebContract.Products.CONTENT_URI, null, null, null, null);
-        if (cursor.getCount() == 0) productInits(context);
-        cursor = context.getContentResolver().query(KasebContract.Costs.CONTENT_URI, null, null, null, null);
-        if (cursor.getCount() == 0) costsInits(context);
-        cursor = context.getContentResolver().query(KasebContract.Sales.CONTENT_URI, null, null, null, null);
-        if (cursor.getCount() == 0) salesInits(context);
-        cursor = context.getContentResolver().query(KasebContract.DetailSale.CONTENT_URI, null, null, null, null);
-        if (cursor.getCount() == 0) detailSaleInits(context);
-        cursor = context.getContentResolver().query(KasebContract.DetailSaleProducts.CONTENT_URI, null, null, null, null);
-        if (cursor.getCount() == 0) dSaleProductInits(context);
-        cursor = context.getContentResolver().query(KasebContract.DetailSalePayments.CONTENT_URI, null, null, null, null);
-        if (cursor.getCount() == 0) dSalePaymentInits(context);
-        cursor = context.getContentResolver().query(KasebContract.DetailSaleTaxes.CONTENT_URI, null, null, null, null);
-        if (cursor.getCount() == 0) dSaleTaxInits(context);
-        cursor = context.getContentResolver().query(KasebContract.ProductHistory.CONTENT_URI, null, null, null, null);
-        if (cursor.getCount() == 0) productHistoryInits(context);
+        //region initialize sample data
+//        cursor = context.getContentResolver().query(KasebContract.Customers.CONTENT_URI, null, null, null, null);
+//        if (cursor.getCount() == 0) customerInits(context);
+//        cursor = context.getContentResolver().query(KasebContract.Products.CONTENT_URI, null, null, null, null);
+//        if (cursor.getCount() == 0) productInits(context);
+//        cursor = context.getContentResolver().query(KasebContract.Costs.CONTENT_URI, null, null, null, null);
+//        if (cursor.getCount() == 0) costsInits(context);
+//        cursor = context.getContentResolver().query(KasebContract.Sales.CONTENT_URI, null, null, null, null);
+//        if (cursor.getCount() == 0) salesInits(context);
+//        cursor = context.getContentResolver().query(KasebContract.DetailSale.CONTENT_URI, null, null, null, null);
+//        if (cursor.getCount() == 0) detailSaleInits(context);
+//        cursor = context.getContentResolver().query(KasebContract.DetailSaleProducts.CONTENT_URI, null, null, null, null);
+//        if (cursor.getCount() == 0) dSaleProductInits(context);
+//        cursor = context.getContentResolver().query(KasebContract.DetailSalePayments.CONTENT_URI, null, null, null, null);
+//        if (cursor.getCount() == 0) dSalePaymentInits(context);
+//        cursor = context.getContentResolver().query(KasebContract.DetailSaleTaxes.CONTENT_URI, null, null, null, null);
+//        if (cursor.getCount() == 0) dSaleTaxInits(context);
+//        cursor = context.getContentResolver().query(KasebContract.ProductHistory.CONTENT_URI, null, null, null, null);
+//        if (cursor.getCount() == 0) productHistoryInits(context);
+//endregio
         cursor.close();
 
         if (Samples.productCode.size() == 0) {
@@ -1824,5 +1794,22 @@ public class Utility {
             return Typeface.createFromAsset(mContext.getAssets(), "fonts/bmitra.ttf");
 
         return Typeface.create(Typeface.DEFAULT, 16);
+    }
+
+    public static void activityOnBackExit(final Activity activity) {
+        new AlertDialog.Builder(activity)
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setTitle(R.string.close_activity_dialog_title)
+                .setMessage(R.string.close_activity_dialog_message)
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        activity.finish();
+                    }
+
+                })
+                .setNegativeButton(android.R.string.no, null)
+                .show();
+
     }
 }

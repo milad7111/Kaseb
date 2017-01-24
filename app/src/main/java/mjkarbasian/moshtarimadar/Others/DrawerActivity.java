@@ -29,7 +29,6 @@ import mjkarbasian.moshtarimadar.Setting.MySetting;
 
 public class DrawerActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-
     //region declare values
     static SharedPreferences kasebSharedPreferences;
     static TextView kasebProfileTextView;
@@ -37,6 +36,7 @@ public class DrawerActivity extends AppCompatActivity implements NavigationView.
     SharedPreferences.Editor editor;
     Intent intent;
     DrawerLayout mDrawer;
+
     private ActionBarDrawerToggle mDrawerToggle;
     //endregion declare values
 

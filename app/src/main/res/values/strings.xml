@@ -458,7 +458,7 @@
     <string name="problem_in_crop_image">There is some problem in croping app</string>
     <string name="does_not_support_crop_action">your device doesn\'t support the crop action!</string>
     <string name="complete_profile_kaseb">Your profile must be completed then you can go!</string>
-    <string name="title_take_tour">Take a tour</string>
+    <string name="title_take_tour">Take a Tour</string>
     <string name="insert_customer">Add customer</string>
     <string name="insert_product">Add product</string>
     <string name="insert_sale_and_print">Create Invoice and Print</string>
@@ -520,5 +520,10 @@
     <string name="final_amount_not_minus_number">Final Amount Can\'t be less than zero.</string>
     <string name="balance_amount_not_minus_number">Balance Amount Can\'t be less than zero.</string>
     <string name="message_add_profile">Please add your information.</string>
+
+    <string name="empty_list_text">No data to show</string>
+    <string name="empty_list_text_detail_sale">There is no item</string>
+    <string name="close_activity_dialog_title">Closing Activity</string>
+    <string name="close_activity_dialog_message">Are you sure you want to close this activity?</string>
 
 </resources>
