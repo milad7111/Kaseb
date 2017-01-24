@@ -6,10 +6,12 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
@@ -40,6 +42,7 @@ import mjkarbasian.moshtarimadar.Adapters.TypesSettingAdapter;
 import mjkarbasian.moshtarimadar.Data.KasebContract;
 import mjkarbasian.moshtarimadar.Data.KasebDbHelper;
 import mjkarbasian.moshtarimadar.Data.KasebProvider;
+import mjkarbasian.moshtarimadar.Helpers.RoundImageView;
 import mjkarbasian.moshtarimadar.Helpers.Utility;
 import mjkarbasian.moshtarimadar.R;
 
@@ -56,6 +59,7 @@ public class DetailSaleInsert extends AppCompatActivity {
     int mNumberOfChooseProduct = 0;
     CheckBox isPassCheckBox;
     ListView modeList;
+    RoundImageView customerAvatar;
 
     AlertDialog.Builder builder;
     AlertDialog dialogView;
@@ -163,6 +167,7 @@ public class DetailSaleInsert extends AppCompatActivity {
         balanceSummary = (TextView) findViewById(R.id.card_detail_sale_summary_balance);
         nameCustomer = (TextView) findViewById(R.id.detail_sales_info_customer_name);
         familyCustomer = (TextView) findViewById(R.id.detail_sales_info_customer_family);
+        customerAvatar = (RoundImageView) findViewById(R.id.detail_sale_customer_image);
         saleCode = (EditText) findViewById(R.id.detail_sales_info_sale_code);
         saleCodeTextInputLayout = (TextInputLayout) findViewById(R.id.text_input_layout_detail_sales_info_sale_code);
         saleCode.setText(Utility.preInsertSaleCode(this));
@@ -391,7 +396,19 @@ public class DetailSaleInsert extends AppCompatActivity {
                 KasebContract.Customers.COLUMN_STATE_ID,
                 KasebContract.Customers.COLUMN_CUSTOMER_PICTURE};
 
-        modeList = new ListView(DetailSaleInsert.this);
+        builder = new AlertDialog.Builder(DetailSaleInsert.this)
+                .setView(getLayoutInflater().inflate(R.layout.dialog_add_customers_for_sale, null))
+                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        dialog.dismiss();
+                    }
+                });
+        builder.setTitle(R.string.fab_add_customer);
+
+        dialogView = builder.create();
+        dialogView.show();
+
+        modeList = (ListView) dialogView.findViewById(R.id.list_view_customers_for_detail_sale);
         mCAdapter = new CustomerAdapter(
                 DetailSaleInsert.this,
                 getContentResolver().query(
@@ -402,15 +419,6 @@ public class DetailSaleInsert extends AppCompatActivity {
                         null),
                 0);
         modeList.setAdapter(mCAdapter);
-
-        builder = new AlertDialog.Builder(DetailSaleInsert.this)
-                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int whichButton) {
-                        dialog.dismiss();
-                    }
-                });
-        builder.setTitle(R.string.fab_add_customer);
-
         modeList.setOnItemClickListener(
                 new AdapterView.OnItemClickListener() {
                     @Override
@@ -422,6 +430,22 @@ public class DetailSaleInsert extends AppCompatActivity {
                             nameCustomer.setText(cursor.getString(cursor.getColumnIndex(KasebContract.Customers.COLUMN_FIRST_NAME)));
                             familyCustomer.setText(cursor.getString(cursor.getColumnIndex(KasebContract.Customers.COLUMN_LAST_NAME)));
                             customerId = Long.parseLong(cursor.getString(cursor.getColumnIndex(KasebContract.Customers._ID)));
+                            final byte[] imagegBytes = cursor.getBlob(cursor.getColumnIndex(KasebContract.Customers.COLUMN_CUSTOMER_PICTURE));
+                            try {
+                                Boolean mWhat = false;
+                                if (imagegBytes == null)
+                                    mWhat = true;
+                                else if (imagegBytes.length == 0)
+                                    mWhat = true;
+
+                                if (mWhat)
+                                    customerAvatar.setImageDrawable(mContext.getResources().getDrawable(
+                                            mContext.getResources().getIdentifier("@drawable/kaseb_pic", null, mContext.getPackageName())));
+                                else {
+                                    customerAvatar.setImageBitmap(BitmapFactory.decodeByteArray(imagegBytes, 0, imagegBytes.length));
+                                }
+                            } catch (Exception e) {
+                            }
                             dialogView.dismiss();
                         }
                         cursor.close();
@@ -430,11 +454,6 @@ public class DetailSaleInsert extends AppCompatActivity {
                     }
                 }
         );
-
-        builder.setView(modeList);
-        dialogView = builder.create();
-
-        dialogView.show();
     }
 
     public void fab_detail_sale_add_product(View v) {
@@ -543,6 +562,10 @@ public class DetailSaleInsert extends AppCompatActivity {
                 new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        for (int i = 0; i < parent.getChildCount(); i++) {
+                            parent.getChildAt(i).setBackgroundColor(0x000000);
+                        }
+                        view.setBackgroundColor(ContextCompat.getColor(mContext, R.color.colorAccent));
                         Cursor cursor = (Cursor) parent.getItemAtPosition(position);
                         if (cursor != null) {
                             _idOfProduct = cursor.getString(
