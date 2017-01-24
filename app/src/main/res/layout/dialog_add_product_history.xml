@@ -69,7 +69,7 @@
                 android:id="@+id/add_product_history_buy_date"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/hint_date"
+                android:hint="@string/hint_date_picker"
                 android:inputType="date"
                 android:maxLength="10" />
 

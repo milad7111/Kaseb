@@ -124,6 +124,29 @@ public class Utility {
     private static Context _mContext;
     private static Document _mDocument;
 
+    public static void setAsteriskToTextInputLayout(final TextInputLayout mTextInputLayout, final String mHint, Boolean mFillable) {
+        if (!mFillable || mTextInputLayout.getEditText().length() == 0) {
+            mTextInputLayout.setHint(String.format("  %s", mHint));
+            mTextInputLayout.getEditText().setHint(Utility.setAsteriskToView(""));
+        } else {
+            mTextInputLayout.setHint(String.format("* %s", mHint));
+            mTextInputLayout.getEditText().setHint("");
+        }
+
+        mTextInputLayout.getEditText().setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    mTextInputLayout.setHint(String.format("* %s", mHint));
+                    mTextInputLayout.getEditText().setHint("");
+                } else if (mTextInputLayout.getEditText().getText().length() == 0) {
+                    mTextInputLayout.setHint(String.format("  %s", mHint));
+                    mTextInputLayout.getEditText().setHint(Utility.setAsteriskToView(""));
+                }
+            }
+        });
+    }
+
     public static SpannableStringBuilder setAsteriskToView(String mMessage) {
 
         SpannableStringBuilder mSpannableStringBuilder = new SpannableStringBuilder();

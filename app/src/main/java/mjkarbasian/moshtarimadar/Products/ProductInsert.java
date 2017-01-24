@@ -81,7 +81,6 @@ public class ProductInsert extends Fragment {
 
         productName = (EditText) rootView.findViewById(R.id.input_product_name);
         productCode = (EditText) rootView.findViewById(R.id.input_product_code);
-        productCode.setText(Utility.preInsertProductCode(getActivity()));
         unit = (EditText) rootView.findViewById(R.id.input_product_unit);
         productDescription = (EditText) rootView.findViewById(R.id.input_product_description);
         buyPrice = (EditText) rootView.findViewById(R.id.input_buy_price);
@@ -101,8 +100,6 @@ public class ProductInsert extends Fragment {
         productDescriptionTextInputLayout = (TextInputLayout) rootView.findViewById(R.id.text_input_layout_input_product_description);
         discountAmountTextInputLayout = (TextInputLayout) rootView.findViewById(R.id.text_input_layout_input_discount_amount);
         discountPercentTextInputLayout = (TextInputLayout) rootView.findViewById(R.id.text_input_layout_input_discount_percent);
-
-        buyDate.setText(Utility.preInsertDate(getActivity()));
 
         //region handle sharepreference
         kasebSharedPreferences = getActivity().getSharedPreferences(getString(R.string.kasebPreference), getActivity().MODE_PRIVATE);
@@ -128,123 +125,29 @@ public class ProductInsert extends Fragment {
         //region handle asterisk for necessary fields
 
         //region product name
-        productNameTextInputLayout.setHint(String.format("  %s", getResources().getString(R.string.hint_product_name)));
-        productName.setHint(Utility.setAsteriskToView(""));
-
-        productName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus) {
-                    productNameTextInputLayout.setHint(String.format("* %s", getResources().getString(R.string.hint_product_name)));
-                    productName.setHint("");
-                } else if (productName.getText().length() == 0) {
-                    productNameTextInputLayout.setHint(String.format("  %s", getResources().getString(R.string.hint_product_name)));
-                    productName.setHint(Utility.setAsteriskToView(""));
-                }
-            }
-        });
+        Utility.setAsteriskToTextInputLayout(productNameTextInputLayout, getResources().getString(R.string.hint_product_name), false);
         //endregion product name
 
         productName.requestFocus();
 
         //region product code
-        if (productCode.length() == 0) {
-            productCodeTextInputLayout.setHint(String.format("  %s", getResources().getString(R.string.hint_product_code)));
-            productCode.setHint(Utility.setAsteriskToView(""));
-        } else {
-            productCodeTextInputLayout.setHint(String.format("* %s", getResources().getString(R.string.hint_product_code)));
-            productCode.setHint("");
-        }
-
-        productCode.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus) {
-                    productCodeTextInputLayout.setHint(String.format("* %s", getResources().getString(R.string.hint_product_code)));
-                    productCode.setHint("");
-                } else if (productCode.getText().length() == 0) {
-                    productCodeTextInputLayout.setHint(String.format("  %s", getResources().getString(R.string.hint_product_code)));
-                    productCode.setHint(Utility.setAsteriskToView(""));
-                }
-            }
-        });
+        Utility.setAsteriskToTextInputLayout(productCodeTextInputLayout, getResources().getString(R.string.hint_product_code), true);
         //endregion product code
 
         //region sale price
-        salePriceTextInputLayout.setHint(String.format("  %s", getResources().getString(R.string.hint_sale_price)));
-        salePrice.setHint(Utility.setAsteriskToView(""));
-
-        salePrice.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus) {
-                    salePriceTextInputLayout.setHint(String.format("* %s", getResources().getString(R.string.hint_sale_price)));
-                    salePrice.setHint("");
-                } else if (salePrice.getText().length() == 0) {
-                    salePriceTextInputLayout.setHint(String.format("  %s", getResources().getString(R.string.hint_sale_price)));
-                    salePrice.setHint(Utility.setAsteriskToView(""));
-                }
-            }
-        });
+        Utility.setAsteriskToTextInputLayout(salePriceTextInputLayout, getResources().getString(R.string.hint_sale_price), false);
         //endregion sale price
 
         //region quantity
-        quantityTextInputLayout.setHint(String.format("  %s", getResources().getString(R.string.hint_quantity)));
-        quantity.setHint(Utility.setAsteriskToView(""));
-
-        quantity.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus) {
-                    quantityTextInputLayout.setHint(String.format("* %s", getResources().getString(R.string.hint_quantity)));
-                    quantity.setHint("");
-                } else if (quantity.getText().length() == 0) {
-                    quantityTextInputLayout.setHint(String.format("  %s", getResources().getString(R.string.hint_quantity)));
-                    quantity.setHint(Utility.setAsteriskToView(""));
-                }
-            }
-        });
+        Utility.setAsteriskToTextInputLayout(quantityTextInputLayout, getResources().getString(R.string.hint_quantity), false);
         //endregion quantity
 
         //region buy price
-        buyPriceTextInputLayout.setHint(String.format("  %s", getResources().getString(R.string.hint_buy_price)));
-        buyPrice.setHint(Utility.setAsteriskToView(""));
-
-        buyPrice.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus) {
-                    buyPriceTextInputLayout.setHint(String.format("* %s", getResources().getString(R.string.hint_buy_price)));
-                    buyPrice.setHint("");
-                } else if (buyPrice.getText().length() == 0) {
-                    buyPriceTextInputLayout.setHint(String.format("  %s", getResources().getString(R.string.hint_buy_price)));
-                    buyPrice.setHint(Utility.setAsteriskToView(""));
-                }
-            }
-        });
+        Utility.setAsteriskToTextInputLayout(buyPriceTextInputLayout, getResources().getString(R.string.hint_buy_price), false);
         //endregion buy price
 
         //region buy date
-        if (buyDate.length() == 0) {
-            buyDateTextInputLayout.setHint(String.format("  %s", getResources().getString(R.string.hint_date)));
-            buyDate.setHint(Utility.setAsteriskToView(""));
-        } else {
-            buyDateTextInputLayout.setHint(String.format("* %s", getResources().getString(R.string.hint_date)));
-            buyDate.setHint("");
-        }
-
-        buyDate.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus) {
-                    buyDateTextInputLayout.setHint(String.format("* %s", getResources().getString(R.string.hint_date)));
-                    buyDate.setHint("");
-                } else if (buyDate.getText().length() == 0) {
-                    buyDateTextInputLayout.setHint(String.format("  %s", getResources().getString(R.string.hint_date)));
-                    buyDate.setHint(Utility.setAsteriskToView(""));
-                }
-            }
-        });
+        Utility.setAsteriskToTextInputLayout(buyDateTextInputLayout, getResources().getString(R.string.hint_date_picker), true);
         //endregion buy date
 
         //endregion handle asterisk for necessary fields
@@ -252,7 +155,7 @@ public class ProductInsert extends Fragment {
         try {
             if (kasebSharedPreferences.getBoolean("getStarted", false)) {
 
-                dialogViewTour.setMessage("In this page you insert necessary data of product then save it from top right corner with save button.");
+                dialogViewTour.setMessage(getResources().getString(R.string.tour_text_product_insert));
                 dialogViewTour.show();
 
                 dialogViewTour.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
@@ -322,7 +225,7 @@ public class ProductInsert extends Fragment {
 
                     if (mDiscountAmount > mSalePrice) {
                         discountAmount.setText(salePrice.getText().toString());
-                        discountAmountTextInputLayout.setError(getResources().getString(R.string.not_more_than_sale_price));
+                        discountAmountTextInputLayout.setError(getResources().getString(R.string.discount_amount_not_more_than_sale_price));
                         discountAmount.setSelectAllOnFocus(true);
                         discountAmount.selectAll();
                         discountAmount.requestFocus();
@@ -404,6 +307,16 @@ public class ProductInsert extends Fragment {
         //endregion discountPercent addTextChangedListener
 
         return rootView;
+    }
+
+    @Override
+    public void onResume() {
+        Utility.clearForm((ViewGroup) rootView);
+        getHelperText();
+        productName.requestFocus();
+        productCode.setText(Utility.preInsertProductCode(getActivity()));
+        buyDate.setText(Utility.preInsertDate(getActivity()));
+        super.onResume();
     }
 
     @Override
@@ -526,7 +439,7 @@ public class ProductInsert extends Fragment {
         if (!Utility.checkForValidityForEditTextNullOrEmpty(getActivity(), buyPrice)) {
             buyPriceTextInputLayout.setError(String.format("%s %s",
                     getResources().getString(R.string.example_price),
-                    getResources().getString(R.string.not_more_than_sale_price)));
+                    getResources().getString(R.string.amount_not_less_than_sale_price)));
             buyPrice.setSelectAllOnFocus(true);
             buyPrice.selectAll();
             buyPrice.requestFocus();
@@ -538,7 +451,7 @@ public class ProductInsert extends Fragment {
             if (mBuyPrice > mSalePrice) {
                 buyPriceTextInputLayout.setError(String.format("%s %s",
                         getResources().getString(R.string.example_price),
-                        getResources().getString(R.string.not_more_than_sale_price)));
+                        getResources().getString(R.string.amount_not_less_than_sale_price)));
                 buyPrice.setSelectAllOnFocus(true);
                 buyPrice.selectAll();
                 buyPrice.requestFocus();

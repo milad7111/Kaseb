@@ -162,7 +162,7 @@ public class CustomersLists extends Fragment implements LoaderManager.LoaderCall
                         editor.apply();
                         //region
 
-                        dialogViewTour.setMessage("This page show your customers And you can add a customer here!");
+                        dialogViewTour.setMessage(getResources().getString(R.string.tour_text_customer_list));
                         dialogViewTour.show();
 
                         dialogViewTour.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);

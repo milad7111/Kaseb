@@ -137,7 +137,7 @@
                 android:id="@+id/dialog_add_payment_for_sale_input_due_date"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/hint_date"
+                android:hint="@string/hint_date_picker"
                 android:inputType="date"
                 android:maxLength="10" />
 

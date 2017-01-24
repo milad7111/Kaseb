@@ -15,7 +15,7 @@
             android:layout_marginLeft="@dimen/abc_dialog_padding_material"
             android:layout_marginRight="@dimen/abc_dialog_padding_material"
             android:layout_marginTop="@dimen/abc_dialog_padding_material"
-            android:text="Welcome to This Tour!" />
+            android:text="@string/tour_text_welcome" />
 
         <TextView
             android:layout_width="match_parent"
@@ -23,7 +23,7 @@
             android:layout_marginLeft="@dimen/abc_dialog_padding_material"
             android:layout_marginRight="@dimen/abc_dialog_padding_material"
             android:layout_marginTop="@dimen/top_of_list_margin"
-            android:text="To use of this app you should go this way, step by step :" />
+            android:text="@string/tour_text_first" />
 
         <TextView
             android:layout_width="match_parent"
@@ -31,7 +31,7 @@
             android:layout_marginLeft="@dimen/abc_dialog_padding_material"
             android:layout_marginRight="@dimen/abc_dialog_padding_material"
             android:layout_marginTop="@dimen/top_of_list_margin"
-            android:text="1. Add a customer.\n2. Add a product.\n3. Insert Sale for a customer and print it.\n4.Check Dashboard." />
+            android:text="@string/tour_text_second" />
 
         <ListView
             android:id="@+id/list_view_tour_items"

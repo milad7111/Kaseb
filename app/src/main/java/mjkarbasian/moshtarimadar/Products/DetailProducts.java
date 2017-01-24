@@ -191,7 +191,25 @@ public class DetailProducts extends Fragment implements LoaderManager.LoaderCall
 
                 buyDate.setText(Utility.preInsertDate(getActivity()));
 
-                setHelperTextForProductHistory();
+                //region handle asterisk for necessary fields
+
+                //region sale price
+                Utility.setAsteriskToTextInputLayout(salePriceTextInputLayout, getResources().getString(R.string.hint_sale_price), false);
+                //endregion sale price
+
+                //region quantity
+                Utility.setAsteriskToTextInputLayout(quantityTextInputLayout, getResources().getString(R.string.hint_quantity), false);
+                //endregion quantity
+
+                //region buy price
+                Utility.setAsteriskToTextInputLayout(buyPriceTextInputLayout, getResources().getString(R.string.hint_buy_price), false);
+                //endregion buy price
+
+                //region buy date
+                Utility.setAsteriskToTextInputLayout(buyDateTextInputLayout, getResources().getString(R.string.hint_date_picker), true);
+                //endregion buy date
+
+                //endregion handle asterisk for necessary fields
 
                 //region discountAmount addTextChangedListener
                 discountAmount.addTextChangedListener(new TextWatcher() {
@@ -207,7 +225,7 @@ public class DetailProducts extends Fragment implements LoaderManager.LoaderCall
 
                             if (mDiscountAmount > mSalePrice) {
                                 discountAmount.setText(salePrice.getText().toString());
-                                discountAmountTextInputLayout.setError(getResources().getString(R.string.not_more_than_sale_price));
+                                discountAmountTextInputLayout.setError(getResources().getString(R.string.discount_amount_not_more_than_sale_price));
                                 discountAmount.setSelectAllOnFocus(true);
                                 discountAmount.selectAll();
                                 discountAmount.requestFocus();
@@ -332,6 +350,18 @@ public class DetailProducts extends Fragment implements LoaderManager.LoaderCall
 
                 Utility.setHeightOfListView(mListView);
 
+                //region product name
+                Utility.setAsteriskToTextInputLayout(productNameTextInputLayout, getResources().getString(R.string.hint_product_name), true);
+                //endregion product name
+
+                productName.requestFocus();
+
+                //region product code
+                Utility.setAsteriskToTextInputLayout(productCodeTextInputLayout, getResources().getString(R.string.hint_product_code), true);
+                //endregion product code
+
+                //endregion handle asterisk for necessary fields
+
                 break;
             case R.id.action_detail_product_save:
                 if (checkValidityWithChangeColorOfHelperTextForProductInsert()) {
@@ -382,8 +412,6 @@ public class DetailProducts extends Fragment implements LoaderManager.LoaderCall
         productCodeTextInputLayout = (TextInputLayout) getActivity().findViewById(R.id.text_input_layout_detail_product_code);
         productUnitTextInputLayout = (TextInputLayout) getActivity().findViewById(R.id.text_input_layout_detail_product_unit);
         productDescriptionTextInputLayout = (TextInputLayout) getActivity().findViewById(R.id.text_input_layout_detail_product_description);
-
-        setHelperTextForProduct();
 
         //in this line does not matter post 0l to second parameter of function because not use in this case
         stockProduct = Utility.checkNumberOfProductsForDetailSale(getActivity(),
@@ -456,34 +484,6 @@ public class DetailProducts extends Fragment implements LoaderManager.LoaderCall
         mAdapter.swapCursor(null);
     }
 
-    private void setHelperTextForProduct() {
-
-        productNameTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data)
-                + getResources().getString(R.string.non_repetitive));
-
-        productCodeTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data));
-        productUnitTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data));
-        productDescriptionTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data));
-    }
-
-    private void setHelperTextForProductHistory() {
-
-        salePriceTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data));
-        quantityTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data));
-
-        buyPriceTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data)
-                + getResources().getString(R.string.not_more_than_sale_price));
-
-        buyDateTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data)
-                + getResources().getString(R.string.date_format_error));
-
-        discountAmountTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data)
-                + getResources().getString(R.string.not_more_than_sale_price));
-
-        discountPercentTextInputLayout.setError(getResources().getString(R.string.choose_appropriate_data)
-                + getResources().getString(R.string.not_more_hundred));
-    }
-
     private void getHelperText() {
 
         productNameTextInputLayout.setError(null);
@@ -492,6 +492,8 @@ public class DetailProducts extends Fragment implements LoaderManager.LoaderCall
         quantityTextInputLayout.setError(null);
         buyPriceTextInputLayout.setError(null);
         buyDateTextInputLayout.setError(null);
+        discountAmountTextInputLayout.setError(null);
+        discountPercentTextInputLayout.setError(null);
     }
 
     // this method check the validation and correct entries. its check fill first and then check the validation rules.
@@ -542,7 +544,7 @@ public class DetailProducts extends Fragment implements LoaderManager.LoaderCall
         if (!Utility.checkForValidityForEditTextNullOrEmpty(getActivity(), buyPrice)) {
             buyPriceTextInputLayout.setError(String.format("%s %s",
                     getResources().getString(R.string.example_price),
-                    getResources().getString(R.string.not_more_than_sale_price)));
+                    getResources().getString(R.string.amount_not_less_than_sale_price)));
             buyPrice.setSelectAllOnFocus(true);
             buyPrice.selectAll();
             buyPrice.requestFocus();
@@ -554,7 +556,7 @@ public class DetailProducts extends Fragment implements LoaderManager.LoaderCall
             if (mBuyPrice > mSalePrice) {
                 buyPriceTextInputLayout.setError(String.format("%s %s",
                         getResources().getString(R.string.example_price),
-                        getResources().getString(R.string.not_more_than_sale_price)));
+                        getResources().getString(R.string.amount_not_less_than_sale_price)));
                 buyPrice.setSelectAllOnFocus(true);
                 buyPrice.selectAll();
                 buyPrice.requestFocus();

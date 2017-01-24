@@ -777,49 +777,11 @@ public class DetailSaleView extends AppCompatActivity {
                 //region handle asterisk for necessary fields
 
                 //region sale code
-                if (saleCode.length() == 0) {
-                    saleCodeTextInputLayout.setHint(String.format("  %s", getResources().getString(R.string.detail_sales_info_sale_code)));
-                    saleCode.setHint(Utility.setAsteriskToView(""));
-                } else {
-                    saleCodeTextInputLayout.setHint(String.format("* %s", getResources().getString(R.string.detail_sales_info_sale_code)));
-                    saleCode.setHint("");
-                }
-
-                saleCode.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-                    @Override
-                    public void onFocusChange(View v, boolean hasFocus) {
-                        if (hasFocus) {
-                            saleCodeTextInputLayout.setHint(String.format("* %s", getResources().getString(R.string.detail_sales_info_sale_code)));
-                            saleCode.setHint("");
-                        } else if (saleCode.getText().length() == 0 && saleCodeTextInputLayout.getError() == null) {
-                            saleCodeTextInputLayout.setHint(String.format("  %s", getResources().getString(R.string.detail_sales_info_sale_code)));
-                            saleCode.setHint(Utility.setAsteriskToView(""));
-                        }
-                    }
-                });
+                Utility.setAsteriskToTextInputLayout(saleCodeTextInputLayout, getResources().getString(R.string.detail_sales_info_sale_code), true);
                 //endregion sale code
 
                 //region sale date
-                if (saleDate.length() == 0) {
-                    saleDateTextInputLayout.setHint(String.format("  %s", getResources().getString(R.string.hint_date_picker)));
-                    saleDate.setHint(Utility.setAsteriskToView(""));
-                } else {
-                    saleDateTextInputLayout.setHint(String.format("* %s", getResources().getString(R.string.hint_date_picker)));
-                    saleDate.setHint("");
-                }
-
-                saleDate.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-                    @Override
-                    public void onFocusChange(View v, boolean hasFocus) {
-                        if (hasFocus) {
-                            saleDateTextInputLayout.setHint(String.format("* %s", getResources().getString(R.string.hint_date_picker)));
-                            saleDate.setHint("");
-                        } else if (saleDate.getText().length() == 0) {
-                            saleDateTextInputLayout.setHint(String.format("  %s", getResources().getString(R.string.hint_date_picker)));
-                            saleDate.setHint(Utility.setAsteriskToView(""));
-                        }
-                    }
-                });
+                Utility.setAsteriskToTextInputLayout(saleDateTextInputLayout, getResources().getString(R.string.hint_date_picker), true);
                 //endregion sale date
 
                 //endregion handle asterisk for necessary fields

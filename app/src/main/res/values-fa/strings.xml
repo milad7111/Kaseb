@@ -349,7 +349,7 @@
     <string name="edit_quantity">تغییر تعداد (مقدار) کالا</string>
     <string name="discard_button">انصراف</string>
     <string name="not_more_hundred">درصد مشخص شده نمی تواند بیشتر از 100 باشد.</string>
-    <string name="not_more_than_sale_price">تخفیف گرفته شده در خرید کالا نمی تواند بیشتر از قیمت فروش باشد.</string>
+    <string name="discount_amount_not_more_than_sale_price">تخفیف گرفته شده در خرید کالا نمی تواند بیشتر از قیمت فروش باشد.</string>
     <string name="click_here_choose_customer">انتخاب مشتری</string>
     <string name="pref_header_edit_profile">اطلاعات کاسب</string>
     <string name="detail_sales_products_items_total">کل</string>
@@ -403,5 +403,17 @@
     <string name="example_quantity">مثال : 15</string>
     <string name="example_cost_name">مثال : قبض گاز</string>
     <string name="example_cost_code">مثال : کد-1</string>
+    <string name="example_sale_code">مثال : کد-1</string>
+
+    <string name="tour_text_customer_list">در این صفحه لیست مشتریان را مشاهده می کنید، همچنین می توانید یک مشتری جدید اضافه کنید.</string>
+    <string name="tour_text_customer_insert">در این صفحه پس از واردکردن اطلاعات ضروری یک مشتری و انتخاب یک تصویر برای آن (که البته اختیاری است!) از منوی بالا سمت چپ، می توانید اطلاعات واردشده را ذخیره کنید.</string>
+    <string name="tour_text_sale_list">در این صفحه می توانید لیست فاکتورهای ثبت شده را ببینید، فاکتور جدیدی ثبت کنید، جزئیات فاکتورهای قبلی را مشاهده کنید و آن ها را چاپ کنید.</string>
+    <string name="tour_text_product_list">ددر این صفحه لیست کالا و خدمات خود را می بینید، کالا یا خدمات جدیدی ثبت می کنید، کالاهای قبلی را مشاهده کرده، تغییر دهید و برای یک کالا خرید جدید ثبت کنید.</string>
+    <string name="tour_text_product_insert">در این صفحه با واردکردن اطلاعات ضروری یک کالا یا خدمات، به کمک گزینه ذخیره کردن در منوی بالا سمت چپ، آن را ثبت می کنید.</string>
+    <string name="tour_text_sale_insert">در این صفحه شما می توانید مرحله به مرحله، یک فاکتور جدید ثبت کنید :\n1. ابتدا کالا یا خدمات مربوطه را اضافه می کنید.\n2. تخفیف یا مالیات های مورد نظر را ثبت می کنید.\n3. سپس، پرداخت های فاکتور را درج می کنید.\n4. در انتها، به کمک گزینه ذخیره کردن در منوی بالا سمت چپ، فاکتور واردشده را ثبت می کنید.\n5.پس از ذخیره کردن، فاکتور به طور خودکار چاپ می شود.</string>
+    <string name="tour_text_welcome">به این تور خوش آمدید!</string>
+    <string name="tour_text_first">برای استفاده کردن از این نرم افزار باید مراحل اصلی زیر را که از منوی اصلی در دسترس هستند، طی کنید :</string>
+    <string name="tour_text_second">1. افزودن مشتری جدید\n2. افزودن کالا یا خدمات مربوطه\n3. درج یک فاکتور جدید برای مشتری به کمک کالا یا خدمات موجود در لیست کالاها، چاپ و مشاهده آن\n4. مشاهده وضعیت کسب و کار</string>
+
 
 </resources>

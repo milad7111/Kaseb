@@ -81,87 +81,21 @@ public class CostInsert extends Fragment {
         //region handle asterisk for necessary fields
 
         //region cost name
-        costNameTextInputLayout.setHint(String.format("  %s", getResources().getString(R.string.hint_cost_name)));
-        costName.setHint(Utility.setAsteriskToView(""));
-
-        costName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus) {
-                    costNameTextInputLayout.setHint(String.format("* %s", getResources().getString(R.string.hint_cost_name)));
-                    costName.setHint("");
-                } else if (costName.getText().length() == 0) {
-                    costNameTextInputLayout.setHint(String.format("  %s", getResources().getString(R.string.hint_cost_name)));
-                    costName.setHint(Utility.setAsteriskToView(""));
-                }
-            }
-        });
+        Utility.setAsteriskToTextInputLayout(costNameTextInputLayout, getResources().getString(R.string.hint_cost_name), false);
         //endregion cost name
 
         costName.requestFocus();
 
         //region cost code
-        if (costCode.length() == 0) {
-            costCodeTextInputLayout.setHint(String.format("  %s", getResources().getString(R.string.hint_cost_code)));
-            costCode.setHint(Utility.setAsteriskToView(""));
-        } else {
-            costCodeTextInputLayout.setHint(String.format("* %s", getResources().getString(R.string.hint_cost_code)));
-            costCode.setHint("");
-        }
-
-        costCode.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus) {
-                    costCodeTextInputLayout.setHint(String.format("* %s", getResources().getString(R.string.hint_cost_code)));
-                    costCode.setHint("");
-                } else if (costCode.getText().length() == 0) {
-                    costCodeTextInputLayout.setHint(String.format("  %s", getResources().getString(R.string.hint_cost_code)));
-                    costCode.setHint(Utility.setAsteriskToView(""));
-                }
-            }
-        });
+        Utility.setAsteriskToTextInputLayout(costCodeTextInputLayout, getResources().getString(R.string.hint_cost_code), true);
         //endregion cost code
 
         //region cost amount
-        costAmountTextInputLayout.setHint(String.format("  %s", getResources().getString(R.string.hint_cost_amount)));
-        costAmount.setHint(Utility.setAsteriskToView(""));
-
-        costAmount.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus) {
-                    costAmountTextInputLayout.setHint(String.format("* %s", getResources().getString(R.string.hint_cost_amount)));
-                    costAmount.setHint("");
-                } else if (costAmount.getText().length() == 0) {
-                    costAmountTextInputLayout.setHint(String.format("  %s", getResources().getString(R.string.hint_cost_amount)));
-                    costAmount.setHint(Utility.setAsteriskToView(""));
-                }
-            }
-        });
+        Utility.setAsteriskToTextInputLayout(costAmountTextInputLayout, getResources().getString(R.string.hint_cost_amount), false);
         //endregion cost amount
 
         //region cost date
-        if (costDate.length() == 0) {
-            costDateTextInputLayout.setHint(String.format("  %s", getResources().getString(R.string.hint_date_picker)));
-            costDate.setHint(Utility.setAsteriskToView(""));
-        } else {
-            costDateTextInputLayout.setHint(String.format("* %s", getResources().getString(R.string.hint_date_picker)));
-            costDate.setHint("");
-        }
-
-        costDate.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus) {
-                    costDateTextInputLayout.setHint(String.format("* %s", getResources().getString(R.string.hint_date_picker)));
-                    costDate.setHint("");
-                } else if (costDate.getText().length() == 0) {
-                    costDateTextInputLayout.setHint(String.format("  %s", getResources().getString(R.string.hint_date_picker)));
-                    costDate.setHint(Utility.setAsteriskToView(""));
-                }
-            }
-        });
+        Utility.setAsteriskToTextInputLayout(costDateTextInputLayout, getResources().getString(R.string.hint_date_picker), true);
         //endregion cost date
 
         //endregion handle asterisk for necessary fields

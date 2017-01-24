@@ -438,7 +438,8 @@
     <string name="discard_button">Discard</string>
     <string name="state_type_image_box_title">stateType</string>
     <string name="not_more_hundred">The percent can\'t be more than hundred.</string>
-    <string name="not_more_than_sale_price">Discount amount can\'t be more than sale price.</string>
+    <string name="discount_amount_not_more_than_sale_price">Discount amount can\'t be more than sale price.</string>
+    <string name="amount_not_less_than_sale_price">Amount can\'t be less than sale price.</string>
     <string name="cost_sale_product_tag_image_title">costSaleProductTagImage</string>
     <string name="click_here_choose_customer">Choose customer …</string>
     <string name="image_avatar_title">image_avatar_title</string>
@@ -452,7 +453,7 @@
     <string name="customer_image_transition">customer_image_transition</string>
     <string name="code_text_transition">code_text_transition</string>
     <string name="pref_header_edit_profile">Edit Profile</string>
-    <string name="no_data_text_customers_states">no customers...! please add some.</string>
+    <string name="no_data_text_customers_states">no customers…! please add some.</string>
     <string name="no_data_text_sale">No Sale..! please add ones.</string>
     <string name="import_successful">Import Successful!</string>
     <string name="import_contact_failed">Import Failed!</string>
@@ -493,6 +494,8 @@
     <string name="choose_member_ship_of_customer">Choose MemberShip of customer :</string>
     <string name="choose_type_of_cost">Choose type of cost :</string>
     <string name="ok_button">OK</string>
+    <string name="kaseb_intro_page_animation">Kaseb Intro Page Animation</string>
+    <string name="avatar_kaseb">Avatar Kaseb</string>
 
     <string name="example_first_name">Example : Ali</string>
     <string name="example_last_name">Example : Watson</string>
@@ -506,5 +509,15 @@
     <string name="example_cost_name">Example : Gas Bill</string>
     <string name="example_cost_code">Example : C-1</string>
     <string name="example_sale_code">Example : INV-1</string>
+
+    <string name="tour_text_customer_list">This page show your customers And you can add a customer here!</string>
+    <string name="tour_text_customer_insert">In this page you insert necessary data of customer and choose a picture arbitrary then save him/her from top right corner with save button.</string>
+    <string name="tour_text_sale_list">In this page you can see your sales, insert one, click each one to edit or print.</string>
+    <string name="tour_text_product_list">In this page you can see your products and services, insert one, click each one to edit or add a purchase.</string>
+    <string name="tour_text_product_insert">In this page you insert necessary data of product then save it from top right corner with save button.</string>
+    <string name="tour_text_sale_insert">In this page you insert a sale step by step :\n1. Add products.\n2. Add taxes and discounts.\n3. Add payments.\n4. Save it from top right corner with save button.\n5. Print it Automatically.</string>
+    <string name="tour_text_welcome">Welcome to This Tour!</string>
+    <string name="tour_text_first">To use of this app you should go this way, step by step :</string>
+    <string name="tour_text_second">1. Add a customer.\n2. Add a product.\n3. Insert Sale for a customer and print it.\n4.Check Dashboard.</string>
 
 </resources>

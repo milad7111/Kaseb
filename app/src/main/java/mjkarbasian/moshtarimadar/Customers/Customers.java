@@ -138,7 +138,7 @@ public class Customers extends DrawerActivity {
             public boolean onQueryTextSubmit(String query) {
                 mQuery = query;
                 //Here u can get the value "query" which is entered in the search box.
-                return (query != null) ? true : false;
+                return (query != null);
             }
         };
         searchView.setOnQueryTextListener(queryTextListener);

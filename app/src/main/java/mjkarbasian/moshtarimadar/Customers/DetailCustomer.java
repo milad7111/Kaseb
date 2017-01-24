@@ -16,7 +16,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -335,73 +334,20 @@ public class DetailCustomer extends AppCompatActivity {
                 //region handle asterisk for necessary fields
 
                 //region first name
-                if (customerFirstName.length() == 0) {
-                    firstNameTextInputLayout.setHint(String.format("  %s", getResources().getString(R.string.hint_first_name)));
-                    customerFirstName.setHint(Utility.setAsteriskToView(""));
-                } else {
-                    firstNameTextInputLayout.setHint(String.format("* %s", getResources().getString(R.string.hint_first_name)));
-                    customerFirstName.setHint("");
-                }
-
-                customerFirstName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-                    @Override
-                    public void onFocusChange(View v, boolean hasFocus) {
-                        if (hasFocus) {
-                            firstNameTextInputLayout.setHint(String.format("* %s", getResources().getString(R.string.hint_first_name)));
-                            customerFirstName.setHint("");
-                        } else if (customerFirstName.getText().length() == 0 && firstNameTextInputLayout.getError() == null) {
-                            firstNameTextInputLayout.setHint(String.format("  %s", getResources().getString(R.string.hint_first_name)));
-                            customerFirstName.setHint(Utility.setAsteriskToView(""));
-                        }
-                    }
-                });
+                Utility.setAsteriskToTextInputLayout(firstNameTextInputLayout, getResources().getString(R.string.hint_first_name), true);
                 //endregion first name
 
-                //region last name
-                if (customerFirstName.length() == 0) {
-                    lastNameTextInputLayout.setHint(String.format("  %s", getResources().getString(R.string.hint_last_name)));
-                    customerLastName.setHint(Utility.setAsteriskToView(""));
-                } else {
-                    lastNameTextInputLayout.setHint(String.format("* %s", getResources().getString(R.string.hint_last_name)));
-                    customerLastName.setHint("");
-                }
+                customerFirstName.requestFocus();
 
-                customerLastName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-                    @Override
-                    public void onFocusChange(View v, boolean hasFocus) {
-                        if (hasFocus) {
-                            lastNameTextInputLayout.setHint(String.format("* %s", getResources().getString(R.string.hint_last_name)));
-                            customerLastName.setHint("");
-                        } else if (customerLastName.getText().length() == 0 && lastNameTextInputLayout.getError() == null) {
-                            lastNameTextInputLayout.setHint(String.format("  %s", getResources().getString(R.string.hint_last_name)));
-                            customerLastName.setHint(Utility.setAsteriskToView(""));
-                        }
-                    }
-                });
+                //region last name
+                Utility.setAsteriskToTextInputLayout(lastNameTextInputLayout, getResources().getString(R.string.hint_last_name), true);
                 //endregion last name
 
                 //region mobile number
-                if (customerFirstName.length() == 0) {
-                    phoneMobileTextInputLayout.setHint(String.format("  %s", getResources().getString(R.string.hint_mobile_number)));
-                    customerPhoneMobile.setHint(Utility.setAsteriskToView(""));
-                } else {
-                    phoneMobileTextInputLayout.setHint(String.format("* %s", getResources().getString(R.string.hint_mobile_number)));
-                    customerPhoneMobile.setHint("");
-                }
-
-                customerPhoneMobile.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-                    @Override
-                    public void onFocusChange(View v, boolean hasFocus) {
-                        if (hasFocus) {
-                            phoneMobileTextInputLayout.setHint(String.format("* %s", getResources().getString(R.string.hint_mobile_number)));
-                            customerPhoneMobile.setHint("");
-                        } else if (customerPhoneMobile.getText().length() == 0 && phoneMobileTextInputLayout.getError() == null) {
-                            phoneMobileTextInputLayout.setHint(String.format("  %s", getResources().getString(R.string.hint_mobile_number)));
-                            customerPhoneMobile.setHint(Utility.setAsteriskToView(""));
-                        }
-                    }
-                });
+                Utility.setAsteriskToTextInputLayout(phoneMobileTextInputLayout, getResources().getString(R.string.hint_mobile_number), true);
                 //endregion mobile number
+
+                //endregion handle asterisk for necessary fields
 
                 //endregion handle asterisk for necessary fields
 

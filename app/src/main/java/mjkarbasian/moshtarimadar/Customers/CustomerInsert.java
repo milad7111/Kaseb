@@ -166,60 +166,17 @@ public class CustomerInsert extends Fragment {
         //region handle asterisk for necessary fields
 
         //region first name
-        firstNameTextInputLayout.setHint(String.format("  %s", getResources().getString(R.string.hint_first_name)));
-        firstName.setHint(Utility.setAsteriskToView(""));
-
-        firstName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus) {
-                    firstNameTextInputLayout.setHint(String.format("* %s", getResources().getString(R.string.hint_first_name)));
-                    firstName.setHint("");
-
-                } else if (firstName.getText().length() == 0) {
-                    firstNameTextInputLayout.setHint(String.format("  %s", getResources().getString(R.string.hint_first_name)));
-                    firstName.setHint(Utility.setAsteriskToView(""));
-                }
-            }
-        });
+        Utility.setAsteriskToTextInputLayout(firstNameTextInputLayout, getResources().getString(R.string.hint_first_name), false);
         //endregion first name
 
         firstName.requestFocus();
 
         //region last name
-        lastNameTextInputLayout.setHint(String.format("  %s", getResources().getString(R.string.hint_last_name)));
-        lastName.setHint(Utility.setAsteriskToView(""));
-
-        lastName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus) {
-                    lastNameTextInputLayout.setHint(String.format("* %s", getResources().getString(R.string.hint_last_name)));
-                    lastName.setHint("");
-                } else if (lastName.getText().length() == 0) {
-                    lastNameTextInputLayout.setHint(String.format("  %s", getResources().getString(R.string.hint_last_name)));
-                    lastName.setHint(Utility.setAsteriskToView(""));
-                }
-            }
-        });
+        Utility.setAsteriskToTextInputLayout(lastNameTextInputLayout, getResources().getString(R.string.hint_last_name), false);
         //endregion last name
 
         //region mobile number
-        phoneMobileTextInputLayout.setHint(String.format("  %s", getResources().getString(R.string.hint_mobile_number)));
-        phoneMobile.setHint(Utility.setAsteriskToView(""));
-
-        phoneMobile.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus) {
-                    phoneMobileTextInputLayout.setHint(String.format("* %s", getResources().getString(R.string.hint_mobile_number)));
-                    phoneMobile.setHint("");
-                } else if (phoneMobile.getText().length() == 0) {
-                    phoneMobileTextInputLayout.setHint(String.format("  %s", getResources().getString(R.string.hint_mobile_number)));
-                    phoneMobile.setHint(Utility.setAsteriskToView(""));
-                }
-            }
-        });
+        Utility.setAsteriskToTextInputLayout(phoneMobileTextInputLayout, getResources().getString(R.string.hint_mobile_number), false);
         //endregion mobile number
 
         //endregion handle asterisk for necessary fields
@@ -241,7 +198,7 @@ public class CustomerInsert extends Fragment {
         try {
             if (kasebSharedPreferences.getBoolean("getStarted", false)) {
 
-                dialogViewTour.setMessage("In this page you insert necessary data of customer and choose a picture arbitrary then save him/her from top right corner with save button.");
+                dialogViewTour.setMessage(getResources().getString(R.string.tour_text_customer_insert));
                 dialogViewTour.show();
 
                 dialogViewTour.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
