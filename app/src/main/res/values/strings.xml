@@ -190,7 +190,7 @@
     <string name="hint_buy_price">Buy Price</string>
     <string name="hint_quantity">Quantity</string>
     <string name="hint_sale_price">Sale Price</string>
-    <string name="hint_date">Date: YYYY/M/D</string>
+    <string name="hint_date">Date</string>
     <string name="hint_product_history_save">Save</string>
     <string name="hint_buy_price_discount_amount">Discount Amount For Just One Item</string>
     <string name="hint_buy_price_discount_percent">Discount Percent For Just One Item</string>
@@ -367,7 +367,6 @@
     <string name="title_of_discounts">Invoice Discounts</string>
     <string name="title_of_payments">Invoice Payments</string>
     <string name="title_of_invoice_summary">Invoice Summary</string>
-    <string name="choose_appropriate_data">Choose appropriate data. </string>
     <string name="more_than_balance_amount">Can\'t be more than balance amount.</string>
     <string name="more_than_total_amount">Can\'t be more than total amount.</string>
     <string name="save_factor_then_print">Please Save Invoice Then RETRY.</string>
@@ -431,9 +430,9 @@
     <string name="choose_customer_error_for_sale">You must choose a customer from list.</string>
     <string name="cheque_title">Cheque</string>
     <string name="confirm_delete_payment">"Do You Really Want to Delete This PAYMENT?\n\nPayment Amount : "</string>
-    <string name="stock_product">"Stock is : "</string>
+    <string name="stock_product">"in Stock: "</string>
     <string name="not_enough_stock">There is not enough good in stock.</string>
-    <string name="less_than_stock_explain_text">Enter quantity/amount of selected product.\ninput must be less than good in stock.</string>
+    <string name="less_than_stock_explain_text">Select product to add in items.</string>
     <string name="edit_quantity">Change quantity</string>
     <string name="discard_button">Discard</string>
     <string name="state_type_image_box_title">stateType</string>
@@ -441,7 +440,7 @@
     <string name="discount_amount_not_more_than_sale_price">Discount amount can\'t be more than sale price.</string>
     <string name="amount_not_less_than_sale_price">Amount can\'t be less than sale price.</string>
     <string name="cost_sale_product_tag_image_title">costSaleProductTagImage</string>
-    <string name="click_here_choose_customer">Choose customer …</string>
+    <string name="click_here_choose_customer">Tap here to Choose a customer</string>
     <string name="image_avatar_title">image_avatar_title</string>
     <string name="content_detail_sale_insert_add_product_image_button">content_detail_sale_insert_add_product_image_button</string>
     <string name="detail_sales_products_items_total">Total</string>
