@@ -46,7 +46,7 @@
     <string name="sample_due_date_2_day">8/27/16</string>
     <string name="sample_invoice_2_ballance">300000</string>
     <string name="title_debator">Debaters</string>
-    <string name="debtor_share_text_to_send">your total balance is: </string>
+    <string name="debtor_share_text_to_send">Hi Dear customer, your total balance is :</string>
     <string name="title_activity_sales">Sales</string>
     <string name="sort_date">Date</string>
     <string name="sort_code">Sales code</string>
