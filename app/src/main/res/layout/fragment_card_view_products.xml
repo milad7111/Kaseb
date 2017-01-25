@@ -10,6 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:divider="@drawable/divider_list" />
+
     <TextView
         android:id="@+id/empty_text_view"
         style="@style/Base.TextAppearance.AppCompat.Body1"
@@ -17,6 +18,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="@dimen/activity_vertical_margin"
-        android:visibility="gone"/>
+        android:visibility="gone" />
 
 </FrameLayout>

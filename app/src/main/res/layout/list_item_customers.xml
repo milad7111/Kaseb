@@ -42,25 +42,25 @@
 
             <TextView
                 android:id="@+id/item_list_customer_name"
+                style="@style/Base.TextAppearance.AppCompat.Title"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:layout_weight="4"
                 android:fontFamily="sans-serif-condensed"
                 android:gravity="center_vertical|start"
-                android:paddingStart="@dimen/design_snackbar_padding_vertical_2lines"
-                style="@style/Base.TextAppearance.AppCompat.Title" />
+                android:paddingStart="@dimen/design_snackbar_padding_vertical_2lines" />
 
             <TextView
                 android:id="@+id/item_list_purchase_amount"
+                style="@style/Base.TextAppearance.AppCompat.Headline"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:layout_weight="4"
                 android:fontFamily="sans-serif-condensed"
                 android:gravity="center_vertical|center_horizontal"
-                android:text="@string/sample_text_purchase_of_customer_amount"
-                style="@style/Base.TextAppearance.AppCompat.Headline" />
+                android:text="@string/sample_text_purchase_of_customer_amount" />
 
             <ImageView
                 android:id="@+id/item_list_customer_state"

@@ -96,11 +96,11 @@ public class DebtorAdapter extends CursorAdapter {
         phoneImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                try{
+                try {
                 Intent intent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel",
                         adapterCursor.getString(adapterCursor.getColumnIndex(KasebContract.Customers.COLUMN_PHONE_MOBILE)), null));
-                mContext.startActivity(intent);}
-                catch (Exception e){
+                    mContext.startActivity(intent);
+                } catch (Exception e) {
 
                 }
             }
@@ -114,8 +114,8 @@ public class DebtorAdapter extends CursorAdapter {
                     Intent intent = new Intent(Intent.ACTION_VIEW, Uri.fromParts("sms",
                             adapterCursor.getString(adapterCursor.getColumnIndex(KasebContract.Customers.COLUMN_PHONE_MOBILE)), null));
                     mContext.startActivity(intent);
+                } catch (Exception e) {
                 }
-                catch (Exception e){}
             }
         });
 
@@ -125,13 +125,12 @@ public class DebtorAdapter extends CursorAdapter {
         shareImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                try{
+                try {
                 Intent intent = new Intent(Intent.ACTION_SEND);
                 intent.setType("text/plain");
                 intent.putExtra(Intent.EXTRA_TEXT, finalBalanceAmount);
                 mContext.startActivity(Intent.createChooser(intent, "Share with"));
-                }
-                catch (Exception e){
+                } catch (Exception e) {
 
                 }
             }
