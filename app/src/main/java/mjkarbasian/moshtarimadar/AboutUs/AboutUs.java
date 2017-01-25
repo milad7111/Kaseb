@@ -5,7 +5,6 @@ import android.support.v7.widget.Toolbar;
 
 import mjkarbasian.moshtarimadar.Others.DrawerActivity;
 import mjkarbasian.moshtarimadar.R;
-import mjkarbasian.moshtarimadar.Setting.PreferenceHeader;
 
 /**
  * Created by Unique on 01/01/2017.
