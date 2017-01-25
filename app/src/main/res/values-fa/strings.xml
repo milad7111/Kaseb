@@ -428,4 +428,6 @@
     <string name="balance_amount_not_minus_number">مبلغ مانده نباید کم تر از صفر باشد.</string>
     <string name="message_add_profile">لطفا اطلاعات خود را وارد کنید.</string>
 
+    <string name="title_activity_dashboard">وضعیت کاسبی</string>
+
 </resources>
