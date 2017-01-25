@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -21,6 +22,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -255,13 +257,16 @@ public class PreferenceHeader extends Fragment {
                                         Toast.makeText(getActivity(), R.string.msg_insert_succeed, Toast.LENGTH_SHORT).show();
                                     //endregion save info of kaseb profile
 
-                                    getActivity().getWindow().setSoftInputMode(
-                                            WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN
-                                    );
-
                                     ((DrawerActivity) getActivity()).setInfoOfKaseb();
                                     getHelperText();
                                     wantToCloseDialog = true;
+
+                                    View view = dialogView.getCurrentFocus();
+                                    if (view != null) {
+                                        InputMethodManager imm = (InputMethodManager)
+                                                getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                                        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                                    }
                                 }
 
                                 if (wantToCloseDialog)
