@@ -82,7 +82,7 @@
                 android:id="@+id/dialog_edit_cost_date"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/hint_date_picker"
+                android:hint="@string/hint_date"
                 android:inputType="date"
                 android:maxLength="10" />
 

@@ -147,7 +147,7 @@ public class ProductInsert extends Fragment {
         //endregion buy price
 
         //region buy date
-        Utility.setAsteriskToTextInputLayout(buyDateTextInputLayout, getResources().getString(R.string.hint_date_picker), true);
+        Utility.setAsteriskToTextInputLayout(buyDateTextInputLayout, getResources().getString(R.string.hint_date), true);
         //endregion buy date
 
         //endregion handle asterisk for necessary fields

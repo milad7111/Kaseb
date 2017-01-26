@@ -95,7 +95,7 @@ public class CostInsert extends Fragment {
         //endregion cost amount
 
         //region cost date
-        Utility.setAsteriskToTextInputLayout(costDateTextInputLayout, getResources().getString(R.string.hint_date_picker), true);
+        Utility.setAsteriskToTextInputLayout(costDateTextInputLayout, getResources().getString(R.string.hint_date), true);
         //endregion cost date
 
         //endregion handle asterisk for necessary fields

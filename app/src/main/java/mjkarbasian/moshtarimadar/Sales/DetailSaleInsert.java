@@ -200,7 +200,7 @@ public class DetailSaleInsert extends AppCompatActivity {
         //endregion sale code
 
         //region sale date
-        Utility.setAsteriskToTextInputLayout(saleDateTextInputLayout, getResources().getString(R.string.hint_date_picker), true);
+        Utility.setAsteriskToTextInputLayout(saleDateTextInputLayout, getResources().getString(R.string.hint_date), true);
         //endregion sale date
 
         //endregion handle asterisk for necessary fields
