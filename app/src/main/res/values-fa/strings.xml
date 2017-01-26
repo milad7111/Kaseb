@@ -284,7 +284,7 @@
     <string name="confirm_delete_customer_list_factors">فاکتور ثبت شده </string>
     <string name="confirm_delete_customer_list_it_has">این مشتری در</string>
     <string name="confirm_delete_product_list">محصول پاک بشه؟\n\n نام محصول</string>
-    <string name="confirm_delete_product_list_it_has">نمی تونی پاکش کنی، چون این در </string>
+    <string name="confirm_delete_product_list_it_has">فاکتور، شامل این کالا/خدمات هستند</string>
     <string name="confirm_message_delete_customer_image">عکس مشتری پاک بشه؟\n</string>
     <string name="confirm_message_delete_sale">فاکتور فروش پاک بشه؟\n</string>
     <string name="confirm_message_delete_this_cost">هزینه پاک بشه؟\n</string>
@@ -416,5 +416,6 @@
     <string name="close_activity_dialog_title">خروج</string>
     <string name="empty_list_text">اطلاعاتی ثبت نشده</string>
     <string name="next_tour">ادامه</string>
+    <string name="confirm_delete_product_list_it_has_factor">نمی شه پاک کرد، چون</string>
 
 </resources>
