@@ -15,8 +15,7 @@
     <string name="title_costs">Costs</string>
     <string name="title_products">Products</string>
     <string name="title_setting">Setting</string>
-    <string name="title_contact_us">Contact us</string>
-    <string name="title_exit">Good Bye</string>
+    <string name="title_contact_us">Contact Us</string>
     <string name="title_activity_customers">Customers</string>
     <string name="label_total_sale">Total Sale($)</string>
     <string name="label_total_customer_purchase">Purchase</string>
@@ -45,7 +44,7 @@
     <string name="sample_2_invoice_code">13120</string>
     <string name="sample_due_date_2_day">8/27/16</string>
     <string name="sample_invoice_2_ballance">300000</string>
-    <string name="title_debator">Debaters</string>
+    <string name="title_debator">Debtors</string>
     <string name="debtor_share_text_to_send">Hi Dear customer, your total balance is :</string>
     <string name="title_activity_sales">Sales</string>
     <string name="sort_date">Date</string>
@@ -63,7 +62,7 @@
     <string name="sample_cost_name_4">Transport</string>
     <string name="title_activity_products">Products</string>
     <string name="fab_add_product">Add product</string>
-    <string name="sort_product_code">products code</string>
+    <string name="sort_product_code">Products Code</string>
     <string name="sample_product_name">Samsung GE7</string>
     <string name="sample_product_name_2">Samsung GA7</string>
     <string name="sample_product_name_3">Samsung GJ7</string>
@@ -119,7 +118,7 @@
     <string name="title_product_name">Name</string>
     <string name="title_product_code">Code</string>
     <string name="title_product_unit">Unit</string>
-    <string name="title_card_price_list_buy_price">Buy price</string>
+    <string name="title_card_price_list_buy_price">Buy Price</string>
     <string name="title_card_price_list_sale_price">Sale Price</string>
     <string name="sample_unit">Device</string>
     <string name="detail_product_action_description">Register buy price and sale price</string>
@@ -157,7 +156,7 @@
     <string name="states_gold">Golden</string>
     <string name="states_silver">Silver</string>
     <string name="states_bronze">Bronze</string>
-    <string name="states_instart">New</string>
+    <string name="states_instart">Ordinary</string>
 
     <!-- CustomerInsert Hints-->
     <string name="hint_first_name">First Name</string>
@@ -192,7 +191,7 @@
     <string name="hint_buy_price_discount_amount">Discount Amount For Just One Item</string>
     <string name="hint_buy_price_discount_percent">Discount Percent For Just One Item</string>
     <!-- Sale&DetailSaleInsert -->
-    <string name="title_add_product_for_sale">Choose Your Product …</string>
+    <string name="title_add_product_for_sale">Choose your product/service …</string>
     <string name="title_add_product_history">Product History</string>
     <string name="save_button">Save</string>
 
@@ -293,9 +292,9 @@
     <string name="payment_list_for_sale_amount_title">Amount</string>
     <string name="payment_list_for_sale_due_date_title">Due Date</string>
     <string name="payment_list_for_sale_payment_method_title">Payment Type</string>
-    <string name="tax_list_for_sale_amount_title">Tax Amount :</string>
-    <string name="tax_list_for_sale_percent_title">Tax Percent :</string>
-    <string name="tax_list_for_sale_tax_type_title">Tax Type :</string>
+    <string name="tax_list_for_sale_amount_title">Tax Amount</string>
+    <string name="tax_list_for_sale_percent_title">Tax Percent</string>
+    <string name="tax_list_for_sale_tax_type_title">Tax Type</string>
     <string name="Add">Add</string>
     <string name="sale_date">Sale Date</string>
     <string name="quantity">Quantity</string>
@@ -317,7 +316,7 @@
     <string name="detail_sales_taxDiscount_percent">Percent</string>
     <string name="detail_sales_taxDiscount_type">Type</string>
     <string name="dialog_add_payment_is_pass">Is cheque passed?</string>
-    <string name="title_edit_cost">Edit Cost</string>
+    <string name="title_edit_cost">Edit costs</string>
     <string name="update_button">Update</string>
     <string name="cancel_button">Cancel</string>
     <string name="title_product_description">Description</string>
@@ -375,11 +374,11 @@
     <string name="type_title">Type</string>
     <string name="amount_title">Amount</string>
     <string name="percent_title">Percent</string>
-    <string name="total_amount_title">Total Amount : </string>
-    <string name="total_tax_title">Total Tax : </string>
-    <string name="total_discount_title">Total Discount : </string>
-    <string name="total_paied_title">Total Paied : </string>
-    <string name="total_unpaied_title">Total Unpaied : </string>
+    <string name="total_amount_title">Total Amount</string>
+    <string name="total_tax_title">Total Tax</string>
+    <string name="total_discount_title">Total Discount</string>
+    <string name="total_paied_title">Total Paied</string>
+    <string name="total_unpaied_title">Total Unpaied</string>
     <string name="stamp_and_signature">Stamp and Signature</string>
     <string name="seller_title">Seller</string>
     <string name="buyer_title">Buyer</string>
@@ -397,12 +396,12 @@
     <string name="sale_code_prefix">INV- </string>
     <string name="detail_sales_summary_customer_code">Customer Code</string>
     <string name="title_dialog_add_cost_type">Add cost type</string>
-    <string name="title_dialog_add_payment_methods">add Payment method</string>
+    <string name="title_dialog_add_payment_methods">Add payment method</string>
     <string name="title_dialog_add_tax_types">Add tax type</string>
-    <string name="title_dialog_add_state">Add state type</string>
+    <string name="title_dialog_add_state">Add membership</string>
     <string name="cost_code_prefix">C-</string>
     <string name="product_code_prefix">P-</string>
-    <string name="validity_error_dsale_select_product">Choose some PRODUCTS for SALE.</string>
+    <string name="validity_error_dsale_select_product">Choose some product/service</string>
     <string name="confirm_title">Confirmation</string>
     <string name="confirm_message_delete_customer_image">Delete this customer\'s Image?\n\nCustomer Name :</string>
     <string name="confirm_delete_customer_list_it_has">This customer has</string>
@@ -417,12 +416,12 @@
     <string name="choose_customer_error_for_sale">Choose customer</string>
     <string name="cheque_title">Cheque</string>
     <string name="confirm_delete_payment">Delete payment?\n\nPayment Amount :</string>
-    <string name="stock_product">in Stock: </string>
+    <string name="stock_product">In Stock:</string>
     <string name="not_enough_stock">Isn\'t enough good in stock</string>
     <string name="less_than_stock_explain_text">Select product to add in items.</string>
     <string name="edit_quantity">Change Quantity</string>
     <string name="discard_button">Discard</string>
-    <string name="state_type_image_box_title">stateType</string>
+    <string name="state_type_image_box_title" translatable="false">stateType</string>
     <string name="not_more_hundred">Percent is more than 100</string>
     <string name="discount_amount_not_more_than_sale_price">Discount Amount is more than sale price</string>
     <string name="amount_not_less_than_sale_price">Amount is less than zero</string>
@@ -447,26 +446,23 @@
     <string name="problem_in_crop_image">Problem in crop action</string>
     <string name="does_not_support_crop_action">Problem in crop action</string>
     <string name="complete_profile_kaseb">To continue, enter required fields</string>
-    <string name="title_take_tour">Take a Tour</string>
+    <string name="title_take_tour">Take a tour</string>
     <string name="insert_customer">Add Customer</string>
     <string name="insert_product">Add Product</string>
     <string name="insert_sale_and_print">Create and Print invoice</string>
     <string name="insert_cost">Add Cost</string>
     <string name="change_setting">Change Setting</string>
-    <string name="view_sale_and_print">View invoice and print</string>
     <string name="contact_debtors">Contact debtors</string>
-    <string name="view_reports">View reports</string>
-    <string name="tour_slide_show">Tour Slideshow</string>
     <string name="next_tour">Next</string>
     <string name="back_tour">Back</string>
     <string name="cancel_tour">Cancel</string>
     <string name="start_tour">Start</string>
-    <string name="title_set_profile">Set Profile</string>
+    <string name="title_set_profile">Kaseb Profile</string>
     <string name="kasebPreference" translatable="false">kasebProfile</string>
     <string name="finish_tour">Finish</string>
-    <string name="title_customer_insert">Add New Customer</string>
+    <string name="title_customer_insert">Add new customer</string>
     <string name="title_product_insert">Add New Product/Service</string>
-    <string name="title_sale_insert">Create New Sale</string>
+    <string name="title_sale_insert">Create new sale</string>
     <string name="choose_member_ship_of_customer">Choose membership </string>
     <string name="choose_type_of_cost">Choose cost type</string>
     <string name="ok_button">OK</string>
@@ -486,15 +482,15 @@
     <string name="example_cost_code">Example : C-1</string>
     <string name="example_sale_code">Example : INV-1</string>
 
-    <string name="tour_text_customer_list">This page show your customers And you can add a customer here!</string>
-    <string name="tour_text_customer_insert">In this page you insert necessary data of customer and choose a picture arbitrary then save him/her from top right corner with save button.</string>
-    <string name="tour_text_sale_list">In this page you can see your sales, insert one, click each one to edit or print.</string>
-    <string name="tour_text_product_list">In this page you can see your products and services, insert one, click each one to edit or add a purchase.</string>
-    <string name="tour_text_product_insert">In this page you insert necessary data of product then save it from top right corner with save button.</string>
-    <string name="tour_text_sale_insert">In this page you insert a sale step by step :\n1. Add products.\n2. Add taxes and discounts.\n3. Add payments.\n4. Save it from top right corner with save button.\n5. Print it Automatically.</string>
-    <string name="tour_text_welcome">Welcome to This Tour!</string>
-    <string name="tour_text_first">To use of this app you should go this way, step by step :</string>
-    <string name="tour_text_second">1. Add a customer.\n2. Add a product.\n3. Insert Sale for a customer and print it.\n4.Check Dashboard.</string>
+    <string name="tour_text_customer_list">This page shows your customers and you can add a customer here.</string>
+    <string name="tour_text_customer_insert">This page lets you insert necessary data of customer, choose a picture arbitrary then save him/her from top right corner with save button.</string>
+    <string name="tour_text_sale_list">This page lets you see your sale invoices, insert one, click each one to edit or print.</string>
+    <string name="tour_text_product_list">This page lets you see your products and services, insert one, click each one to edit and also add a purchase.</string>
+    <string name="tour_text_product_insert">This page lets you insert necessary data of product then save it from top right corner with save button.</string>
+    <string name="tour_text_sale_insert">This page lets you insert a sale step by step :\n1. Add products.\n2. Add taxes and discounts.\n3. Add payments.\n4. Save it from top right corner with save button.\n5. Print it Automatically.</string>
+    <string name="tour_text_welcome">Welcome to this Tour!</string>
+    <string name="tour_text_first">To use this app you should go this path, step by step :</string>
+    <string name="tour_text_second">1. Add a customer.\n2. Add a product.\n3. Insert sale invoice for a customer then print it.\n4.Check Dashboard.</string>
 
     <string name="final_amount_not_minus_number">Final Amount is less than zero</string>
     <string name="balance_amount_not_minus_number">Balance Amount is less than zero</string>

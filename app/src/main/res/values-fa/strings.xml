@@ -9,7 +9,7 @@
     <string name="kaseb_name">مشخص نشده</string>
     <string name="title_customer">مشتریان</string>
     <string name="title_debtors">بدهکاران</string>
-    <string name="title_sales">فروشها</string>
+    <string name="title_sales">فروش ها</string>
     <string name="title_costs">هزینه ها</string>
     <string name="title_products">محصولات</string>
     <string name="title_setting">تنظیمات</string>
@@ -28,7 +28,7 @@
     <string name="search_title">جستجو</string>
     <string name="sort_alphabetic">براساس حروف الفبا</string>
     <string name="sort_membership">عضویت</string>
-    <string name="sort_title">چینش</string>
+    <string name="sort_title">مرتب کردن</string>
     <string name="fab_add_customer">ثبت مشتری</string>
     <string name="fab_add_sale">ثبت فروش</string>
     <string name="sample_due_date_1_day">95/8/2</string>
@@ -46,7 +46,7 @@
     <string name="sort_date">تاریخ</string>
     <string name="sample_sale_code">کد-1</string>
     <string name="header_this_week">هفته جاری</string>
-    <string name="title_activity_sales">فروشها</string>
+    <string name="title_activity_sales">فروش ها</string>
     <string name="header_this_month">ماه جاری</string>
     <string name="header_today">امروز</string>
     <string name="fab_add_cost">ثبت هزینه</string>
@@ -104,7 +104,7 @@
     <string name="save_detail_sale_action_description">ثبت تغییرات</string>
     <string name="title_activity_detail_sale">فاکتور فروش</string>
     <string name="detail_sales_taxDiscount_header">تخفیف/مالیات</string>
-    <string name="title_activity_detail_products">مشخصات محصول یا خدمت</string>
+    <string name="title_activity_detail_products">مشخصات کالا/خدمات</string>
     <string name="title_product_code">کد </string>
     <string name="title_product_name">نام </string>
     <string name="title_product_unit">واحد</string>
@@ -258,7 +258,7 @@
     <string name="sort_name">نام نحوه چینش</string>
     <string name="states_bronze">برنزی</string>
     <string name="states_gold">طلایی</string>
-    <string name="states_instart">جدید</string>
+    <string name="states_instart">عادی</string>
     <string name="states_silver">نقره ای</string>
     <string name="tax_list_for_sale_amount_title">مبلغ مالیات</string>
     <string name="tax_list_for_sale_percent_title">درصد مالیات</string>
@@ -267,11 +267,10 @@
     <string name="tax_types_vas">ارزش افزوده</string>
     <string name="title_activity_my_setting">تنظیمات</string>
     <string name="title_activity_settings">تنظیمات</string>
-    <string name="title_add_product_for_sale">محصول رو انتخاب کن</string>
+    <string name="title_add_product_for_sale">کالا/خدمات رو انتخاب کن</string>
     <string name="title_add_product_history">تاریخچه قیمت محصول</string>
     <string name="title_dashboard">وضعیت کاسبی</string>
-    <string name="title_edit_cost">ویرایش هزینه</string>
-    <string name="title_exit">خداحافظ!</string>
+    <string name="title_edit_cost">ویرایش هزینه ها</string>
     <string name="title_product_description">توضیحات</string>
     <string name="update_button">ویرایش</string>
     <string name="title_dialog_add_cost_type">افزودن نوع هزینه</string>
@@ -281,7 +280,7 @@
     <string name="pref_header_kaseb">کاسب</string>
     <string name="cost_code_prefix">کد- </string>
     <string name="product_code_prefix">کد- </string>
-    <string name="validity_error_dsale_select_product">برای ثبت فروش باید محصول وارد کنی.</string>
+    <string name="validity_error_dsale_select_product">کالا/خدمات انتخاب نشده است</string>
     <string name="confirm_delete_customer_list_factors">فاکتور ثبت شده </string>
     <string name="confirm_delete_customer_list_it_has">این مشتری در</string>
     <string name="confirm_delete_product_list">محصول پاک بشه؟\n\n نام محصول</string>
@@ -370,9 +369,7 @@
     <string name="insert_sale_and_print">صدور و چاپ فاکتور فروش</string>
     <string name="insert_cost">افزودن هزینه</string>
     <string name="change_setting">تغییر تنظیمات</string>
-    <string name="view_sale_and_print">مشاهده و پرینت فاکتورهای فروش</string>
     <string name="contact_debtors">ارتباط با بدهکاران</string>
-    <string name="view_reports">گزارش گیری</string>
     <string name="back_tour">قبلی</string>
     <string name="cancel_tour">لغو</string>
     <string name="title_set_profile">اطلاعات کاسب</string>
