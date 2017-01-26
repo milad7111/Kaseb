@@ -43,11 +43,10 @@
     <string name="sample_due_date_2_day">95/10/15</string>
     <string name="sample_2_invoice_code">13120</string>
     <string name="title_debator">بدهکاران</string>
-    <string name="debtor_share_text_to_send">مشتری عزیز، مجموع بدهی شما برابر است با :</string>
+    <string name="debtor_share_text_to_send">مشتری عزیز سلام، مجموع بدهی شما برابر است با :</string>
     <string name="sort_code">کد فروش</string>
     <string name="sort_date">تاریخ</string>
     <string name="sample_sale_code">کد-1</string>
-    <string name="header_older">سایر</string>
     <string name="header_this_week">هفته جاری</string>
     <string name="title_activity_sales">فروشها</string>
     <string name="header_this_month">ماه جاری</string>
@@ -70,7 +69,7 @@
     <string name="title_activity_products">محصولات</string>
     <string name="customer_dash_membership">عضویت</string>
     <string name="customer_dash_number_purchase">تعداد خرید</string>
-    <string name="customer_dash_purchase_amount">خرید کل</string>
+    <string name="customer_dash_purchase_amount">کل خرید</string>
     <string name="customer_dash_total_balance">بدهی</string>
     <string name="customer_tab_bill">صورت حساب</string>
     <string name="customer_tab_dash">وضعیت</string>
@@ -82,7 +81,7 @@
     <string name="non_member">عضو جدید</string>
     <string name="set_membership">تعیین نوع عضویت</string>
     <string name="silver_memer">عضو نقره ای</string>
-    <string name="detail_sales_payment_header">پرداختها</string>
+    <string name="detail_sales_payment_header">پرداخت ها</string>
     <string name="detail_sales_products_items_header">لیست کالاها</string>
     <string name="detail_sales_summary_customer_code">کد مشتری</string>
     <string name="detail_sales_summary_discount">تخفیف</string>
@@ -106,7 +105,7 @@
     <string name="save">ذخیره</string>
     <string name="save_detail_sale_action_description">این دکمه فاکتور را ثبت می کند.</string>
     <string name="title_activity_detail_sale">فاکتور فروش</string>
-    <string name="detail_sales_taxDiscount_header">تخفیف یا مالیات</string>
+    <string name="detail_sales_taxDiscount_header">تخفیف/مالیات</string>
     <string name="title_activity_detail_products">مشخصات محصول یا خدمت</string>
     <string name="title_product_code">کد </string>
     <string name="title_product_name">نام </string>
@@ -114,7 +113,7 @@
     <string name="sample_unit">دستگاه</string>
     <string name="title_card_price_list_buy_price">قیمت خرید</string>
     <string name="title_card_price_list_sale_price">قیمت فروش</string>
-    <string name="detail_product_action_description">این دکمه به شما امکان ثبت قیمت خرید و قیمت فروش را می دهد.</string>
+    <string name="detail_product_action_description">ثبت قیمت خرید و قیمت فروش</string>
     <string name="title_card_detail_product">مشخصات کالا</string>
     <string name="share_action_description">این دکمه به شما امکان اشتراک گذاری اطلاعات محصول را می دهد.</string>
     <string name="edit_detail_product_action_description">این دکمه به شما اجازه تغییر در اطلاعات محصول/خدمت را می دهد.</string>
@@ -141,7 +140,7 @@
     <string name="cost_types_salary">دستمزد</string>
     <string name="cost_types_tax">مالیات</string>
     <string name="detail_sales_info_customer_family">نام خانوادگی</string>
-    <string name="detail_sales_info_customer_name">اسم</string>
+    <string name="detail_sales_info_customer_name">نام</string>
     <string name="detail_sales_info_header">اطلاعات </string>
     <string name="detail_sales_info_sale_code">کد فروش</string>
     <string name="detail_sales_payment_amount">مبلغ پرداخت</string>
@@ -153,11 +152,11 @@
     <string name="detail_sales_taxDiscount_amount">مبلغ </string>
     <string name="detail_sales_taxDiscount_percent">درصد</string>
     <string name="detail_sales_taxDiscount_type">نوع</string>
-    <string name="dialog_add_payment_is_pass">پاس شده؟</string>
-    <string name="dialog_input_import_contact_first_last_name">اسم یا فامیلی </string>
+    <string name="dialog_add_payment_is_pass">چک پاس شده؟</string>
+    <string name="dialog_input_import_contact_first_last_name">نام یا نام خانوادگی</string>
     <string name="dialog_input_import_contact_general">داده های ورودی</string>
     <string name="dialog_input_import_contact_phone_mobile">شماره موبایل</string>
-    <string name="dialog_message_import_customer_fail_par1">اطلاعات تماس وارد نشد! مشکلی وجود دارد. </string>
+    <string name="dialog_message_import_customer_fail_par1">مشکل در افزودن مخاطب به مشتریان</string>
     <string name="dialog_message_import_customer_fail_par2">کامل نیست.</string>
     <string name="dialog_positive_button">خوبه</string>
     <string name="dialog_select_backup">پشتیبان</string>
@@ -290,12 +289,12 @@
     <string name="confirm_delete_customer_list_it_has">این مشتری در</string>
     <string name="confirm_delete_product_list">محصول پاک بشه؟\n\n نام محصول</string>
     <string name="confirm_delete_product_list_it_has">نمی تونی پاکش کنی، چون این در </string>
-    <string name="confirm_message_delete_customer_image">میخوای عکس این مشتری رو پاک کنی؟\n</string>
-    <string name="confirm_message_delete_sale">می خوای این فروش رو پاک کنی؟\n</string>
-    <string name="confirm_message_delete_this_cost">می خوای این هزینه رو پاک کنی؟\n</string>
+    <string name="confirm_message_delete_customer_image">عکس مشتری پاک بشه؟\n</string>
+    <string name="confirm_message_delete_sale">فاکتور فروش پاک بشه؟\n</string>
+    <string name="confirm_message_delete_this_cost">هزینه پاک بشه؟\n</string>
     <string name="confirm_title">پیغام تأیید</string>
-    <string name="confirm_want_delete_customer_info">می خوای اطلاعات این مشتری رو پاک کنی؟\n</string>
-    <string name="confirm_delete_tax">می خوای این تخفیف/مالیات رو پاک کنی؟\n</string>
+    <string name="confirm_want_delete_customer_info">اطلاعات مشتری پاک بشه؟\n</string>
+    <string name="confirm_delete_tax">تخفیف/مالیات پاک بشه؟\n</string>
     <string name="confirm_delete_payment">پرداخت پاک بشه؟\n\n مبلغ پرداخت:</string>
 
     //region Sales Invoice Print
@@ -323,7 +322,7 @@
     <string name="invoice_date">تاریخ فروش :  </string>
     <string name="invoice_sale_code">کد فروش :  </string>
     <string name="good_title">محصول</string>
-    <string name="customer_info">مشتری : </string>
+    <string name="customer_info">مشتری:</string>
     <string name="buyer_title">خریدار</string>
     <string name="amount_title">مبلغ</string>
     <string name="seller_address">آدرس کاسب : </string>
@@ -383,16 +382,7 @@
     <string name="cancel_tour">لغو</string>
     <string name="title_set_profile">اطلاعات کاسب</string>
 
-    <string name="explain_tour_insert_customer">راهنمایی جهت افزودن یک مشتری جدید و مشاهده آن در لیست مشتریان.</string>
-    <string name="explain_tour_insert_product">راهنمایی جهت افزودن یک کالا یا خدمات جدید و مشاهده آن در لیست اقلام انبار.</string>
-    <string name="explain_tour_create_invoice">راهنمایی جهت صادرکردن یک فاکتور فروش و چاپ آن.</string>
-    <string name="explain_tour_insert_costs">راهنمایی جهت افزودن هزینه های خود به لیست هزینه ها.</string>
-    <string name="explain_tour_change_setting">راهنمایی مرحله به مرحله جهت تغییر تنظیمات، مثل اطلاعات کاسب، انواع دسته بندی مشتریان و … .</string>
-    <string name="explain_tour_view_invoices_print">راهنمایی جهت مشاهده فاکتورهای صادر شده، ایجاد تغییرات و چاپ آن ها.</string>
-    <string name="explain_tour_contact_debtors">راهنمایی جهت مشاهده لیست بدهکاران و وضعیت تصفیه آن ها و تماس با آن ها.</string>
-    <string name="explain_tour_dashboard">راهنمایی جهت مشاهده چند گزارش در رابطه با تعداد مشتریانتان، دسته بندی آن ها و میزان خرید و فروش آن ها.</string>
     <string name="start_tour">شروع</string>
-    <string name="first_guide_at_change_profile">بعد از واردکردن اطلاعات ضروری و ذخیره آن ها، با ضربه زدن به گزینه سمت راست بالای برنامه، می توانید کار با برنامه را شروع کنید.</string>
     <string name="finish_tour">پایان</string>
     <string name="title_customer_insert">افزودن مشتری جدید</string>
     <string name="title_product_insert">افزودن کالا (خدمات) جدید</string>

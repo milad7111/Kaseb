@@ -468,9 +468,11 @@ public class CostSaleProductList extends Fragment implements LoaderManager.Loade
 
                             if (numberUseOfThisProduct > 0)
                                 Toast.makeText(getContext(),
-                                        getActivity().getResources().getString(R.string.confirm_delete_product_list_it_has)
-                                                + numberUseOfThisProduct
-                                                + getActivity().getResources().getString(R.string.confirm_delete_customer_list_factors), Toast.LENGTH_LONG).show();
+                                        String.format("%s %d %s",
+                                                getActivity().getResources().getString(R.string.confirm_delete_product_list_it_has),
+                                                numberUseOfThisProduct,
+                                                getActivity().getResources().getString(R.string.confirm_delete_product_list_it_has_factors)),
+                                        Toast.LENGTH_LONG).show();
                             else {
                                 new AlertDialog.Builder(getActivity())
                                         .setTitle(getActivity().getResources().getString(R.string.confirm_title))
