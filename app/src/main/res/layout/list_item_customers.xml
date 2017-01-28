@@ -45,12 +45,12 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="start|center_vertical"
-                android:layout_marginLeft="@dimen/activity_horizontal_margin"
                 android:layout_weight="4"
                 android:fontFamily="sans-serif-condensed"
                 android:gravity="start|center_vertical"
                 android:maxLength="@integer/max_length_list_item_headline"
-                android:maxLines="@integer/max_line_list_item_headline" />
+                android:maxLines="@integer/max_line_list_item_headline"
+                android:paddingStart="@dimen/activity_horizontal_margin" />
 
             <TextView
                 android:id="@+id/item_list_purchase_amount"

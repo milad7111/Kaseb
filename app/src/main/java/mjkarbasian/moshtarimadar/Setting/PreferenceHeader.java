@@ -477,10 +477,6 @@ public class PreferenceHeader extends Fragment {
                     editor.putString("customerAvatar",
                             Utility.encodeTobase64(((BitmapDrawable) mCustomerAvatar.getDrawable()).getBitmap()));
                     editor.apply();
-
-                    mCustomerAvatar.setImageBitmap(
-                            Utility.decodeBase64(kasebSharedPreferences.getString("customerAvatar", null)));
-
                 } catch (Exception e) {
                 }
 

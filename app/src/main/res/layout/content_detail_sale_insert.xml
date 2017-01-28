@@ -107,6 +107,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/top_of_list_margin"
                         android:paddingLeft="@dimen/padding_left_text_view"
+                        app:errorEnabled="true"
                         app:errorTextAppearance="@style/text_input_layout_style_has_error">
 
                         <EditText
@@ -131,6 +132,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/top_of_list_margin_in_row"
                         android:paddingLeft="@dimen/padding_left_text_view"
+                        app:errorEnabled="true"
                         app:errorTextAppearance="@style/text_input_layout_style_has_error">
 
                         <EditText
@@ -229,7 +231,7 @@
                                 android:textAppearance="?android:textAppearanceMedium"
                                 android:textColor="@color/colorWhite"
                                 android:textColorHint="@color/colorWhite"
-                                android:textSize="@dimen/text_size_in_list" />
+                                android:textSize="@dimen/abc_text_size_menu_material" />
 
                             <TextView
                                 android:layout_width="0dp"
@@ -366,7 +368,7 @@
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:layout_alignParentLeft="true"
-                        android:layout_below="@+id/My_Container_2_ID"></FrameLayout>
+                        android:layout_below="@+id/My_Container_2_ID" />
 
                 </LinearLayout>
 
@@ -469,7 +471,7 @@
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:layout_alignParentLeft="true"
-                        android:layout_below="@+id/My_Container_1_ID"></FrameLayout>
+                        android:layout_below="@+id/My_Container_1_ID" />
                 </LinearLayout>
             </android.support.v7.widget.CardView>
 

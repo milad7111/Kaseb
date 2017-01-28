@@ -64,7 +64,9 @@ public class CardViewTaxes extends Fragment {
 
                     new AlertDialog.Builder(getActivity())
                             .setTitle(getActivity().getResources().getString(R.string.confirm_title))
-                            .setMessage(getActivity().getResources().getString(R.string.confirm_delete_tax) + _amount)
+                            .setMessage(String.format("%s %s",
+                                    getActivity().getResources().getString(R.string.confirm_delete_tax),
+                                    _amount))
                             .setIcon(android.R.drawable.ic_dialog_alert)
                             .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
 

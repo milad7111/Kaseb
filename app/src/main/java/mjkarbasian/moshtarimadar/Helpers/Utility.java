@@ -367,7 +367,8 @@ public class Utility {
         }
 
         ViewGroup.LayoutParams par = mListView.getLayoutParams();
-        par.height = totalHeight + (mListView.getDividerHeight() * (adapter.getCount() - 1));
+        int dpValue = totalHeight + (mListView.getDividerHeight() * (adapter.getCount() - 1));
+        par.height = dipConverter(dpValue, mListView.getContext());
         mListView.setLayoutParams(par);
         mListView.requestLayout();
     }
@@ -1792,7 +1793,7 @@ public class Utility {
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        activity.finish();
+                        activity.finishAffinity();
                     }
 
                 })
