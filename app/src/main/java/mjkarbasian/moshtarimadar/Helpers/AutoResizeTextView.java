@@ -184,11 +184,6 @@ public class AutoResizeTextView extends AppCompatTextView {
 
     private void adjustTextSize() {
         // This is a workaround for truncated text issue on ListView, as shown here: https://github.com/AndroidDeveloperLB/AutoFitTextView/pull/14
-//    post(new Runnable()
-//    {
-//    @Override
-//    public void run()
-//      {
         if (!_initialized)
             return;
         final int startSize = (int) _minTextSize;
@@ -200,8 +195,6 @@ public class AutoResizeTextView extends AppCompatTextView {
         _availableSpaceRect.right = _widthLimit;
         _availableSpaceRect.bottom = heightLimit;
         superSetTextSize(startSize);
-//      }
-//    });
     }
 
     private void superSetTextSize(int startSize) {

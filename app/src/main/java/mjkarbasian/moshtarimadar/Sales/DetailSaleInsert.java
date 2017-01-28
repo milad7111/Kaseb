@@ -127,7 +127,6 @@ public class DetailSaleInsert extends AppCompatActivity {
     TextView finalAmountSummary;
     TextView paidSummary;
     TextView balanceSummary;
-    EditText saleDate;
     TextView nameCustomer;
     TextView familyCustomer;
     TextView listItemsTitle;
@@ -141,6 +140,7 @@ public class DetailSaleInsert extends AppCompatActivity {
     TextInputLayout taxDiscountPercentTextInputLayout;
 
     EditText saleCode;
+    EditText saleDate;
     EditText paymentAmount;
     EditText paymentDueDate;
     EditText taxAmount;
@@ -715,7 +715,7 @@ public class DetailSaleInsert extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int whichButton) {
                     }
                 })
-                .setTitle(R.string.fab_add_product);
+                .setTitle(R.string.fab_add_payment);
         dialogView = builder.create();
         dialogView.show();
 

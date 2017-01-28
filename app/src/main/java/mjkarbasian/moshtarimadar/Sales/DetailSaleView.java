@@ -23,7 +23,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -151,12 +150,9 @@ public class DetailSaleView extends AppCompatActivity {
     TextInputLayout taxDiscountPercentTextInputLayout;
 
     ListView modeList;
-    ListView mPaymentListView;
-    ListView mTaxListView;
     LinearLayout mProductLinearLayout;
     LinearLayout mPaymentLinearLayout;
     LinearLayout mTaxLinearLayout;
-    FrameLayout mFrameLayout;
 
     TypesSettingAdapter cursorAdapter = null;
     CostSaleProductAdapter mAdapter = null;
@@ -266,12 +262,9 @@ public class DetailSaleView extends AppCompatActivity {
         imageButtonPayments = (ImageButton) findViewById(R.id.content_detail_sale_insert_add_payment_image_button);
         imageButtonTaxes = (ImageButton) findViewById(R.id.content_detail_sale_insert_add_taxDiscount_image_button);
 
-        mPaymentListView = (ListView) findViewById(R.id.list_view_fragment_card_view_payments);
-        mTaxListView = (ListView) findViewById(R.id.list_view_fragment_card_view_taxes);
         mProductLinearLayout = (LinearLayout) findViewById(R.id.linear_layout_fragment_card_view_products);
         mPaymentLinearLayout = (LinearLayout) findViewById(R.id.linear_layout_fragment_card_view_payments);
         mTaxLinearLayout = (LinearLayout) findViewById(R.id.linear_layout_fragment_card_view_taxes);
-        mFrameLayout = (FrameLayout) findViewById(R.id.fragment_card_view_product_frame_layout);
         //endregion Initialize Some Views
 
         //region Disable Views
@@ -1052,7 +1045,7 @@ public class DetailSaleView extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int whichButton) {
                     }
                 })
-                .setTitle(R.string.fab_add_product);
+                .setTitle(R.string.fab_add_payment);
         dialogView = builder.create();
         dialogView.show();
 

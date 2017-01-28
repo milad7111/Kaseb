@@ -12,13 +12,6 @@
         android:divider="@drawable/divider_list"
         android:orientation="vertical" />
 
-    <ListView
-        android:id="@+id/list_view_fragment_card_view_payments"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginBottom="@dimen/activity_vertical_margin"
-        android:divider="@drawable/divider_list" />
-
     <TextView
         android:id="@+id/empty_text_view"
         style="@style/Base.TextAppearance.AppCompat.Body1"

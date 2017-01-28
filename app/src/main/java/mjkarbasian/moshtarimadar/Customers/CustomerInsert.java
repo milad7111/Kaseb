@@ -327,6 +327,7 @@ public class CustomerInsert extends Fragment {
     private void backToLastPage() {
         Utility.clearForm((ViewGroup) rootView);
         getHelperText();
+        customerValues = new ContentValues();
         getFragmentManager().popBackStackImmediate();
     }
 

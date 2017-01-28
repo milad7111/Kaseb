@@ -48,8 +48,12 @@ public class DetailProducts extends Fragment implements LoaderManager.LoaderCall
     DetailProductAdapter mAdapter = null;
     Long productId;
     FloatingActionButton fab;
+    TextView productStock;
+    Long stockProduct = 0l;
+
     ContentValues productHistoryValues = new ContentValues();
     ContentValues productValues = new ContentValues();
+
     EditText productName;
     EditText productCode;
     EditText productUnit;
@@ -60,12 +64,13 @@ public class DetailProducts extends Fragment implements LoaderManager.LoaderCall
     EditText buyDate;
     EditText discountAmount;
     EditText discountPercent;
-    TextView productStock;
+
     MenuItem saveItem;
     MenuItem editItem;
+
     AlertDialog.Builder builder;
     AlertDialog dialogView;
-    Long stockProduct = 0l;
+
     TextInputLayout productNameTextInputLayout;
     TextInputLayout productCodeTextInputLayout;
     TextInputLayout productUnitTextInputLayout;
@@ -76,6 +81,7 @@ public class DetailProducts extends Fragment implements LoaderManager.LoaderCall
     TextInputLayout buyDateTextInputLayout;
     TextInputLayout discountAmountTextInputLayout;
     TextInputLayout discountPercentTextInputLayout;
+
     private Uri insertUri;
     //endregion Declare Values & Views
 
@@ -411,6 +417,9 @@ public class DetailProducts extends Fragment implements LoaderManager.LoaderCall
     @Override
     public void onStart() {
         Log.d(LOG_TAG, "onStart");
+
+        productHistoryValues = new ContentValues();
+        productValues = new ContentValues();
 
         productName = (EditText) getActivity().findViewById(R.id.detail_product_name);
         productCode = (EditText) getActivity().findViewById(R.id.detail_product_code);

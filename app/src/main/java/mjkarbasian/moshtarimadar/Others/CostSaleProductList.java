@@ -555,6 +555,10 @@ public class CostSaleProductList extends Fragment implements LoaderManager.Loade
     @Override
     public void onStart() {
         Log.d(LOG_TAG, "onStart");
+
+        costValues = new ContentValues();
+        saleValues = new ContentValues();
+
         super.onStart();
         updateList();
     }

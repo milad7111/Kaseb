@@ -399,6 +399,8 @@ public class ProductInsert extends Fragment {
     // this method back to the activity view. this must be a utility method.
     private void backToLastPage() {
         Utility.clearForm((ViewGroup) rootView);
+        productValues = new ContentValues();
+        productHistoryValues = new ContentValues();
         getFragmentManager().popBackStackImmediate();
     }
 
