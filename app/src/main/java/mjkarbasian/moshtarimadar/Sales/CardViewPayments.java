@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -25,13 +26,18 @@ import mjkarbasian.moshtarimadar.R;
  * Created by Unique on 20/12/2016.
  */
 public class CardViewPayments extends Fragment {
+
+    //region declare values
     ListView paymentListView;
     PaymentAdapter mPaymentAdapter;
     ArrayList<Map<String, String>> mPaymentListHashMap;
     View view;
+    LinearLayout mLinearLayoutPayments;
+
     String activity;
     String _id;
     String _amount;
+    //endregion declare values
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -41,13 +47,7 @@ public class CardViewPayments extends Fragment {
 
         mPaymentAdapter = new PaymentAdapter(getActivity(), mPaymentListHashMap);
         paymentListView = (ListView) view.findViewById(R.id.list_view_fragment_card_view_payments);
-        paymentListView.setAdapter(mPaymentAdapter);
-        TextView emptyText = (TextView) view.findViewById(R.id.empty_text_view);
-        emptyText.setText(getActivity().getResources().getString(R.string.empty_list_text));
-        if (paymentListView.getCount() == 0) emptyText.setVisibility(View.VISIBLE);
-        else emptyText.setVisibility(View.INVISIBLE);
-        paymentListView.setEmptyView(emptyText);
-
+        mLinearLayoutPayments = (LinearLayout) view.findViewById(R.id.linear_layout_fragment_card_view_payments);
 
         //region PaymentListView OnItemClickListener
         paymentListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -109,6 +109,7 @@ public class CardViewPayments extends Fragment {
         });
         //endregion PaymentListView OnItemLongClickListener
 
+        setEmptyText();
         return view;
     }
 
@@ -121,6 +122,20 @@ public class CardViewPayments extends Fragment {
             ((DetailSaleInsert) getActivity()).setValuesOfFactor();
         else if (activity.equals("view"))
             ((DetailSaleView) getActivity()).setValuesOfFactor();
-        Utility.setHeightOfListView(paymentListView);
+
+        setEmptyText();
+    }
+
+    private void setEmptyText() {
+        try {
+            TextView emptyText = (TextView) view.findViewById(R.id.empty_text_view);
+            emptyText.setText(getActivity().getResources().getString(R.string.empty_list_text));
+
+            if (mPaymentListHashMap.size() == 0)
+                emptyText.setVisibility(View.VISIBLE);
+            else
+                emptyText.setVisibility(View.INVISIBLE);
+        } catch (Exception e) {
+        }
     }
 }
