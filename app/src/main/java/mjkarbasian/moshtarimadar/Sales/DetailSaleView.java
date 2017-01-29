@@ -571,6 +571,8 @@ public class DetailSaleView extends AppCompatActivity {
                         e.printStackTrace();
                     } catch (DocumentException e) {
                         e.printStackTrace();
+                    } catch (Exception e) {
+                        Toast.makeText(DetailSaleView.this, R.string.problem_in_pdf_reader, Toast.LENGTH_LONG).show();
                     }
                     //endregion Print
                 } else
@@ -772,6 +774,8 @@ public class DetailSaleView extends AppCompatActivity {
                         e.printStackTrace();
                     } catch (DocumentException e) {
                         e.printStackTrace();
+                    } catch (Exception e) {
+                        Toast.makeText(DetailSaleView.this, R.string.problem_in_pdf_reader, Toast.LENGTH_LONG).show();
                     }
                     //endregion Print
 

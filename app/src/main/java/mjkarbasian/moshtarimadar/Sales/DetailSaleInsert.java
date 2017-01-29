@@ -473,6 +473,8 @@ public class DetailSaleInsert extends AppCompatActivity {
                         e.printStackTrace();
                     } catch (DocumentException e) {
                         e.printStackTrace();
+                    } catch (Exception e) {
+                        Toast.makeText(DetailSaleInsert.this, R.string.problem_in_pdf_reader, Toast.LENGTH_LONG).show();
                     }
                     //endregion Print Factor
 

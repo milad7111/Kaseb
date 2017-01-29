@@ -418,4 +418,9 @@
     <string name="next_tour">ادامه</string>
     <string name="confirm_delete_product_list_it_has_factor">نمی شه پاک کرد، چون</string>
 
+    <string name="write_your_mind">لطفاً ابتدا نظر خود را یادداشت کنید، سپس آن را ارسال کنید.</string>
+    <string name="opinion_email_title">نظرات مشتری ها</string>
+    <string name="no_email_app">برنامه ای برای ارسال پیام شما نصب نشده است</string>
+    <string name="problem_in_pdf_reader">فاکتور فروش ذخیره شد، اما فرآیند چاپ آن دچار مشکل شد.</string>
+
 </resources>

@@ -336,12 +336,14 @@
     <string name="title_dashboard">Kaseb Dashboard</string>
     <string name="kaseb_dashboard_recievables_total">Total Recievables</string>
 
-    <string name="about_us_my_info">We are a software team that we intend to develop the Android software.
-        In this project we have gone to the group of software that over the past decades have been attracted by all persons
-        who were in touched by accounting.
-        CRM : Customer Relationship Management softwares are our main discuss.
+    <string name="about_us_my_info">
+    Dear Kaseb(TradesMan)!\nKaseb is an app to manage your communication with customers, you should know, it\'s
+    not an acconting one. This is CRM. We developed it in order to give you a more focus on your customers as your main property,
+    more than ever. With this, Firstly you will be able to schedule better to the future; Secondly you will be able to find out
+    how many Golden customer do you have and increase them.\nAt last, we do our best to eliminate any bugs and improve all aspects of quality
+    with your aim, then release updated version as soon as possible.\nSo tell us what\'s wrong with this and your opinion about Kaseb.
+    </string>
 
-        We hope this app help you Dear user in marketing, sales management and customer management.</string>
     <string name="about_us_hint_your_text">Write your feedback</string>
     <string name="about_us_hint_your_email">Enter your email address</string>
     <string name="search_title_sale">Sale Code</string>
@@ -501,5 +503,9 @@
     <string name="close_activity_dialog_title">Exit</string>
     <string name="close_activity_dialog_message">Exit Kaseb?</string>
     <string name="title_activity_dashboard">Dashboard</string>
+    <string name="write_your_mind">Please write your opinion, next try to send</string>
+    <string name="opinion_email_title">Opinion from customer</string>
+    <string name="no_email_app">There are no email clients installed</string>
+    <string name="problem_in_pdf_reader">Invoice saved, But there is a problem with pdf reader.</string>
 
 </resources>
