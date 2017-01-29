@@ -257,10 +257,6 @@ public class PreferenceHeader extends Fragment {
                                         Toast.makeText(getActivity(), R.string.msg_insert_succeed, Toast.LENGTH_SHORT).show();
                                     //endregion save info of kaseb profile
 
-                                    getActivity().getWindow().setSoftInputMode(
-                                            WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
-                                    );
-
                                     ((DrawerActivity) getActivity()).setInfoOfKaseb();
                                     getHelperText();
                                     wantToCloseDialog = true;
@@ -481,10 +477,6 @@ public class PreferenceHeader extends Fragment {
                     editor.putString("customerAvatar",
                             Utility.encodeTobase64(((BitmapDrawable) mCustomerAvatar.getDrawable()).getBitmap()));
                     editor.apply();
-
-                    mCustomerAvatar.setImageBitmap(
-                            Utility.decodeBase64(kasebSharedPreferences.getString("customerAvatar", null)));
-
                 } catch (Exception e) {
                 }
 
@@ -496,7 +488,7 @@ public class PreferenceHeader extends Fragment {
     private void dataError(String name) {
         new AlertDialog.Builder(getActivity())
                 .setTitle(getActivity().getResources().getString(R.string.dialog_title_import_customer_fail))
-                .setMessage(getActivity().getResources().getString(R.string.dialog_message_import_customer_fail_par1) + name + " " +
+                .setMessage(getActivity().getResources().getString(R.string.dialog_title_import_customer_fail) + name + " " +
                         getActivity().getResources().getString(R.string.dialog_message_import_customer_fail_par2))
                 .setPositiveButton(getActivity().getResources().getString(R.string.dialog_positive_button), new DialogInterface.OnClickListener() {
                     @Override
