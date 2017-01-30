@@ -257,10 +257,6 @@ public class PreferenceHeader extends Fragment {
                                         Toast.makeText(getActivity(), R.string.msg_insert_succeed, Toast.LENGTH_SHORT).show();
                                     //endregion save info of kaseb profile
 
-                                    getActivity().getWindow().setSoftInputMode(
-                                            WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
-                                    );
-
                                     ((DrawerActivity) getActivity()).setInfoOfKaseb();
                                     getHelperText();
                                     wantToCloseDialog = true;
