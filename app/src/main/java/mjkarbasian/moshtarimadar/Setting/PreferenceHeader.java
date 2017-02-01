@@ -29,6 +29,8 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.itextpdf.text.DocumentException;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -257,7 +259,13 @@ public class PreferenceHeader extends Fragment {
                                         Toast.makeText(getActivity(), R.string.msg_insert_succeed, Toast.LENGTH_SHORT).show();
                                     //endregion save info of kaseb profile
 
-                                    ((DrawerActivity) getActivity()).setInfoOfKaseb();
+                                    try {
+                                        ((DrawerActivity) getActivity()).setInfoOfKaseb();
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    } catch (DocumentException e) {
+                                        e.printStackTrace();
+                                    }
                                     getHelperText();
                                     wantToCloseDialog = true;
 
