@@ -134,37 +134,37 @@ public class DrawerActivity extends AppCompatActivity implements NavigationView.
 
         if (id == R.id.nav_customers) {
             intent = new Intent(this, Customers.class);
-            finish();
+//            finish();
             startActivity(intent);
             Utility.setActivityTransition(this);
         } else if (id == R.id.nav_debtors) {
             intent = new Intent(this, Debtors.class);
-            finish();
+//            finish();
             startActivity(intent);
             Utility.setActivityTransition(this);
         } else if (id == R.id.nav_sales) {
             intent = new Intent(this, Sales.class);
-            finish();
+//            finish();
             startActivity(intent);
             Utility.setActivityTransition(this);
         } else if (id == R.id.nav_costs) {
             intent = new Intent(this, Costs.class);
-            finish();
+//            finish();
             startActivity(intent);
             Utility.setActivityTransition(this);
         } else if (id == R.id.nav_products) {
             intent = new Intent(this, Products.class);
-            finish();
+//            finish();
             startActivity(intent);
             Utility.setActivityTransition(this);
         } else if (id == R.id.nav_setting) {
             intent = new Intent(this, MySetting.class);
-            finish();
+//            finish();
             startActivity(intent);
             Utility.setActivityTransition(this);
         } else if (id == R.id.nav_contact_us) {
             intent = new Intent(this, AboutUs.class);
-            finish();
+//            finish();
             startActivity(intent);
             Utility.setActivityTransition(this);
         } else if (id == R.id.nav_take_tour) {
