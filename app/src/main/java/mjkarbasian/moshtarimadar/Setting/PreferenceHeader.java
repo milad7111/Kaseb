@@ -259,7 +259,6 @@ public class PreferenceHeader extends Fragment {
                                         Toast.makeText(getActivity(), R.string.msg_insert_succeed, Toast.LENGTH_SHORT).show();
                                     //endregion save info of kaseb profile
 
-
                                     try {
                                         ((DrawerActivity) getActivity()).setInfoOfKaseb();
                                     } catch (IOException e) {
