@@ -46,7 +46,6 @@ public class CustomersLists extends Fragment implements LoaderManager.LoaderCall
     CustomerAdapter mCustomerAdapter = null;
     ListView mListView;
     String[] mProjection;
-    String kasebPREFERENCES = "kasebProfile";
 
     SharedPreferences kasebSharedPreferences;
     SharedPreferences.Editor editor;
@@ -72,7 +71,7 @@ public class CustomersLists extends Fragment implements LoaderManager.LoaderCall
                 KasebContract.Customers.COLUMN_CUSTOMER_PICTURE};
 
         //region handle sharepreference
-        kasebSharedPreferences = getActivity().getSharedPreferences(kasebPREFERENCES, getActivity().MODE_PRIVATE);
+        kasebSharedPreferences = getActivity().getSharedPreferences(getActivity().getResources().getString(R.string.kasebPreference), getActivity().MODE_PRIVATE);
         editor = kasebSharedPreferences.edit();
         //endregion handle sharepreference
 
@@ -234,7 +233,10 @@ public class CustomersLists extends Fragment implements LoaderManager.LoaderCall
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //animation bundle
                 View sharedView = view.findViewById(R.id.item_list_customer_avatar);
-                Bundle bundle = ActivityOptions.makeSceneTransitionAnimation(getActivity(), sharedView, sharedView.getTransitionName()).toBundle();
+                Bundle bundle = null;
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+                    bundle = ActivityOptions.makeSceneTransitionAnimation(getActivity(), sharedView, sharedView.getTransitionName()).toBundle();
+                }
                 Cursor cursor = (Cursor) parent.getItemAtPosition(position);
                 if (cursor != null) {
                     Intent intent = new Intent(getActivity(), DetailCustomer.class)
